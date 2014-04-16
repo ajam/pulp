@@ -1,0 +1,49 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+html {
+  font-size: 16px;
+}
+body {
+  font-size: 62.5% Helvetica, sans-serif;
+  margin: 0;
+}
+#panels {
+  width: 720px;
+}
+.panel-img {
+  vertical-align: top;
+  overflow: hidden;
+  -webkit-box-shadow: 0 0 12px #ccc;
+  box-shadow: 0 0 12px #ccc;
+  border: 1px solid #ccc;
+  display: inline-block;
+}
+.full-panel {
+  width: 100%;
+}
+.two_third-panel {
+  width: 66.66%;
+}
+.half-panel {
+  width: 50%;
+}
+.one_third-panel {
+  width: 33.33%;
+}
+.quart-panel {
+  width: 25%;
+}
+.left {
+  float: left;
+}
+@media all and (max-width: 480px) {
+  #panels {
+    width: 100%;
+  }
+  .panel-img img {
+    width: 100%;
+  }
+}
