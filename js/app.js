@@ -1,17 +1,27 @@
 (function(){
   'use strict';
 
+  var CONFIG = {
+    full_width: $('#pages').width()
+  }
+
   $.getJSON('../data/page1.json', handlePage);
 
   var panelTemplateFactory = _.template($('#panel-template').html());
 
   var formatHelpers = {
     calcImgPercentage: function(img_src){
-      
+      var $hidden_img = $('<img src="imgs/page'+img_src+'.png" />').css('display', 'none').appendTo('body'),
+          w =  $hidden_img.width();
+      $hidden_img.remove();
+
+      var perc = Math.floor(w / CONFIG.full_width * 100);
+      return perc
     }
   }
 
   function handlePanel(page_number, panel_data){
+    _.extend(panel_data, formatHelpers)
     var panel = panelTemplateFactory(panel_data);
     $('#page-'+page_number).append(panel);
   }

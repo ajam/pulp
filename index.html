@@ -13,7 +13,7 @@
    <div id="pages"></div>
 
    <script type="text/jst" id="panel-template">
-     <div class="panel" style="<%= calcImgPercentage(i) %>">
+     <div class="panel <% if (m) print('first-panel-in-row') %>" style="width:<%= calcImgPercentage(i) %>%;">
        <% for (var j = 0; j < t.length; j++){ %>
          <div class="panel-text <% if (t[j].c) print('caption') %>" style="<%= t[j].s %>"><%= t[j].t %></div>
       <% } %>

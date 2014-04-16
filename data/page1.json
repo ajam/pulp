@@ -9,7 +9,8 @@
           "s": "right:0;top:20px;width:50px;",
           "c": true
         }
-      ]
+      ],
+      "m": false
     },
     {
       "i": "1b",
@@ -36,7 +37,8 @@
           "t": "And when you get to the U.S., just call Sofia and she'll come and get you.",
           "s": "right:0;top:20px;width:50px;"
         }
-      ]
+      ],
+      "m": false
     },
     {
       "i": "1d",
@@ -45,7 +47,8 @@
           "t": "Come on-- I see our agent.",
           "s": "right:0;top:20px;width:50px;"
         }
-      ]
+      ],
+      "m": false
     }
   ]
 }
