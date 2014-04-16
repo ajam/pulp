@@ -10,7 +10,16 @@
 
  </head>
  <body>
-   <div id="panels"></div>
+   <div id="pages"></div>
+
+   <script type="text/jst" id="panel-template">
+     <div class="panel" style="<%= calcImgPercentage(i) %>">
+       <% for (var j = 0; j < t.length; j++){ %>
+         <div class="panel-text <% if (t[j].c) print('caption') %>" style="<%= t[j].s %>"><%= t[j].t %></div>
+      <% } %>
+       <img src="imgs/page<%= i %>.png" />
+     </div>
+   </script>
    <script src="js/thirdparty/jquery-1.11.0.min.js"></script>
    <script src="js/thirdparty/underscore-min.js"></script>
    <script src="js/app.js"></script>

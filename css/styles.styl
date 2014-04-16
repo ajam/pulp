@@ -1,57 +1,41 @@
 @import 'nib'
 
-maxw = 720
-mqTwoThirds = "all and (max-width: " + maxw*2/3+ "px)"
-
-// full_panel     = 720
-// twoThird_panel = full_panel*1/3
-// half_panel     = full_panel/2
-// oneThird_panel = full_panel*1/3
-// quart_panel    = full_panel/4
-
 *
   box-sizing border-box
 html
   font-size 16px
 body
-  font-size 62.5% Helvetica, sans-serif
+  font 62.5% Helvetica, sans-serif
   margin 0
 
-#panels
-  width (maxw)px
-.panel-img
-  vertical-align top
-  overflow: hidden
-  box-shadow 0 0 12px #ccc
-  border 1px solid #ccc
-  display inline-block
-
-.full-panel
+#pages
+  width 720px
+.page
   width 100%
-.two_third-panel
-  width 66.66%
-.half-panel
-  width 50%
-.one_third-panel
-  width 33.33%
-.quart-panel
-  width 25%
+.panel
+  position relative
+  background-color red
+  display inline-block
+.panel img
+  max-width 100%
+.panel-text
+  position absolute
 
-.left
-  float left
 
-@media mqTwoThirds
-  #panels
+@media (max-width: 580px)
+  #pages
     width 100%
-  // .panel-img,
-  .panel-img img
-    width 100%
-  // .full-panel,
-  // .half-panel
-  //   width 100% !important
-  // .two_third-panel
-  //   width 66.66% !important
-  // .one_third-panel
-  //   width 33.33% !important
-  // .quart-panel
-  //   width 25% !important
+  .panel
+    background-color blue
+//   // .panel-img,
+//   .panel-img img
+//     width 100%
+//   // .full-panel,
+//   // .half-panel
+//   //   width 100% !important
+//   // .two_third-panel
+//   //   width 66.66% !important
+//   // .one_third-panel
+//   //   width 33.33% !important
+//   // .quart-panel
+//   //   width 25% !important

@@ -1,0 +1,51 @@
+{
+  "n": 1,
+  "p": [
+    {
+      "i": "1a",
+      "t": [
+        {
+          "t": "July 1, 2006, Johannesburg International Airport.",
+          "s": "right:0;top:20px;width:50px;",
+          "c": true
+        }
+      ]
+    },
+    {
+      "i": "1b",
+      "t": [
+        {
+          "t": "Remember...",
+          "s": "right:0;top:20px;width:50px;"
+        }
+      ],
+      "m": true
+    },
+    {
+      "i": "1c",
+      "t": [
+        {
+          "t": "..you two are cousins if anyone asks.",
+          "s": "right:0;top:20px;width:50px;"
+        },
+        {
+          "t": "O-okay.",
+          "s": "right:0;top:20px;width:50px;"
+        },
+        {
+          "t": "And when you get to the U.S., just call Sofia and she'll come and get you.",
+          "s": "right:0;top:20px;width:50px;"
+        }
+      ]
+    },
+    {
+      "i": "1d",
+      "t": [
+        {
+          "t": "Come on-- I see our agent.",
+          "s": "right:0;top:20px;width:50px;"
+        }
+      ]
+    }
+  ]
+}
