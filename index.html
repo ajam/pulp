@@ -3,7 +3,7 @@
  <head>
    <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-   <meta name="viewport" content="width=device-width">
+   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
    <title>Al Jazeera America: The Penumbra of Fear</title>
 
    <link rel="stylesheet" type="text/css" href="css/thirdparty/reset.css">
@@ -14,7 +14,7 @@
    <div id="pages"></div>
 
    <script type="text/jst" id="panel-template">
-     <div class="panel <% if (m) print('first-panel-in-row') %>" style="width:<%= calcImgPercentage(i) %>%;">
+     <div id="panel-<%= formatIdFromImgName(i) %>"class="panel <% if (m) print('bump-right') %>" style="width:<%= calcImgPercentage(i) %>%;">
        <% for (var j = 0; j < t.length; j++){ %>
          <div class="panel-text-positioner <% if (t[j].c) print('caption') %>" style="<%= t[j].s %>">
            <div class="panel-text"><%= t[j].t %></div>
@@ -23,8 +23,12 @@
        <img src="imgs/page<%= i %>.png" />
      </div>
    </script>
+
    <script src="js/thirdparty/jquery-1.11.0.min.js"></script>
    <script src="js/thirdparty/underscore-min.js"></script>
+   <script src="js/thirdparty/backbone-min.js"></script>
+   <script src="js/thirdparty/hammer.min.js"></script>
+   <script src="js/thirdparty/jquery.hammer.min.js"></script>
    <script src="js/app.js"></script>
  </body>
  </html>

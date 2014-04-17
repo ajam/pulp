@@ -17,6 +17,11 @@ body {
 }
 .page {
   width: 100%;
+  -webkit-transition: -webkit-transform 0.3s linear;
+  -moz-transition: -moz-transform 0.3s linear;
+  -o-transition: -o-transform 0.3s linear;
+  -ms-transition: -ms-transform 0.3s linear;
+  transition: transform 0.3s linear;
 }
 .panel {
   position: relative;
@@ -40,10 +45,10 @@ body {
   height: 100%;
   vertical-align: middle;
 }
-.first-panel-in-row {
-  margin-right: 1%;
+.bump-right {
+  margin-right: 3%;
 }
-@media (max-width: 580px) {
+@media (max-width: 570px) {
   #pages {
     width: 100%;
   }
