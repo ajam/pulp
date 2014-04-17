@@ -27,8 +27,18 @@ body {
   max-width: 100%;
   vertical-align: top;
 }
+/* This element can be used later on to globally adjust the position on screen resize */
+.panel-text-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
 .panel-text {
   position: absolute;
+  font-family: "Comic Sans MS", sans-serif;
+  font-size: 1.3em;
+  text-align: center;
+  line-height: 1.2em;
 }
 .first-panel-in-row {
   margin-right: 1%;
@@ -39,5 +49,13 @@ body {
   }
   .panel {
     background-color: #00f;
+  }
+  .panel-text {
+    font-size: 2.3vw;
+  }
+}
+@media (max-width: 320px) {
+  .panel-text {
+    font-size: 2.3vw;
   }
 }

@@ -2,9 +2,10 @@
   'use strict';
 
   var CONFIG = {
-    full_width: $('#pages').width()
+    full_width: 570
   }
 
+  console.log(CONFIG.full_width);
   $.getJSON('../data/page1.json', handlePage);
 
   var panelTemplateFactory = _.template($('#panel-template').html());
