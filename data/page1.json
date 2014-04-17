@@ -2,50 +2,50 @@
   "n": 1,
   "p": [
     {
-      "i": "1a",
+      "i": "1a-570",
       "t": [
         {
           "t": "July 1, 2006, Johannesburg International Airport.",
-          "s": "top:9%;left:3.75%;width:15.5%;",
+          "s": "top: 10%;left: 3.5%;width: 16.5%;",
           "c": true
         }
       ],
       "m": false
     },
     {
-      "i": "1b",
+      "i": "1b-250",
       "t": [
         {
           "t": "Remember...",
-          "s": "top:3%;left:59%;"
+          "s": "top:4%;left:49%;width:49%;"
         }
       ],
       "m": true
     },
     {
-      "i": "1c",
+      "i": "1c-312",
       "t": [
         {
           "t": "..you two are cousins if anyone asks.",
-          "s": "top:3%;left:4%;width:51%;"
+          "s": "top:4%;left:2%;width:56%;"
         },
         {
           "t": "O-okay.",
-          "s": "top:10%;left:71%;"
+          "s": "top: 11%;left: 66%;%;width: 25%;"
         },
         {
           "t": "And when you get to the U.S., just call Sofia and she'll come and get you.",
-          "s": "top:86.5%;left:3%;width:93%;"
+          "s": "top:87%;left:2%;width:95%;"
         }
       ],
       "m": false
     },
     {
-      "i": "1d",
+      "i": "1d-570",
       "t": [
         {
           "t": "Come on-- I see our agent.",
-          "s": "top:3%;left:47%;width:38%"
+          "s": "top:4%;left:47%;width:38%;"
         }
       ],
       "m": false

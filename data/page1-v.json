@@ -1,0 +1,54 @@
+{
+  "number": 1,
+  "panels": [
+    {
+      "img": "1a",
+      "text-blocks": [
+        {
+          "text": "July 1, 2006, Johannesburg International Airport.",
+          "style": "top: 8.5%;left: 3.5%;width: 16.5%;height: 35%;",
+          "is-caption": true
+        }
+      ],
+      "margin-right": false
+    },
+    {
+      "img": "1b",
+      "text-blocks": [
+        {
+          "text": "Remember...",
+          "syle": "top:2%;left:49%;width:49%;height:9%;"
+        }
+      ],
+      "margin-right": true
+    },
+    {
+      "img": "1c",
+      "text-blocks": [
+        {
+          "text": "..you two are cousins if anyone asks.",
+          "style": "top:3%;left:4%;width:51%;"
+        },
+        {
+          "text": "O-okay.",
+          "style": "top: 7%;left: 66%;height: 12%;width: 25%;"
+        },
+        {
+          "text": "And when you get to the U.S., just call Sofia and she'll come and get you.",
+          "style": "top:86.5%;left:3%;width:93%;"
+        }
+      ],
+      "margin-right": false
+    },
+    {
+      "img": "1d",
+      "text-blocks": [
+        {
+          "text": "Come on-- I see our agent.",
+          "style": "top:3%;left:47%;width:38%"
+        }
+      ],
+      "margin-right": false
+    }
+  ]
+}

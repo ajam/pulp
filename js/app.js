@@ -5,17 +5,13 @@
     full_width: 570
   }
 
-  console.log(CONFIG.full_width);
   $.getJSON('../data/page1.json', handlePage);
 
   var panelTemplateFactory = _.template($('#panel-template').html());
 
   var formatHelpers = {
     calcImgPercentage: function(img_src){
-      var $hidden_img = $('<img src="imgs/page'+img_src+'.png" />').css('display', 'none').appendTo('body'),
-          w =  $hidden_img.width();
-      $hidden_img.remove();
-
+      var w = Number(img_src.split('-')[1]);
       var perc = Math.floor(w / CONFIG.full_width * 100);
       return perc
     }
@@ -23,8 +19,12 @@
 
   function handlePanel(page_number, panel_data){
     _.extend(panel_data, formatHelpers)
-    var panel = panelTemplateFactory(panel_data);
-    $('#page-'+page_number).append(panel);
+    var $panel = $(panelTemplateFactory(panel_data));
+    // Plot panel
+    $panel.appendTo($('#page-'+page_number));
+    // Position panel texts
+    // $panel.
+
   }
 
   function handlePage(data){

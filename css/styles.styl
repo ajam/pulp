@@ -16,36 +16,40 @@ body
   width 100%
 .panel
   position relative
-  background-color red
   display inline-block
 .panel img
   max-width 100%
   vertical-align top
-/* This element can be used later on to globally adjust the position on screen resize */
-.panel-text-wrapper
-  position absolute
-  width 100%
-  height 100%
-.panel-text
+.panel-text-positioner
   position absolute
   font-family "Comic Sans MS", sans-serif
   font-size 1.3em
   text-align center
   line-height 1.2em
+  // background-color rgba(34,245,40,.5)
+/* This element can be used later on to globally adjust the position on screen resize */
+.panel-text
+  position relative
+  width 100%
+  height 100%
+  vertical-align middle
+  // background-color rgba(245,34,40,.5)
 .first-panel-in-row
   margin-right: 1%
 
 @media (max-width: 580px)
   #pages
     width 100%
-  .panel
-    background-color blue
   .panel-text
     font-size 2.3vw
+  .panel-text-positioner
+    line-height 2.75vw
 
 @media (max-width: 320px)
   .panel-text
     font-size 2.3vw
+  .panel-text-positioner
+    line-height .75em
 //   // .panel-img,
 //   .panel-img img
 //     width 100%

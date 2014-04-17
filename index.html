@@ -6,6 +6,7 @@
    <meta name="viewport" content="width=device-width">
    <title>Al Jazeera America: The Penumbra of Fear</title>
 
+   <link rel="stylesheet" type="text/css" href="css/thirdparty/reset.css">
    <link rel="stylesheet" type="text/css" href="css/styles.css">
 
  </head>
@@ -15,8 +16,8 @@
    <script type="text/jst" id="panel-template">
      <div class="panel <% if (m) print('first-panel-in-row') %>" style="width:<%= calcImgPercentage(i) %>%;">
        <% for (var j = 0; j < t.length; j++){ %>
-         <div class="panel-text-wrapper">
-           <div class="panel-text <% if (t[j].c) print('caption') %>" style="<%= t[j].s %>"><%= t[j].t %></div>
+         <div class="panel-text-positioner <% if (t[j].c) print('caption') %>" style="<%= t[j].s %>">
+           <div class="panel-text"><%= t[j].t %></div>
         </div>
       <% } %>
        <img src="imgs/page<%= i %>.png" />
