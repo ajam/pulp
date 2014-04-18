@@ -24,9 +24,7 @@ body
 .panel-text-positioner
 	position absolute
 	font-family "Comic Sans MS", sans-serif
-	font-size 1.3em
 	text-align center
-	line-height 1.2em
 	// background-color rgba(34,245,40,.5)
 /* This element can be used later on to globally adjust the position on screen resize */
 .panel-text
@@ -34,6 +32,8 @@ body
 	width 100%
 	height 100%
 	vertical-align middle
+	font-size 1.3em
+	line-height 1.2em
 	// background-color rgba(245,34,40,.5)
 .bump-right
 	margin-right: 3%
@@ -43,11 +43,9 @@ body
 		width 100%
 	.panel-text
 		font-size 2.3vw
-	.panel-text-positioner
 		line-height 2.75vw
 
 @media (max-width: 320px)
 	.panel-text
-		font-size 2.3vw
-	.panel-text-positioner
-		line-height .75em
+		font-size .8em
+		line-height 1em
