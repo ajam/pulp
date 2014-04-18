@@ -1,53 +1,53 @@
 @import 'nib'
 
 *
-  box-sizing border-box
+	box-sizing border-box
 html
-  font-size 16px
+	font-size 16px
 body
-  font 62.5% Helvetica, sans-serif
-  margin 0
+	font 62.5% Helvetica, sans-serif
+	margin 0
 
 #pages
-  width 570px
-  min-width 320px
-  margin 0 auto
+	width 570px
+	min-width 320px
+	margin 0 auto
 .page
-  width 100%
-  transition: transform .3s linear
+	width 100%
+	transition: transform .3s linear
 .panel
-  position relative
-  display inline-block
+	position relative
+	display inline-block
 .panel img
-  max-width 100%
-  vertical-align top
+	max-width 100%
+	vertical-align top
 .panel-text-positioner
-  position absolute
-  font-family "Comic Sans MS", sans-serif
-  font-size 1.3em
-  text-align center
-  line-height 1.2em
-  // background-color rgba(34,245,40,.5)
+	position absolute
+	font-family "Comic Sans MS", sans-serif
+	font-size 1.3em
+	text-align center
+	line-height 1.2em
+	// background-color rgba(34,245,40,.5)
 /* This element can be used later on to globally adjust the position on screen resize */
 .panel-text
-  position relative
-  width 100%
-  height 100%
-  vertical-align middle
-  // background-color rgba(245,34,40,.5)
+	position relative
+	width 100%
+	height 100%
+	vertical-align middle
+	// background-color rgba(245,34,40,.5)
 .bump-right
-  margin-right: 3%
+	margin-right: 3%
 
 @media (max-width: 570px)
-  #pages
-    width 100%
-  .panel-text
-    font-size 2.3vw
-  .panel-text-positioner
-    line-height 2.75vw
+	#pages
+		width 100%
+	.panel-text
+		font-size 2.3vw
+	.panel-text-positioner
+		line-height 2.75vw
 
 @media (max-width: 320px)
-  .panel-text
-    font-size 2.3vw
-  .panel-text-positioner
-    line-height .75em
+	.panel-text
+		font-size 2.3vw
+	.panel-text-positioner
+		line-height .75em
