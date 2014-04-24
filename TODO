@@ -1,0 +1,6 @@
+* multipage navigation
+* masks
+* organize code into better functions
+* recalc page dimensions on window resize, but for which window is the question, thus tbdone after page navigation
+* zoom might not be as close as possible
+* menu bar, progress bar

@@ -110,8 +110,6 @@
 				x_adjuster = viewport_xMiddle - tn_left - tn_xMiddle,
 				y_adjuster = viewport_yMiddle - tn_top - tn_yMiddle;
 
-
-		// TODO this should be done with request animation frame since the importance is that it's smooth, not fast
 		var css = helpers.vendorPrefix('transform', 'scale('+ scale_multiplier +') translate('+x_adjuster+'px, '+y_adjuster+'px)')
 		$currentPage.css(css);
 
@@ -157,7 +155,7 @@
 			navTo(page, panel);
 		});
 			
-		// Start Backbone history a necessary step for bookmarkable URL's
+		// For bookmarkable Urls
 		Backbone.history.start();
 
 	}
@@ -219,11 +217,6 @@
 			console.log('kill', code)
 			e.preventDefault();
 			e.stopPropagation();
-			if (e.gesture){
-				e.gesture.preventDefault();
-				e.gesture.stopPropagation();
-				// e.gesture.stopDetect()
-			}
 		}
 
 		// Do this
@@ -236,27 +229,12 @@
 
 	}
 
-	function addHammerListener(gesture){
-		$(document).hammer().on(gesture, function(e){
-			handleNavInput(e, gesture);
-		});
-	}
-
 	function bindMainHandlers(){
 		$('body').keydown(function(e){
 			console.log(e,'keypress')
 			var kc = e.keyCode;
 			handleNavInput(e, kc);
 		});
-
-		// addHammerListener('swipeleft');
-		// addHammerListener('swiperight');
-		// addHammerListener('pinch');
-
-		// $('#pages').hammer().on('swipeleft', function(e){
-		// 	console.log('swipeleft')
-		// 	handleNavInput(e, 'swipeleft');
-		// });
 
 		$(document).on('swipeleft', function(e){
 			console.log('swipeleft', e)
@@ -268,22 +246,6 @@
 			handleNavInput(e, 'swiperight');
 		});
 
-		// $('#pages').hammer().on('swiperight', function(e){
-		// 	console.log('swiperight')
-		// 	handleNavInput(e, 'swiperight');
-		// });
-
-		// $('#pages').hammer().on('pinchout', function(e){
-		// 	console.log('pinchout')
-		// 	handleNavInput(e, 'pinchout');
-		// });
-
-		window.addEventListener("touchmove", function(event) {
-		  if (!event.target.classList.contains('scrollable')) {
-		    // no more scrolling
-		    event.preventDefault();
-		  }
-		}, false);
 	}
 
 	function startTheShow(){

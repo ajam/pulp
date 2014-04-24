@@ -17,11 +17,11 @@ body {
 }
 .page {
   width: 100%;
-  -webkit-transition: -webkit-transform 0.3s linear;
-  -moz-transition: -moz-transform 0.3s linear;
-  -o-transition: -o-transform 0.3s linear;
-  -ms-transition: -ms-transform 0.3s linear;
-  transition: transform 0.3s linear;
+  -webkit-transition: -webkit-transform 0.3s ease-out;
+  -moz-transition: -moz-transform 0.3s ease-out;
+  -o-transition: -o-transform 0.3s ease-out;
+  -ms-transition: -ms-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
 }
 .panel {
   position: relative;
@@ -33,7 +33,7 @@ body {
 }
 .panel-text-positioner {
   position: absolute;
-  font-family: "Comic Sans MS", sans-serif;
+  font-family: "Comic Sans MS", "Marker Felt", sans-serif;
   text-align: center;
 }
 /* This element can be used later on to globally adjust the position on screen resize */
