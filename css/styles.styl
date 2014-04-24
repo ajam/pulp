@@ -16,14 +16,22 @@ body
 .page
 	position relative
 	width 100%
-	transition: transform .3s ease-out
 .page img
 	width 100%
 	user-select none
 .hotspot
 	position absolute
 	background-color rgba(0, 255, 204, .5)
-
+.mask
+	position absolute
+	background-color #fff
+	width 100%
+	height 0
+	opacity 0
+#bottom-mask
+	transform: rotateX(180deg);
+.page, .mask
+	// transition: transform .3s ease-out
 @media (max-width: 570px)
 	#pages
 		width 100%

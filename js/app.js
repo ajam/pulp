@@ -10,12 +10,26 @@
 		currentPage: '1',
 		currentHotspot: 'none',
 		lastHotspot: '',
+		transition: {
+			enabled: true,
+			duration: '.3s'
+		}
 	}
 
 	var helpers = {
-		vendorPrefix: function(property, value){
+		setTransitionCss: function(property, value){
+			var css = this.vendorPrefix(property, value);
+			// if you don't specify, it will just add the normaly duration, if you set the third param to true, it will cancel the duration
+			if (states.transition.enabled){
+				css = this.vendorPrefix('transition-duration', states.transition.duration, css)
+			} else {
+				css = this.vendorPrefix('transition-duration', 0, css)
+			}
+			return css;
+		},
+		vendorPrefix: function(property, value, obj){
 			var pfxs = ['webkit', 'moz', 'ms', 'o'];
-			var obj = {};
+			obj = obj || {};
 			for (var i = 0; i < pfxs.length; i++){
 				obj['-' + pfxs[i] + '-' + property] = value
 			}
@@ -55,18 +69,21 @@
 	}
 
 	var layout = {
+		addMasks: function(){
+			$('#pages').append('<div class="mask" id="top-mask"></div>').append('<div class="mask" id="bottom-mask"></div>');
+		},
 		bakePage: function(data){
 			var page_markup = templates.pageFactory(data);
 			var $page;
 			$('#pages').append(page_markup);
 			$page = $('#page-'+data.number);
 			// For zooming, we need to know the absolute location of each hotspot so we can know how to get to it
-			layout.measureHotspots( $page.find('.hotspot') );
-			addListeners.hotspotClicks( $page );
+			layout.measureHotspots( $page );
+			listeners.hotspotClicks( $page );
 			routing.initRoute();
 		},
-		measureHotspots: function($hotspots){
-			$hotspots.each(function(index, hs){
+		measureHotspots: function($page){
+		 $page.find('.hotspot').each(function(index, hs){
 				var $hs = $(hs);
 				$hs.attr('data-top', $hs.offset().top );
 				$hs.attr('data-left', $hs.offset().left );
@@ -77,11 +94,32 @@
 		update: function(){
 			// Do this on window resize
 			var current_page = 1;
-			layout.measureHotspots( $('#page-'+current_page + ' .hotspot') );
+			var $page = $('#page-'+current_page);
+
+			// Disable transitions so it happens quickly
+			states.transition.enabled = false;
+
+			// Scale the page back down to 1x1
+			zooming.reset(current_page);
+			// Measure the page at those dimensions
+			layout.measureHotspots( $page );
+			// Get what page and hotspot we're on
+			var page_hotspot = helpers.hashToPageHotspotDict(window.location.hash);
+			// And initiate zooming to that hotspot
+			routing.read(page_hotspot.page, page_hotspot.hotspot);
+			// Re-enable transitions for next time we click or swipe
+			states.transition.enabled = true;
+			// Redo masks
 		}
 	}
 
-	var addListeners = {
+	var listeners = {
+		global: function(){
+			layout.updateDebounce = _.debounce(layout.update, 300);
+			window.addEventListener('resize', function(){
+				layout.updateDebounce();
+			})
+		},
 		hotspotClicks: function($page){
 			$page.on('click', '.hotspot', function() {
 				routing.set.fromHotspotClick( $(this) );
@@ -120,6 +158,7 @@
 				routing.read(page);
 			});
 			this.router.on('route:hotspot', function(page, hotspot) {
+				console.log('routing')
 				routing.read(page, hotspot);
 			});
 				
@@ -212,10 +251,11 @@
 	var zooming = {
 		reset: function(page){
 			// Reset zoom to full page view
-			var css = helpers.vendorPrefix('transform', 'scale(1)');
+			var css = helpers.setTransitionCss('transform', 'scale(1)');
 			$('#page-'+page).css(css);
 		},
 		hotspot: function(page, hotspot){
+			console.log('zooming')
 			// cg means `current page`
 			// th means `target hotspot`
 			var $currentPage = $('#page-'+page),
@@ -235,15 +275,17 @@
 			var x_adjuster = viewport_xMiddle - th_left - th_xMiddle,
 					y_adjuster = cg_yMiddle - th_top - th_yMiddle;
 
-			var css = helpers.vendorPrefix('transform', 'scale('+ scale_multiplier +') translate('+x_adjuster+'px, '+y_adjuster+'px)')
+			var css = helpers.setTransitionCss('transform', 'scale('+ scale_multiplier +') translate('+x_adjuster+'px, '+y_adjuster+'px)')
 			$currentPage.css(css);
 
 		}
 	}
 
 	function startTheShow(){
+		layout.addMasks();
 		$.getJSON('../data/page1.json', layout.bakePage);
-		addListeners.keyboardAndGestures();
+		listeners.global();
+		listeners.keyboardAndGestures();
 	}
 
 	startTheShow();
