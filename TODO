@@ -1,6 +1,5 @@
-* multipage navigation
 * masks
-* organize code into better functions
-* recalc page dimensions on window resize, but for which window is the question, thus tbdone after page navigation
-* zoom might not be as close as possible
+* recalc page dimensions on window resize, device orientation change, but for which window is the question, thus tbdone after page navigation
 * menu bar, progress bar
+* click and drag interface for page building
+* test if swipe or tap is best etc.

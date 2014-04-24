@@ -12,40 +12,18 @@ body
 	width 570px
 	min-width 320px
 	margin 0 auto
+	overflow hidden
 .page
+	position relative
 	width 100%
 	transition: transform .3s ease-out
-.panel
-	position relative
-	display inline-block
-.panel img
-	max-width 100%
-	vertical-align top
-.panel-text-positioner
-	position absolute
-	font-family "Comic Sans MS", "Marker Felt", sans-serif
-	text-align center
-	// background-color rgba(34,245,40,.5)
-/* This element can be used later on to globally adjust the position on screen resize */
-.panel-text
-	position relative
+.page img
 	width 100%
-	height 100%
-	vertical-align middle
-	font-size 1.3em
-	line-height 1.2em
-	// background-color rgba(245,34,40,.5)
-.bump-right
-	margin-right: 3%
+	user-select none
+.hotspot
+	position absolute
+	background-color rgba(0, 255, 204, .5)
 
 @media (max-width: 570px)
 	#pages
 		width 100%
-	.panel-text
-		font-size 2.3vw
-		line-height 2.75vw
-
-@media (max-width: 320px)
-	.panel-text
-		font-size .8em
-		line-height 1em
