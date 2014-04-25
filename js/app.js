@@ -5,8 +5,10 @@
 		zoom: 'page',
 		currentPage: '1',
 		currentHotspot: 'none',
+		lastPage: '',
 		lastHotspot: '',
-		transitionDuration: '350ms'
+		transitionDuration: '350ms',
+		scaleMultiplier: 1
 	}
 
 	var helpers = {
@@ -29,10 +31,10 @@
 		// 	}
 		// 	return obj;
 		// },
-		saveCurrentStates: function(page, hotspot){
+		saveCurrentStates: function(page, hotspot, lastPage){
 			states.currentPage = page;
 			states.currentHotspot = hotspot;
-			// Maybe save last hotspot here
+			states.lastPage = lastPage;
 		},
 		hashToPageHotspotDict: function(hash){
 			// If for some reason it has a slash as the last character, cut it so as to not mess up the split
@@ -74,6 +76,7 @@
 				$('#pages').append(page_markup);
 				$page = $('#page-'+pages[i].number);
 
+				layout.measureImgSetMaxPageWidth( $page ); // Set this to the maximum allowable pixel size of the image, we might not actually want this later one and will want to set a max width to `#pages` if your images are large, to allow for zooming etc.
 				layout.measurePage( $page ); // For zooming, we need to know the absolute location of each hotspot so we can know how to get to it
 				listeners.hotspotClicks( $page );
 				listeners.pageTransitions();
@@ -97,12 +100,17 @@
 			layout.measureImgSetPageHeight($page);
 			layout.measureHotspots($page);
 		},
+		measureImgSetMaxPageWidth: function($page){
+			var $imgClone = $page.find('img').clone();
+			var max_img_width = $imgClone.appendTo('body').width();
+			$imgClone.remove();
+			$('#pages').css('max-width', max_img_width+'px');
+		},
 		update: function(){
 			// Do this on window resize
-			var current_page = 1;
-			var $page = $('#page-'+current_page);
-			// Scale the page back down to 1x1, ($page, masksAlso, transitionDuration)
-			zooming.toPage($page, true, false);
+			var $page = $('#page-'+states.currentPage);
+			// Scale the page back down to 1x1, ($page, transitionDuration)
+			zooming.toPage($page, false);
 			// Measure the page at those dimensions
 			layout.measurePage( $page );
 			// Get what page and hotspot we're on
@@ -114,7 +122,7 @@
 
 	var listeners = {
 		resize: function(){
-			layout.updateDebounce = _.debounce(layout.update, 300);
+			layout.updateDebounce = _.debounce(layout.update, 200);
 			// TODO Does this trigger on different mobile device orientation changes?
 			window.addEventListener('resize', function(){
 				layout.updateDebounce();
@@ -144,14 +152,18 @@
 		pageTransitions: function(){
 			$(".page").on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', function(){
 
-				$('.page').removeClass('enter-from-left')
-									.removeClass('enter-from-right')
-									.removeClass('exit-to-left')
-									.removeClass('exit-to-right');
+				// Hide the last panel you were on.
+				var $lastPage = $('#page-'+states.lastPage);
 
-				$('.page').each(function(index, el){
-					zooming.toPage( $(el) );
-				})
+				$lastPage.removeClass('viewing');
+				// Disable the scale on previous page
+				zooming.toPage( $lastPage, false );
+
+				// Remove all navigation classes, which will have finished their animation since we're inside that callback
+				$('#page-'+states.lastPage+',#page-'+states.currentPage).removeClass('enter-from-left')
+																																.removeClass('enter-from-right')
+																																.removeClass('exit-to-left')
+																																.removeClass('exit-to-right');
 			});
 		}
 	}
@@ -263,46 +275,50 @@
 		// Delegates zooms to hotspot if it is
 		read: function(page, hotspot, transitionDuration){
 			var css;
-			var page_change_direction, exiting_class, entering_class;
+			var page_change_direction, exiting_direction, entering_class;
+
 			// If we're changing pages
 			if (states.currentPage != page){
 				if ( Number(states.currentPage) < Number(page) ) {
 					page_change_direction = 'next-page';
-					exiting_class = 'exit-to-left';
+					exiting_direction = '-';
 					entering_class = 'enter-from-right';
 				} else {
 					page_change_direction = 'prev-page';
-					exiting_class = 'exit-to-right';
+					exiting_direction = '';
 					entering_class = 'enter-from-left';
 				}
 				console.log(states.currentPage, page, page_change_direction)
+				console.log($('#page-'+states.currentPage).css('transform') + ' translateX('+exiting_direction+'100%)')
 
-				$('#page-'+states.currentPage).addClass(exiting_class);
-				$('#page-'+page).addClass(entering_class).addClass('viewing');
+				$('#page-'+states.currentPage).css('transform', $('#page-'+states.currentPage).css('transform') + ' translateX('+exiting_direction+'100%)');
+				// $('#page-'+page).addClass(entering_class).addClass('viewing');
+			}else {
+
+				// We're on the same page, just zooming
+				if (hotspot){
+					zooming.toHotspot(page, hotspot, transitionDuration);
+				}else{
+					// If no hotspot specified, reset to full page view
+					zooming.toPage( $('#page-'+page), true );
+				}
+
 			}
 
-			if (!hotspot){
-				// Reset back to full page view here
-				zooming.toPage( $('#page-'+page), true , true);
-			}else{
-				zooming.toHotspot(page, hotspot, transitionDuration);
-			}
 
-			// Save the current page and hotspot to what the route said. TK placement here. I'll have to see how all the nav mixures play out and how pagination works
-			helpers.saveCurrentStates(page, hotspot);
+			// Save the current page and hotspot to what the route said, save previous route's information as previous page.
+			helpers.saveCurrentStates(page, hotspot, states.currentPage);
 		}
 	}
 
 	var zooming = {
-		toPage: function($page, masksAlso, transitionDuration){
+		toPage: function($page, transitionDuration){
 			// Reset zoom to full page view
 			var page_css = helpers.setTransitionCss('transform', 'scale(1)', transitionDuration);
 			$page.css(page_css);
-			if (masksAlso){
-				// Reset masks
-				var mask_css = helpers.addDuration({ 'height': 0, opacity: 0 }, transitionDuration);
-				$('.mask').css(mask_css);
-			}
+			// Reset masks
+			var mask_css = helpers.addDuration({ 'height': 0, opacity: 0 }, transitionDuration);
+			$('.mask').css(mask_css);
 		},
 		toHotspot: function(page, hotspot, transitionDuration){
 			// cg means `current page`
@@ -324,10 +340,11 @@
 			var scale_multiplier = 1 / (th_width / cg_width); // Scale the width of the page by this to expand the target hotspot to full view
 			var x_adjuster = viewport_xMiddle - th_left - th_xMiddle,
 					y_adjuster = cg_yMiddle - th_top - th_yMiddle;
-			console.log(cg_yMiddle, th_top, th_yMiddle)
+
 			var css = helpers.setTransitionCss('transform', 'scale('+ scale_multiplier +') translate('+x_adjuster+'px, '+y_adjuster+'px)', transitionDuration);
 			$currentPage.css(css);
 			zooming.sizeMasks(th_yMiddle*2, cg_yMiddle*2, scale_multiplier, transitionDuration);
+			states.scaleMultiplier = scale_multiplier;
 		},
 		sizeMasks: function(th_height, cg_height, scaler, transitionDuration){
 			var mask_height = ( cg_height - (th_height * scaler) ) / 2;

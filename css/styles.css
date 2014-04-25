@@ -15,8 +15,6 @@ body {
 /* P A G E S */
 #pages {
   position: relative;
-  width: 570px;
-  height: 760px;
   min-width: 320px;
   margin: 0 auto;
   overflow: hidden;
@@ -48,6 +46,11 @@ body {
   -o-transform: translateX(-100%);
   -ms-transform: translateX(-100%);
   transform: translateX(-100%);
+  -webkit-transition-duration: 2s !important;
+  -moz-transition-duration: 2s !important;
+  -o-transition-duration: 2s !important;
+  -ms-transition-duration: 2s !important;
+  transition-duration: 2s !important;
 }
 .page.enter-from-left {
   -webkit-transform: translateX(-100%);
@@ -55,11 +58,16 @@ body {
   -o-transform: translateX(-100%);
   -ms-transform: translateX(-100%);
   transform: translateX(-100%);
-  -webkit-animation: 0.2s linear 0.2s normal both 1 enter-from-left;
-  -moz-animation: 0.2s linear 0.2s normal both 1 enter-from-left;
-  -o-animation: 0.2s linear 0.2s normal both 1 enter-from-left;
-  -ms-animation: 0.2s linear 0.2s normal both 1 enter-from-left;
-  animation: 0.2s linear 0.2s normal both 1 enter-from-left;
+  -webkit-transition-duration: 0 !important;
+  -moz-transition-duration: 0 !important;
+  -o-transition-duration: 0 !important;
+  -ms-transition-duration: 0 !important;
+  transition-duration: 0 !important;
+  -webkit-animation: 2s linear 2s normal both 1 enter-from-left;
+  -moz-animation: 2s linear 2s normal both 1 enter-from-left;
+  -o-animation: 2s linear 2s normal both 1 enter-from-left;
+  -ms-animation: 2s linear 2s normal both 1 enter-from-left;
+  animation: 2s linear 2s normal both 1 enter-from-left;
 }
 .page.exit-to-right {
   -webkit-transform: translateX(100%);
@@ -67,6 +75,11 @@ body {
   -o-transform: translateX(100%);
   -ms-transform: translateX(100%);
   transform: translateX(100%);
+  -webkit-transition-duration: 2s !important;
+  -moz-transition-duration: 2s !important;
+  -o-transition-duration: 2s !important;
+  -ms-transition-duration: 2s !important;
+  transition-duration: 2s !important;
 }
 .page.enter-from-right {
   -webkit-transform: translateX(100%);
@@ -74,11 +87,16 @@ body {
   -o-transform: translateX(100%);
   -ms-transform: translateX(100%);
   transform: translateX(100%);
-  -webkit-animation: 0.2s linear 0.2s normal both 1 enter-from-right;
-  -moz-animation: 0.2s linear 0.2s normal both 1 enter-from-right;
-  -o-animation: 0.2s linear 0.2s normal both 1 enter-from-right;
-  -ms-animation: 0.2s linear 0.2s normal both 1 enter-from-right;
-  animation: 0.2s linear 0.2s normal both 1 enter-from-right;
+  -webkit-transition-duration: 0 !important;
+  -moz-transition-duration: 0 !important;
+  -o-transition-duration: 0 !important;
+  -ms-transition-duration: 0 !important;
+  transition-duration: 0 !important;
+  -webkit-animation: 2s linear 2s normal both 1 enter-from-right;
+  -moz-animation: 2s linear 2s normal both 1 enter-from-right;
+  -o-animation: 2s linear 2s normal both 1 enter-from-right;
+  -ms-animation: 2s linear 2s normal both 1 enter-from-right;
+  animation: 2s linear 2s normal both 1 enter-from-right;
 }
 /* H O T S P O T S */
 .hotspot {

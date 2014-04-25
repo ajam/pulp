@@ -12,12 +12,8 @@ body
 
 
 /* P A G E S */
-page_width = 570
-page_height = 760
 #pages
 	position relative
-	width (page_width)px
-	height (page_height)px
 	min-width 320px
 	margin 0 auto
 	overflow hidden
@@ -38,18 +34,22 @@ page_height = 760
 	user-select none
 
 /* T R A N S I T I O N S */
-page_transition_duration = .2s
+page_transition_duration = 2s
 
 .page.exit-to-left
 	transform translateX(-100%)
+	transition-duration page_transition_duration !important
 .page.enter-from-left
 	transform translateX(-100%)
+	transition-duration 0 !important
 	animation page_transition_duration linear page_transition_duration normal both 1 enter-from-left
 
 .page.exit-to-right
 	transform translateX(100%)
+	transition-duration page_transition_duration !important
 .page.enter-from-right
 	transform translateX(100%)
+	transition-duration 0 !important
 	animation page_transition_duration linear page_transition_duration normal both 1 enter-from-right
 
 
