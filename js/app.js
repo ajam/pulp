@@ -2,7 +2,7 @@
 	'use strict';
 
 	var CONFIG = {
-		full_width: 570
+		full_width: 570 // This is the full width-pixel value of the image, #pages width should match this
 	}
 
 	var states = {
@@ -18,13 +18,8 @@
 
 	var helpers = {
 		setTransitionCss: function(property, value){
-			var css = this.vendorPrefix(property, value);
-			// if you don't specify, it will just add the normaly duration, if you set the third param to true, it will cancel the duration
-			if (states.transition.enabled){
-				css = this.vendorPrefix('transition-duration', states.transition.duration, css)
-			} else {
-				css = this.vendorPrefix('transition-duration', 0, css)
-			}
+			var css = helpers.vendorPrefix(property, value);
+			css = helpers.addDuration(css)
 			return css;
 		},
 		vendorPrefix: function(property, value, obj){
@@ -34,6 +29,11 @@
 				obj['-' + pfxs[i] + '-' + property] = value
 			}
 			return obj;
+		},
+		addDuration: function(cssObj){
+			var duration = states.transition.enabled ? states.transition.duration : 0;
+			cssObj = helpers.vendorPrefix('transition-duration', duration, cssObj);
+			return cssObj;
 		},
 		saveCurrentStates: function(page, hotspot){
 			states.currentPage = page;
@@ -69,17 +69,18 @@
 	}
 
 	var layout = {
-		addMasks: function(){
+		bakeMasks: function(){
 			$('#pages').append('<div class="mask" id="top-mask"></div>').append('<div class="mask" id="bottom-mask"></div>');
 		},
-		bakePage: function(data){
-			var page_markup = templates.pageFactory(data);
-			var $page;
-			$('#pages').append(page_markup);
-			$page = $('#page-'+data.number);
-			// For zooming, we need to know the absolute location of each hotspot so we can know how to get to it
-			layout.measureHotspots( $page );
-			listeners.hotspotClicks( $page );
+		bakePages: function(pages){
+			var page_markup, $page;
+			for (var i = 0; i < 1; i++){
+				page_markup = templates.pageFactory(pages[i]);
+				$('#pages').append(page_markup);
+				$page = $('#page-'+pages[i].number);
+				layout.measureHotspots( $page ); // For zooming, we need to know the absolute location of each hotspot so we can know how to get to it
+				listeners.hotspotClicks( $page );
+			}
 			routing.initRoute();
 		},
 		measureHotspots: function($page){
@@ -98,7 +99,6 @@
 
 			// Disable transitions so it happens quickly
 			states.transition.enabled = false;
-
 			// Scale the page back down to 1x1
 			zooming.reset(current_page);
 			// Measure the page at those dimensions
@@ -109,13 +109,13 @@
 			routing.read(page_hotspot.page, page_hotspot.hotspot);
 			// Re-enable transitions for next time we click or swipe
 			states.transition.enabled = true;
-			// Redo masks
 		}
 	}
 
 	var listeners = {
-		global: function(){
+		resize: function(){
 			layout.updateDebounce = _.debounce(layout.update, 300);
+			// Does this trigger on different mobile device orientation changes?
 			window.addEventListener('resize', function(){
 				layout.updateDebounce();
 			})
@@ -145,20 +145,19 @@
 
 	var routing = {
 		initRoute: function(){
-			this.Router = Backbone.Router.extend({
+			routing.Router = Backbone.Router.extend({
 				routes: {
 					":page(/)": "page", // Take me to a page
 					":page/:hotspot": 'hotspot' // Take me to a specific hotspot
 				}
 			});
 
-			this.router = new this.Router;
+			routing.router = new routing.Router;
 
-			this.router.on('route:page', function(page) {
+			routing.router.on('route:page', function(page) {
 				routing.read(page);
 			});
-			this.router.on('route:hotspot', function(page, hotspot) {
-				console.log('routing')
+			routing.router.on('route:hotspot', function(page, hotspot) {
 				routing.read(page, hotspot);
 			});
 				
@@ -240,7 +239,7 @@
 				// Reset back to full page view here
 				zooming.reset(page);
 			}else{
-				zooming.hotspot(page, hotspot);
+				zooming.toHotspot(page, hotspot);
 			}
 
 			// Save the current page and hotspot to what the route said. TK placement here. I'll have to see how all the nav mixures play out and how pagination works
@@ -251,13 +250,16 @@
 	var zooming = {
 		reset: function(page){
 			// Reset zoom to full page view
-			var css = helpers.setTransitionCss('transform', 'scale(1)');
-			$('#page-'+page).css(css);
+			var page_css = helpers.setTransitionCss('transform', 'scale(1)');
+			$('#page-'+page).css(page_css);
+			// Reset masks
+			var mask_css = helpers.addDuration({ 'height': 0, opacity: 0 })
+			$('.mask').css(mask_css);
 		},
-		hotspot: function(page, hotspot){
-			console.log('zooming')
+		toHotspot: function(page, hotspot){
 			// cg means `current page`
 			// th means `target hotspot`
+			var buffer = .2;
 			var $currentPage = $('#page-'+page),
 					cg_width = $currentPage.width(),
 					cg_top = $currentPage.position().top,
@@ -277,17 +279,28 @@
 
 			var css = helpers.setTransitionCss('transform', 'scale('+ scale_multiplier +') translate('+x_adjuster+'px, '+y_adjuster+'px)')
 			$currentPage.css(css);
-
+			zooming.sizeMasks(th_yMiddle*2, cg_yMiddle*2, scale_multiplier);
+		},
+		sizeMasks: function(th_height, cg_height, scaler){
+			var mask_height = ( cg_height - (th_height * scaler) ) / 2;
+			var css = { 'height': mask_height+'px', opacity: 1 };
+			css = helpers.addDuration(css)
+			$('.mask').css(css);
 		}
 	}
 
-	function startTheShow(){
-		layout.addMasks();
-		$.getJSON('../data/page1.json', layout.bakePage);
-		listeners.global();
-		listeners.keyboardAndGestures();
+	var init = {
+		go: function(){
+			layout.bakeMasks();
+			init.loadPages();
+			listeners.resize();
+			listeners.keyboardAndGestures();
+		},
+		loadPages: function(){
+			$.getJSON('../data/pages.json', layout.bakePages);
+		}
 	}
 
-	startTheShow();
+	init.go();
 
 }).call(this);

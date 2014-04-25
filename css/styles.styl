@@ -9,6 +9,7 @@ body
 	margin 0
 
 #pages
+	position relative
 	width 570px
 	min-width 320px
 	margin 0 auto
@@ -21,15 +22,21 @@ body
 	user-select none
 .hotspot
 	position absolute
-	background-color rgba(0, 255, 204, .5)
+	// background-color rgba(0, 255, 204, .5)
 .mask
 	position absolute
 	background-color #fff
-	width 100%
 	height 0
 	opacity 0
+	left 0
+	right 0
+	z-index 99
+	transition: height 0s, opacity 0s
+#top-mask
+	top 0
 #bottom-mask
 	transform: rotateX(180deg);
+	bottom -1px /* To cover up some small clipping that occurs */
 .page, .mask
 	// transition: transform .3s ease-out
 @media (max-width: 570px)
