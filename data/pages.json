@@ -1,0 +1,34 @@
+[
+  {
+    "number": 1,
+    "hotspots": [
+      {
+        "dimensions": "top: 0%;left:0%;width: 100%;height:27%"
+      },{
+        "dimensions": "top:28%;left:0%;width:45%;height:40%"
+      },{
+        "dimensions": "top:28%;left:45%;width:55%;height:40%"
+      },{
+        "dimensions": "top:69%;left:0%;%;width:100%;height:30%"
+      },{
+        "dimensions": "top:76%;left:62%;%;width:17%;height:7%"
+      }
+    ]
+  },
+  {
+    "number": 2,
+    "hotspots": [
+      {
+        "dimensions": "top: 0%;left:0%;width: 100%;height:27%"
+      },{
+        "dimensions": "top:28%;left:0%;width:45%;height:40%"
+      },{
+        "dimensions": "top:28%;left:45%;width:55%;height:40%"
+      },{
+        "dimensions": "top:69%;left:0%;%;width:100%;height:30%"
+      },{
+        "dimensions": "top:76%;left:62%;%;width:17%;height:7%"
+      }
+    ]
+  }
+]
