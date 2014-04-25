@@ -1,7 +1,7 @@
 (function(){
 	'use strict';
 
-	var states = {
+	window.states = {
 		zoom: 'page',
 		currentPage: '1',
 		currentHotspot: 'none',
@@ -150,20 +150,27 @@
 			});
 		},
 		pageTransitions: function(){
-			$(".page").on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', function(){
+			$(".page-container").on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', function(){
 
+				console.log('over', this, states)
 				// Hide the last panel you were on.
-				var $lastPage = $('#page-'+states.lastPage);
+				// var $lastPage = $('#page-container-'+states.lastPage);
 
-				$lastPage.removeClass('viewing');
-				// Disable the scale on previous page
-				zooming.toPage( $lastPage, false );
+				// $lastPage.removeClass('viewing');
 
 				// Remove all navigation classes, which will have finished their animation since we're inside that callback
-				$('#page-'+states.lastPage+',#page-'+states.currentPage).removeClass('enter-from-left')
-																																.removeClass('enter-from-right')
-																																.removeClass('exit-to-left')
-																																.removeClass('exit-to-right');
+				$('#page-container-'+states.currentPage).removeClass('enter-from-left')
+							 .removeClass('enter-from-right')
+				
+				$('#page-container-'+states.lastPage).removeClass('viewing').removeClass('exit-to-left')
+																			.removeClass('exit-to-right')
+			});
+			$(".page-container").on('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
+
+				console.log('trans', this, states)
+
+				// Remove all navigation classes, which will have finished their animation since we're inside that callback
+				
 			});
 		}
 	}
@@ -222,9 +229,10 @@
 			},
 			fromKeyboardOrGesture: function(direction){
 				// dir can be: prev-hotspot, next-hotspot, page-view
-				var pp_info = helpers.hashToPageHotspotDict( window.location.hash );
-				var page_max = Number( $('#page-'+pp_info.page).attr('data-length') );
-				var newhash;
+				var pp_info = helpers.hashToPageHotspotDict( window.location.hash ),
+						page_max = Number( $('#page-'+pp_info.page).attr('data-length') ),
+						prev_page_max,
+						newhash;
 				pp_info.page = pp_info.page || 1; // If there's no page, go to the first page
 				pp_info.hotspot = pp_info.hotspot || states.lastHotspot || 0; // If there was no hotspot in the hash, see if there was a saved hotspot states, if not start at zero
 
@@ -233,11 +241,17 @@
 				if (direction == 'prev-hotspot'){
 					// Decrease our hotspot cursor by one
 					pp_info.hotspot--
+					console.log(pp_info.hotspot)
+					// If that's less than zero then that means we were on a full view page, so go to the last hotspot of the previous panel
+					if (pp_info.hotspot < 0){
 
-					// If that takes us below the first hotspot, go to the full view of this page
-					if (pp_info.hotspot < 1){
-						if (pp_info.page != 1) pp_info.page--;
-						// TODO handle first page to go back to main window or something
+						if (pp_info.page != 1) { // TODO handle first page to go back to main window or something
+							pp_info.page--;
+							pp_info.hotspot = $('#page-'+pp_info.page).attr('data-length');
+						} else {
+							pp_info.hotspot = 'none';
+						}
+					} else if(pp_info.hotspot < 1){ // If that takes us below the first hotspot, go to the full view of this page
 						states.lastHotspot = '';
 						pp_info.hotspot = 'none';
 					}
@@ -251,6 +265,7 @@
 					if (pp_info.hotspot > page_max){
 						pp_info.page++;
 						pp_info.hotspot = 'none';
+						states.lastHotspot = ''
 					}
 
 				// Go to the page view
@@ -275,36 +290,30 @@
 		// Delegates zooms to hotspot if it is
 		read: function(page, hotspot, transitionDuration){
 			var css;
-			var page_change_direction, exiting_direction, entering_class;
+			var page_change_direction, exiting_class, entering_class;
 
 			// If we're changing pages
 			if (states.currentPage != page){
 				if ( Number(states.currentPage) < Number(page) ) {
 					page_change_direction = 'next-page';
-					exiting_direction = '-';
+					exiting_class = 'exit-to-left';
 					entering_class = 'enter-from-right';
 				} else {
 					page_change_direction = 'prev-page';
-					exiting_direction = '';
+					exiting_class = 'exit-to-right';
 					entering_class = 'enter-from-left';
 				}
-				console.log(states.currentPage, page, page_change_direction)
-				console.log($('#page-'+states.currentPage).css('transform') + ' translateX('+exiting_direction+'100%)')
-
-				$('#page-'+states.currentPage).css('transform', $('#page-'+states.currentPage).css('transform') + ' translateX('+exiting_direction+'100%)');
-				// $('#page-'+page).addClass(entering_class).addClass('viewing');
-			}else {
-
-				// We're on the same page, just zooming
-				if (hotspot){
-					zooming.toHotspot(page, hotspot, transitionDuration);
-				}else{
-					// If no hotspot specified, reset to full page view
-					zooming.toPage( $('#page-'+page), true );
-				}
-
+				$('#page-container-'+states.currentPage).addClass(exiting_class);
+				$('#page-container-'+page).addClass('viewing').addClass(entering_class);
 			}
 
+			// Now zoom
+			if (hotspot){
+				zooming.toHotspot(page, hotspot, transitionDuration);
+			}else{
+				// If no hotspot specified, reset to full page view
+				zooming.toPage( $('#page-'+page), true );
+			}
 
 			// Save the current page and hotspot to what the route said, save previous route's information as previous page.
 			helpers.saveCurrentStates(page, hotspot, states.currentPage);

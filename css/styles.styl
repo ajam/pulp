@@ -17,57 +17,59 @@ body
 	min-width 320px
 	margin 0 auto
 	overflow hidden
-.page
-	position absolute
+.page-container
+	left 0
 	visibility hidden
-	width 100%
+.page-container, .page
+	position absolute
 	height 100%
+	width 100%
+	overflow hidden
+.page
 	top 0
 	right 0
 	bottom 0
 	left 0
 
-.page.viewing
+.page-container.viewing
 	visibility visible
+	z-index 99
 .page img
 	width 100%
 	user-select none
 
 /* T R A N S I T I O N S */
-page_transition_duration = 2s
+page_transition_duration = 350ms
 
-.page.exit-to-left
-	transform translateX(-100%)
-	transition-duration page_transition_duration !important
-.page.enter-from-left
-	transform translateX(-100%)
-	transition-duration 0 !important
-	animation page_transition_duration linear page_transition_duration normal both 1 enter-from-left
+.page-container
+	transition left page_transition_duration linear
 
-.page.exit-to-right
-	transform translateX(100%)
-	transition-duration page_transition_duration !important
-.page.enter-from-right
-	transform translateX(100%)
-	transition-duration 0 !important
-	animation page_transition_duration linear page_transition_duration normal both 1 enter-from-right
+.page-container.exit-to-left
+	left -100%
+.page-container.enter-from-left
+	animation enter-from-left page_transition_duration linear
+
+.page-container.exit-to-right
+	left 100%
+.page-container.enter-from-right
+	animation enter-from-right page_transition_duration linear
 
 
 @keyframes enter-from-left {
 	from{
-		transform translateX(-100%)
+		left -100%
 	}
 	to{
-		transform translateX(0)
+		left 0
 	}
 }
 
 @keyframes enter-from-right {
 	from{
-		transform translateX(100%)
+		left 100%
 	}
 	to{
-		transform translateX(0)
+		left 0
 	}
 }
 
@@ -85,7 +87,7 @@ page_transition_duration = 2s
 	opacity 0
 	left 0
 	right 0
-	z-index 99
+	z-index 999
 	transition: height 0s, opacity 0s
 #top-mask
 	top 0
