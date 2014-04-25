@@ -4,25 +4,80 @@
 	box-sizing border-box
 html
 	font-size 16px
+	height 100%
 body
 	font 62.5% Helvetica, sans-serif
+	height 100%
 	margin 0
 
+
+/* P A G E S */
+page_width = 570
+page_height = 760
 #pages
 	position relative
-	width 570px
+	width (page_width)px
+	height (page_height)px
 	min-width 320px
 	margin 0 auto
 	overflow hidden
 .page
-	position relative
+	position absolute
+	visibility hidden
 	width 100%
+	height 100%
+	top 0
+	right 0
+	bottom 0
+	left 0
+
+.page.viewing
+	visibility visible
 .page img
 	width 100%
 	user-select none
+
+/* T R A N S I T I O N S */
+page_transition_duration = .2s
+
+.page.exit-to-left
+	transform translateX(-100%)
+.page.enter-from-left
+	transform translateX(-100%)
+	animation page_transition_duration linear page_transition_duration normal both 1 enter-from-left
+
+.page.exit-to-right
+	transform translateX(100%)
+.page.enter-from-right
+	transform translateX(100%)
+	animation page_transition_duration linear page_transition_duration normal both 1 enter-from-right
+
+
+@keyframes enter-from-left {
+	from{
+		transform translateX(-100%)
+	}
+	to{
+		transform translateX(0)
+	}
+}
+
+@keyframes enter-from-right {
+	from{
+		transform translateX(100%)
+	}
+	to{
+		transform translateX(0)
+	}
+}
+
+
+/* H O T S P O T S */
 .hotspot
 	position absolute
 	// background-color rgba(0, 255, 204, .5)
+
+/* M A S K S */
 .mask
 	position absolute
 	background-color #fff
@@ -39,6 +94,8 @@ body
 	bottom -1px /* To cover up some small clipping that occurs */
 .page, .mask
 	// transition: transform .3s ease-out
+
+/* M E D I A  Q U E R I E S */
 @media (max-width: 570px)
 	#pages
 		width 100%
