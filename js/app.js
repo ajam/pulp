@@ -152,25 +152,13 @@
 		pageTransitions: function(){
 			$(".page-container").on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', function(){
 
-				console.log('over', this, states)
-				// Hide the last panel you were on.
-				// var $lastPage = $('#page-container-'+states.lastPage);
-
-				// $lastPage.removeClass('viewing');
-
 				// Remove all navigation classes, which will have finished their animation since we're inside that callback
-				$('#page-container-'+states.currentPage).removeClass('enter-from-left')
+				$('.page-container').removeClass('enter-from-left')
 							 .removeClass('enter-from-right')
+							 .removeClass('exit-to-left')
+							 .removeClass('exit-to-right')
 				
-				$('#page-container-'+states.lastPage).removeClass('viewing').removeClass('exit-to-left')
-																			.removeClass('exit-to-right')
-			});
-			$(".page-container").on('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
-
-				console.log('trans', this, states)
-
-				// Remove all navigation classes, which will have finished their animation since we're inside that callback
-				
+				$('#page-container-'+states.lastPage).removeClass('viewing')
 			});
 		}
 	}
@@ -223,6 +211,7 @@
 				}else{
 					hash = page + '/' + hotspot; // Otherwise, send the page and hotspot to the route.
 				}
+				console.log(hotspot)
 
 				// Change the hash
 				routing.router.navigate(hash, {trigger: true});

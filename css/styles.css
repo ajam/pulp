@@ -48,15 +48,12 @@ body {
   user-select: none;
 }
 /* T R A N S I T I O N S */
-.page-container {
-  -webkit-transition: left 350ms linear;
-  -moz-transition: left 350ms linear;
-  -o-transition: left 350ms linear;
-  -ms-transition: left 350ms linear;
-  transition: left 350ms linear;
-}
 .page-container.exit-to-left {
-  left: -100%;
+  -webkit-animation: exit-to-left 350ms linear;
+  -moz-animation: exit-to-left 350ms linear;
+  -o-animation: exit-to-left 350ms linear;
+  -ms-animation: exit-to-left 350ms linear;
+  animation: exit-to-left 350ms linear;
 }
 .page-container.enter-from-left {
   -webkit-animation: enter-from-left 350ms linear;
@@ -66,7 +63,11 @@ body {
   animation: enter-from-left 350ms linear;
 }
 .page-container.exit-to-right {
-  left: 100%;
+  -webkit-animation: exit-to-right 350ms linear;
+  -moz-animation: exit-to-right 350ms linear;
+  -o-animation: exit-to-right 350ms linear;
+  -ms-animation: exit-to-right 350ms linear;
+  animation: exit-to-right 350ms linear;
 }
 .page-container.enter-from-right {
   -webkit-animation: enter-from-right 350ms linear;
@@ -112,6 +113,96 @@ body {
 @media (max-width: 570px) {
   #pages {
     width: 100%;
+  }
+}
+@-moz-keyframes exit-to-left {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: -100%;
+  }
+}
+@-webkit-keyframes exit-to-left {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: -100%;
+  }
+}
+@-o-keyframes exit-to-left {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: -100%;
+  }
+}
+@-ms-keyframes exit-to-left {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: -100%;
+  }
+}
+@keyframes exit-to-left {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: -100%;
+  }
+}
+@-moz-keyframes exit-to-right {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+@-webkit-keyframes exit-to-right {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+@-o-keyframes exit-to-right {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+@-ms-keyframes exit-to-right {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+@keyframes exit-to-right {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: 100%;
   }
 }
 @-moz-keyframes enter-from-left {

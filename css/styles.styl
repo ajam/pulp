@@ -42,18 +42,36 @@ body
 page_transition_duration = 350ms
 
 .page-container
-	transition left page_transition_duration linear
+	// transition left page_transition_duration linear
 
 .page-container.exit-to-left
-	left -100%
+	animation exit-to-left page_transition_duration linear
 .page-container.enter-from-left
 	animation enter-from-left page_transition_duration linear
 
 .page-container.exit-to-right
-	left 100%
+	animation exit-to-right page_transition_duration linear
 .page-container.enter-from-right
 	animation enter-from-right page_transition_duration linear
 
+
+@keyframes exit-to-left {
+	from{
+		left 0
+	}
+	to{
+		left -100%
+	}
+}
+
+@keyframes exit-to-right {
+	from{
+		left 0
+	}
+	to{
+		left 100%
+	}
+}
 
 @keyframes enter-from-left {
 	from{
