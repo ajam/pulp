@@ -16,6 +16,7 @@ body {
 #pages {
   position: relative;
   min-width: 320px;
+  max-width: 577px;
   margin: 0 auto;
   overflow: hidden;
 }

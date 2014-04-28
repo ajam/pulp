@@ -1,14 +1,15 @@
 (function(){
 	'use strict';
 
-	window.states = {
+	var states = {
 		zoom: 'page',
 		currentPage: '1',
 		currentHotspot: 'none',
 		lastPage: '',
 		lastHotspot: '',
 		transitionDuration: '350ms',
-		scaleMultiplier: 1
+		scaleMultiplier: 1,
+		firstRun: true
 	}
 
 	var helpers = {
@@ -24,9 +25,9 @@
 			return cssObj;
 		},
 		saveCurrentStates: function(page, hotspot, lastPage){
-			states.currentPage = page;
-			states.currentHotspot = hotspot;
-			states.lastPage = lastPage;
+			if (page) states.currentPage = page;
+			if (hotspot) states.currentHotspot = hotspot;
+			if (lastPage) states.lastPage = lastPage;
 		},
 		hashToPageHotspotDict: function(hash){
 			// If for some reason it has a slash as the last character, cut it so as to not mess up the split
@@ -37,20 +38,24 @@
 			return { page: hash[0], hotspot: hash[1] }
 		},
 		getNavDirection: function(e, code){
-			if (code == 37 || code == 38 || code == 39 || code == 40 || code == 'swipeleft' || code == 'swiperight' || code == 'pinch'){
-				// Don't do the default behavior if it's an arrow, swipe or pinch
-				e.preventDefault();
-				e.stopPropagation();
+			// Only allow this only one panel is visible, i.e. not during a transition
+			if ($('.viewing').length == 1){
+				if (code == 37 || code == 38 || code == 39 || code == 40 || code == 'swipeleft' || code == 'swiperight' || code == 'pinch'){
+					// Don't do the default behavior if it's an arrow, swipe or pinch
+					e.preventDefault();
+					e.stopPropagation();
 
-				// Do this
-				// Left arrow
-				if (code == 37 || code == 'swiperight') return 'prev-hotspot';
-				// Right arrow
-				if (code == 39 || code == 'swipeleft') return 'next-hotspot';
-				// Esc, up, down arrows
-				if (code == 27 || code == 38 || code == 40 || code == 'pinch') return 'page-view';
+					// Do this
+					// Left arrow
+					if (code == 37 || code == 'swiperight') return 'prev-hotspot';
+					// Right arrow
+					if (code == 39 || code == 'swipeleft') return 'next-hotspot';
+					// Esc, up, down arrows
+					if (code == 27 || code == 38 || code == 40 || code == 'pinch') return 'page-view';
+				}
+
+				return false;
 			}
-
 			return false;
 		}	
 	}
@@ -71,15 +76,17 @@
 				$('#pages').append(page_markup);
 				$page = $('#page-'+pages[i].number);
 
-				layout.measurePage( $page ); // For zooming, we need to know the absolute location of each hotspot so we can know how to get to it
-				layout.measureImgSetMaxPageWidth( $page ); // Set this to the maximum allowable pixel size of the image, we might not actually want this later one and will want to set a max width to `#pages` if your images are large, to allow for zooming etc.
+				// Add listeners
 				listeners.hotspotClicks( $page );
 				listeners.pageTransitions();
 			}
-			routing.initRoute();
+			// Once images are loaded, measure the hotspot locations
+			layout.measurePageElements( $('#pages') );
+			routing.init();
 		},
-		measureHotspots: function($page){
-		 $page.find('.hotspot').each(function(index, hs){
+		measureHotspots: function(){
+		 $('.hotspot').each(function(index, hs){
+				console.log('hotspotting');
 				var $hs = $(hs);
 				$hs.attr('data-top', $hs.offset().top );
 				$hs.attr('data-left', $hs.offset().left );
@@ -87,38 +94,41 @@
 				$hs.attr('data-height', $hs.height() );
 			});
 		},
-		measureImgSetPageHeight: function($page){
-			$($page.find('img')).load(function(){
-				var img_height = $page.find('img').height();
-				$('#pages').css('height', img_height+'px');
-			})
-		},
-		measurePage: function ($page){
-			layout.measureImgSetPageHeight($page);
-			layout.measureHotspots($page);
-		},
-		measureImgSetMaxPageWidth: function($page){
-			var $imgClone = $page.find('img').clone().attr('id', 'cloned-img').appendTo('body');
-			$('#cloned-img').load(function(){
-				var max_img_width = $imgClone.width();
-				$('#pages').css('max-width', max_img_width+'px');
-				$('#cloned-img').remove();
+
+		measurePageElements: function($page, cb){
+			layout.measureImgSetPageHeight($page, function(){
+				layout.measureHotspots();
+				if (cb) cb();
 			});
 		},
+		measureImgSetPageHeight: function($page, cb){
+			$page.imagesLoaded().done(function(){
+				var img_height = $page.find('img').height();
+				console.log('height', img_height);
+				$('#pages').css('height', img_height+'px');
+				if (cb) cb();
+			});
+		},
+		// measurePageElements: function ($page){
+		// 	// layout.measureImgSetPageHeight( $page );
+		// 	layout.measureHotspots( $page );
+		// },
 		update: function(){
+			console.log('updating');
 			// Do this on window resize
 			var $page = $('#page-'+states.currentPage);
 			// Scale the page back down to 1x1, ($page, transitionDuration)
 			zooming.toPage($page, false);
-			// Measure the page at those dimensions
-			layout.measurePage( $page );
-			// Get what page and hotspot we're on
-			var location_hash = window.location.hash;
-			if (location_hash) {
-				var page_hotspot = helpers.hashToPageHotspotDict(window.location.hash);
-				// And initiate zooming to that hotspot, (page_number, hotspot_number, transitionDuration)
-				routing.read(page_hotspot.page, page_hotspot.hotspot, false);
-			}
+			// Set a new page height
+			layout.measurePageElements( $('#pages') , function(){
+				// Get what page and hotspot we're on
+				var location_hash = window.location.hash;
+				if (location_hash) {
+					var page_hotspot = helpers.hashToPageHotspotDict(location_hash);
+					// And initiate zooming to that hotspot, (page_number, hotspot_number, transitionDuration)
+					routing.read(page_hotspot.page, page_hotspot.hotspot, false);
+				}
+			});
 		}
 	}
 
@@ -155,12 +165,13 @@
 			$(".page-container").on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', function(){
 
 				// Remove all navigation classes, which will have finished their animation since we're inside that callback
-				// $('.page-container').removeClass('enter-from-left')
-				// 			 .removeClass('enter-from-right')
-				// 			 .removeClass('exit-to-left')
-				// 			 .removeClass('exit-to-right')
+				$('.page-container').removeClass('enter-from-left')
+							 .removeClass('enter-from-right')
+							 .removeClass('exit-to-left')
+							 .removeClass('exit-to-right')
 				
-				// $('#page-container-'+states.lastPage).removeClass('viewing')
+				// Set the scale to 1 with no transitionDuration
+				$('#page-container-'+states.lastPage).removeClass('viewing').find('.page').css(helpers.setTransitionCss('transform', 'scale(1)', false))
 			});
 		}
 	}
@@ -178,7 +189,7 @@
 	}
 
 	var routing = {
-		initRoute: function(){
+		init: function(){
 			routing.Router = Backbone.Router.extend({
 				routes: {
 					":page(/)": "page", // Take me to a page
@@ -189,14 +200,24 @@
 			routing.router = new routing.Router;
 
 			routing.router.on('route:page', function(page) {
+				if (states.firstRun) { states.currentPage = page; states.firstRun = false; }
 				routing.read(page, null, true);
 			});
 			routing.router.on('route:hotspot', function(page, hotspot) {
+				if (states.firstRun) { states.currentPage = page; states.firstRun = false;}
 				routing.read(page, hotspot, true);
 			});
-				
+
 			// For bookmarkable Urls
 			Backbone.history.start();
+
+			routing.onPageLoad(window.location.hash)
+		},
+		onPageLoad: function(location_hash){
+			var pp_info;
+			if (!location_hash){
+				routing.router.navigate('1', { trigger: true, replace: true });
+			}
 		},
 		set: {
 			fromHotspotClick: function($hotspot){
@@ -213,7 +234,6 @@
 				}else{
 					hash = page + '/' + hotspot; // Otherwise, send the page and hotspot to the route.
 				}
-				console.log(hotspot)
 
 				// Change the hash
 				routing.router.navigate(hash, {trigger: true});
@@ -284,6 +304,11 @@
 		read: function(page, hotspot, transitionDuration){
 			var css;
 			var page_change_direction, exiting_class, entering_class;
+			var $page_container = $('#page-container-'+page);
+
+			// Make the current page visible if it isn't
+			if (!$page_container.hasClass('viewing')) $page_container.addClass('viewing');
+			if (states.firstRun) saveCurrentStates(page, hotspot);
 
 			// If we're changing pages
 			if (states.currentPage != page){
@@ -297,7 +322,7 @@
 					entering_class = 'enter-from-left';
 				}
 				$('#page-container-'+states.currentPage).addClass(exiting_class);
-				$('#page-container-'+page).addClass('viewing').addClass(entering_class);
+				$('#page-container-'+page).addClass(entering_class);
 			}
 
 			// Now zoom

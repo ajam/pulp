@@ -13,8 +13,9 @@
 	<body>
 		<div id="pages"></div>
 
+		<!-- Page tempalte -->
 		<script type="text/template" id="page-template">
-			<div id="page-container-<%= number %>"  class="page-container <% if (number == 1 ) print('viewing') %>">
+			<div id="page-container-<%= number %>"  class="page-container">
 				<div class="page" id="page-<%= number %>" data-length="<% print(hotspots.length) %>" >
 					<% for (var i = 0; i < hotspots.length; i++ ) {%>
 						<div class="hotspot" id="hotspot-<%= number %>-<% print(i + 1) %>" style="<%= hotspots[i].dimensions %>"></div>
@@ -24,24 +25,15 @@
 			</div>
 		</script>
 
+		<!-- Hotspot template -->
 		<script type="text/template" id="hotspot-template">
 			<div class="hotspot" id="hotspot-<%= number %>" ></div>
 		</script>
 
-		<!--<script type="text/jst" id="panel-template">
-			<div id="panel-<%= formatIdFromImgName(i) %>"class="panel <% if (m) print('bump-right') %>" style="width:<%= calcImgPercentage(i) %>%;">
-				<% for (var j = 0; j < t.length; j++){ %>
-					<div class="panel-text-positioner <% if (t[j].c) print('caption') %>" style="<%= t[j].s %>">
-						<div class="panel-text"><%= t[j].t %></div>
-					</div>
-				<% } %>
-				<img src="imgs/page<%= i %>.png" />
-			</div>
-			</script> -->
-
 		<script src="js/thirdparty/jquery-1.11.0.min.js"></script>
 		<script src="js/thirdparty/underscore-min.js"></script>
 		<script src="js/thirdparty/backbone-min.js"></script>
+		<script src="js/thirdparty/imagesloaded.pkgd.min.js"></script>
 		<script src="js/thirdparty/jquery.detectSwipe.js"></script>
 		<script src="js/app.js"></script>
  	</body>
