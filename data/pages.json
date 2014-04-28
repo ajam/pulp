@@ -13,7 +13,8 @@
       },{
         "dimensions": "top:76%;left:62%;%;width:17%;height:7%"
       }
-    ]
+    ],
+    "text": "Sample text New line."
   },
   {
     "number": 2,
@@ -29,6 +30,7 @@
       },{
         "dimensions": "top:76%;left:62%;%;width:17%;height:7%"
       }
-    ]
+    ],
+    "text": "Sample text\nNew line."
   }
 ]

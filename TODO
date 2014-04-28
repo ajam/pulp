@@ -1,3 +1,4 @@
 * menu bar / progress bar / arrows for nav
 * test if swipe or tap is best etc.
+* set what to do when you reach the end
 * localStorage/cooke with possible flag in url hash that means only follow to that location if localStorage/Cookie also found, e.g. &status=reading, or just a boolean of if first run then don't go to that page
