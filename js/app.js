@@ -4,7 +4,7 @@
 	var states = {
 		zoom: 'page',
 		currentPage: '1',
-		currentHotspot: 'none',
+		currentHotspot: '',
 		lastPage: '',
 		lastHotspot: '',
 		transitionDuration: '350ms',
@@ -229,7 +229,7 @@
 				// If you've tapped on the active hotspot...
 				if (states.currentPage == page && states.currentHotspot == hotspot) {
 					states.lastHotspot = hotspot; // Record the last hotspot you were on. You can then pick up from here on swipe.
-					hotspot = 'none'; // Set the current hotspot to none to signify you're on the page view.
+					states.currentHotspot  = hotspot = '' // Set the current hotspot and hotspot variable to nothing to signify that you're on a page view
 					hash = page; // And in the url hash, display only the page number.
 				}else{
 					hash = page + '/' + hotspot; // Otherwise, send the page and hotspot to the route.
@@ -245,27 +245,28 @@
 							page_max = Number( $('#page-'+pp_info.page).attr('data-length') ),
 							prev_page_max,
 							newhash;
+
 					pp_info.page = pp_info.page || 1; // If there's no page, go to the first page
 					pp_info.hotspot = pp_info.hotspot || states.lastHotspot || 0; // If there was no hotspot in the hash, see if there was a saved hotspot states, if not start at zero
-
 					states.lastHotspot = pp_info.hotspot;
 					// Go to previous hotspot
 					if (direction == 'prev-hotspot'){
 						// Decrease our hotspot cursor by one
 						pp_info.hotspot--
-						console.log(pp_info.hotspot)
 						// If that's less than zero then that means we were on a full view page, so go to the last hotspot of the previous panel
 						if (pp_info.hotspot < 0){
 
 							if (pp_info.page != 1) { // TODO handle first page to go back to main window or something
 								pp_info.page--;
-								pp_info.hotspot = $('#page-'+pp_info.page).attr('data-length');
+								// pp_info.hotspot = $('#page-'+pp_info.page).attr('data-length'); // Go back to last hotspot
+								pp_info.hotspot = '' // Go to last panel
+								states.lastHotspot = Number($('#page-'+pp_info.page).attr('data-length')) + 1; // Start off with the last panel
 							} else {
-								pp_info.hotspot = 'none';
+								pp_info.hotspot = '';
 							}
 						} else if(pp_info.hotspot < 1){ // If that takes us below the first hotspot, go to the full view of this page
 							states.lastHotspot = '';
-							pp_info.hotspot = 'none';
+							pp_info.hotspot = '';
 						}
 
 					// Go to next hotspot
@@ -276,22 +277,21 @@
 						// If that exceeds the number of hotspots on this page, go to the full view of the next page
 						if (pp_info.hotspot > page_max){
 							pp_info.page++;
-							pp_info.hotspot = 'none';
+							pp_info.hotspot = '';
 							states.lastHotspot = ''
 						}
 
 					// Go to the page view
 					} else if (direction == 'page-view'){
-						pp_info.hotspot = 'none';
+						pp_info.hotspot = '';
 					}
 
 					// Add our new info to the hash
 					// or nof if we're going to a full pulle
 					newhash = pp_info.page.toString();
-					if (pp_info.hotspot != 'none'){
+					if (pp_info.hotspot){
 						newhash += '/' + pp_info.hotspot
 					}
-
 					// Go to there
 					routing.router.navigate(newhash, {trigger: true});
 				}
