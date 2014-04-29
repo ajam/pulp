@@ -16,12 +16,19 @@
 		<!-- Page tempalte -->
 		<script type="text/template" id="page-template">
 			<div id="page-container-<%= number %>"  class="page-container">
-				<div class="page" id="page-<%= number %>" data-length="<% print(hotspots.length) %>" >
-					<% for (var i = 0; i < hotspots.length; i++ ) {%>
-						<div class="hotspot" id="hotspot-<%= number %>-<% print(i + 1) %>" style="<%= hotspots[i].dimensions %>"></div>
-					<% } %>
-					<img src="imgs/pages/page-<%= number %>.png" alt="<%= text %>"/>
+				<div class="page-mask">
+					<div class="page" id="page-<%= number %>" data-length="<% print(hotspots.length) %>" >
+						<% for (var i = 0; i < hotspots.length; i++ ) {%>
+							<div class="hotspot" id="hotspot-<%= number %>-<% print(i + 1) %>" style="<%= hotspots[i].dimensions %>"></div>
+						<% } %>
+						<img src="imgs/pages/page-<%= number %>.png" alt="<%= text %>"/>
+					</div>
 				</div>
+				<ol class="footnote-container">
+					<% for (var i = 0; i < footnotes.length; i++) { %>
+						<li class="footnote"><a href="<% print(footnotes[i][1]) %>" target="_blank"><% print(footnotes[i][0]) %></a></li>
+					<% } %>
+				</ol>
 			</div>
 		</script>
 

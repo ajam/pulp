@@ -12,23 +12,32 @@ body {
   height: 100%;
   margin: 0;
 }
+a {
+  color: #2677b9;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
 /* P A G E S */
 #pages {
   position: relative;
   min-width: 320px;
   max-width: 577px;
   margin: 0 auto;
-  overflow: hidden;
 }
 .page-container {
   left: 0;
   visibility: hidden;
 }
 .page-container,
-.page {
+.page,
+.page-mask {
   position: absolute;
   height: 100%;
   width: 100%;
+}
+.page-mask {
   overflow: hidden;
 }
 .page {
@@ -47,6 +56,16 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+.footnote-container {
+  position: absolute;
+  list-style: decimal;
+  left: 16px;
+  -webkit-transition: opacity 350ms linear;
+  -moz-transition: opacity 350ms linear;
+  -o-transition: opacity 350ms linear;
+  -ms-transition: opacity 350ms linear;
+  transition: opacity 350ms linear;
 }
 /* T R A N S I T I O N S */
 .page-container.exit-to-left {

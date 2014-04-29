@@ -1,5 +1,9 @@
 @import 'nib'
 
+ajam_blue = #2677B9
+max_width = 577
+transition_opts = 350ms linear
+
 *
 	box-sizing border-box
 html
@@ -9,8 +13,11 @@ body
 	font 62.5% Helvetica, sans-serif
 	height 100%
 	margin 0
-
-max_width = 577
+a
+	color ajam_blue
+	text-decoration none
+a:hover
+	text-decoration underline
 
 /* P A G E S */
 #pages
@@ -18,14 +25,14 @@ max_width = 577
 	min-width 320px
 	max-width (max_width)px
 	margin 0 auto
-	overflow hidden
 .page-container
 	left 0
 	visibility hidden
-.page-container, .page
+.page-container, .page, .page-mask
 	position absolute
 	height 100%
 	width 100%
+.page-mask
 	overflow hidden
 .page
 	top 0
@@ -40,21 +47,25 @@ max_width = 577
 	width 100%
 	user-select none
 
-/* T R A N S I T I O N S */
-page_transition_duration = 350ms
+.footnote-container
+	position absolute
+	list-style decimal
+	left 16px
+	transition opacity transition_opts
 
+/* T R A N S I T I O N S */
 .page-container
-	// transition left page_transition_duration linear
+	// transition left transition_duration linear
 
 .page-container.exit-to-left
-	animation exit-to-left page_transition_duration linear
+	animation exit-to-left transition_opts
 .page-container.enter-from-left
-	animation enter-from-left page_transition_duration linear
+	animation enter-from-left transition_opts
 
 .page-container.exit-to-right
-	animation exit-to-right page_transition_duration linear
+	animation exit-to-right transition_opts
 .page-container.enter-from-right
-	animation enter-from-right page_transition_duration linear
+	animation enter-from-right transition_opts
 
 
 @keyframes exit-to-left {

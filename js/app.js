@@ -106,6 +106,7 @@
 				var img_height = $page.find('img').height();
 				console.log('height', img_height);
 				$('#pages').css('height', img_height+'px');
+				$('.footnote-container').css('top', (img_height + 5)+'px')
 				if (cb) cb();
 			});
 		},
@@ -176,6 +177,7 @@
 		}
 	}
 
+	// TODO, separate out the `.read` function into these paging functions.
 	var paging = {
 		nextPage: function(){
 
@@ -340,12 +342,16 @@
 
 	var zooming = {
 		toPage: function($page, transitionDuration){
+			var page_number = $page.attr('id').split('-')[1]; // `page-1` -> "1"
 			// Reset zoom to full page view
 			var page_css = helpers.setTransitionCss('transform', 'scale(1)', transitionDuration);
 			$page.css(page_css);
 			// Reset masks
 			var mask_css = helpers.addDuration({ 'height': 0, opacity: 0 }, transitionDuration);
 			$('.mask').css(mask_css);
+			// Bring back footnotes
+			$('#page-container-'+page_number+' .footnote-container').css('opacity', 1);
+
 		},
 		toHotspot: function(page, hotspot, transitionDuration){
 			// cg means `current page`
@@ -371,6 +377,8 @@
 			var css = helpers.setTransitionCss('transform', 'scale('+ scale_multiplier +') translate('+x_adjuster+'px, '+y_adjuster+'px)', transitionDuration);
 			$currentPage.css(css);
 			zooming.sizeMasks(th_yMiddle*2, cg_yMiddle*2, scale_multiplier, transitionDuration);
+			// Hide the footnotes
+			$('#page-container-'+page+' .footnote-container').css('opacity', 0);
 			states.scaleMultiplier = scale_multiplier;
 		},
 		sizeMasks: function(th_height, cg_height, scaler, transitionDuration){
