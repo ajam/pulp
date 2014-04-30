@@ -16,8 +16,8 @@
     ],
     "text": "Sample text New line.",
     "footnotes": [
-      ["text", "http://url.com"],
-      ["text", "http://url.com"]
+      ["1. text", "http://url.com"],
+      ["2. text", "http://url.com"]
     ]
   },
   {
@@ -37,7 +37,7 @@
     ],
     "text": "Sample text\nNew line.",
     "footnotes": [
-      ["Another footnote", "http://america.aljazeera.com"]
+      ["3. Another footnote", "http://america.aljazeera.com"]
     ]
   }
 ]

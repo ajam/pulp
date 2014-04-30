@@ -86,7 +86,6 @@
 		},
 		measureHotspots: function(){
 		 $('.hotspot').each(function(index, hs){
-				console.log('hotspotting');
 				var $hs = $(hs);
 				$hs.attr('data-top', $hs.offset().top );
 				$hs.attr('data-left', $hs.offset().left );
@@ -104,7 +103,6 @@
 		measureImgSetPageHeight: function($page, cb){
 			$page.imagesLoaded().done(function(){
 				var img_height = $page.find('img').height();
-				console.log('height', img_height);
 				$('#pages').css('height', img_height+'px');
 				$('.footnote-container').css('top', (img_height + 5)+'px')
 				if (cb) cb();
@@ -115,7 +113,6 @@
 		// 	layout.measureHotspots( $page );
 		// },
 		update: function(){
-			console.log('updating');
 			// Do this on window resize
 			var $page = $('#page-'+states.currentPage);
 			// Scale the page back down to 1x1, ($page, transitionDuration)
@@ -169,10 +166,11 @@
 				$('.page-container').removeClass('enter-from-left')
 							 .removeClass('enter-from-right')
 							 .removeClass('exit-to-left')
-							 .removeClass('exit-to-right')
+							 .removeClass('exit-to-right');
 				
 				// Set the scale to 1 with no transitionDuration
-				$('#page-container-'+states.lastPage).removeClass('viewing').find('.page').css(helpers.setTransitionCss('transform', 'scale(1)', false))
+				$('#page-container-'+states.lastPage).removeClass('viewing').find('.page').css(helpers.setTransitionCss('transform', 'scale(1)', false));
+				$('#pages').attr('data-state','page');
 			});
 		}
 	}
@@ -314,15 +312,18 @@
 
 			// If we're changing pages
 			if (states.currentPage != page){
+				// Next page
 				if ( Number(states.currentPage) < Number(page) ) {
 					page_change_direction = 'next-page';
 					exiting_class = 'exit-to-left';
 					entering_class = 'enter-from-right';
+				// Previous page
 				} else {
 					page_change_direction = 'prev-page';
 					exiting_class = 'exit-to-right';
 					entering_class = 'enter-from-left';
 				}
+				$('#pages').attr('data-state','changing');
 				$('#page-container-'+states.currentPage).addClass(exiting_class);
 				$('#page-container-'+page).addClass(entering_class);
 			}
@@ -351,6 +352,12 @@
 			$('.mask').css(mask_css);
 			// Bring back footnotes
 			$('#page-container-'+page_number+' .footnote-container').css('opacity', 1);
+			// Set the page state to changing if there are two viewing objects, else set it to page
+			if ($('.viewing').length == 1) {
+				$('#pages').attr('data-state','page');
+			} else if ($('.viewing').length == 2){
+				$('#pages').attr('data-state','changing');
+			}
 
 		},
 		toHotspot: function(page, hotspot, transitionDuration){
@@ -380,6 +387,8 @@
 			// Hide the footnotes
 			$('#page-container-'+page+' .footnote-container').css('opacity', 0);
 			states.scaleMultiplier = scale_multiplier;
+			// Set the page state
+			$('#pages').attr('data-state','hotspot');
 		},
 		sizeMasks: function(th_height, cg_height, scaler, transitionDuration){
 			var mask_height = ( cg_height - (th_height * scaler) ) / 2;

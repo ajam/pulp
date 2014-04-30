@@ -25,6 +25,8 @@ a:hover
 	min-width 320px
 	max-width (max_width)px
 	margin 0 auto
+#pages[data-state="changing"]
+	overflow hidden
 .page-container
 	left 0
 	visibility hidden
@@ -49,14 +51,13 @@ a:hover
 
 .footnote-container
 	position absolute
-	list-style decimal
-	left 16px
-	transition opacity transition_opts
+	left 1px
+.footnote-container a
+	color ajam_blue
 
 /* T R A N S I T I O N S */
 .page-container
 	// transition left transition_duration linear
-
 .page-container.exit-to-left
 	animation exit-to-left transition_opts
 .page-container.enter-from-left
@@ -104,6 +105,16 @@ a:hover
 	}
 }
 
+
+
+
+/* F O O T N O T E S */
+// #pages[data-state="page"] .footnote-container a
+// 	color ajam_blue
+// #pages[data-state="changing"] .footnote-container a
+// 	color #fff
+// #pages[data-state="hotspot"] .footnote-container a
+// 	color #fff
 
 /* H O T S P O T S */
 .hotspot

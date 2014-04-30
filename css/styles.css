@@ -26,6 +26,9 @@ a:hover {
   max-width: 577px;
   margin: 0 auto;
 }
+#pages[data-state="changing"] {
+  overflow: hidden;
+}
 .page-container {
   left: 0;
   visibility: hidden;
@@ -59,13 +62,10 @@ a:hover {
 }
 .footnote-container {
   position: absolute;
-  list-style: decimal;
-  left: 16px;
-  -webkit-transition: opacity 350ms linear;
-  -moz-transition: opacity 350ms linear;
-  -o-transition: opacity 350ms linear;
-  -ms-transition: opacity 350ms linear;
-  transition: opacity 350ms linear;
+  left: 1px;
+}
+.footnote-container a {
+  color: #2677b9;
 }
 /* T R A N S I T I O N S */
 .page-container.exit-to-left {
@@ -96,6 +96,7 @@ a:hover {
   -ms-animation: enter-from-right 350ms linear;
   animation: enter-from-right 350ms linear;
 }
+/* F O O T N O T E S */
 /* H O T S P O T S */
 .hotspot {
   position: absolute;
