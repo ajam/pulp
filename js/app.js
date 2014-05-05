@@ -1,8 +1,30 @@
 (function(){
 	'use strict';
 
+	var State = Backbone.Model.extend({
+		initialize: function(){
+			this.set('single-page-width', parseInt( $('#pages').css('max-width') ));
+			this.set('device', null);
+			this.set('format', null);
+			this.set('zoom', null);
+		},
+		determineDevice: function(windowWidth){
+			// If the window is smaller than one panel
+			// TK threshold, TODO, test on iPads etc
+			if (windowWidth <= this.get('single-page-width')) return 'mobile';
+			return 'desktop';
+		},
+		determineFormat: function(windowWidth){
+			// If the window is wide enough for two pages
+			if (windowWidth > this.get('single-page-width')*2) return 'double';
+			return 'single'
+		}
+	});
+
+	var state = new State;
+
+	// TODO, move elements that trigger a view update to the backbone `State` model.
 	var states = {
-		zoom: 'page',
 		currentPage: '1',
 		currentHotspot: '',
 		lastPage: '',
@@ -47,11 +69,11 @@
 
 					// Do this
 					// Left arrow
-					if (code == 37 || code == 'swiperight') return 'prev-hotspot';
+					if (code == 37 || code == 'swiperight') return 'prev';
 					// Right arrow
-					if (code == 39 || code == 'swipeleft') return 'next-hotspot';
+					if (code == 39 || code == 'swipeleft') return 'next';
 					// Esc, up, down arrows
-					if (code == 27 || code == 38 || code == 40 || code == 'pinch') return 'page-view';
+					if (code == 27 || code == 38 || code == 40 || code == 'pinch') return 'pageView';
 				}
 
 				return false;
@@ -71,6 +93,7 @@
 		},
 		bakePages: function(pages){
 			var page_markup, $page;
+			states.pages_max = pages.length;
 			for (var i = 0; i < pages.length; i++){
 				page_markup = templates.pageFactory(pages[i]);
 				$('#pages').append(page_markup);
@@ -81,8 +104,14 @@
 				listeners.pageTransitions();
 			}
 			// Once images are loaded, measure the hotspot locations
-			layout.measurePageElements( $('#pages') );
-			routing.init();
+			layout.measurePageElements( $('#pages'), function(){
+				// Listen for changes in state
+				listeners.state();
+				// Read the hash and navigate
+				routing.init();
+				// And the page width vs window width to see how many pages we can display at once
+				layout.measureWindowWidth();
+			});
 		},
 		measureHotspots: function(){
 		 $('.hotspot').each(function(index, hs){
@@ -103,20 +132,48 @@
 			$page.imagesLoaded().done(function(){
 				var img_height = $page.find('img').height();
 				$('#pages').css('height', img_height+'px');
-				$('.footnote-container').css('top', (img_height + 5)+'px')
+				$('.footnote-container').css('top', (img_height + 5)+'px');
 				if (cb) cb();
 			});
 		},
+		measureWindowWidth: function(){
+			var viewport_width = $(window).width();
+			state.set('format', state.determineFormat( viewport_width ) );
+			state.set('device', state.determineDevice( viewport_width ) );
+		},
+		setPageFormat: {
+			single: function(){
+				layout.update()
+				$('.right-page').removeClass('viewing').removeClass('right-page');
+			},
+			double: function(){
+				// Clear all info
+				states.hotspot = '';
+				states.lastHotspot = '';
+				// Get the id of the current page
+				var current_id = $('.page-container.viewing').attr('id').split('-')[2]; // `page-container-1` -> "1"
+				// Make this panel visible also and apply the `right-page` class, giving it a left offset of 50%
+				$('#page-container-' + (+current_id + 1)).addClass('right-page').addClass('viewing');
+				// Update the layout, not sure if this is needed
+				layout.update()
+			}
+		},
 		update: function(){
 			// Do this on window resize
+			// See if we can accommodate single or double
+			layout.measureWindowWidth();
+			// Grab the page
 			var $page = $('#page-'+states.currentPage);
 			// Scale the page back down to 1x1, ($page, transitionDuration)
 			zooming.toPage($page, false);
 			// Set a new page height
 			layout.measurePageElements( $('#pages') , function(){
+				// If we're on desktop then you can forget about the hotspot
+				routing.set.prune();
 				// Get what page and hotspot we're on
 				var location_hash = window.location.hash;
 				if (location_hash) {
+					// Turn the location hash into a more readable dictionary `{page: Number, hotspot: Number}`
 					var page_hotspot = helpers.hashToPageHotspotDict(location_hash);
 					// And initiate zooming to that hotspot, (page_number, hotspot_number, transitionDuration)
 					routing.read(page_hotspot.page, page_hotspot.hotspot, false);
@@ -132,6 +189,18 @@
 			window.addEventListener('resize', function(){
 				layout.updateDebounce();
 			})
+		},
+		state: function(){
+			state.on('change:format', function(model, format) {
+				$('#pages').attr('data-format', format)
+				layout.setPageFormat[format]();
+			});
+			state.on('change:zoom', function(model, zoom) {
+				$('#pages').attr('data-state', zoom);
+			});
+			state.on('change:device', function(model, device) {
+				console.log(device)
+			});
 		},
 		hotspotClicks: function($page){
 			$page.on('click', '.hotspot', function() {
@@ -165,21 +234,69 @@
 				
 				// Set the scale to 1 with no transitionDuration
 				$('#page-container-'+states.lastPage).removeClass('viewing').find('.page').css(helpers.setTransitionCss('transform', 'scale(1)', false));
-				$('#pages').attr('data-state','page');
+				state.set('zoom','page');
 			});
 		}
 	}
 
 	// TODO, separate out the `.read` function into these paging functions.
-	var paging = {
-		nextPage: function(){
+	var leafing = {
+		prev: {
+			page: function(pp_info){
+				if (pp_info.page != 1){
+					pp_info.page--;
+				}
+				pp_info.hotspot = '';
+				states.lastHotspot = '';
+				return pp_info;
+			},
+			hotspot: function(pp_info){
+				// Decrease our hotspot cursor by one
+				pp_info.hotspot--;
+				// If that's less than zero then that means we were on a full view page, so go to the last hotspot of the previous panel
+				if (pp_info.hotspot < 0){
+					pp_info.hotspot = '' // Go to panel view
 
+					if (pp_info.page != 1) { // TODO handle first page to go back to main window or something
+						pp_info.page--;
+						// pp_info.hotspot = $('#page-'+pp_info.page).attr('data-length'); // Go back to last hotspot
+						states.lastHotspot = Number($('#page-'+pp_info.page).attr('data-length')) + 1; // Start off with the last panel
+					}
+
+				} else if(pp_info.hotspot < 1){ // If that takes us below the first hotspot, go to the full view of this page
+					states.lastHotspot = '';
+					pp_info.hotspot = '';
+				}
+				return pp_info;
+			}
 		},
-		prevPage: function(){
+		next: {
+			page: function(pp_info, hotspot_max, pages_max){
+				if (pp_info.page < pages_max){
+					pp_info.page++;
+					pp_info.hotspot = '';
+					states.lastHotspot = ''; 
+				} else {
+					pp_info.hotspot = '';
 
+				}
+				return pp_info;
+			},
+			hotspot: function(pp_info, hotspot_max, pages_max){
+				// Increase our hotspot cursor by one
+				pp_info.hotspot++;
+
+				// If that exceeds the number of hotspots on this page, go to the full view of the next page
+				console.log(pp_info.hotspot, hotspot_max)
+				if (pp_info.hotspot > hotspot_max){
+					pp_info = leafing.next.page(pp_info, null, pages_max);
+				}
+				return pp_info;
+			}
 		},
-		goToPage: function(){
-
+		pageView: function(pp_info){
+			pp_info.hotspot = '';
+			return pp_info;
 		}
 	}
 
@@ -195,18 +312,20 @@
 			routing.router = new routing.Router;
 
 			routing.router.on('route:page', function(page) {
-				if (states.firstRun) { states.currentPage = page; states.firstRun = false; }
-				routing.read(page, null, true);
+				var transition_duration = true;
+				if (states.firstRun) { states.currentPage = page; transition_duration = false}
+				routing.read(page, null, transition_duration);
 			});
 			routing.router.on('route:hotspot', function(page, hotspot) {
-				if (states.firstRun) { states.currentPage = page; states.firstRun = false;}
-				routing.read(page, hotspot, true);
+				var transition_duration = true;
+				if (states.firstRun) { states.currentPage = page; transition_duration = false}
+				routing.read(page, hotspot, transition_duration);
 			});
 
 			// For bookmarkable Urls
 			Backbone.history.start();
 
-			routing.onPageLoad(window.location.hash)
+			routing.onPageLoad(window.location.hash);
 		},
 		onPageLoad: function(location_hash){
 			var pp_info;
@@ -216,79 +335,61 @@
 		},
 		set: {
 			fromHotspotClick: function($hotspot){
-				var page_hotspot = $hotspot.attr('id').split('-').slice(1,3), // `hotspot-1-1` -> ["1", "1"];
-						page = page_hotspot[0],
-						hotspot = page_hotspot[1],
-						hash = '';
+				// Only do this on mobile
+				if (state.get('device') == 'mobile'){
+					var page_hotspot = $hotspot.attr('id').split('-').slice(1,3), // `hotspot-1-1` -> ["1", "1"];
+							page = page_hotspot[0],
+							hotspot = page_hotspot[1],
+							hash = '';
 
-				// If you've tapped on the active hotspot...
-				if (states.currentPage == page && states.currentHotspot == hotspot) {
-					states.lastHotspot = hotspot; // Record the last hotspot you were on. You can then pick up from here on swipe.
-					states.currentHotspot  = hotspot = '' // Set the current hotspot and hotspot variable to nothing to signify that you're on a page view
-					hash = page; // And in the url hash, display only the page number.
-				}else{
-					hash = page + '/' + hotspot; // Otherwise, send the page and hotspot to the route.
+					// If you've tapped on the active hotspot...
+					if (states.currentPage == page && states.currentHotspot == hotspot) {
+						states.lastHotspot = hotspot; // Record the last hotspot you were on. You can then pick up from here on swipe.
+						states.currentHotspot  = hotspot = '' // Set the current hotspot and hotspot variable to nothing to signify that you're on a page view
+						hash = page; // And in the url hash, display only the page number.
+					}else{
+						hash = page + '/' + hotspot; // Otherwise, send the page and hotspot to the route.
+					}
+
+					// Change the hash
+					routing.router.navigate(hash, {trigger: true});
 				}
-
-				// Change the hash
-				routing.router.navigate(hash, {trigger: true});
 			},
 			fromKeyboardOrGesture: function(direction){
+				// direction can be: next, prev, pageView, or null
+				// If it's null, don't do anything
 				if (direction){
-					// dir can be: prev-hotspot, next-hotspot, page-view, or null
 					var pp_info = helpers.hashToPageHotspotDict( window.location.hash ),
-							page_max = Number( $('#page-'+pp_info.page).attr('data-length') ),
-							prev_page_max,
-							newhash;
+							hotspot_max = Number( $('#page-'+pp_info.page).attr('data-length') ),
+							device = state.get('device'),
+							leaf_to;
 
 					pp_info.page = pp_info.page || 1; // If there's no page, go to the first page
 					pp_info.hotspot = pp_info.hotspot || states.lastHotspot || 0; // If there was no hotspot in the hash, see if there was a saved hotspot states, if not start at zero
 					states.lastHotspot = pp_info.hotspot;
-					// Go to previous hotspot
-					if (direction == 'prev-hotspot'){
-						// Decrease our hotspot cursor by one
-						pp_info.hotspot--
-						// If that's less than zero then that means we were on a full view page, so go to the last hotspot of the previous panel
-						if (pp_info.hotspot < 0){
+					
+					// Send it to the appropriate function to transform the new page and hotspot locations
+					(device == 'mobile') ? leaf_to = 'hotspot' : leaf_to = 'page'
+					pp_info = leafing[direction][leaf_to](pp_info, hotspot_max, states.pages_max);
 
-							if (pp_info.page != 1) { // TODO handle first page to go back to main window or something
-								pp_info.page--;
-								// pp_info.hotspot = $('#page-'+pp_info.page).attr('data-length'); // Go back to last hotspot
-								pp_info.hotspot = '' // Go to last panel
-								states.lastHotspot = Number($('#page-'+pp_info.page).attr('data-length')) + 1; // Start off with the last panel
-							} else {
-								pp_info.hotspot = '';
-							}
-						} else if(pp_info.hotspot < 1){ // If that takes us below the first hotspot, go to the full view of this page
-							states.lastHotspot = '';
-							pp_info.hotspot = '';
-						}
-
-					// Go to next hotspot
-					} else if (direction == 'next-hotspot'){
-						// Increase our hotspot cursor by one
-						pp_info.hotspot++;
-
-						// If that exceeds the number of hotspots on this page, go to the full view of the next page
-						if (pp_info.hotspot > page_max){
-							pp_info.page++;
-							pp_info.hotspot = '';
-							states.lastHotspot = ''
-						}
-
-					// Go to the page view
-					} else if (direction == 'page-view'){
-						pp_info.hotspot = '';
-					}
-
+					console.log(pp_info.hotspot)
 					// Add our new info to the hash
 					// or nof if we're going to a full pulle
-					newhash = pp_info.page.toString();
+					var newhash = pp_info.page.toString();
 					if (pp_info.hotspot){
 						newhash += '/' + pp_info.hotspot
 					}
 					// Go to there
 					routing.router.navigate(newhash, {trigger: true});
+				}
+			},
+			prune: function(){
+				// Remove the hotspot from the hash if you're on desktop
+				// Turn the location hash into a more readable dictionary `{page: Number, hotspot: Number}`
+				var pp_info = helpers.hashToPageHotspotDict(window.location.hash);
+				if (state.get('device') == 'desktop' && pp_info.hotspot){
+					routing.router.navigate('/' + pp_info.page, { replace: true } );
+					states.currentHotspot = '';
 				}
 			}
 		},
@@ -303,7 +404,7 @@
 
 			// Make the current page visible if it isn't
 			if (!$page_container.hasClass('viewing')) $page_container.addClass('viewing');
-			if (states.firstRun) saveCurrentStates(page, hotspot);
+			if (states.firstRun) { helpers.saveCurrentStates(page, hotspot); states.firstRun = false; }
 
 			// If we're changing pages
 			if (states.currentPage != page){
@@ -318,13 +419,13 @@
 					exiting_class = 'exit-to-right';
 					entering_class = 'enter-from-left';
 				}
-				$('#pages').attr('data-state','changing');
+				state.set('zoom', 'page-change');
 				$('#page-container-'+states.currentPage).addClass(exiting_class);
 				$('#page-container-'+page).addClass(entering_class);
 			}
 
 			// Now zoom
-			if (hotspot){
+			if (state.get('device') == 'mobile' && hotspot){
 				zooming.toHotspot(page, hotspot, transitionDuration);
 			}else{
 				// If no hotspot specified, reset to full page view
@@ -347,12 +448,18 @@
 			$('.mask').css(mask_css);
 			// Bring back footnotes
 			$('#page-container-'+page_number+' .footnote-container').css('opacity', 1);
-			// Set the page state to changing if there are two viewing objects, else set it to page
-			if ($('.viewing').length == 1) {
-				$('#pages').attr('data-state','page');
-			} else if ($('.viewing').length == 2){
-				$('#pages').attr('data-state','changing');
+
+			// Set the page state to changing if there are more than the appropriate number of viewing objects, else set it to page
+			var zoom_state, normal_length;
+			if ( state.get('format') == 'single' ) {
+				normal_length = 1;
+			} else if ( state.get('format') == 'double') {
+				normal_length = 2
 			}
+			if ( $('.viewing').length == normal_length ) zoom_state = 'page';
+			if ( $('.viewing').length == normal_length*2 ) zoom_state = 'page-change';
+
+			state.set('zoom', zoom_state);
 
 		},
 		toHotspot: function(page, hotspot, transitionDuration){
@@ -383,7 +490,7 @@
 			$('#page-container-'+page+' .footnote-container').css('opacity', 0);
 			states.scaleMultiplier = scale_multiplier;
 			// Set the page state
-			$('#pages').attr('data-state','hotspot');
+			state.set('zoom', 'hotspot');
 		},
 		sizeMasks: function(th_height, cg_height, scaler, transitionDuration){
 			var mask_height = ( cg_height - (th_height * scaler) ) / 2;

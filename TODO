@@ -1,4 +1,6 @@
 * make two pages visible if the window is wide enough
+* disable hotspot navigation on desktop
+* make arrow keys change page only
 * menu bar / progress bar
 * arrows for nav
 * test if swipe or tap is best etc.

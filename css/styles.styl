@@ -25,7 +25,7 @@ a:hover
 	min-width 320px
 	max-width (max_width)px
 	margin 0 auto
-#pages[data-state="changing"]
+#pages[data-state="page-change"]
 	overflow hidden
 .page-container
 	left 0
@@ -54,6 +54,17 @@ a:hover
 	left 1px
 .footnote-container a
 	color ajam_blue
+
+/*  P A G E  F O R M A T T I N G  */
+// #pages[data-format="single"]
+// 	overflow hidden
+#pages[data-format="double"]
+	max-width (max_width*2)px
+#pages[data-format="double"] .page-container.viewing
+	width 50%
+#pages[data-format="double"] .page-container.viewing.right-page
+	left 50%
+
 
 /* T R A N S I T I O N S */
 .page-container

@@ -26,7 +26,7 @@ a:hover {
   max-width: 577px;
   margin: 0 auto;
 }
-#pages[data-state="changing"] {
+#pages[data-state="page-change"] {
   overflow: hidden;
 }
 .page-container {
@@ -66,6 +66,16 @@ a:hover {
 }
 .footnote-container a {
   color: #2677b9;
+}
+/*  P A G E  F O R M A T T I N G  */
+#pages[data-format="double"] {
+  max-width: 1154px;
+}
+#pages[data-format="double"] .page-container.viewing {
+  width: 50%;
+}
+#pages[data-format="double"] .page-container.viewing.right-page {
+  left: 50%;
 }
 /* T R A N S I T I O N S */
 .page-container.exit-to-left {
