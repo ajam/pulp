@@ -1,4 +1,5 @@
 * make two pages visible if the window is wide enough
+* if its double format, only allow for odd page numbers
 * disable hotspot navigation on desktop
 * make arrow keys change page only
 * menu bar / progress bar

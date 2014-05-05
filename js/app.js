@@ -61,7 +61,7 @@
 		},
 		getNavDirection: function(e, code){
 			// Only allow this only one panel is visible, i.e. not during a transition
-			if ($('.viewing').length == 1){
+			if ($('#pages').attr('data-state') != 'page-change'){
 				if (code == 37 || code == 38 || code == 39 || code == 40 || code == 'swipeleft' || code == 'swiperight' || code == 'pinch'){
 					// Don't do the default behavior if it's an arrow, swipe or pinch
 					e.preventDefault();
@@ -224,27 +224,22 @@
 			});
 		},
 		pageTransitions: function(){
-			$(".page-container").on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', function(){
-
-				// Remove all navigation classes, which will have finished their animation since we're inside that callback
-				$('.page-container').removeClass('enter-from-left')
-							 .removeClass('enter-from-right')
-							 .removeClass('exit-to-left')
-							 .removeClass('exit-to-right');
-				
-				// Set the scale to 1 with no transitionDuration
-				$('#page-container-'+states.lastPage).removeClass('viewing').find('.page').css(helpers.setTransitionCss('transform', 'scale(1)', false));
-				state.set('zoom','page');
-			});
+			$(".page-container").on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', transitions.onAnimationEnd)
 		}
 	}
 
-	// TODO, separate out the `.read` function into these paging functions.
+	// Determine the correct hotspot and page number based on direction
 	var leafing = {
 		prev: {
 			page: function(pp_info){
+				var format = state.get('format')
 				if (pp_info.page != 1){
-					pp_info.page--;
+					if (format == 'single'){
+						pp_info.page--;
+					} else if (format == 'double'){
+						pp_info.page = pp_info.page - 2;
+					}
+					
 				}
 				pp_info.hotspot = '';
 				states.lastHotspot = '';
@@ -272,14 +267,17 @@
 		},
 		next: {
 			page: function(pp_info, hotspot_max, pages_max){
-				if (pp_info.page < pages_max){
-					pp_info.page++;
-					pp_info.hotspot = '';
-					states.lastHotspot = ''; 
-				} else {
-					pp_info.hotspot = '';
+				if (state.get('format') == 'single'){
+					if (pp_info.page < pages_max){
+						pp_info.page++;
+						states.lastHotspot = ''; 
+					}
 
+				} else if (state.get('format') == 'double') {
+					pp_info.page = pp_info.page + 2;
+					states.lastHotspot = ''; 
 				}
+				pp_info.hotspot = '';
 				return pp_info;
 			},
 			hotspot: function(pp_info, hotspot_max, pages_max){
@@ -287,7 +285,6 @@
 				pp_info.hotspot++;
 
 				// If that exceeds the number of hotspots on this page, go to the full view of the next page
-				console.log(pp_info.hotspot, hotspot_max)
 				if (pp_info.hotspot > hotspot_max){
 					pp_info = leafing.next.page(pp_info, null, pages_max);
 				}
@@ -297,6 +294,69 @@
 		pageView: function(pp_info){
 			pp_info.hotspot = '';
 			return pp_info;
+		}
+	}
+
+	// Change pages
+	var transitions = {
+		determineTransition: function(currentPage, newPage){
+			var classes;
+			// The page is different so let's change it!
+			if (currentPage != newPage){
+				// Next page
+				if ( currentPage < newPage ) {
+					classes = transitions.moveForward();
+				// Previous page
+				} else {
+					classes = transitions.moveBack();
+				}
+				transitions.movePages(currentPage, newPage, classes);
+			}
+		},
+		moveForward: function(){
+			var classes =  {
+				exiting: 'exit-to-left',
+				entering: 'enter-from-right'
+			}
+			return classes;
+		},
+		moveBack: function(){
+			var classes =  {
+				exiting: 'exit-to-right',
+				entering: 'enter-from-left'
+			}
+			return classes;
+		},
+		movePages: function(currentPage, newPage, classes){
+			if (state.get('format') == 'single'){
+				// Exit the current page
+				$('#page-container-'+currentPage).addClass(classes.exiting);
+				// Enter the next page, the one that is shown in the hash
+				$('#page-container-'+newPage).addClass(classes.entering);
+			} else if (state.get('format') == 'double'){
+				// Exit both the current and one shown in the url since they are already viewable
+				$('#page-container-'+currentPage).addClass(classes.exiting);
+				$('#page-container-'+(currentPage + 1) ).addClass(classes.exiting);
+
+				// Enter the next two
+				$('#page-container-'+newPage).addClass(classes.entering);
+				$('#page-container-'+(newPage + 1) ).addClass(classes.entering).addClass('right-page').addClass('viewing');
+			}
+		},
+		onAnimationEnd: function(){
+			// Remove all navigation classes, which will have finished their animation since we're inside that callback
+			$('.page-container').removeClass('enter-from-left')
+						 .removeClass('enter-from-right')
+						 .removeClass('exit-to-left')
+						 .removeClass('exit-to-right');
+			
+			// Set the scale to 1 with no transitionDuration
+			$('#page-container-'+states.lastPage).removeClass('viewing').find('.page').css(helpers.setTransitionCss('transform', 'scale(1)', false));
+			// If we were on a double view, do the same for its next page
+			if (state.get('format') == 'double') {
+				$('#page-container-'+ (+states.lastPage + 1) ).removeClass('viewing').find('.page').css(helpers.setTransitionCss('transform', 'scale(1)', false));
+			}
+			state.set('zoom','page');
 		}
 	}
 
@@ -369,10 +429,9 @@
 					states.lastHotspot = pp_info.hotspot;
 					
 					// Send it to the appropriate function to transform the new page and hotspot locations
-					(device == 'mobile') ? leaf_to = 'hotspot' : leaf_to = 'page'
+					(device == 'mobile') ? leaf_to = 'hotspot' : leaf_to = 'page';
 					pp_info = leafing[direction][leaf_to](pp_info, hotspot_max, states.pages_max);
 
-					console.log(pp_info.hotspot)
 					// Add our new info to the hash
 					// or nof if we're going to a full pulle
 					var newhash = pp_info.page.toString();
@@ -399,7 +458,7 @@
 		// Delegates zooms to hotspot if it is
 		read: function(page, hotspot, transitionDuration){
 			var css;
-			var page_change_direction, exiting_class, entering_class;
+			var exiting_class, entering_class;
 			var $page_container = $('#page-container-'+page);
 
 			// Make the current page visible if it isn't
@@ -407,22 +466,7 @@
 			if (states.firstRun) { helpers.saveCurrentStates(page, hotspot); states.firstRun = false; }
 
 			// If we're changing pages
-			if (states.currentPage != page){
-				// Next page
-				if ( Number(states.currentPage) < Number(page) ) {
-					page_change_direction = 'next-page';
-					exiting_class = 'exit-to-left';
-					entering_class = 'enter-from-right';
-				// Previous page
-				} else {
-					page_change_direction = 'prev-page';
-					exiting_class = 'exit-to-right';
-					entering_class = 'enter-from-left';
-				}
-				state.set('zoom', 'page-change');
-				$('#page-container-'+states.currentPage).addClass(exiting_class);
-				$('#page-container-'+page).addClass(entering_class);
-			}
+			transitions.determineTransition(+states.currentPage, +page);
 
 			// Now zoom
 			if (state.get('device') == 'mobile' && hotspot){
