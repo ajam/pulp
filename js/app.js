@@ -93,7 +93,6 @@
 				$hs.attr('data-height', $hs.height() );
 			});
 		},
-
 		measurePageElements: function($page, cb){
 			layout.measureImgSetPageHeight($page, function(){
 				layout.measureHotspots();
@@ -108,10 +107,6 @@
 				if (cb) cb();
 			});
 		},
-		// measurePageElements: function ($page){
-		// 	// layout.measureImgSetPageHeight( $page );
-		// 	layout.measureHotspots( $page );
-		// },
 		update: function(){
 			// Do this on window resize
 			var $page = $('#page-'+states.currentPage);
