@@ -67,8 +67,7 @@ a:hover
 
 
 /* T R A N S I T I O N S */
-.page-container
-	// transition left transition_duration linear
+/* S I N G L E */
 .page-container.exit-to-left
 	animation exit-to-left transition_opts
 .page-container.enter-from-left
@@ -79,7 +78,30 @@ a:hover
 .page-container.enter-from-right
 	animation enter-from-right transition_opts
 
+/* D O U B L E  L E F T  */
+#pages[data-format="double"] .page-container.exit-to-left
+	animation double-left-exit-to-left transition_opts
+#pages[data-format="double"] .page-container.enter-from-left
+	animation double-left-enter-from-left transition_opts
 
+#pages[data-format="double"] .page-container.exit-to-right
+	animation double-left-exit-to-right transition_opts
+#pages[data-format="double"] .page-container.enter-from-right
+	animation double-left-enter-from-right transition_opts
+
+/* D O U B L E  R I G H T  */
+#pages[data-format="double"] .page-container.right-page.exit-to-left
+	animation double-right-exit-to-left transition_opts
+#pages[data-format="double"] .page-container.right-page.enter-from-left
+	animation double-right-enter-from-left transition_opts
+
+#pages[data-format="double"] .page-container.right-page.exit-to-right
+	animation double-right-exit-to-right transition_opts
+#pages[data-format="double"] .page-container.right-page.enter-from-right
+	animation double-right-enter-from-right transition_opts
+
+
+// Left page single page
 @keyframes exit-to-left {
 	from{
 		left 0
@@ -113,6 +135,80 @@ a:hover
 	}
 	to{
 		left 0
+	}
+}
+
+// Left page double
+@keyframes double-left-exit-to-left {
+	from{
+		left 0
+	}
+	to{
+		left -100%
+	}
+}
+
+@keyframes double-left-exit-to-right {
+	from{
+		left 0
+	}
+	to{
+		left 100%
+	}
+}
+
+@keyframes double-left-enter-from-left {
+	from{
+		left -100%
+	}
+	to{
+		left 0
+	}
+}
+
+@keyframes double-left-enter-from-right {
+	from{
+		left 100%
+	}
+	to{
+		left 0
+	}
+}
+
+// Right page
+@keyframes double-right-exit-to-left {
+	from{
+		left 50%
+	}
+	to{
+		left -50%
+	}
+}
+
+@keyframes double-right-exit-to-right {
+	from{
+		left 50%
+	}
+	to{
+		left 150%
+	}
+}
+
+@keyframes double-right-enter-from-left {
+	from{
+		left -50%
+	}
+	to{
+		left 50%
+	}
+}
+
+@keyframes double-right-enter-from-right {
+	from{
+		left 150%
+	}
+	to{
+		left 50%
 	}
 }
 

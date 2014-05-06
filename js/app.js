@@ -143,8 +143,8 @@
 		},
 		setPageFormat: {
 			single: function(){
-				layout.update()
 				$('.right-page').removeClass('viewing').removeClass('right-page');
+				layout.update();
 			},
 			double: function(){
 				// Clear all info
@@ -192,6 +192,7 @@
 		},
 		state: function(){
 			state.on('change:format', function(model, format) {
+				console.log('formatting')
 				$('#pages').attr('data-format', format)
 				layout.setPageFormat[format]();
 			});
@@ -332,14 +333,14 @@
 				// Exit the current page
 				$('#page-container-'+currentPage).addClass(classes.exiting);
 				// Enter the next page, the one that is shown in the hash
-				$('#page-container-'+newPage).addClass(classes.entering);
+				$('#page-container-'+newPage).addClass('viewing').addClass(classes.entering);
 			} else if (state.get('format') == 'double'){
 				// Exit both the current and one shown in the url since they are already viewable
 				$('#page-container-'+currentPage).addClass(classes.exiting);
 				$('#page-container-'+(currentPage + 1) ).addClass(classes.exiting);
 
 				// Enter the next two
-				$('#page-container-'+newPage).addClass(classes.entering);
+				$('#page-container-'+newPage).addClass('viewing').addClass(classes.entering);
 				$('#page-container-'+(newPage + 1) ).addClass(classes.entering).addClass('right-page').addClass('viewing');
 			}
 		},
@@ -373,22 +374,26 @@
 
 			routing.router.on('route:page', function(page) {
 				var transition_duration = true;
-				if (states.firstRun) { states.currentPage = page; transition_duration = false}
+				if (states.firstRun) { states.currentPage = page; transition_duration = false }
 				routing.read(page, null, transition_duration);
 			});
 			routing.router.on('route:hotspot', function(page, hotspot) {
 				var transition_duration = true;
-				if (states.firstRun) { states.currentPage = page; transition_duration = false}
+				if (states.firstRun) { states.currentPage = page; transition_duration = false }
+				// If we're on desktop, kill the hotspot
+				if (state.determineDevice( $(window).width() ) == 'desktop' ) {
+					hotspot = '';
+					routing.router.navigate(page, { replace: true });
+				}
 				routing.read(page, hotspot, transition_duration);
 			});
 
 			// For bookmarkable Urls
 			Backbone.history.start();
-
 			routing.onPageLoad(window.location.hash);
 		},
 		onPageLoad: function(location_hash){
-			var pp_info;
+			// If it doesn't have a hash then go to the first page
 			if (!location_hash){
 				routing.router.navigate('1', { trigger: true, replace: true });
 			}
@@ -430,6 +435,7 @@
 					
 					// Send it to the appropriate function to transform the new page and hotspot locations
 					(device == 'mobile') ? leaf_to = 'hotspot' : leaf_to = 'page';
+					// TODO, current errors on arrow up keys and other things that have a direction variable but not a function under leafing
 					pp_info = leafing[direction][leaf_to](pp_info, hotspot_max, states.pages_max);
 
 					// Add our new info to the hash
@@ -447,7 +453,7 @@
 				// Turn the location hash into a more readable dictionary `{page: Number, hotspot: Number}`
 				var pp_info = helpers.hashToPageHotspotDict(window.location.hash);
 				if (state.get('device') == 'desktop' && pp_info.hotspot){
-					routing.router.navigate('/' + pp_info.page, { replace: true } );
+					routing.router.navigate(pp_info.page.toString(), { replace: true } );
 					states.currentHotspot = '';
 				}
 			}
@@ -457,6 +463,11 @@
 		// Scales to page view if no hotspot is set
 		// Delegates zooms to hotspot if it is
 		read: function(page, hotspot, transitionDuration){
+			if (state.determineFormat( $(window).width() ) == 'double' && +page % 2 == 0){
+				page = +page - 1;
+				routing.router.navigate(page.toString(), { replace: true })
+			}
+
 			var css;
 			var exiting_class, entering_class;
 			var $page_container = $('#page-container-'+page);
