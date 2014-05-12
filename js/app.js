@@ -192,16 +192,15 @@
 		},
 		state: function(){
 			state.on('change:format', function(model, format) {
-				console.log('formatting')
 				$('#pages').attr('data-format', format)
 				layout.setPageFormat[format]();
 			});
 			state.on('change:zoom', function(model, zoom) {
 				$('#pages').attr('data-state', zoom);
 			});
-			state.on('change:device', function(model, device) {
-				console.log(device)
-			});
+			// state.on('change:device', function(model, device) {
+			// 	console.log(device)
+			// });
 		},
 		hotspotClicks: function($page){
 			$page.on('click', '.hotspot', function() {
