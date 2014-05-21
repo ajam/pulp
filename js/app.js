@@ -151,9 +151,16 @@
 				states.hotspot = '';
 				states.lastHotspot = '';
 				// Get the id of the current page
-				var current_id = $('.page-container.viewing').attr('id').split('-')[2]; // `page-container-1` -> "1"
-				// Make this panel visible also and apply the `right-page` class, giving it a left offset of 50%
-				$('#page-container-' + (+current_id + 1)).addClass('right-page').addClass('viewing');
+				var current_id = +$('.page-container.viewing').attr('id').split('-')[2]; // `page-container-1` -> 1
+				console.log('id',current_id)
+				console.log('page',states.currentPage)
+				// If it's an even page that means we were on a right page, so the current focus should now be on the left page
+				if (current_id % 2 == 0) {
+					current_id--;
+					states.currentPage = current_id;
+					$('#page-container-' + current_id).addClass('viewing');
+				}
+				$('#page-container-' + (current_id + 1)).addClass('right-page').addClass('viewing');
 				// Update the layout, not sure if this is needed
 				layout.update()
 			}
@@ -164,6 +171,7 @@
 			layout.measureWindowWidth();
 			// Grab the page
 			var $page = $('#page-'+states.currentPage);
+			console.log(states.currentPage)
 			// Scale the page back down to 1x1, ($page, transitionDuration)
 			zooming.toPage($page, false);
 			// Set a new page height
@@ -267,15 +275,12 @@
 		},
 		next: {
 			page: function(pp_info, hotspot_max, pages_max){
-				if (state.get('format') == 'single'){
-					if (pp_info.page < pages_max){
-						pp_info.page++;
-						states.lastHotspot = ''; 
-					}
+				var increment_by = 1;
+				if (state.get('format') == 'double') increment_by = 2;
 
-				} else if (state.get('format') == 'double') {
-					pp_info.page = pp_info.page + 2;
-					states.lastHotspot = ''; 
+				if ( (pp_info.page + increment_by) <= pages_max ){
+					pp_info.page = pp_info.page + increment_by
+					states.lastHotspot = ''
 				}
 				pp_info.hotspot = '';
 				return pp_info;
