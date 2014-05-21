@@ -152,8 +152,6 @@
 				states.lastHotspot = '';
 				// Get the id of the current page
 				var current_id = +$('.page-container.viewing').attr('id').split('-')[2]; // `page-container-1` -> 1
-				console.log('id',current_id)
-				console.log('page',states.currentPage)
 				// If it's an even page that means we were on a right page, so the current focus should now be on the left page
 				if (current_id % 2 == 0) {
 					current_id--;
@@ -171,7 +169,6 @@
 			layout.measureWindowWidth();
 			// Grab the page
 			var $page = $('#page-'+states.currentPage);
-			console.log(states.currentPage)
 			// Scale the page back down to 1x1, ($page, transitionDuration)
 			zooming.toPage($page, false);
 			// Set a new page height
