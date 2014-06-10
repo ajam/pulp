@@ -1,7 +1,62 @@
-html{
-	font-size: 16px;
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
-body{
-	font-size: 62.5%;
-	font-family: Helvetica, sans-serif;
+html {
+  font-size: 16px;
+}
+body {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 62.5%;
+  margin: 0;
+}
+#page-wrapper {
+  margin: 0 auto;
+  width: 960px;
+}
+#rouge-vif-logo {
+  width: 40%;
+}
+#instruction-bar {
+  width: 55%;
+}
+#pages-container {
+  width: 100%;
+  margin-top: 25px;
+}
+#rouge-vif-logo,
+#instruction-bar {
+  display: inline-block;
+  vertical-align: top;
+  padding: 10px;
+  height: 75px;
+}
+#instruction-bar {
+  background-color: #ccc;
+  border: 1px solid #8f8f8f;
+  border-top-width: 0;
+  border-left-width: 0;
+  overflow: auto;
+  padding-top: 40px;
+}
+#rouge-vif-logo {
+  background-color: #e14a31;
+  font-family: 'Oswald', sans-serif;
+  font-size: 4.2em;
+  font-style: italic;
+}
+#rouge-vif-logo span {
+  font-family: georgia;
+  font-size: 0.4em;
+  color: #902615;
+}
+.instruction {
+  font-size: 2em;
+  margin-right: 10px;
+  font-weight: bold;
+  vertical-align: bottom;
+}
+.page-container {
+  margin: 0 auto;
 }
