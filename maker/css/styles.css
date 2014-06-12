@@ -57,6 +57,35 @@ body {
   font-weight: bold;
   vertical-align: bottom;
 }
+#pages-container {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 .page-container {
   margin: 0 auto;
+  position: relative;
+}
+.page-name {
+  position: absolute;
+  font-size: 1.2em;
+  padding-left: 20px;
+  border-top: 1px solid #424242;
+  top: 7px;
+}
+.page-container img {
+  pointer-events: none;
+}
+.panel {
+  position: absolute;
+  background-color: #fc0;
+  opacity: 0.5;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+  min-width: 10px;
+  min-height: 10px;
+}
+.panel:hover {
+  cursor: move;
 }

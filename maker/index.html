@@ -6,7 +6,8 @@
 	<meta name="viewport" content="width=device-width">
 	<title>Rouge Vif - Maker</title>
 
-	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
+	<!-- <link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'> -->
+	<link rel="stylesheet" type="text/css" href="css/thirdparty/ui-lightness/jquery-ui-1.10.4.custom.min.css">
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 
 </head>
@@ -18,19 +19,22 @@
 			<span class="instruction">Choose page images:</span>
 			<input id="files" type="file" class="input-btn" multiple>
 		</div>
+		<div id="pages-tray"></div>
 
 		<div id="pages-container"></div>
 
 	</div>
 
 	<script type="text/jst" id="page-container-templ">
-		<div class="page-container" data-page="<%= pageNumber %>">
+		<div class="page-container">
 			<div class="delete"></div>
 			<div class="page-name"><%= fileName %></div>
+			<div class="panels"></div>
 		</div>
 	</script>
 
-	<script src="js/thirdparty/jquery-1.11.1.min.js"></script>
+	<script src="js/thirdparty/jquery-1.10.2.js"></script>
+	<script src="js/thirdparty/jquery-ui-1.10.4.custom.min.js"></script>
 	<script src="js/thirdparty/underscore-min.js"></script>
 	<script src="js/app.js"></script>
 </body>
