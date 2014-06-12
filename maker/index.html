@@ -26,10 +26,20 @@
 	</div>
 
 	<script type="text/jst" id="page-container-templ">
-		<div class="page-container">
-			<div class="delete"></div>
-			<div class="page-name"><%= fileName %></div>
-			<div class="panels"></div>
+		<div class="page-container" data-hotspots="0">
+			<div class="page-furniture">
+				<div class="destroy"></div>
+				<div class="page-name"><%= fileName %></div>
+				<div class="save-page"><button>Save page</button></div>
+			</div>
+			<div class="hotspots"></div>
+		</div>
+	</script>
+
+	<script type="text/jst" id="hotspot-templ">
+		<div class="hotspot create-dragging" data-number="<%= hotspot_number %>">
+			<div class="destroy">X</div>
+			<div class="hotspot-number"><%= hotspot_number %></div>
 		</div>
 	</script>
 

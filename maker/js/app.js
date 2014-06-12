@@ -5,37 +5,68 @@
 	}
 
 	var templates = {
-		pageContainerFactory: _.template( $('#page-container-templ').html() )
+		pageContainerFactory: _.template( $('#page-container-templ').html() ),
+		hotspotFactory: _.template( $('#hotspot-templ').html() )
 	}
 
 	var states = {
-		createPanelDragging: false
+		createHotspotDragging: false
+	}
+
+	var helpers = {
+		countHotspots: function($container, $hotspot, dir){
+			var hotspot_count = +$container.attr('data-hotspots');
+			if (dir == 'add') {
+				hotspot_count++ ;
+			} else {
+				hotspot_count--;
+				helpers.renumberHotspots($container, $hotspot.attr('data-number'))
+			}
+			console.log(hotspot_count)
+			$container.attr('data-hotspots', hotspot_count);
+		},
+		renumberHotspots: function($container, destroyed_number){
+			var $hotspots_higher_than_destroyed = $container.find('.hotspot').filter(function(){
+				return +$(this).attr('data-number') > destroyed_number;
+			});
+			$hotspots_higher_than_destroyed.each(function(){
+				var $hotspot = $(this);
+				var hotspot_number = +$(this).attr('data-number')
+				hotspot_number--;
+				$hotspot.attr('data-number', hotspot_number).find('.hotspot-number').html(hotspot_number);
+			})
+		}
 	}
 
 	var hotspots = {
 		bake: function(e){
-			states.createPanelDragging = true;
-			var $new_hotspot = $('<div class="panel create-dragging"></div>').appendTo( $(this).find('.panels') );
+			var $pageContainer = $(this);
+			states.createHotspotDragging = true;
+			// Increment this page's hotspot number by one
+			helpers.countHotspots($pageContainer, $new_hotspot, 'add');
+			var hotspot_markup = templates.hotspotFactory({hotspot_number: $pageContainer.attr('data-hotspots')});
+			var $new_hotspot = $(hotspot_markup).appendTo( $pageContainer.find('.hotspots') );
 			$new_hotspot.css({
 				top: e.pageY - $(this).offset().top,
 				left: e.pageX - $(this).offset().left
 			});
 			$new_hotspot.draggable({
-				containment: $(this)
+				containment: $pageContainer
 			}).resizable();
+
 		},
 		sizeByDrag: {
 			init: function(e){
 				var starting_x,
 						starting_y,
-						$dragging_box;
+						$hotspot;
 
-				if (states.createPanelDragging){
-					$dragging_box = $('.panel.create-dragging');
-					starting_x = $dragging_box.offset().left;
-					starting_y = $dragging_box.offset().top;
+				if (states.createHotspotDragging){
+					$hotspot = $('.hotspot.create-dragging');
+					starting_x = $hotspot.offset().left;
+					starting_y = $hotspot.offset().top;
 
-					$dragging_box.css({
+					$hotspot.css({
 						width: e.pageX - starting_x,
 						height: e.pageY - starting_y,
 					});
@@ -43,12 +74,15 @@
 				}
 			},
 			end: function(e){
-		  	states.createPanelDragging = false;
-		  	$('.panel.create-dragging').removeClass('create-dragging');
+		  	states.createHotspotDragging = false;
+		  	$('.hotspot.create-dragging').removeClass('create-dragging');
 			}
 		},
-		killPropagation: function(e){
-	  	e.stopPropagation();
+		destroy: function(e){
+			// Kill this panel
+			var $hotspot = $(this).parents('.hotspot')
+			helpers.countHotspots($(this).parents('.page-container'), $hotspot, 'remove');
+			$hotspot.remove();
 		}
 	}
 
@@ -98,14 +132,20 @@
 					$pageContainer.width(loaded_img_width).css('visibility','visible');
 				}).prependTo( $pageContainer );
 
-				this.positionPageName($pageContainer.find('.page-name'));
+				this.positionElement($pageContainer.find('.page-name'), 'left');
+				this.positionElement($pageContainer.find('.save-page'), 'right');
 
 			},
-			positionPageName: function($pageName){
+			positionElement: function($el, side){
 				// Offset the page name to the left
-				var page_name_width = $pageName.outerWidth();
-				$pageName.css('left', -page_name_width + 'px');
+				var el_width = $el.outerWidth();
+				$el.css(side, -el_width + 'px');
 			}
+		},
+		savePage: function(e){
+			e.stopPropagation();
+			// TODO, all the percentage calculating and json saving
+			console.log('saving');
 		}
 	}
 
@@ -118,11 +158,18 @@
 		  $('#pages-container').on('mousedown', '.page-container', hotspots.bake);
 		  // Listen to the drag event
 		  $('#pages-container').on('mousemove', '.page-container', hotspots.sizeByDrag.init);
-		  // Stop create panel drag state
+		  // Stop create hotspot drag state
 		  $('#pages-container').on('mouseup', '.page-container', hotspots.sizeByDrag.end);
-		  // Don't add a new hotspot if we're just dragging a panel
-		  $('#pages-container').on('mousedown', '.panel', hotspots.killPropagation);
-		}
+		  // Don't add a new hotspot if we're just dragging a hotspot
+		  $('#pages-container').on('mousedown', '.hotspot', listeners.killPropagation);
+		  $('#pages-container').on('mousedown', '.hotspot .destroy', hotspots.destroy);
+		  $('#pages-container').on('mousedown', '.page-furniture', listeners.killPropagation);
+		  $('#pages-container').on('click', '.save-page', stages.savePage);
+		},
+		killPropagation: function(e){
+	  	e.stopPropagation();
+		},
+
 	}
 
 	var init = {

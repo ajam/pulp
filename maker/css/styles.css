@@ -67,25 +67,42 @@ body {
   margin: 0 auto;
   position: relative;
 }
-.page-name {
+.page-name,
+.save-page {
   position: absolute;
+  top: 7px;
   font-size: 1.2em;
+}
+.page-name {
   padding-left: 20px;
   border-top: 1px solid #424242;
-  top: 7px;
 }
 .page-container img {
   pointer-events: none;
 }
-.panel {
+.hotspot {
   position: absolute;
-  background-color: #fc0;
-  opacity: 0.5;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-  filter: alpha(opacity=50);
+  background-color: rgba(255,204,0,0.5);
   min-width: 10px;
-  min-height: 10px;
+  min-height: 20px;
+  display: table;
 }
-.panel:hover {
+.hotspot:hover {
   cursor: move;
+}
+.hotspot-number {
+  font-size: 2em;
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
+}
+.destroy {
+  position: absolute;
+  padding: 5px;
+  background-color: #fc0;
+  right: 0;
+}
+.destroy:hover {
+  text-decoration: underline;
+  cursor: pointer !important;
 }
