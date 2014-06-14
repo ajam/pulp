@@ -27,7 +27,7 @@
 	</div>
 
 	<script type="text/jst" id="page-container-templ">
-		<div class="page-container" data-hotspots="0">
+		<div class="page-container" data-hotspots="0" data-page-number="<%= extractPageNumber(fileName) %>">
 			<div class="page-furniture">
 				<div class="page-info">
 					<div class="page-name"><%= fileName %></div>
@@ -41,7 +41,7 @@
 						<button>Add</button>
 					</div>
 				</div>
-				<div class="page-options">
+				<div class="page-actions">
 					<div class="destroy"><button>Delete</button></div>
 					<div class="save-page"><button>Save page</button></div>
 				</div>
