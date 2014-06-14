@@ -19,7 +19,7 @@
 				<div class="page-mask">
 					<div class="page" id="page-<%= number %>" data-length="<% print(hotspots.length) %>" >
 						<% for (var i = 0; i < hotspots.length; i++ ) {%>
-							<div class="hotspot" id="hotspot-<%= number %>-<% print(i + 1) %>" style="<%= hotspots[i].dimensions %>"></div>
+							<div class="hotspot" id="hotspot-<%= number %>-<% print(i + 1) %>" style="<%= hotspots[i] %>"></div>
 						<% } %>
 						<img src="imgs/pages/page-<%= number %>.png" alt="<%= text %>"/>
 					</div>
