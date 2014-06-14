@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width">
 	<title>Rouge Vif - Maker</title>
 
-	<!-- <link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'> -->
+	<link href='css/typography.css' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="css/thirdparty/ui-lightness/jquery-ui-1.10.4.custom.min.css">
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 
@@ -19,6 +19,7 @@
 			<span class="instruction">Choose page images:</span>
 			<input id="files" type="file" class="input-btn" multiple>
 		</div>
+		<!-- TODO, pages tray -->
 		<div id="pages-tray"></div>
 
 		<div id="pages-container"></div>
@@ -28,9 +29,22 @@
 	<script type="text/jst" id="page-container-templ">
 		<div class="page-container" data-hotspots="0">
 			<div class="page-furniture">
-				<div class="destroy"></div>
-				<div class="page-name"><%= fileName %></div>
-				<div class="save-page"><button>Save page</button></div>
+				<div class="page-info">
+					<div class="page-name"><%= fileName %></div>
+					<div class="alt-text page-info-item">
+						<div class="page-info-hed">Script text</div>
+						<textarea placeholder="Panel dialog and captions..."></textarea>
+					</div>
+					<div class="footnotes page-info-item">
+						<div class="page-info-hed">Footnotes</div>
+						<div class="footnotes-container"></div>
+						<button>Add</button>
+					</div>
+				</div>
+				<div class="page-options">
+					<div class="destroy"><button>Delete</button></div>
+					<div class="save-page"><button>Save page</button></div>
+				</div>
 			</div>
 			<div class="hotspots"></div>
 		</div>
@@ -40,6 +54,13 @@
 		<div class="hotspot create-dragging" data-number="<%= hotspot_number %>">
 			<div class="destroy">X</div>
 			<div class="hotspot-number"><%= hotspot_number %></div>
+		</div>
+	</script>
+
+	<script type="text/jst" id="footnote-templ">
+		<div class="footnote-group">
+			<div class="destroy">X</div>
+			<input type="text" name="text" placeholder="Footnote text..."> <input type="text" name="url" placeholder="URL...">
 		</div>
 	</script>
 

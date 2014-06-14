@@ -7,7 +7,7 @@ html {
   font-size: 16px;
 }
 body {
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 62.5%;
   margin: 0;
 }
@@ -33,16 +33,13 @@ body {
   height: 75px;
 }
 #instruction-bar {
-  background-color: #ccc;
-  border: 1px solid #8f8f8f;
   border-top-width: 0;
   border-left-width: 0;
   overflow: auto;
-  padding-top: 40px;
+  padding-top: 45px;
 }
 #rouge-vif-logo {
   background-color: #e14a31;
-  font-family: 'Oswald', sans-serif;
   font-size: 4.2em;
   font-style: italic;
 }
@@ -52,9 +49,10 @@ body {
   color: #902615;
 }
 .instruction {
-  font-size: 2em;
+  font-size: 1.5em;
   margin-right: 10px;
-  font-weight: bold;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 300;
   vertical-align: bottom;
 }
 #pages-container {
@@ -67,19 +65,48 @@ body {
   margin: 0 auto;
   position: relative;
 }
-.page-name,
-.save-page {
+.page-info,
+.page-options {
   position: absolute;
   top: 7px;
   font-size: 1.2em;
 }
-.page-name {
+.page-info {
   padding-left: 20px;
+  font-weight: 300;
+  letter-spacing: 1px;
   border-top: 1px solid #424242;
+  text-align: right;
+}
+.page-info-item {
+  margin-top: 20px;
+}
+.page-name,
+.page-info-hed {
+  font-weight: normal;
 }
 .page-container img {
   pointer-events: none;
 }
+/* Footnotes */
+.footnote-group {
+  margin-bottom: 2px;
+  position: relative;
+}
+.footnote-group .destroy {
+  position: absolute;
+  top: 2px;
+  left: 0;
+}
+.footnote-group .destroy:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.footnotes input {
+  display: inline;
+  width: 70px;
+}
+/* Hotspots */
 .hotspot {
   position: absolute;
   background-color: rgba(255,204,0,0.5);
@@ -95,14 +122,4 @@ body {
   text-align: center;
   vertical-align: middle;
   display: table-cell;
-}
-.destroy {
-  position: absolute;
-  padding: 5px;
-  background-color: #fc0;
-  right: 0;
-}
-.destroy:hover {
-  text-decoration: underline;
-  cursor: pointer !important;
 }

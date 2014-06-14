@@ -132,14 +132,16 @@
 					$pageContainer.width(loaded_img_width).css('visibility','visible');
 				}).prependTo( $pageContainer );
 
-				this.positionElement($pageContainer.find('.page-name'), 'left');
-				this.positionElement($pageContainer.find('.save-page'), 'right');
+				var left_offset = this.positionElement($pageContainer.find('.page-info'), 'left');
+				this.positionElement($pageContainer.find('.page-options'), 'right');
+				$pageContainer.find('.page-info textarea').css('max-width',(left_offset - 20) + 'px')
 
 			},
 			positionElement: function($el, side){
 				// Offset the page name to the left
 				var el_width = $el.outerWidth();
 				$el.css(side, -el_width + 'px');
+				return el_width;
 			}
 		},
 		savePage: function(e){
@@ -149,10 +151,25 @@
 		}
 	}
 
+	var pageInfo = {
+		footnotes: {
+			add: function(){
+				var $footnotes_container = $(this).siblings('.footnotes-container');
+				var footnote_markup = $('#footnote-templ').html();
+				$footnotes_container.append(footnote_markup);
+			},
+			destroy: function(){
+				$(this).parents('.footnote-group').remove();
+			}
+		}
+	}
+
 	var listeners = {
-		general: function(){
+		fileLoading: function(){
 			// Listen for file uploading
 		  document.getElementById('files').addEventListener('change', stages.addPages.load, false);
+		},
+		hotspotAdding: function(){
 		  // Listen for click events on each page-container
 		  // Add the listener to the parent object, listening to its children
 		  $('#pages-container').on('mousedown', '.page-container', hotspots.bake);
@@ -166,15 +183,21 @@
 		  $('#pages-container').on('mousedown', '.page-furniture', listeners.killPropagation);
 		  $('#pages-container').on('click', '.save-page', stages.savePage);
 		},
+		pageInfo: function(){
+			$('#pages-container').on('click', '.footnotes button', pageInfo.footnotes.add);
+			$('#pages-container').on('click', '.footnote-group .destroy', pageInfo.footnotes.destroy);
+		},
 		killPropagation: function(e){
 	  	e.stopPropagation();
-		},
+		}
 
 	}
 
 	var init = {
 		go: function(){
-			listeners.general();
+			listeners.fileLoading();
+			listeners.hotspotAdding();
+			listeners.pageInfo();
 		}
 	}
 
