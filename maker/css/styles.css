@@ -123,3 +123,13 @@ body {
   vertical-align: middle;
   display: table-cell;
 }
+.hotspot .destroy {
+  position: absolute;
+  padding: 5px;
+  background-color: #fc0;
+  right: 0;
+}
+.hotspot .destroy:hover {
+  text-decoration: underline;
+  cursor: pointer !important;
+}
