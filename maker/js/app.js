@@ -22,10 +22,10 @@
 		countHotspots: function($container, $hotspot, dir){
 			var hotspot_count = +$container.attr('data-hotspots');
 			if (dir == 'add') {
-				hotspot_count++ ;
+				hotspot_count++;
 			} else {
 				hotspot_count--;
-				helpers.renumberHotspots($container, $hotspot.attr('data-number'))
+				helpers.renumberHotspots($container, $hotspot.attr('data-number'));
 			}
 			$container.attr('data-hotspots', hotspot_count);
 		},
@@ -35,14 +35,14 @@
 			});
 			$hotspots_higher_than_destroyed.each(function(){
 				var $hotspot = $(this);
-				var hotspot_number = +$(this).attr('data-number')
+				var hotspot_number = +$(this).attr('data-number');
 				hotspot_number--;
 				$hotspot.attr('data-number', hotspot_number).find('.hotspot-number').html(hotspot_number);
 			})
 		},
 		templateFormatters: {
 			extractPageNumber: function(fileName){
-				return fileName.split('-')[1].split('\.')[0] // `page-1.png` => `1`
+				return fileName.split('-')[1].split('\.')[0]; // `page-1.png` => `1`
 			}
 		},
 		cssifyValues: function(val){
