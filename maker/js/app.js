@@ -15,7 +15,12 @@
 	}
 
 	var data = {
-		pages: []
+		pages: [],
+		primeForDownload: function(){
+			var data_url = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data.pages));
+			console.log(data_url)
+			$('.instruction[data-type="download"] a').attr('href','data:' + data_url);
+		}
 	}
 
 	var helpers = {
@@ -119,6 +124,8 @@
 			data.pages.push(page);
 			// Call the destroy within the context of the jQuery object
 			pageActions.destroy.call(this, true);
+			console.log(data.pages)
+			data.primeForDownload();
 		},
 		record: {
 			all: function(pageNumber){
@@ -128,7 +135,7 @@
 				pageData.hotspots = this.hotspots($pageContainer);
 				pageData.text = this.text($pageContainer);
 				pageData.footnotes = this.footnotes($pageContainer);
-				console.log(pageData)
+				return pageData;
 			},
 			hotspots: function($cntnr){
 				var $panelImg = $cntnr.find('.panel-img'),

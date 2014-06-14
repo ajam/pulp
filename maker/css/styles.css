@@ -55,6 +55,9 @@ body {
   font-weight: 300;
   vertical-align: bottom;
 }
+.instruction form {
+  display: inline;
+}
 #pages-container {
   -webkit-user-select: none;
   -moz-user-select: none;
