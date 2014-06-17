@@ -564,7 +564,14 @@
 			listeners.keyboardAndGestures();
 		},
 		loadPages: function(){
-			$.getJSON('../data/pages.json', layout.bakePages);
+			$.getJSON('../ddata/pages.json')
+			.done(function(data){
+				layout.bakePages(data);
+			})
+			.error(function(error){
+				// TK, remove console.log for production
+				console.log('Error: Data file not found!');
+			});
 		}
 	}
 
