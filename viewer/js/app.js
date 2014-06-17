@@ -564,7 +564,7 @@
 			listeners.keyboardAndGestures();
 		},
 		loadPages: function(){
-			$.getJSON('../ddata/pages.json')
+			$.getJSON('data/pages.json')
 			.done(function(data){
 				layout.bakePages(data);
 			})
