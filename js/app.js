@@ -565,13 +565,13 @@
 		},
 		loadPages: function(){
 			$.getJSON('data/pages.json')
-			.done(function(data){
-				layout.bakePages(data);
-			})
-			.error(function(error){
-				// TK, remove console.log for production
-				console.log('Error: Data file not found!');
-			});
+				.done(function(data){
+					layout.bakePages(data);
+				})
+				.error(function(error){
+					// TK, remove console.log for production
+					console.log('Error: Data file not found!');
+				});
 		}
 	}
 
