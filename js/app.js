@@ -7,7 +7,14 @@
 			this.set('format', null);
 			this.set('zoom', null);
 		},
-		determineFormat: function(windowWidth){
+		setPageFormat: function(page){
+			this.set('format', this.determinePageFormat( $(window).width(), page ) );
+		},
+		determinePageFormat: function(windowWidth, page){
+			// If we're on the first page
+			// TODO, last page
+			var this_page = page || states.currentPage;
+			if (this_page == 1) return 'bookend';
 			// If the window is wide enough for two pages
 			// TODO, add gutter width
 			if (windowWidth > this.get('single-page-width')*2) return 'double';
@@ -26,7 +33,7 @@
 		currentHotspot: '',
 		lastPage: '',
 		lastHotspot: '',
-		transitionDuration: '350ms',
+		transitionDuration: '3000ms',
 		scaleMultiplier: 1,
 		firstRun: true
 	}
@@ -44,6 +51,7 @@
 			return cssObj;
 		},
 		saveCurrentStates: function(page, hotspot, lastPage){
+			if (state.get('format') == 'double' && page % 2 != 0) page = page - 1;
 			if (page) states.currentPage = page;
 			if (hotspot) states.currentHotspot = hotspot;
 			if (lastPage) states.lastPage = lastPage;
@@ -106,8 +114,6 @@
 				listeners.state();
 				// Read the hash and navigate
 				routing.init();
-				// And the page width vs window width to see how many pages we can display at once
-				layout.measureWindowWidth();
 			});
 		},
 		measureHotspots: function(){
@@ -133,11 +139,10 @@
 				if (cb) cb();
 			});
 		},
-		measureWindowWidth: function(){
-			var viewport_width = $(window).width();
-			state.set('format', state.determineFormat( viewport_width ) );
-		},
-		setPageFormat: {
+		implementPageFormat: {
+			bookend: function(){
+				this.single();
+			},
 			mobile: function(){
 				this.single();
 			},
@@ -148,21 +153,29 @@
 				// Clear all info
 				states.hotspot = '';
 				states.lastHotspot = '';
-				// Get the id of the current page
-				var current_id = +$('.page-container.viewing').attr('id').split('-')[2]; // `page-container-1` -> 1
-				// If it's an even page that means we were on a right page, so the current focus should now be on the left page
-				if (current_id % 2 == 0) {
-					current_id--;
-					states.currentPage = current_id;
-					$('#page-container-' + current_id).addClass('viewing');
+				var current_id;
+				// If we're not on the first page...
+				if (states.currentPage != 1){
+					// Get the id of the current page based on what is visible
+					current_id = +$('.page-container.viewing').attr('id').split('-')[2]; // `page-container-1` -> 1
+					// If it's an odd page that means we were on a right page, so the current focus should now be on the left page
+					if (current_id % 2 != 0) {
+						current_id--;
+						// This next line might not be necessary, or it might be crucial
+						helpers.saveCurrentStates(current_id);
+					}
+				} else {
+					current_id = 2;
 				}
+				// console.log(current_id)
+				$('#page-container-' + current_id).addClass('viewing');
 				$('#page-container-' + (current_id + 1)).addClass('right-page').addClass('viewing');
 			}
 		},
 		update: function(){
-			// Do this on window resize
+			// What's done on window resize:
 			// See if we can accommodate single or double
-			layout.measureWindowWidth();
+			state.setPageFormat();
 			// Grab the page
 			var $page = $('#page-'+states.currentPage);
 			// Scale the page back down to 1x1, ($page, transitionDuration)
@@ -194,7 +207,7 @@
 		state: function(){
 			state.on('change:format', function(model, format) {
 				$('#pages').attr('data-format', format)
-				layout.setPageFormat[format]();
+				layout.implementPageFormat[format]();
 			});
 			state.on('change:zoom', function(model, zoom) {
 				$('#pages').attr('data-state', zoom);
@@ -238,7 +251,11 @@
 					if (format != 'double'){
 						pp_info.page--;
 					} else {
-						pp_info.page = pp_info.page - 2;
+						if (pp_info.page != 2){
+							pp_info.page = pp_info.page - 2;
+						} else {
+							pp_info.page = pp_info.page - 1;
+						}
 					}
 				}
 				pp_info.hotspot = '';
@@ -296,7 +313,18 @@
 
 	// Change pages
 	var transitions = {
+		goIfNecessary: function(currentPage, newPage){
+			var classes = this.determineTransition(currentPage, newPage);			
+			if (classes) transitions.movePages(currentPage, newPage, classes);
+		},
 		determineTransition: function(currentPage, newPage){
+			// If it's a wide format
+			// And we're navigating to an odd page, then subtract it down so the route puts you on the even page with the odd page visible to the right
+			if ( state.get('format') == 'double' && newPage % 2 != 0 ){
+				newPage = newPage - 1;
+				routing.router.navigate(newPage.toString(), { replace: true });
+			}
+
 			var classes;
 			// The page is different so let's change it!
 			if (currentPage != newPage){
@@ -307,8 +335,8 @@
 				} else {
 					classes = transitions.moveBack();
 				}
-				transitions.movePages(currentPage, newPage, classes);
 			}
+			return classes;
 		},
 		moveForward: function(){
 			var classes =  {
@@ -330,9 +358,12 @@
 				$('#page-container-'+currentPage).addClass(classes.exiting);
 				// Enter the next page, the one that is shown in the hash
 				$('#page-container-'+newPage).addClass('viewing').addClass(classes.entering);
-			} else if (state.get('format') == 'double'){
+			} else {
 				// Exit both the current and one shown in the url since they are already viewable
-				$('#page-container-'+currentPage).addClass(classes.exiting);
+				// If it's the current page it will look nicer if it exits starting from the center.
+				var first_page_exit_classes = '';
+				if (currentPage == 1) first_page_exit_classes = ' center-page';
+				$('#page-container-'+currentPage).addClass(classes.exiting + first_page_exit_classes);
 				$('#page-container-'+(currentPage + 1) ).addClass(classes.exiting);
 
 				// Enter the next two
@@ -341,16 +372,19 @@
 			}
 		},
 		onAnimationEnd: function(){
+			// console.log('here')
 			// Remove all navigation classes, which will have finished their animation since we're inside that callback
 			$('.page-container').removeClass('enter-from-left')
 						 .removeClass('enter-from-right')
 						 .removeClass('exit-to-left')
-						 .removeClass('exit-to-right');
+						 .removeClass('exit-to-right')
+						 .removeClass('center-page');
 			
 			// Set the scale to 1 with no transitionDuration
 			$('#page-container-'+states.lastPage).removeClass('viewing').find('.page').css(helpers.setTransitionCss('transform', 'scale(1)', false));
 			// If we were on a double view, do the same for its next page
-			if (state.get('format') == 'double') {
+			// Unless we're coming from the coming
+			if (state.get('format') == 'double' && states.lastPage != 1) {
 				$('#page-container-'+ (+states.lastPage + 1) ).removeClass('viewing').find('.page').css(helpers.setTransitionCss('transform', 'scale(1)', false));
 			}
 			state.set('zoom','page');
@@ -358,6 +392,11 @@
 	}
 
 	var routing = {
+		setInitRouteChecks: function(page){
+			var transition_duration = true;
+			if (states.firstRun) { helpers.saveCurrentStates(page); transition_duration = false }
+			return transition_duration;
+		},
 		init: function(){
 			routing.Router = Backbone.Router.extend({
 				routes: {
@@ -369,16 +408,15 @@
 			routing.router = new routing.Router;
 
 			routing.router.on('route:page', function(page) {
-				var transition_duration = true;
-				if (states.firstRun) { states.currentPage = page; transition_duration = false }
+				var transition_duration = routing.setInitRouteChecks(page);
 				routing.read(page, null, transition_duration);
 			});
 
 			routing.router.on('route:hotspot', function(page, hotspot) {
-				var transition_duration = true;
-				if (states.firstRun) { states.currentPage = page; transition_duration = false }
+
+				var transition_duration = routing.setInitRouteChecks(page);
 				// If we're on desktop, kill the hotspot
-				if (state.determineFormat( $(window).width() ) != 'mobile' ) {
+				if (state.get('format') != 'mobile' ) {
 					hotspot = '';
 					routing.router.navigate(page, { replace: true });
 				}
@@ -460,32 +498,27 @@
 		// Scales to page view if no hotspot is set
 		// Delegates zooms to hotspot if it is
 		read: function(page, hotspot, transitionDuration){
-			// If we're wide enough to view it in double format
-			// But our page is on an even page, then subtract it down so the route puts you on the odd page with the even page visible
-			var page_format = state.determineFormat( $(window).width() );
-			page = +page;
-			// If it's the first page and double layout
-			// Just show the cover
-			if ( page_format == 'double' && page == 1 ){
-
-
-			} else if ( page_format == 'double' && page % 2 == 0 ){
-				page = page - 1;
-				routing.router.navigate(page.toString(), { replace: true })
-			}
-
+			// TODO, this function currently does too much
+			// It should be broken out
 			var css;
 			var exiting_class, entering_class;
 			var $page_container = $('#page-container-'+page);
 
 			// Make the current page visible if it isn't
 			if (!$page_container.hasClass('viewing')) $page_container.addClass('viewing');
-			if (states.firstRun) { helpers.saveCurrentStates(page, hotspot); states.firstRun = false; }
+			if (states.firstRun) { helpers.saveCurrentStates(page, hotspot); states.firstRun = false; };
+			
+			// Make the page variable a number
+			page = +page;
 
-			// If we're changing pages
-			transitions.determineTransition(+states.currentPage, +page);
+			// Set the page format based on the window width and page number
+			// Useful for setting/unsetting the bookend page format, which needs to be checked on each page turn
+			state.setPageFormat(page);
 
-			// Now zoom
+			// Transition to a new page if these numbers are different
+			transitions.goIfNecessary(+states.currentPage, page);
+
+			// Now zoom to the appropriate hotspot or page
 			if (state.get('format') == 'mobile' && hotspot){
 				zooming.toHotspot(page, hotspot, transitionDuration);
 			}else{
@@ -512,13 +545,17 @@
 
 			// Set the page state to changing if there are more than the appropriate number of viewing objects, else set it to page
 			var zoom_state, normal_length;
-			if ( state.get('format') != 'double' ) {
+			if ( state.get('format') != 'double') {
 				normal_length = 1;
-			} else if ( state.get('format') == 'double') {
-				normal_length = 2
+			} else {
+				normal_length = 2;
 			}
-			if ( $('.viewing').length == normal_length ) zoom_state = 'page';
-			if ( $('.viewing').length == normal_length*2 ) zoom_state = 'page-change';
+			// If there are more pages visible than there should be, then we're changing pages.
+			if ( $('.viewing').length == normal_length ) {
+				zoom_state = 'page';
+			} else if ( $('.viewing').length > normal_length  ) {
+				zoom_state = 'page-change';
+			}
 
 			state.set('zoom', zoom_state);
 
@@ -571,6 +608,7 @@
 		loadPages: function(){
 			$.getJSON('data/pages.json')
 				.done(function(data){
+					states.totalPages = data.length;
 					layout.bakePages(data);
 				})
 				.error(function(error){

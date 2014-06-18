@@ -2,7 +2,7 @@
 
 ajam_blue = #2677B9
 max_width = 577
-transition_opts = 350ms linear
+transition_opts = 3000ms linear
 
 *
 	box-sizing border-box
@@ -58,13 +58,15 @@ a:hover
 /*  P A G E  F O R M A T T I N G  */
 // #pages[data-format="single"]
 // 	overflow hidden
-#pages[data-format="double"]
+#pages[data-format="double"]//, #pages[data-format="bookend"]
 	max-width (max_width*2)px
-#pages[data-format="double"] .page-container.viewing
+#pages[data-format="double"] .page-container.viewing//, #pages[data-format="bookend"] .page-container.viewing
 	width 50%
 #pages[data-format="double"] .page-container.viewing.right-page
 	left 50%
 
+// #pages[data-format="bookend"] #page-container-1.viewing
+// 	left 25%
 
 /* T R A N S I T I O N S */
 /* S I N G L E */
@@ -99,6 +101,10 @@ a:hover
 	animation double-right-exit-to-right transition_opts
 #pages[data-format="double"] .page-container.right-page.enter-from-right
 	animation double-right-enter-from-right transition_opts
+
+
+#pages[data-format="double"] .page-container.center-page.exit-to-left
+	animation double-center-exit-to-left transition_opts
 
 
 // Left page single page
@@ -209,6 +215,16 @@ a:hover
 	}
 	to{
 		left 50%
+	}
+}
+
+
+@keyframes double-center-exit-to-left {
+	from{
+		left 25%
+	}
+	to{
+		left -50%
 	}
 }
 
