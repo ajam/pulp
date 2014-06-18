@@ -4,19 +4,16 @@
 	var State = Backbone.Model.extend({
 		initialize: function(){
 			this.set('single-page-width', parseInt( $('#pages').css('max-width') ));
-			this.set('device', null);
 			this.set('format', null);
 			this.set('zoom', null);
 		},
-		determineDevice: function(windowWidth){
-			// If the window is smaller than one panel
-			// TK threshold, TODO, test on iPads etc
-			if (windowWidth <= this.get('single-page-width')) return 'mobile';
-			return 'desktop';
-		},
 		determineFormat: function(windowWidth){
 			// If the window is wide enough for two pages
+			// TODO, add gutter width
 			if (windowWidth > this.get('single-page-width')*2) return 'double';
+			// If it's less than a single page
+			if (windowWidth <= this.get('single-page-width')) return 'mobile';
+			// Everything else
 			return 'single'
 		}
 	});
@@ -139,12 +136,13 @@
 		measureWindowWidth: function(){
 			var viewport_width = $(window).width();
 			state.set('format', state.determineFormat( viewport_width ) );
-			state.set('device', state.determineDevice( viewport_width ) );
 		},
 		setPageFormat: {
+			mobile: function(){
+				this.single();
+			},
 			single: function(){
 				$('.right-page').removeClass('viewing').removeClass('right-page');
-				layout.update();
 			},
 			double: function(){
 				// Clear all info
@@ -159,8 +157,6 @@
 					$('#page-container-' + current_id).addClass('viewing');
 				}
 				$('#page-container-' + (current_id + 1)).addClass('right-page').addClass('viewing');
-				// Update the layout, not sure if this is needed
-				layout.update()
 			}
 		},
 		update: function(){
@@ -190,7 +186,7 @@
 	var listeners = {
 		resize: function(){
 			layout.updateDebounce = _.debounce(layout.update, 200);
-			// TODO Does this trigger on different mobile device orientation changes?
+			// TODO, Does this trigger on different mobile device orientation changes?
 			window.addEventListener('resize', function(){
 				layout.updateDebounce();
 			})
@@ -239,12 +235,11 @@
 			page: function(pp_info){
 				var format = state.get('format')
 				if (pp_info.page != 1){
-					if (format == 'single'){
+					if (format != 'double'){
 						pp_info.page--;
-					} else if (format == 'double'){
+					} else {
 						pp_info.page = pp_info.page - 2;
 					}
-					
 				}
 				pp_info.hotspot = '';
 				states.lastHotspot = '';
@@ -330,7 +325,7 @@
 			return classes;
 		},
 		movePages: function(currentPage, newPage, classes){
-			if (state.get('format') == 'single'){
+			if (state.get('format') != 'double'){
 				// Exit the current page
 				$('#page-container-'+currentPage).addClass(classes.exiting);
 				// Enter the next page, the one that is shown in the hash
@@ -378,11 +373,12 @@
 				if (states.firstRun) { states.currentPage = page; transition_duration = false }
 				routing.read(page, null, transition_duration);
 			});
+
 			routing.router.on('route:hotspot', function(page, hotspot) {
 				var transition_duration = true;
 				if (states.firstRun) { states.currentPage = page; transition_duration = false }
 				// If we're on desktop, kill the hotspot
-				if (state.determineDevice( $(window).width() ) == 'desktop' ) {
+				if (state.determineFormat( $(window).width() ) != 'mobile' ) {
 					hotspot = '';
 					routing.router.navigate(page, { replace: true });
 				}
@@ -396,13 +392,13 @@
 		onPageLoad: function(location_hash){
 			// If it doesn't have a hash then go to the first page
 			if (!location_hash){
-				routing.router.navigate('1', { trigger: true, replace: true });
+				routing.router.navigate(states.currentPage, { trigger: true, replace: true });
 			}
 		},
 		set: {
 			fromHotspotClick: function($hotspot){
 				// Only do this on mobile
-				if (state.get('device') == 'mobile'){
+				if (state.get('format') == 'mobile'){
 					var page_hotspot = $hotspot.attr('id').split('-').slice(1,3), // `hotspot-1-1` -> ["1", "1"];
 							page = page_hotspot[0],
 							hotspot = page_hotspot[1],
@@ -427,7 +423,7 @@
 				if (direction){
 					var pp_info = helpers.hashToPageHotspotDict( window.location.hash ),
 							hotspot_max = Number( $('#page-'+pp_info.page).attr('data-length') ),
-							device = state.get('device'),
+							format = state.get('format'),
 							leaf_to;
 
 					pp_info.page = pp_info.page || 1; // If there's no page, go to the first page
@@ -435,7 +431,7 @@
 					states.lastHotspot = pp_info.hotspot;
 					
 					// Send it to the appropriate function to transform the new page and hotspot locations
-					(device == 'mobile') ? leaf_to = 'hotspot' : leaf_to = 'page';
+					(format == 'mobile') ? leaf_to = 'hotspot' : leaf_to = 'page';
 					// TODO, current errors on arrow up keys and other things that have a direction variable but not a function under leafing
 					pp_info = leafing[direction][leaf_to](pp_info, hotspot_max, states.pages_max);
 
@@ -453,7 +449,7 @@
 				// Remove the hotspot from the hash if you're on desktop
 				// Turn the location hash into a more readable dictionary `{page: Number, hotspot: Number}`
 				var pp_info = helpers.hashToPageHotspotDict(window.location.hash);
-				if (state.get('device') == 'desktop' && pp_info.hotspot){
+				if (state.get('format') != 'mobile' && pp_info.hotspot){
 					routing.router.navigate(pp_info.page.toString(), { replace: true } );
 					states.currentHotspot = '';
 				}
@@ -464,8 +460,17 @@
 		// Scales to page view if no hotspot is set
 		// Delegates zooms to hotspot if it is
 		read: function(page, hotspot, transitionDuration){
-			if (state.determineFormat( $(window).width() ) == 'double' && +page % 2 == 0){
-				page = +page - 1;
+			// If we're wide enough to view it in double format
+			// But our page is on an even page, then subtract it down so the route puts you on the odd page with the even page visible
+			var page_format = state.determineFormat( $(window).width() );
+			page = +page;
+			// If it's the first page and double layout
+			// Just show the cover
+			if ( page_format == 'double' && page == 1 ){
+
+
+			} else if ( page_format == 'double' && page % 2 == 0 ){
+				page = page - 1;
 				routing.router.navigate(page.toString(), { replace: true })
 			}
 
@@ -481,7 +486,7 @@
 			transitions.determineTransition(+states.currentPage, +page);
 
 			// Now zoom
-			if (state.get('device') == 'mobile' && hotspot){
+			if (state.get('format') == 'mobile' && hotspot){
 				zooming.toHotspot(page, hotspot, transitionDuration);
 			}else{
 				// If no hotspot specified, reset to full page view
@@ -507,7 +512,7 @@
 
 			// Set the page state to changing if there are more than the appropriate number of viewing objects, else set it to page
 			var zoom_state, normal_length;
-			if ( state.get('format') == 'single' ) {
+			if ( state.get('format') != 'double' ) {
 				normal_length = 1;
 			} else if ( state.get('format') == 'double') {
 				normal_length = 2
