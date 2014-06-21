@@ -8,13 +8,16 @@
 			this.set('zoom', null);
 		},
 		setPageFormat: function(page){
-			this.set('format', this.determinePageFormat( $(window).width(), page ) );
+			this.set('format', this.determinePageFormat( page ) );
 		},
-		determinePageFormat: function(windowWidth, page){
+		determinePageFormat: function(page, windowWidth, bypass){
+			windowWidth = windowWidth || $(window).width();
 			// If we're on the first page
 			// TODO, last page
-			var this_page = page || states.currentPage;
-			if (this_page == 1) return 'bookend';
+			if (!bypass){
+				var this_page = page || states.currentPage;
+				if (this_page == 1) return 'bookend';
+			}
 			// If the window is wide enough for two pages
 			// TODO, add gutter width
 			if (windowWidth > this.get('single-page-width')*2) return 'double';
@@ -132,10 +135,25 @@
 			});
 		},
 		measureImgSetPageHeight: function($page, cb){
+			// Set the images to auto so that they expand according to the 100% rules of its parents
+			// The resulting image dimensions will then be what we want to set to the parent so that the hotspot
+			// container has the same dimensions as the child.
+			// This is necessary because the image sizes down in keeping with the aspect ratio
+			// But its parents don't.
+			// You could try a javascript implementation of this, but that has its own issues.
+			$('#pages').css('max-width', 'auto').css('max-height', 'auto');
+			var time = new Date().getTime()
 			$page.imagesLoaded().done(function(){
-				var img_height = $page.find('img').height();
-				$('#pages').css('height', img_height+'px');
-				$('.footnote-container').css('top', (img_height + 5)+'px');
+				console.log(new Date().getTime() - time);
+				var $img = $page.find('img')
+				var img_width = $img.width(),
+						img_height = $img.height();
+				var width_multiplier = 1;
+				// console.log(img_width, img_height);
+				if (state.determinePageFormat(null, null, true) == 'double') width_multiplier = 2;
+				$('#pages').css('max-width', img_width*width_multiplier+'px').css('max-height', img_height+'px');
+				// TODO, figure out a better spot for footnotes
+				// $('.footnote-container').css('top', (img_height + 5)+'px');
 				if (cb) cb();
 			});
 		},
@@ -198,7 +216,7 @@
 
 	var listeners = {
 		resize: function(){
-			layout.updateDebounce = _.debounce(layout.update, 200);
+			layout.updateDebounce = _.debounce(layout.update, 100);
 			// TODO, Does this trigger on different mobile device orientation changes?
 			window.addEventListener('resize', function(){
 				layout.updateDebounce();

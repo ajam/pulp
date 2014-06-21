@@ -6,12 +6,13 @@ transition_opts = 3000ms linear
 
 *
 	box-sizing border-box
+html, body
+	width 100%
+	height 100%
 html
 	font-size 16px
-	height 100%
 body
 	font 62.5% Helvetica, sans-serif
-	height 100%
 	margin 0
 a
 	color ajam_blue
@@ -22,9 +23,12 @@ a:hover
 /* P A G E S */
 #pages
 	position relative
-	min-width 320px
+	// min-width 320px
 	max-width (max_width)px
 	margin 0 auto
+	width 100%
+	height 100%
+	text-align center
 #pages[data-state="page-change"]
 	overflow hidden
 .page-container
@@ -37,16 +41,14 @@ a:hover
 .page-mask
 	overflow hidden
 .page
-	top 0
-	right 0
-	bottom 0
-	left 0
+	position relative
 
 .page-container.viewing
 	visibility visible
 	z-index 99
 .page img
-	width 100%
+	max-width 100%
+	max-height 100%
 	user-select none
 
 .footnote-container
@@ -242,7 +244,7 @@ a:hover
 /* H O T S P O T S */
 .hotspot
 	position absolute
-	// background-color rgba(0, 255, 204, .5)
+	background-color rgba(0, 255, 204, .5)
 
 /* M A S K S */
 .mask
