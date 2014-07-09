@@ -144,13 +144,10 @@
 			$('#pages').css('max-width', 'auto').css('max-height', 'auto');
 			var time = new Date().getTime()
 			$page.imagesLoaded().done(function(){
-				console.log(new Date().getTime() - time);
 				var $img = $page.find('img')
 				var img_width = $img.width(),
 						img_height = $img.height();
-				// console.log(img_width, img_height);
 				if (state.determinePageFormat(null, null, true) == 'double') img_width = img_width*2;
-				console.log(img_width)
 				$('#pages').css('max-width', (img_width) +'px').css('max-height', img_height+'px');
 				// TODO, figure out a better spot for footnotes
 				// $('.footnote-container').css('top', (img_height + 5)+'px');
