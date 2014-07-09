@@ -19,8 +19,7 @@
 				if (this_page == 1) return 'bookend';
 			}
 			// If the window is wide enough for two pages
-			// TODO, add gutter width
-			if (windowWidth > this.get('single-page-width')*2) return 'double';
+			if (windowWidth > this.get('single-page-width')*2 + states.gutterWidth) return 'double';
 			// If it's less than a single page
 			if (windowWidth <= this.get('single-page-width')) return 'mobile';
 			// Everything else
@@ -36,7 +35,8 @@
 		currentHotspot: '',
 		lastPage: '',
 		lastHotspot: '',
-		transitionDuration: '3000ms',
+		transitionDuration: '350ms', // This value should match what's in your css, the reason it's not pulling the value from the css and you have to save it here is that on load there is no item that has this animation value. Possible TODO for the future is to add and then remove that item but for now, no need to clutter up the DOM.
+		gutterWidth: 21, // Same as above, this is the `margin-left` and `padding-left` value for `.viewing.right-page` plus the width of the border.
 		scaleMultiplier: 1,
 		firstRun: true
 	}
@@ -148,10 +148,10 @@
 				var $img = $page.find('img')
 				var img_width = $img.width(),
 						img_height = $img.height();
-				var width_multiplier = 1;
 				// console.log(img_width, img_height);
-				if (state.determinePageFormat(null, null, true) == 'double') width_multiplier = 2;
-				$('#pages').css('max-width', img_width*width_multiplier+'px').css('max-height', img_height+'px');
+				if (state.determinePageFormat(null, null, true) == 'double') img_width = img_width*2;
+				console.log(img_width)
+				$('#pages').css('max-width', (img_width) +'px').css('max-height', img_height+'px');
 				// TODO, figure out a better spot for footnotes
 				// $('.footnote-container').css('top', (img_height + 5)+'px');
 				if (cb) cb();

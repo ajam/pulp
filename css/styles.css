@@ -14,6 +14,7 @@ html {
 body {
   font: 62.5% Helvetica, sans-serif;
   margin: 0;
+  background-color: #000;
 }
 a {
   color: #2677b9;
@@ -51,6 +52,10 @@ a:hover {
 .page {
   position: relative;
 }
+#pages,
+.page {
+  background-color: #fff;
+}
 .page-container.viewing {
   visibility: visible;
   z-index: 99;
@@ -73,12 +78,17 @@ a:hover {
 /*  P A G E  F O R M A T T I N G  */
 #pages[data-format="double"] {
   max-width: 1154px;
+  position: relative;
+  left: -10px;
 }
 #pages[data-format="double"] .page-container.viewing {
   width: 50%;
 }
 #pages[data-format="double"] .page-container.viewing.right-page {
   left: 50%;
+  margin-left: 10px;
+  padding-left: 10px;
+  border-left: 1px solid #000;
 }
 /* T R A N S I T I O N S */
 /* S I N G L E */
@@ -179,7 +189,6 @@ a:hover {
 /* H O T S P O T S */
 .hotspot {
   position: absolute;
-  background-color: rgba(0,255,204,0.5);
 }
 /* M A S K S */
 .mask {

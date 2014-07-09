@@ -3,6 +3,7 @@
 ajam_blue = #2677B9
 max_width = 577
 transition_opts = 350ms linear
+gutter_width = 10
 
 *
 	box-sizing border-box
@@ -14,6 +15,7 @@ html
 body
 	font 62.5% Helvetica, sans-serif
 	margin 0
+	background-color #000
 a
 	color ajam_blue
 	text-decoration none
@@ -42,6 +44,8 @@ a:hover
 	overflow hidden
 .page
 	position relative
+#pages,.page
+	background-color #fff
 
 .page-container.viewing
 	visibility visible
@@ -62,10 +66,15 @@ a:hover
 // 	overflow hidden
 #pages[data-format="double"]//, #pages[data-format="bookend"]
 	max-width (max_width*2)px
+	position relative
+	left -(gutter_width)px
 #pages[data-format="double"] .page-container.viewing//, #pages[data-format="bookend"] .page-container.viewing
 	width 50%
 #pages[data-format="double"] .page-container.viewing.right-page
 	left 50%
+	margin-left (gutter_width)px
+	padding-left (gutter_width)px
+	border-left 1px solid #000
 
 // #pages[data-format="bookend"] #page-container-1.viewing
 // 	left 25%
@@ -244,7 +253,7 @@ a:hover
 /* H O T S P O T S */
 .hotspot
 	position absolute
-	background-color rgba(0, 255, 204, .5)
+	// background-color rgba(0, 255, 204, .5)
 
 /* M A S K S */
 .mask
