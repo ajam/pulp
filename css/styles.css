@@ -77,8 +77,7 @@ a:hover {
   position: relative;
   left: -10px;
 }
-#pages[data-format="double"] .page-container,
-#pages[data-format="double"] .page {
+#pages[data-format="double"] .page-container {
   background-color: #fff;
 }
 #pages[data-format="double"] .page-container.viewing {
