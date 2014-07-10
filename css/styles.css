@@ -52,10 +52,6 @@ a:hover {
 .page {
   position: relative;
 }
-#pages,
-.page {
-  background-color: #fff;
-}
 .page-container.viewing {
   visibility: visible;
   z-index: 99;
@@ -81,14 +77,17 @@ a:hover {
   position: relative;
   left: -10px;
 }
+#pages[data-format="double"] .page-container,
+#pages[data-format="double"] .page {
+  background-color: #fff;
+}
 #pages[data-format="double"] .page-container.viewing {
   width: 50%;
 }
 #pages[data-format="double"] .page-container.viewing.right-page {
   left: 50%;
-  margin-left: 10px;
-  padding-left: 10px;
-  border-left: 1px solid #000;
+  padding-left: 20px;
+  background: url("../imgs/assets/border.png") repeat-y 1.5% top #fff;
 }
 /* T R A N S I T I O N S */
 /* S I N G L E */
@@ -201,11 +200,6 @@ a:hover {
   left: 0;
   right: 0;
   z-index: 999;
-  -webkit-transition: height 0s, opacity 0s;
-  -moz-transition: height 0s, opacity 0s;
-  -o-transition: height 0s, opacity 0s;
-  -ms-transition: height 0s, opacity 0s;
-  transition: height 0s, opacity 0s;
 }
 #top-mask {
   top: 0;
