@@ -38,7 +38,8 @@
 		transitionDuration: '350ms', // This value should match what's in your css, the reason it's not pulling the value from the css and you have to save it here is that on load there is no item that has this animation value. Possible TODO for the future is to add and then remove that item but for now, no need to clutter up the DOM.
 		gutterWidth: 21, // Same as above, this is the `margin-left` and `padding-left` value for `.viewing.right-page` plus the width of the border.
 		scaleMultiplier: 1,
-		firstRun: true
+		firstRun: true,
+		lazyLoadExtent: 6 // How many pages behind and ahead do you want to load your images
 	}
 
 	var helpers = {
@@ -142,7 +143,6 @@
 			// But its parents don't.
 			// You could try a javascript implementation of this, but that has its own issues.
 			$('#pages').css('max-width', 'auto').css('max-height', 'auto');
-			var time = new Date().getTime()
 			$page.imagesLoaded().done(function(){
 				var $img = $page.find('img')
 				var img_width = $img.width(),
@@ -407,10 +407,34 @@
 	}
 
 	var routing = {
-		setInitRouteChecks: function(page){
+		setInitRouteChecks: function(page, triggerLazyLoad){
 			var transition_duration = true;
 			if (states.firstRun) { helpers.saveCurrentStates(page); transition_duration = false }
+			// Load the image for the next ten pages if they still have placeholder images
+			if (triggerLazyLoad) this.lazyLoadImages(page);
 			return transition_duration;
+		},
+		lazyLoadImages: function(page){
+			page = +page;
+			var extent = states.lazyLoadExtent,
+					min_range = page - extent,
+					max_range = page + extent;
+
+			if (min_range <= 0) min_range = 1;
+			if (max_range > states.pages_max) max_range = states.pages_max + 1; // Plus one because `_.range` is exclusive.
+
+			var range = _.range(min_range, max_range),
+					page_number,
+					$img,
+					src;
+
+			for (var i = 0; i < range.length; i++){
+				page_number = range[i];
+				$img = $('#page-container-'+page_number).find('img');
+				src = $img.attr('src');
+				if (~src.indexOf('placeholder')) $img.attr('src', src.replace('placeholder', 'page-'+page_number));
+			}
+
 		},
 		init: function(){
 			routing.Router = Backbone.Router.extend({
@@ -423,7 +447,8 @@
 			routing.router = new routing.Router;
 
 			routing.router.on('route:page', function(page) {
-				var transition_duration = routing.setInitRouteChecks(page);
+				// Only trigger lazy load, the second arg here, when we're changing pages.
+				var transition_duration = routing.setInitRouteChecks(page, true);
 				routing.read(page, null, transition_duration);
 			});
 
@@ -485,15 +510,17 @@
 					
 					// Send it to the appropriate function to transform the new page and hotspot locations
 					(format == 'mobile') ? leaf_to = 'hotspot' : leaf_to = 'page';
+
 					// TODO, current errors on arrow up keys and other things that have a direction variable but not a function under leafing
 					pp_info = leafing[direction][leaf_to](pp_info, hotspot_max, states.pages_max);
-
 					// Add our new info to the hash
 					// or nof if we're going to a full pulle
 					var newhash = pp_info.page.toString();
 					if (pp_info.hotspot){
 						newhash += '/' + pp_info.hotspot
 					}
+					// // Store the previous hash
+					// states.previousPage = helpers.hashToPageHotspotDict( window.location.hash ).page;
 					// Go to there
 					routing.router.navigate(newhash, {trigger: true});
 				}
