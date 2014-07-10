@@ -3,7 +3,7 @@
 ajam_blue = #2677B9
 max_width = 577
 transition_opts = 350ms linear
-gutter_width = 10
+gutter_width = 20
 
 *
 	box-sizing border-box
@@ -65,7 +65,7 @@ a:hover
 #pages[data-format="double"]//, #pages[data-format="bookend"]
 	max-width (max_width*2)px
 	position relative
-	left -(gutter_width)px
+	left -(gutter_width/2)px
 	.page-container,.page
 		background-color #fff
 
@@ -73,7 +73,7 @@ a:hover
 	width 50%
 #pages[data-format="double"] .page-container.viewing.right-page
 	left 50%
-	padding-left (gutter_width*2)px
+	padding-left (gutter_width)px
 	background url('../imgs/assets/border.png') repeat-y 1.5% top #fff
 
 // #pages[data-format="bookend"] #page-container-1.viewing

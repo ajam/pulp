@@ -36,7 +36,7 @@
 		lastPage: '',
 		lastHotspot: '',
 		transitionDuration: '350ms', // This value should match what's in your css, the reason it's not pulling the value from the css and you have to save it here is that on load there is no item that has this animation value. Possible TODO for the future is to add and then remove that item but for now, no need to clutter up the DOM.
-		gutterWidth: 20, // Same as above, this is the `margin-left` and `padding-left` value for `.viewing.right-page`.
+		gutterWidth: 20, // Same as above, this is the `padding-left` value for `.viewing.right-page`.
 		scaleMultiplier: 1,
 		firstRun: true,
 		lazyLoadExtent: 6 // How many pages behind and ahead do you want to load your images
