@@ -432,7 +432,7 @@
 				page_number = range[i];
 				$img = $('#page-container-'+page_number).find('img');
 				src = $img.attr('src');
-				if (~src.indexOf('placeholder')) $img.attr('src', src.replace('placeholder', 'page-'+page_number));
+				if (src.indexOf('placeholder') > -1) $img.attr('src', src.replace('placeholder', 'page-'+page_number));
 			}
 
 		},
