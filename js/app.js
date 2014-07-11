@@ -146,6 +146,7 @@
 			var $pages = $('#pages'),
 					$pagesWrapper = $('#pages-wrapper');
 			$pages.css('max-width', 'auto').css('max-height', 'auto');
+			$pagesWrapper.css('max-width', 'auto').css('max-height', 'auto');
 			$pages.imagesLoaded().done(function(){
 				var $img = $pages.find('img'),
 						img_width,
