@@ -24,6 +24,7 @@ a:hover {
   text-decoration: underline;
 }
 /* P A G E S */
+#pages-wrapper,
 #pages {
   position: relative;
   max-width: 577px;
@@ -32,7 +33,7 @@ a:hover {
   height: 100%;
   text-align: center;
 }
-#pages[data-state="page-change"] {
+body[data-state="page-change"] #pages-wrapper {
   overflow: hidden;
 }
 .page-container {
@@ -72,15 +73,15 @@ a:hover {
   color: #2677b9;
 }
 /*  P A G E  F O R M A T T I N G  */
-#pages[data-format="double"] {
+body[data-format="double"] #pages {
   max-width: 1154px;
   position: relative;
   left: -10px;
 }
-#pages[data-format="double"] .page-container.viewing {
+body[data-format="double"] .page-container.viewing {
   width: 50%;
 }
-#pages[data-format="double"] .page-container.viewing.right-page {
+body[data-format="double"] .page-container.viewing.right-page {
   left: 50%;
   padding-left: 20px;
   background: url("../imgs/assets/border.png") repeat-y 1.5% top #fff;
@@ -116,28 +117,28 @@ a:hover {
   animation: enter-from-right 350ms linear;
 }
 /* D O U B L E  L E F T  */
-#pages[data-format="double"] .page-container.exit-to-left {
+body[data-format="double"] .page-container.exit-to-left {
   -webkit-animation: double-left-exit-to-left 350ms linear;
   -moz-animation: double-left-exit-to-left 350ms linear;
   -o-animation: double-left-exit-to-left 350ms linear;
   -ms-animation: double-left-exit-to-left 350ms linear;
   animation: double-left-exit-to-left 350ms linear;
 }
-#pages[data-format="double"] .page-container.enter-from-left {
+body[data-format="double"] .page-container.enter-from-left {
   -webkit-animation: double-left-enter-from-left 350ms linear;
   -moz-animation: double-left-enter-from-left 350ms linear;
   -o-animation: double-left-enter-from-left 350ms linear;
   -ms-animation: double-left-enter-from-left 350ms linear;
   animation: double-left-enter-from-left 350ms linear;
 }
-#pages[data-format="double"] .page-container.exit-to-right {
+body[data-format="double"] .page-container.exit-to-right {
   -webkit-animation: double-left-exit-to-right 350ms linear;
   -moz-animation: double-left-exit-to-right 350ms linear;
   -o-animation: double-left-exit-to-right 350ms linear;
   -ms-animation: double-left-exit-to-right 350ms linear;
   animation: double-left-exit-to-right 350ms linear;
 }
-#pages[data-format="double"] .page-container.enter-from-right {
+body[data-format="double"] .page-container.enter-from-right {
   -webkit-animation: double-left-enter-from-right 350ms linear;
   -moz-animation: double-left-enter-from-right 350ms linear;
   -o-animation: double-left-enter-from-right 350ms linear;
@@ -145,35 +146,35 @@ a:hover {
   animation: double-left-enter-from-right 350ms linear;
 }
 /* D O U B L E  R I G H T  */
-#pages[data-format="double"] .page-container.right-page.exit-to-left {
+body[data-format="double"] .page-container.right-page.exit-to-left {
   -webkit-animation: double-right-exit-to-left 350ms linear;
   -moz-animation: double-right-exit-to-left 350ms linear;
   -o-animation: double-right-exit-to-left 350ms linear;
   -ms-animation: double-right-exit-to-left 350ms linear;
   animation: double-right-exit-to-left 350ms linear;
 }
-#pages[data-format="double"] .page-container.right-page.enter-from-left {
+body[data-format="double"] .page-container.right-page.enter-from-left {
   -webkit-animation: double-right-enter-from-left 350ms linear;
   -moz-animation: double-right-enter-from-left 350ms linear;
   -o-animation: double-right-enter-from-left 350ms linear;
   -ms-animation: double-right-enter-from-left 350ms linear;
   animation: double-right-enter-from-left 350ms linear;
 }
-#pages[data-format="double"] .page-container.right-page.exit-to-right {
+body[data-format="double"] .page-container.right-page.exit-to-right {
   -webkit-animation: double-right-exit-to-right 350ms linear;
   -moz-animation: double-right-exit-to-right 350ms linear;
   -o-animation: double-right-exit-to-right 350ms linear;
   -ms-animation: double-right-exit-to-right 350ms linear;
   animation: double-right-exit-to-right 350ms linear;
 }
-#pages[data-format="double"] .page-container.right-page.enter-from-right {
+body[data-format="double"] .page-container.right-page.enter-from-right {
   -webkit-animation: double-right-enter-from-right 350ms linear;
   -moz-animation: double-right-enter-from-right 350ms linear;
   -o-animation: double-right-enter-from-right 350ms linear;
   -ms-animation: double-right-enter-from-right 350ms linear;
   animation: double-right-enter-from-right 350ms linear;
 }
-#pages[data-format="double"] .page-container.center-page.exit-to-left {
+body[data-format="double"] .page-container.center-page.exit-to-left {
   -webkit-animation: double-center-exit-to-left 350ms linear;
   -moz-animation: double-center-exit-to-left 350ms linear;
   -o-animation: double-center-exit-to-left 350ms linear;
@@ -188,7 +189,7 @@ a:hover {
 /* M A S K S */
 .mask {
   position: absolute;
-  background-color: #fff;
+  background-color: #000;
   height: 0;
   opacity: 0;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";

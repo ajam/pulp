@@ -3,6 +3,7 @@
 
 	var State = Backbone.Model.extend({
 		initialize: function(){
+			console.log($('#pages').css('max-width'))
 			this.set('single-page-width', parseInt( $('#pages').css('max-width') ));
 			this.set('format', null);
 			this.set('zoom', null);
@@ -70,7 +71,7 @@
 		},
 		getNavDirection: function(e, code){
 			// Only allow this only one panel is visible, i.e. not during a transition
-			if ($('#pages').attr('data-state') != 'page-change'){
+			if ($('body').attr('data-state') != 'page-change'){
 				if (code == 37 || code == 38 || code == 39 || code == 40 || code == 'swipeleft' || code == 'swiperight' || code == 'pinch'){
 					// Don't do the default behavior if it's an arrow, swipe or pinch
 					e.preventDefault();
@@ -113,7 +114,7 @@
 				listeners.pageTransitions();
 			}
 			// Once images are loaded, measure the hotspot locations
-			layout.measurePageElements( $('#pages'), function(){
+			layout.measurePageElements(function(){
 				// Listen for changes in state
 				listeners.state();
 				// Read the hash and navigate
@@ -129,26 +130,39 @@
 				$hs.attr('data-height', $hs.height() );
 			});
 		},
-		measurePageElements: function($page, cb){
-			layout.measureImgSetPageHeight($page, function(){
+		measurePageElements: function(cb){
+			layout.measureImgSetPageHeight(function(){
 				layout.measureHotspots();
 				if (cb) cb();
 			});
 		},
-		measureImgSetPageHeight: function($page, cb){
+		measureImgSetPageHeight: function(cb){
 			// Set the images to auto so that they expand according to the 100% rules of its parents
 			// The resulting image dimensions will then be what we want to set to the parent so that the hotspot
 			// container has the same dimensions as the child.
 			// This is necessary because the image sizes down in keeping with the aspect ratio
 			// But its parents don't.
 			// You could try a javascript implementation of this, but that has its own issues.
-			$('#pages').css('max-width', 'auto').css('max-height', 'auto');
-			$page.imagesLoaded().done(function(){
-				var $img = $page.find('img')
-				var img_width = $img.width(),
-						img_height = $img.height();
-				if (state.determinePageFormat(null, null, true) == 'double') img_width = img_width*2;
-				$('#pages').css('max-width', (img_width) +'px').css('max-height', img_height+'px');
+			var $pages = $('#pages'),
+					$pagesWrapper = $('#pages-wrapper');
+			$pages.css('max-width', 'auto').css('max-height', 'auto');
+			$pages.imagesLoaded().done(function(){
+				var $img = $pages.find('img'),
+						img_width,
+						img_height,
+						img_width_wrapper;
+
+				img_width = img_width_wrapper = $img.width();
+				img_height = $img.height();
+
+				if (state.determinePageFormat(null, null, true) == 'double') {
+					img_width = img_width*2;
+					img_width_wrapper = img_width+states.gutterWidth;
+				}
+				$pages.css('max-width', (img_width)+'px').css('max-height', img_height+'px');
+				$pagesWrapper.css('max-width', (img_width_wrapper)+'px').css('max-height', img_height+'px');
+				// $('#pages-wrapper').css('max-width', (img_width+2)+'px').css('max-height', img_height+'px');
+				// $('body').css('max-width', (img_width*2+20)+'px');
 				// TODO, figure out a better spot for footnotes
 				// $('.footnote-container').css('top', (img_height + 5)+'px');
 				if (cb) cb();
@@ -196,7 +210,7 @@
 			// Scale the page back down to 1x1, ($page, transitionDuration)
 			zooming.toPage($page, false);
 			// Set a new page height
-			layout.measurePageElements( $('#pages') , function(){
+			layout.measurePageElements( function(){
 				// If we're on desktop then you can forget about the hotspot
 				routing.set.prune();
 				// Get what page and hotspot we're on
@@ -221,11 +235,13 @@
 		},
 		state: function(){
 			state.on('change:format', function(model, format) {
-				$('#pages').attr('data-format', format)
+				// $('#pages').attr('data-format', format)
+				$('body').attr('data-format', format)
 				layout.implementPageFormat[format]();
 			});
 			state.on('change:zoom', function(model, zoom) {
-				$('#pages').attr('data-state', zoom);
+				// $('#pages').attr('data-state', zoom);
+				$('body').attr('data-state', zoom);
 			});
 			// state.on('change:device', function(model, device) {
 			// 	console.log(device)
