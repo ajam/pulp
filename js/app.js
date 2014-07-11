@@ -159,7 +159,6 @@
 					img_width = img_width*2;
 					img_width_wrapper = img_width+states.gutterWidth;
 				}
-
 				// Apply the dimensions from the image to the wrapper
 				// Apply a bit of a margin on pages_wrapper to accommodate the gutter
 				_.each([{el: $pages, width: img_width}, {el:$pagesWrapper, width: img_width_wrapper}], function(el) { el.el.css('max-width', (el.width)+'px').css('max-height', img_height+'px');; });
