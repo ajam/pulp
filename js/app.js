@@ -157,6 +157,7 @@
 				if (state.determinePageFormat(null, null, true) == 'double') {
 					img_width = img_width*2;
 					img_width_wrapper = img_width+states.gutterWidth;
+					if (init.browser[0] == 'Firefox') img_width_wrapper = img_width_wrapper - 1; // Minus one for sub-pixel rendering hack
 				}
 				// Apply the dimensions from the image to the wrapper
 				// Apply a bit of a margin on pages_wrapper to accommodate the gutter
@@ -658,6 +659,8 @@
 
 	var init = {
 		go: function(){
+			this.browser = this.browserCheck();
+			console.log(this.browser)
 			layout.bakeMasks();
 			init.loadPages();
 			listeners.resize();
@@ -673,6 +676,21 @@
 					// TK, remove console.log for production
 					console.log('Error: Data file not found!');
 				});
+		},
+		browserCheck: function(){
+	    var ua= navigator.userAgent, tem, 
+	    M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+	    if(/trident/i.test(M[1])){
+	        tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
+	        return 'IE '+(tem[1] || '');
+	    }
+	    if(M[1]=== 'Chrome'){
+	        tem= ua.match(/\bOPR\/(\d+)/)
+	        if(tem!= null) return 'Opera '+tem[1];
+	    }
+	    M= M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+	    if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
+	    return M;
 		}
 	}
 

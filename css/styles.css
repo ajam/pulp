@@ -86,6 +86,12 @@ body[data-format="double"] .page-container.viewing.right-page {
   padding-left: 20px;
   background: url("../imgs/assets/border.png") repeat-y 1.5% top #fff;
 }
+/* MOZ Specific hacks */
+@-moz-document url-prefix() {
+  body[data-format="double"] .page-container.viewing.right-page {
+    left: calc(50% - 1px);
+  }
+}
 /* T R A N S I T I O N S */
 /* S I N G L E */
 .page-container.exit-to-left {

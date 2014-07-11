@@ -84,6 +84,11 @@ body[data-format="double"] .page-container.viewing.right-page
 	padding-left (gutter_width)px
 	background url('../imgs/assets/border.png') repeat-y 1.5% top #fff
 
+/* MOZ Specific hacks */
+@-moz-document url-prefix()
+	body[data-format="double"] .page-container.viewing.right-page
+		left calc(50% - 1px)
+
 // #pages[data-format="bookend"] #page-container-1.viewing
 // 	left 25%
 
