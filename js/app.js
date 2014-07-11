@@ -145,8 +145,7 @@
 			// You could try a javascript implementation of this, but that has its own issues.
 			var $pages = $('#pages'),
 					$pagesWrapper = $('#pages-wrapper');
-			$pages.css('max-width', 'auto').css('max-height', 'auto');
-			$pagesWrapper.css('max-width', 'auto').css('max-height', 'auto');
+			_.each([$pages,$pagesWrapper], function($el) { $el.css('max-width', 'auto').css('max-height', 'auto'); });
 			$pages.imagesLoaded().done(function(){
 				var $img = $pages.find('img'),
 						img_width,
@@ -160,8 +159,10 @@
 					img_width = img_width*2;
 					img_width_wrapper = img_width+states.gutterWidth;
 				}
-				$pages.css('max-width', (img_width)+'px').css('max-height', img_height+'px');
-				$pagesWrapper.css('max-width', (img_width_wrapper)+'px').css('max-height', img_height+'px');
+
+				// Apply the dimensions from the image to the wrapper
+				// Apply a bit of a margin on pages_wrapper to accommodate the gutter
+				_.each([{el: $pages, width: img_width}, {el:$pagesWrapper, width: img_width_wrapper}], function(el) { el.el.css('max-width', (el.width)+'px').css('max-height', img_height+'px');; });
 				// $('#pages-wrapper').css('max-width', (img_width+2)+'px').css('max-height', img_height+'px');
 				// $('body').css('max-width', (img_width*2+20)+'px');
 				// TODO, figure out a better spot for footnotes
