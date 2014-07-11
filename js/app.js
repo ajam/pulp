@@ -3,7 +3,6 @@
 
 	var State = Backbone.Model.extend({
 		initialize: function(){
-			console.log($('#pages').css('max-width'))
 			this.set('single-page-width', parseInt( $('#pages').css('max-width') ));
 			this.set('format', null);
 			this.set('zoom', null);
@@ -197,7 +196,6 @@
 				} else {
 					current_id = 2;
 				}
-				// console.log(current_id)
 				$('#page-container-' + current_id).addClass('viewing');
 				$('#page-container-' + (current_id + 1)).addClass('right-page').addClass('viewing');
 			}
@@ -404,7 +402,6 @@
 			}
 		},
 		onAnimationEnd: function(){
-			// console.log('here')
 			// Remove all navigation classes, which will have finished their animation since we're inside that callback
 			$('.page-container').removeClass('enter-from-left')
 						 .removeClass('enter-from-right')
@@ -417,7 +414,7 @@
 			// If we were on a double view, do the same for its next page
 			// Unless we're coming from the coming
 			if (state.get('format') == 'double' && states.lastPage != 1) {
-				$('#page-container-'+ (+states.lastPage + 1) ).removeClass('viewing').find('.page').css(helpers.setTransitionCss('transform', 'scale(1)', false));
+				$('#page-container-'+ (+states.lastPage + 1) ).removeClass('viewing').removeClass('right-page').find('.page').css(helpers.setTransitionCss('transform', 'scale(1)', false));
 			}
 			state.set('zoom','page');
 		}
@@ -428,10 +425,12 @@
 			var transition_duration = true;
 			if (states.firstRun) { helpers.saveCurrentStates(page); transition_duration = false }
 			// Load the image for the next ten pages if they still have placeholder images
+			console.log(page, triggerLazyLoad)
 			if (triggerLazyLoad) this.lazyLoadImages(page);
 			return transition_duration;
 		},
 		lazyLoadImages: function(page){
+			console.log('lazyload')
 			page = +page;
 			var extent = states.lazyLoadExtent,
 					min_range = page - extent,
