@@ -1,3 +1,4 @@
+/* G L O B A L S */
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -23,6 +24,7 @@ a {
 a:hover {
   text-decoration: underline;
 }
+/* end globals */
 /* P A G E S */
 #pages-wrapper,
 #pages {
@@ -65,6 +67,7 @@ body[data-state="page-change"] #pages-wrapper {
   -ms-user-select: none;
   user-select: none;
 }
+/* end pages */
 /*  P A G E  F O R M A T T I N G  */
 body[data-format="double"] #pages {
   max-width: 1154px;
@@ -85,8 +88,9 @@ body[data-format="double"] .page-container.viewing.right-page {
     left: calc(50% - 1px);
   }
 }
+/* end page formatting */
 /* T R A N S I T I O N S */
-/* S I N G L E */
+/* Single */
 .page-container.exit-to-left {
   -webkit-animation: exit-to-left 350ms linear;
   -moz-animation: exit-to-left 350ms linear;
@@ -115,7 +119,8 @@ body[data-format="double"] .page-container.viewing.right-page {
   -ms-animation: enter-from-right 350ms linear;
   animation: enter-from-right 350ms linear;
 }
-/* D O U B L E  L E F T  */
+/* end single */
+/* Double left  */
 body[data-format="double"] .page-container.exit-to-left {
   -webkit-animation: double-left-exit-to-left 350ms linear;
   -moz-animation: double-left-exit-to-left 350ms linear;
@@ -173,6 +178,8 @@ body[data-format="double"] .page-container.right-page.enter-from-right {
   -ms-animation: double-right-enter-from-right 350ms linear;
   animation: double-right-enter-from-right 350ms linear;
 }
+/* end double left */
+/* Double center  */
 body[data-format="double"] .page-container.center-page.exit-to-left {
   -webkit-animation: double-center-exit-to-left 350ms linear;
   -moz-animation: double-center-exit-to-left 350ms linear;
@@ -180,10 +187,13 @@ body[data-format="double"] .page-container.center-page.exit-to-left {
   -ms-animation: double-center-exit-to-left 350ms linear;
   animation: double-center-exit-to-left 350ms linear;
 }
+/* end double center */
+/* end transitions */
 /* H O T S P O T S */
 .hotspot {
   position: absolute;
 }
+/* end hotspots */
 /* M A S K S */
 .mask {
   position: absolute;
@@ -208,12 +218,14 @@ body[data-format="double"] .page-container.center-page.exit-to-left {
   bottom: -1px;
 /* To cover up some small clipping that occurs */
 }
+/* end masks */
 /* M E D I A  Q U E R I E S */
 @media (max-width: 570px) {
   #pages {
     width: 100%;
   }
 }
+/* end media queries */
 @-moz-keyframes exit-to-left {
   0% {
     left: 0;

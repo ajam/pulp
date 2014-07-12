@@ -5,6 +5,7 @@ max_width = 577
 transition_opts = 350ms linear
 gutter_width = 20
 
+/* G L O B A L S */
 *
 	box-sizing border-box
 html, body
@@ -21,6 +22,7 @@ a
 	text-decoration none
 a:hover
 	text-decoration underline
+/* end globals */
 
 /* P A G E S */
 #pages-wrapper,#pages
@@ -57,15 +59,9 @@ body[data-state="page-change"]
 	max-width 100%
 	max-height 100%
 	user-select none
+/* end pages */
 
 /*  P A G E  F O R M A T T I N G  */
-// #pages[data-format="single"]
-// 	overflow hidden
-// body[data-format="double"][data-state="page-change"]
-// 	overflow hidden
-// 	max-width (max_width*2 + gutter_width)px
-// 	margin 0 auto
-
 body[data-format="double"] #pages//, #pages[data-format="bookend"]
 	max-width (max_width*2)px
 	position relative
@@ -82,12 +78,11 @@ body[data-format="double"] .page-container.viewing.right-page
 @-moz-document url-prefix()
 	body[data-format="double"] .page-container.viewing.right-page
 		left calc(50% - 1px)
-
-// #pages[data-format="bookend"] #page-container-1.viewing
-// 	left 25%
+/* end page formatting */
 
 /* T R A N S I T I O N S */
-/* S I N G L E */
+
+/* Single */
 .page-container.exit-to-left
 	animation exit-to-left transition_opts
 .page-container.enter-from-left
@@ -97,8 +92,9 @@ body[data-format="double"] .page-container.viewing.right-page
 	animation exit-to-right transition_opts
 .page-container.enter-from-right
 	animation enter-from-right transition_opts
+/* end single */
 
-/* D O U B L E  L E F T  */
+/* Double left  */
 body[data-format="double"] .page-container.exit-to-left
 	animation double-left-exit-to-left transition_opts
 body[data-format="double"] .page-container.enter-from-left
@@ -119,10 +115,12 @@ body[data-format="double"] .page-container.right-page.exit-to-right
 	animation double-right-exit-to-right transition_opts
 body[data-format="double"] .page-container.right-page.enter-from-right
 	animation double-right-enter-from-right transition_opts
+/* end double left */
 
-
+/* Double center  */
 body[data-format="double"] .page-container.center-page.exit-to-left
 	animation double-center-exit-to-left transition_opts
+/* end double center */
 
 
 // Left page single page
@@ -245,12 +243,13 @@ body[data-format="double"] .page-container.center-page.exit-to-left
 		left -50%
 	}
 }
-
+/* end transitions */
 
 /* H O T S P O T S */
 .hotspot
 	position absolute
 	// background-color rgba(0, 255, 204, .5)
+/* end hotspots */
 
 /* M A S K S */
 .mask
@@ -269,8 +268,10 @@ body[data-format="double"] .page-container.center-page.exit-to-left
 	bottom -1px /* To cover up some small clipping that occurs */
 // .page, .mask
 // transition: transform .3s ease-out
+/* end masks */
 
 /* M E D I A  Q U E R I E S */
 @media (max-width: 570px)
 	#pages
 		width 100%
+/* end media queries */
