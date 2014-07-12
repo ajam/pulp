@@ -56,8 +56,11 @@ html:-ms-fullscreen
 	max-width max_width
 	margin 0 auto
 	width 100%
-	height 100%
 	text-align center
+#pages-wrapper
+	height "calc(100% - %s)" % (header_height)
+#pages
+	height 100%
 body[data-state="page-change"]
 	#pages-wrapper
 		overflow hidden
