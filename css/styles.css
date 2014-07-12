@@ -228,9 +228,6 @@ body[data-format="double"] .page-container.center-page.exit-to-left {
 /* end masks */
 /* M E D I A  Q U E R I E S */
 @media (max-width: 570px) {
-  #header {
-    height: 25px;
-  }
   #pages {
     width: 100%;
   }
