@@ -65,13 +65,6 @@ body[data-state="page-change"] #pages-wrapper {
   -ms-user-select: none;
   user-select: none;
 }
-.footnote-container {
-  position: absolute;
-  left: 1px;
-}
-.footnote-container a {
-  color: #2677b9;
-}
 /*  P A G E  F O R M A T T I N G  */
 body[data-format="double"] #pages {
   max-width: 1154px;
@@ -187,7 +180,6 @@ body[data-format="double"] .page-container.center-page.exit-to-left {
   -ms-animation: double-center-exit-to-left 350ms linear;
   animation: double-center-exit-to-left 350ms linear;
 }
-/* F O O T N O T E S */
 /* H O T S P O T S */
 .hotspot {
   position: absolute;

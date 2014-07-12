@@ -162,10 +162,6 @@
 				// Apply the dimensions from the image to the wrapper
 				// Apply a bit of a margin on pages_wrapper to accommodate the gutter
 				_.each([{el: $pages, width: img_width}, {el:$pagesWrapper, width: img_width_wrapper}], function(el) { el.el.css('max-width', (el.width)+'px').css('max-height', img_height+'px');; });
-				// $('#pages-wrapper').css('max-width', (img_width+2)+'px').css('max-height', img_height+'px');
-				// $('body').css('max-width', (img_width*2+20)+'px');
-				// TODO, figure out a better spot for footnotes
-				// $('.footnote-container').css('top', (img_height + 5)+'px');
 				if (cb) cb();
 			});
 		},
@@ -599,8 +595,8 @@
 			// Reset masks
 			var mask_css = helpers.addDuration({ 'height': 0, opacity: 0 }, transitionDuration);
 			$('.mask').css(mask_css);
-			// Bring back footnotes
-			$('#page-container-'+page_number+' .footnote-container').css('opacity', 1);
+			// // Bring back footnotes
+			// $('#page-container-'+page_number+' .footnote-container').css('opacity', 1);
 
 			// Set the page state to changing if there are more than the appropriate number of viewing objects, else set it to page
 			var zoom_state, normal_length;
@@ -643,8 +639,8 @@
 			var css = helpers.setTransitionCss('transform', 'scale('+ scale_multiplier +') translate('+x_adjuster+'px, '+y_adjuster+'px)', transitionDuration);
 			$currentPage.css(css);
 			zooming.sizeMasks(th_yMiddle*2, cg_yMiddle*2, scale_multiplier, transitionDuration);
-			// Hide the footnotes
-			$('#page-container-'+page+' .footnote-container').css('opacity', 0);
+			// // Hide the footnotes
+			// $('#page-container-'+page+' .footnote-container').css('opacity', 0);
 			states.scaleMultiplier = scale_multiplier;
 			// Set the page state
 			state.set('zoom', 'hotspot');
