@@ -23,6 +23,8 @@ a
 	text-decoration none
 a:hover
 	text-decoration underline
+html:-ms-fullscreen
+	width 100% /* needed to center contents in IE */
 /* end globals */
 
 /* T O O L B A R */
@@ -30,6 +32,21 @@ a:hover
 	width 100%
 	height header_height
 	background-color #0cf
+
+html:-moz-full-screen
+	#header
+		visibility hidden
+html:-webkit-full-screen
+	#header
+		visibility hidden
+html:-fullscreen
+	#header
+		visibility hidden
+html:-ms-fullscreen
+	width 100%
+	#header
+		visibility hidden
+
 /* end toolbar */
 
 
