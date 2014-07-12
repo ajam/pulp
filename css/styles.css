@@ -25,6 +25,13 @@ a:hover {
   text-decoration: underline;
 }
 /* end globals */
+/* T O O L B A R */
+#header {
+  width: 100%;
+  height: 50px;
+  background-color: #0cf;
+}
+/* end toolbar */
 /* P A G E S */
 #pages-wrapper,
 #pages {
@@ -221,6 +228,9 @@ body[data-format="double"] .page-container.center-page.exit-to-left {
 /* end masks */
 /* M E D I A  Q U E R I E S */
 @media (max-width: 570px) {
+  #header {
+    height: 25px;
+  }
   #pages {
     width: 100%;
   }

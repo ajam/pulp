@@ -1,9 +1,10 @@
 @import 'nib'
 
 ajam_blue = #2677B9
-max_width = 577
+max_width = 577px
 transition_opts = 350ms linear
-gutter_width = 20
+gutter_width = 20px
+header_height = 50px
 
 /* G L O B A L S */
 *
@@ -24,19 +25,22 @@ a:hover
 	text-decoration underline
 /* end globals */
 
+/* T O O L B A R */
+#header
+	width 100%
+	height header_height
+	background-color #0cf
+/* end toolbar */
+
+
 /* P A G E S */
 #pages-wrapper,#pages
 	position relative
-	max-width (max_width)px
+	max-width max_width
 	margin 0 auto
 	width 100%
 	height 100%
 	text-align center
-// #pages
-// 	position relative
-// 	max-width (max_width)px
-// 	width 100%
-// 	height 100%
 body[data-state="page-change"]
 	#pages-wrapper
 		overflow hidden
@@ -63,15 +67,15 @@ body[data-state="page-change"]
 
 /*  P A G E  F O R M A T T I N G  */
 body[data-format="double"] #pages//, #pages[data-format="bookend"]
-	max-width (max_width*2)px
+	max-width max_width*2
 	position relative
-	left -(gutter_width/2)px
+	left -(gutter_width/2)
 
 body[data-format="double"] .page-container.viewing//, #pages[data-format="bookend"] .page-container.viewing
 	width 50%
 body[data-format="double"] .page-container.viewing.right-page
 	left 50%
-	padding-left (gutter_width)px
+	padding-left gutter_width
 	background url('../imgs/assets/border.png') repeat-y 1.5% top #fff
 
 /* MOZ Specific hacks */
@@ -81,7 +85,6 @@ body[data-format="double"] .page-container.viewing.right-page
 /* end page formatting */
 
 /* T R A N S I T I O N S */
-
 /* Single */
 .page-container.exit-to-left
 	animation exit-to-left transition_opts
@@ -272,6 +275,8 @@ body[data-format="double"] .page-container.center-page.exit-to-left
 
 /* M E D I A  Q U E R I E S */
 @media (max-width: 570px)
+	#header
+		height (header_height/2)
 	#pages
 		width 100%
 /* end media queries */

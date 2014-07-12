@@ -120,8 +120,9 @@
 				routing.init();
 			});
 		},
-		measureHotspots: function(){
-		 $('.hotspot').each(function(index, hs){
+		measureHotspotsHeaderOffset: function(){
+			$('#pages').attr('data-offset-top', $('#pages').offset().top);
+			$('.hotspot').each(function(index, hs){
 				var $hs = $(hs);
 				$hs.attr('data-top', $hs.offset().top );
 				$hs.attr('data-left', $hs.offset().left );
@@ -131,7 +132,7 @@
 		},
 		measurePageElements: function(cb){
 			layout.measureImgSetPageHeight(function(){
-				layout.measureHotspots();
+				layout.measureHotspotsHeaderOffset();
 				if (cb) cb();
 			});
 		},
@@ -422,12 +423,12 @@
 			var transition_duration = true;
 			if (states.firstRun) { helpers.saveCurrentStates(page); transition_duration = false }
 			// Load the image for the next ten pages if they still have placeholder images
-			console.log(page, triggerLazyLoad)
+			// console.log(page, triggerLazyLoad)
 			if (triggerLazyLoad) this.lazyLoadImages(page);
 			return transition_duration;
 		},
 		lazyLoadImages: function(page){
-			console.log('lazyload')
+			// console.log('lazyload')
 			page = +page;
 			var extent = states.lazyLoadExtent,
 					min_range = page - extent,
@@ -621,9 +622,12 @@
 			var buffer = .2;
 			var $currentPage = $('#page-'+page),
 					cg_width = $currentPage.width(),
-					cg_top = $currentPage.position().top,
 					viewport_xMiddle = $(window).width() / 2,
 					cg_yMiddle = $currentPage.height() / 2;
+
+			// This value is stored on load because it changes on different scales but is really constant
+			// It's essentially the height of the toolbar, but by defining it this way, you can protect against other elements that impact the height
+			var cg_top = +$('#pages').attr('data-offset-top');
 
 			var $targetHotspot = $('#hotspot-'+page+'-'+hotspot),
 					th_top = Number($targetHotspot.attr('data-top')),
@@ -634,7 +638,7 @@
 
 			var scale_multiplier = 1 / (th_width / cg_width); // Scale the width of the page by this to expand the target hotspot to full view
 			var x_adjuster = viewport_xMiddle - th_left - th_xMiddle,
-					y_adjuster = cg_yMiddle - th_top - th_yMiddle;
+					y_adjuster = cg_yMiddle - th_top - th_yMiddle + cg_top;
 
 			var css = helpers.setTransitionCss('transform', 'scale('+ scale_multiplier +') translate('+x_adjuster+'px, '+y_adjuster+'px)', transitionDuration);
 			$currentPage.css(css);
@@ -656,7 +660,6 @@
 	var init = {
 		go: function(){
 			this.browser = this.browserCheck();
-			console.log(this.browser)
 			layout.bakeMasks();
 			init.loadPages();
 			listeners.resize();
