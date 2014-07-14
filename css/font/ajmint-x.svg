@@ -1,0 +1,13 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2014 by original authors @ fontello.com</metadata>
+<defs>
+<font id="ajmint-x" horiz-adv-x="1000" >
+<font-face font-family="ajmint-x" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="resize-full-alt" unicode="&#xe800;" d="m839 55l72 72 0-224-223 0 72 72-184 185 79 79z m-749 591l-72-72 0 223 223 0-72-72 184-184-79-79z m670 79l-72 72 223 0 0-223-72 72-184-184-79 79z m-407-565l-184-185 72-72-223 0 0 224 72-72 184 184z" horiz-adv-x="928" />
+<glyph glyph-name="export" unicode="&#xe802;" d="m0 90v490q0 70 50 119t119 50h129q29 0 48-20t20-46q0-29-20-48t-48-20h-129q-15 0-25-10t-10-25v-490q0-14 10-25t25-10h588q15 0 25 10t10 25v60q0 27 20 47t46 20q28 0 48-20t19-47v-60q0-70-49-119t-119-50h-588q-70 0-119 50t-50 119z m244 90q45 81 121 132t167 59q42 3 74-2v-103q0-22 11-30t27 4l283 207q10 8 10 19 0 6-2 11t-6 7l-2 2-283 207q-15 12-27 4t-11-30v-84q-7 0-20-1-73-7-137-41t-109-89-72-124-24-148z" horiz-adv-x="937.5" />
+</font>
+</defs>
+</svg>
