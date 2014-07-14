@@ -238,10 +238,22 @@
 					routing.read(page_hotspot.page, page_hotspot.hotspot, false);
 				}
 			});
+		},
+		displayPageNumber: function(page){
+			// page = +page;
+			// var format = state.determinePageFormat();
+			// If we're double and it's an even page and it's not the last page, then put it on the odd page
+			// if (format != 'single' && page % 2 == 0 && page != states.pages_max) page = +page + 1;
+			$('.header-item[data-which="page-number"] .header-text').html('Page ' + page + ' / ' + states.pages_max)
 		}
 	}
 
 	var listeners = {
+		header: function(){
+			$('.header-btn[data-btn="fullscreen"]').on('click', function(){
+				helpers.toggleFullScreen();
+			});
+		},
 		resize: function(){
 			layout.updateDebounce = _.debounce(layout.update, 100);
 			// TODO, Does this trigger on different mobile device orientation changes?
@@ -444,6 +456,7 @@
 			// Load the image for the next ten pages if they still have placeholder images
 			// console.log(page, triggerLazyLoad)
 			if (triggerLazyLoad) this.lazyLoadImages(page);
+			layout.displayPageNumber(page);
 			return transition_duration;
 		},
 		lazyLoadImages: function(page){
@@ -647,6 +660,8 @@
 			// This value is stored on load because it changes on different scales but is really constant
 			// It's essentially the height of the toolbar, but by defining it this way, you can protect against other elements that impact the height
 			var cg_top = +$('#pages').attr('data-offset-top');
+			console.log(cg_top)
+			console.log('here')
 
 			var $targetHotspot = $('#hotspot-'+page+'-'+hotspot),
 					th_top = Number($targetHotspot.attr('data-top')),
@@ -682,6 +697,7 @@
 			layout.bakeMasks();
 			init.loadPages();
 			listeners.resize();
+			listeners.header();
 			listeners.keyboardAndGestures();
 		},
 		loadPages: function(){

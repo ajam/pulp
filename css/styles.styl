@@ -4,8 +4,12 @@ ajam_blue = #2677B9
 max_width = 577px
 transition_opts = 350ms linear
 gutter_width = 20px
-header_height = 50px
-
+header_height = 40px
+header_padding = 5px
+header_margin = 5px
+// progress_bar_height = 3px
+// progress_bar_margin = 4px
+// progress_bar_color = #474545
 /* G L O B A L S */
 *
 	box-sizing border-box
@@ -27,12 +31,14 @@ html:-ms-fullscreen
 	width 100% /* needed to center contents in IE */
 /* end globals */
 
-/* T O O L B A R */
+/* H E A D E R */
 #header
 	width 100%
 	height header_height
-	background-color #0cf
-
+	background-color #000
+	padding header_padding
+	border-bottom 1px solid #474545
+	margin-bottom header_margin
 html:-moz-full-screen
 	#header
 		visibility hidden
@@ -47,8 +53,45 @@ html:-ms-fullscreen
 	#header
 		visibility hidden
 
-/* end toolbar */
+.header-item
+	height 100%
+	color #ccc
+	display inline-table
+	vertical-align top
+.header-btn
+	width (header_height - header_padding*2)
+	background-color #000
+	border-radius 2px
+	text-align center
+	font-size 1.5em
+	border 1px solid #646464
+.header-text
+	display table-cell
+	vertical-align bottom
+.header-btn:hover
+	cursor pointer
+	color #f1f1f1
+	border 1px solid #848484
+.header-btn-icon
+	position relative
+	top 7px
+.header-group
+	height 100%
+.header-group[data-which="right"]
+	float right
+.header-item[data-which="page-number"] .header-text
+	padding-right 10px
+	font-size 1.2em
+	font-weight 200
+/* end header */
 
+/* P R O G R E S S */
+// #progress
+// 	width 100%
+// 	background-color #474545
+// 	height progress_bar_height
+// 	margin-bottom progress_bar_margin
+/* end progress */
 
 /* P A G E S */
 #pages-wrapper,#pages
@@ -58,7 +101,7 @@ html:-ms-fullscreen
 	width 100%
 	text-align center
 #pages-wrapper
-	height "calc(100% - %s)" % (header_height)
+	height "calc(100% - %s)" % (header_height + header_margin)
 #pages
 	height 100%
 body[data-state="page-change"]
