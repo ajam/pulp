@@ -53,6 +53,20 @@ html:-ms-fullscreen {
 html:-ms-fullscreen #header {
   visibility: hidden;
 }
+.header-item-container {
+  display: inline-block;
+  height: 100%;
+}
+.header-item-container:hover {
+  cursor: pointer;
+}
+.header-item-container:hover .header-btn {
+  color: #f1f1f1;
+  border: 1px solid #848484;
+}
+.header-item-container:hover .header-text {
+  cursor: default;
+}
 .header-item {
   height: 100%;
   color: #ccc;
@@ -71,11 +85,10 @@ html:-ms-fullscreen #header {
 .header-text {
   display: table-cell;
   vertical-align: bottom;
-}
-.header-btn:hover {
-  cursor: pointer;
-  color: #f1f1f1;
-  border: 1px solid #848484;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .header-btn-icon {
   position: relative;
@@ -87,8 +100,10 @@ html:-ms-fullscreen #header {
 .header-group[data-which="right"] {
   float: right;
 }
+.header-group[data-which="right"] .header-item-container {
+  padding: 0 5px 0 5px;
+}
 .header-item[data-which="page-number"] .header-text {
-  padding-right: 10px;
   font-size: 1.2em;
   font-weight: 200;
 }
