@@ -58,9 +58,9 @@ html:-ms-fullscreen
 	height 100%
 .header-item-container:hover
 	cursor pointer
-	.header-btn
+	.header-btn[data-group="options"]
 		color #f1f1f1
-		border 1px solid #848484
+		border-color #848484
 	.header-text
 		cursor default
 .header-item
@@ -70,22 +70,29 @@ html:-ms-fullscreen
 	vertical-align top
 .header-btn
 	width (header_height - header_padding*2)
-	background-color #000
 	border-radius 2px
 	text-align center
+.header-btn[data-group="options"]
 	font-size 1.7em
 	border 1px solid #646464
+.header-btn[data-group="social"]
+	font-size 1.7em
 .header-text
 	display table-cell
 	vertical-align bottom
 	user-select none
 .header-btn-icon
 	position relative
+.header-btn[data-group="options"] .header-btn-icon
 	top 6px
+.header-btn[data-group="social"] .header-btn-icon
+	top 7px
+
 .header-group
 	height 100%
-.header-group[data-which="right"]
+.header-group[data-which="social"],.header-group[data-which="options"]
 	float right
+.header-group[data-which="options"]
 	.header-item-container
 		padding 0 8px
 .header-item[data-which="page-number"] .header-text
