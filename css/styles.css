@@ -56,6 +56,7 @@ html:-ms-fullscreen #header {
 .header-item-container {
   display: inline-block;
   height: 100%;
+  position: relative;
 }
 .header-item-container:hover {
   cursor: pointer;
@@ -117,6 +118,24 @@ html:-ms-fullscreen #header {
   font-size: 1.2em;
   font-weight: 200;
 }
+.btn-tooltip {
+  display: none;
+  position: absolute;
+  left: -14%;
+  width: 125%;
+  text-align: center;
+  font-size: 10px;
+  background-color: #000;
+  color: #f1f1f1;
+  padding: 5px 0;
+  z-index: 999;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+.header-item-container:hover .btn-tooltip {
+  display: block;
+}
 /* end header */
 /* P R O G R E S S */
 /* end progress */
@@ -130,14 +149,14 @@ html:-ms-fullscreen #header {
   z-index: 999;
 }
 .main-nav-btn-container {
-  width: 50%;
-  height: 99%;
   display: inline-block;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   display: none;
+  height: 99%;
+  width: 50%;
 }
 .main-nav-btn-container.full {
   width: 100%;
@@ -391,6 +410,11 @@ body[data-format="double"] .page-container.center-page.exit-to-left {
   }
   #pages {
     width: 100%;
+  }
+  .btn-tooltip {
+    left: -9%;
+    width: 115%;
+    padding: 5px 0 3px 0;
   }
 }
 /* end media queries */
