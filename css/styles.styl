@@ -149,21 +149,20 @@ html:-ms-fullscreen
 .main-nav-btn-container:hover
 	cursor pointer
 .main-nav-btn
-	top 45%
 	display inline-block
 	padding 0 8px
-	border-radius 2px
-	border 1px solid #646464
+	// border 1px solid #646464
 	position relative
-	color #ccc
-	font-size 2em
-	margin 0 3px
+	color #666
+	height 100%
+.main-nav-btn
+	transition color 250ms cubic-bezier(0,0,.2,1);
 .main-nav-btn-container:hover .main-nav-btn
-	color #f1f1f1
-	border-color #848484
+	color #ccc
 .btn-text
 	position relative
-	top -1px
+	top 45%
+	font-size 6em
 	// display table-cell
 	// vertical-align middle
 /* end nav buttons */
