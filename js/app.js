@@ -70,22 +70,19 @@
 		},
 		getNavDirection: function(e, code){
 			// Only allow this only one panel is visible, i.e. not during a transition
-			if ($('body').attr('data-state') != 'page-change'){
-				if (code == 37 || code == 38 || code == 39 || code == 40 || code == 'swipeleft' || code == 'swiperight' || code == 'pinch'){
-					// Don't do the default behavior if it's an arrow, swipe or pinch
-					e.preventDefault();
-					e.stopPropagation();
+			if (code == 37 || code == 38 || code == 39 || code == 40 || code == 'swipeleft' || code == 'swiperight' || code == 'pinch'){
+				// Don't do the default behavior if it's an arrow, swipe or pinch
+				e.preventDefault();
+				e.stopPropagation();
 
-					// Do this
-					// Left arrow
-					if (code == 37 || code == 'swiperight') return 'prev';
-					// Right arrow
-					if (code == 39 || code == 'swipeleft') return 'next';
-					// Esc, up, down arrows
-					if (code == 27 || code == 38 || code == 40 || code == 'pinch') return 'pageView';
-				}
-
-				return false;
+				// Do this
+				// Left arrow
+				if (code == 37 || code == 'swiperight') return 'prev';
+				// Right arrow
+				if (code == 39 || code == 'swipeleft') return 'next';
+				// Esc, up, down arrows
+				if (code == 27 || code == 38 || code == 40 || code == 'pinch') return false;
+				// if (code == 27 || code == 38 || code == 40 || code == 'pinch') return 'pageView';
 			}
 			return false;
 		},
@@ -245,6 +242,24 @@
 			// If we're double and it's an even page and it's not the last page, then put it on the odd page
 			// if (format != 'single' && page % 2 == 0 && page != states.pages_max) page = +page + 1;
 			$('.header-item[data-which="page-number"] .header-text').html('Page ' + page + ' / ' + states.pages_max)
+		},
+		showAppropriateNavBtns: function(page){
+			page = +page;
+			var direction;
+			if (page == 1) { 
+				direction = 'prev';
+			} else if (page == states.pages_max) {
+				direction = 'next';
+		 	}
+		 	$('.main-nav-btn-container').removeClass('full').css('display', 'inline-block');
+		 	if (direction){
+			 	$('.main-nav-btn-container[data-dir="'+direction+'"]').hide();
+			 	$('.main-nav-btn-container[data-dir="'+this.otherDir(direction)+'"]').addClass('full');
+		 	}
+		},
+		otherDir: function(dir){
+			if (dir == 'prev') return 'next';
+			if (dir == 'next') return 'prev';
 		}
 	}
 
@@ -293,6 +308,11 @@
 
 			$(document).on('swiperight', function(e){
 				var direction = helpers.getNavDirection(e, 'swiperight');
+				routing.set.fromKeyboardOrGesture(direction);
+			});
+
+			$('.main-nav-btn-container').on('click', function(){
+				var direction = $(this).attr('data-dir');
 				routing.set.fromKeyboardOrGesture(direction);
 			});
 		},
@@ -454,9 +474,10 @@
 			var transition_duration = true;
 			if (states.firstRun) { helpers.saveCurrentStates(page); transition_duration = false }
 			// Load the image for the next ten pages if they still have placeholder images
-			// console.log(page, triggerLazyLoad)
+			// TODO, there's a bug where images don't always show on page load
 			if (triggerLazyLoad) this.lazyLoadImages(page);
 			layout.displayPageNumber(page);
+			layout.showAppropriateNavBtns(page);
 			return transition_duration;
 		},
 		lazyLoadImages: function(page){
@@ -542,9 +563,9 @@
 				}
 			},
 			fromKeyboardOrGesture: function(direction){
-				// direction can be: next, prev, pageView, or null
-				// If it's null, don't do anything
-				if (direction){
+				// direction can be: next, prev, pageView or false if it wasn't a key code we captured
+				// If the body is changing then don't do anything
+				if (direction && $('body').attr('data-state') != 'page-change'){
 					var pp_info = helpers.hashToPageHotspotDict( window.location.hash ),
 							hotspot_max = Number( $('#page-'+pp_info.page).attr('data-length') ),
 							format = state.get('format'),
@@ -660,8 +681,6 @@
 			// This value is stored on load because it changes on different scales but is really constant
 			// It's essentially the height of the toolbar, but by defining it this way, you can protect against other elements that impact the height
 			var cg_top = +$('#pages').attr('data-offset-top');
-			console.log(cg_top)
-			console.log('here')
 
 			var $targetHotspot = $('#hotspot-'+page+'-'+hotspot),
 					th_top = Number($targetHotspot.attr('data-top')),

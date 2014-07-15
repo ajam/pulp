@@ -108,6 +108,48 @@ html:-ms-fullscreen
 // 	margin-bottom progress_bar_margin
 /* end progress */
 
+/* N A V  B U T T O N S */
+#btns
+	position absolute
+	top (header_height + header_margin)
+	right 0
+	bottom 0
+	left 0
+	z-index 999
+.main-nav-btn-container
+	width 50%
+	height 99%
+	display inline-block
+	user-select none
+	display none
+.main-nav-btn-container.full
+	width 100%
+.main-nav-btn-container[data-dir="prev"]
+	text-align left
+.main-nav-btn-container[data-dir="next"]
+	text-align right
+.main-nav-btn-container:hover
+	cursor pointer
+.main-nav-btn
+	top 45%
+	display inline-block
+	padding 0 8px
+	border-radius 2px
+	border 1px solid #646464
+	position relative
+	color #ccc
+	font-size 2em
+	margin 0 3px
+.main-nav-btn-container:hover .main-nav-btn
+	color #f1f1f1
+	border-color #848484
+.btn-text
+	position relative
+	top -1px
+	// display table-cell
+	// vertical-align middle
+/* end nav buttons */
+
 /* P A G E S */
 #pages-wrapper,#pages
 	position relative
@@ -156,6 +198,10 @@ body[data-format="double"] .page-container.viewing.right-page
 	padding-left gutter_width
 	background url('../imgs/assets/border.png') repeat-y 1.5% top #fff
 
+body[data-format="mobile"]
+	#btns
+		display none
+	
 /* MOZ Specific hacks */
 @-moz-document url-prefix()
 	body[data-format="double"] .page-container.viewing.right-page
