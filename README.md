@@ -1,14 +1,4 @@
-Expensive Comic
+Pulp
 ===
 
-````
-cd /Users/mike/Documents/ajam/2014/privacy && pyserv
-````
-
-````
-cd /Users/mike/Documents/ajam/2014/privacy && styl css
-````
-
-````
-cd /Users/mike/Documents/ajam/2014/privacy
-````
+A comic viewer. Layout your pages with [Pulp press](https://github.com/ajam/pulp-press).
