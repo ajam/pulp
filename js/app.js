@@ -237,10 +237,16 @@
 			});
 		},
 		displayPageNumber: function(page){
-			// page = +page;
+			page = +page;
 			// var format = state.determinePageFormat();
 			// If we're double and it's an even page and it's not the last page, then put it on the odd page
 			// if (format != 'single' && page % 2 == 0 && page != states.pages_max) page = +page + 1;
+
+			// If it's a wide format
+			// And we're navigating to an odd page, then subtract it down so the route puts you on the even page with the odd page visible to the right
+			if ( state.get('format') == 'double' && page % 2 != 0 ){
+				page = page - 1;
+			}
 			$('.header-item[data-which="page-number"] .header-text').html('Page ' + page + ' / ' + states.pages_max)
 		},
 		showAppropriateNavBtns: function(page){
@@ -393,17 +399,16 @@
 	// Change pages
 	var transitions = {
 		goIfNecessary: function(currentPage, newPage){
-			var classes = this.determineTransition(currentPage, newPage);			
-			if (classes) transitions.movePages(currentPage, newPage, classes);
-		},
-		determineTransition: function(currentPage, newPage){
 			// If it's a wide format
 			// And we're navigating to an odd page, then subtract it down so the route puts you on the even page with the odd page visible to the right
 			if ( state.get('format') == 'double' && newPage % 2 != 0 ){
 				newPage = newPage - 1;
 				routing.router.navigate(newPage.toString(), { replace: true });
 			}
-
+			var classes = this.determineTransition(currentPage, newPage);			
+			if (classes) transitions.movePages(currentPage, newPage, classes);
+		},
+		determineTransition: function(currentPage, newPage){
 			var classes;
 			// The page is different so let's change it!
 			if (currentPage != newPage){
@@ -442,9 +447,9 @@
 				// If it's the current page it will look nicer if it exits starting from the center.
 				var first_page_exit_classes = '';
 				if (currentPage == 1) first_page_exit_classes = ' center-page';
+
 				$('#page-container-'+currentPage).addClass(classes.exiting + first_page_exit_classes);
 				$('#page-container-'+(currentPage + 1) ).addClass(classes.exiting);
-
 				// Enter the next two
 				$('#page-container-'+newPage).addClass('viewing').addClass(classes.entering);
 				$('#page-container-'+(newPage + 1) ).addClass(classes.entering).addClass('right-page').addClass('viewing');
