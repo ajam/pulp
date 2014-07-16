@@ -266,6 +266,9 @@
 		otherDir: function(dir){
 			if (dir == 'prev') return 'next';
 			if (dir == 'next') return 'prev';
+		},
+		toggleNavHelpers: function(show){
+			$('.nav-helpers').toggle(show);
 		}
 	}
 
@@ -477,7 +480,15 @@
 	var routing = {
 		setInitRouteChecks: function(page, triggerLazyLoad){
 			var transition_duration = true;
-			if (states.firstRun) { helpers.saveCurrentStates(page); transition_duration = false }
+			if (states.firstRun) { 
+				helpers.saveCurrentStates(page); 
+				transition_duration = false;
+				if (page == "1"){
+					layout.toggleNavHelpers(true);
+				}
+			} else {
+				layout.toggleNavHelpers(false);
+			}
 			// Load the image for the next ten pages if they still have placeholder images
 			// TODO, there's a bug where images don't always show on page load
 			if (triggerLazyLoad) this.lazyLoadImages(page);
@@ -539,9 +550,10 @@
 			Backbone.history.start();
 			routing.onPageLoad(window.location.hash);
 		},
-		onPageLoad: function(location_hash){
+		onPageLoad: function(locationHash){
 			// If it doesn't have a hash then go to the first page
-			if (!location_hash){
+			// Should this always start you from the beginning on load?
+			if (!locationHash){
 				routing.router.navigate(states.currentPage, { trigger: true, replace: true });
 			}
 		},

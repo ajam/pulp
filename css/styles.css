@@ -172,7 +172,6 @@ html:-ms-fullscreen #header {
 }
 .main-nav-btn {
   display: inline-block;
-  padding: 0 8px;
   position: relative;
   color: #666;
   height: 100%;
@@ -191,6 +190,22 @@ html:-ms-fullscreen #header {
   position: relative;
   top: 45%;
   font-size: 6em;
+}
+.nav-helpers {
+  position: absolute;
+  top: 55%;
+  width: 100%;
+  text-align: center;
+  display: none;
+  font-size: 1.2em;
+  font-weight: 200;
+  line-height: 15px;
+  color: #ccc;
+  -webkit-animation: bounce-up-down 2.5s infinite;
+  -moz-animation: bounce-up-down 2.5s infinite;
+  -o-animation: bounce-up-down 2.5s infinite;
+  -ms-animation: bounce-up-down 2.5s infinite;
+  animation: bounce-up-down 2.5s infinite;
 }
 /* end nav buttons */
 /* P A G E S */
@@ -420,6 +435,71 @@ body[data-format="double"] .page-container.center-page.exit-to-left {
   }
 }
 /* end media queries */
+@-moz-keyframes bounce-up-down {
+  0% {
+    top: 55%;
+  }
+
+  50% {
+    top: 53.5%;
+  }
+
+  100% {
+    top: 55%;
+  }
+}
+@-webkit-keyframes bounce-up-down {
+  0% {
+    top: 55%;
+  }
+
+  50% {
+    top: 53.5%;
+  }
+
+  100% {
+    top: 55%;
+  }
+}
+@-o-keyframes bounce-up-down {
+  0% {
+    top: 55%;
+  }
+
+  50% {
+    top: 53.5%;
+  }
+
+  100% {
+    top: 55%;
+  }
+}
+@-ms-keyframes bounce-up-down {
+  0% {
+    top: 55%;
+  }
+
+  50% {
+    top: 53.5%;
+  }
+
+  100% {
+    top: 55%;
+  }
+}
+@keyframes bounce-up-down {
+  0% {
+    top: 55%;
+  }
+
+  50% {
+    top: 53.5%;
+  }
+
+  100% {
+    top: 55%;
+  }
+}
 @-moz-keyframes exit-to-left {
   0% {
     left: 0;

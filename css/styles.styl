@@ -150,7 +150,7 @@ html:-ms-fullscreen
 	cursor pointer
 .main-nav-btn
 	display inline-block
-	padding 0 8px
+	// padding 0 8px
 	// border 1px solid #646464
 	position relative
 	color #666
@@ -163,6 +163,31 @@ html:-ms-fullscreen
 	position relative
 	top 45%
 	font-size 6em
+
+.nav-helpers
+	position absolute
+	top 55%
+	width 100%
+	text-align center
+	display none
+	font-size 1.2em
+	font-weight 200
+	line-height 15px
+	color #ccc
+	animation bounce-up-down 2.5s infinite
+
+@keyframes bounce-up-down {
+	0%{
+		top 55%
+	}
+	50%{
+		top 53.5%
+	}
+	100%{
+		top 55%
+	}
+}
+
 /* end nav buttons */
 
 /* P A G E S */
