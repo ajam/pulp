@@ -8,6 +8,8 @@ header_height = 45px
 header_padding = 7px
 header_margin = 0
 
+bg_layout_color = #fff
+
 header_item_color = #000
 header_item_hover_color = #fff
 header_item_bg_hover_color = #000
@@ -28,7 +30,7 @@ html
 body
 	font 62.5% Helvetica, sans-serif
 	margin 0
-	background-color #fff
+	background-color bg_layout_color
 a
 	color ajam_blue
 	text-decoration none
@@ -42,7 +44,7 @@ html:-ms-fullscreen
 #header
 	width 100%
 	height header_height
-	background-color #fff
+	background-color bg_layout_color
 	padding header_padding
 	border-bottom 1px solid #000
 	margin-bottom header_margin
@@ -491,7 +493,7 @@ body[data-format="double"] .page-container.center-page.exit-to-left
 /* M A S K S */
 .mask
 	position absolute
-	background-color #000
+	background-color bg_layout_color
 	height 0
 	opacity 0
 	left 0

@@ -462,7 +462,7 @@ body[data-format="double"] .page-container.center-page.exit-to-left {
 /* M A S K S */
 .mask {
   position: absolute;
-  background-color: #000;
+  background-color: #fff;
   height: 0;
   opacity: 0;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
