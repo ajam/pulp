@@ -41,17 +41,29 @@ html:-ms-fullscreen {
 html:-moz-full-screen #header {
   visibility: hidden;
 }
+html:-moz-full-screen #modal-container {
+  display: none !important;
+}
 html:-webkit-full-screen #header {
   visibility: hidden;
 }
+html:-webkit-full-screen #modal-container {
+  display: none !important;
+}
 html:-fullscreen #header {
   visibility: hidden;
+}
+html:-fullscreen #modal-container {
+  display: none !important;
 }
 html:-ms-fullscreen {
   width: 100%;
 }
 html:-ms-fullscreen #header {
   visibility: hidden;
+}
+html:-ms-fullscreen #modal-container {
+  display: none !important;
 }
 .header-item-container {
   display: inline-block;
@@ -67,6 +79,10 @@ html:-ms-fullscreen #header {
 }
 .header-item-container:hover .header-text {
   cursor: default;
+}
+.header-item-container:active .header-btn[data-group="options"] {
+  color: #4f4f4f;
+  border-color: #4f4f4f;
 }
 .header-item {
   height: 100%;
@@ -209,6 +225,46 @@ html:-ms-fullscreen #header {
   animation: bounce-up-down 2.5s infinite;
 }
 /* end nav buttons */
+/* M O D A L */
+#modal-container {
+  display: none;
+  position: absolute;
+  width: 375px;
+  top: 100px;
+  left: calc(50% - 187.5px);
+  background-color: #fff;
+  border: 1px solid #000;
+  z-index: 999;
+}
+#modal-container .close {
+  position: absolute;
+  padding: 2px 5px;
+  width: 100%;
+  text-align: right;
+  color: #aaa;
+  font-size: 1.5em;
+}
+#modal-container .close:hover {
+  cursor: pointer;
+  color: #000;
+}
+#endnotes {
+  margin: 10px;
+  max-height: 500px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+#endnotes .endnote {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+  font-weight: 200;
+}
+.section-title {
+  padding: 10px 10px 0 10px;
+  font-size: 1.3em;
+  font-weight: bold;
+}
+/* end modal */
 /* P A G E S */
 #pages-wrapper,
 #pages {
