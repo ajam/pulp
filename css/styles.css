@@ -15,7 +15,7 @@ html {
 body {
   font: 62.5% Helvetica, sans-serif;
   margin: 0;
-  background-color: #000;
+  background-color: #fff;
 }
 a {
   color: #2677b9;
@@ -33,10 +33,10 @@ html:-ms-fullscreen {
 #header {
   width: 100%;
   height: 45px;
-  background-color: #000;
+  background-color: #fff;
   padding: 7px;
-  border-bottom: 1px solid #474545;
-  margin-bottom: 5px;
+  border-bottom: 1px solid #000;
+  margin-bottom: 0;
 }
 html:-moz-full-screen #header {
   visibility: hidden;
@@ -74,8 +74,9 @@ html:-ms-fullscreen #modal-container {
   cursor: pointer;
 }
 .header-item-container:hover .header-btn[data-group="options"] {
-  color: #f1f1f1;
+  color: #fff;
   border-color: #848484;
+  background-color: #000;
 }
 .header-item-container:hover .header-text {
   cursor: default;
@@ -86,7 +87,7 @@ html:-ms-fullscreen #modal-container {
 }
 .header-item {
   height: 100%;
-  color: #ccc;
+  color: #000;
   display: inline-table;
   vertical-align: top;
 }
@@ -159,7 +160,7 @@ html:-ms-fullscreen #modal-container {
 /* N A V  B U T T O N S */
 #btns {
   position: absolute;
-  top: 50px;
+  top: 45px;
   right: 0;
   bottom: 0;
   left: 0;
@@ -190,7 +191,7 @@ html:-ms-fullscreen #modal-container {
 .main-nav-btn {
   display: inline-block;
   position: relative;
-  color: #666;
+  color: #ccc;
   height: 100%;
 }
 .main-nav-btn {
@@ -201,12 +202,16 @@ html:-ms-fullscreen #modal-container {
   transition: color 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 .main-nav-btn-container:hover .main-nav-btn {
-  color: #ccc;
+  color: #000;
 }
 .btn-text {
   position: relative;
   top: 45%;
   font-size: 6em;
+}
+[class^="ajmint-icon-"]:before,
+[class*=" ajmint-icon-"]:before {
+  width: auto !important;
 }
 .nav-helpers {
   position: absolute;
@@ -234,7 +239,7 @@ html:-ms-fullscreen #modal-container {
   left: calc(50% - 187.5px);
   background-color: #fff;
   border: 1px solid #000;
-  z-index: 999;
+  z-index: 9999;
 }
 #modal-container .close {
   position: absolute;
@@ -275,7 +280,7 @@ html:-ms-fullscreen #modal-container {
   text-align: center;
 }
 #pages-wrapper {
-  height: calc(100% - 50px);
+  height: calc(100% - 45px);
 }
 #pages {
   height: 100%;
@@ -317,15 +322,15 @@ body[data-state="page-change"] #pages-wrapper {
 body[data-format="double"] #pages {
   max-width: 1154px;
   position: relative;
-  left: -10px;
+  left: -20px;
 }
 body[data-format="double"] .page-container.viewing {
   width: 50%;
 }
 body[data-format="double"] .page-container.viewing.right-page {
   left: 50%;
-  padding-left: 20px;
-  background: url("../imgs/assets/border.png") repeat-y 1.5% top #fff;
+  padding-left: 40px;
+  background: url("../imgs/assets/border.png") repeat-y 20px top #fff;
 }
 body[data-format="mobile"] #btns {
   display: none;

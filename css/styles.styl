@@ -3,10 +3,17 @@
 ajam_blue = #2677B9
 max_width = 577px
 transition_opts = 350ms linear
-gutter_width = 20px
+gutter_width = 40px
 header_height = 45px
 header_padding = 7px
-header_margin = 5px
+header_margin = 0
+
+header_item_color = #000
+header_item_hover_color = #fff
+header_item_bg_hover_color = #000
+
+arrow_color = #ccc
+arrow_hover_color = #000
 // progress_bar_height = 3px
 // progress_bar_margin = 4px
 // progress_bar_color = #474545
@@ -21,7 +28,7 @@ html
 body
 	font 62.5% Helvetica, sans-serif
 	margin 0
-	background-color #000
+	background-color #fff
 a
 	color ajam_blue
 	text-decoration none
@@ -35,9 +42,9 @@ html:-ms-fullscreen
 #header
 	width 100%
 	height header_height
-	background-color #000
+	background-color #fff
 	padding header_padding
-	border-bottom 1px solid #474545
+	border-bottom 1px solid #000
 	margin-bottom header_margin
 html:-moz-full-screen
 	#header
@@ -68,8 +75,9 @@ html:-ms-fullscreen
 .header-item-container:hover
 	cursor pointer
 	.header-btn[data-group="options"]
-		color #f1f1f1
+		color header_item_hover_color
 		border-color #848484
+		background-color header_item_bg_hover_color
 	.header-text
 		cursor default
 .header-item-container:active
@@ -79,7 +87,7 @@ html:-ms-fullscreen
 
 .header-item
 	height 100%
-	color #ccc
+	color header_item_color
 	display inline-table
 	vertical-align top
 .header-btn
@@ -167,16 +175,20 @@ html:-ms-fullscreen
 	// padding 0 8px
 	// border 1px solid #646464
 	position relative
-	color #666
+	color arrow_color
 	height 100%
 .main-nav-btn
 	transition color 250ms cubic-bezier(0,0,.2,1);
 .main-nav-btn-container:hover .main-nav-btn
-	color #ccc
+	color arrow_hover_color
 .btn-text
 	position relative
 	top 45%
 	font-size 6em
+
+// Override the font-size 1em
+[class^="ajmint-icon-"]:before, [class*=" ajmint-icon-"]:before
+	width auto!important
 
 .nav-helpers
 	position absolute
@@ -213,7 +225,7 @@ html:-ms-fullscreen
 	left "calc(50% - %s)" % (@width/2)
 	background-color #fff
 	border 1px solid #000
-	z-index 999
+	z-index 9999
 	.close
 		position absolute
 		padding 2px 5px
@@ -285,7 +297,7 @@ body[data-format="double"] .page-container.viewing//, #pages[data-format="booken
 body[data-format="double"] .page-container.viewing.right-page
 	left 50%
 	padding-left gutter_width
-	background url('../imgs/assets/border.png') repeat-y 1.5% top #fff
+	background url('../imgs/assets/border.png') repeat-y (gutter_width/2) top #fff
 
 body[data-format="mobile"]
 	#btns
