@@ -333,9 +333,9 @@ body[data-format="double"] .page-container.viewing.right-page {
 }
 body[data-format="double"] .page-container.viewing.right-page:after {
   content: "";
-  opacity: 0.25;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=25)";
-  filter: alpha(opacity=25);
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
   top: 0;
   left: 0;
   bottom: 0;
