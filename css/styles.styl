@@ -297,6 +297,15 @@ body[data-format="double"] .page-container.viewing//, #pages[data-format="booken
 body[data-format="double"] .page-container.viewing.right-page
 	left 50%
 	padding-left gutter_width
+body[data-format="double"] .page-container.viewing.right-page:after
+	content: "";
+	opacity: 0.25;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	z-index: -1;  
 	background url('../imgs/assets/border.png') repeat-y (gutter_width/2) top #fff
 
 body[data-format="mobile"]
