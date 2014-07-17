@@ -6,7 +6,7 @@ transition_opts = 350ms linear
 gutter_width = 40px
 header_height = 45px
 header_padding = 7px
-header_margin = 0
+header_margin = 5px
 
 bg_layout_color = #fff
 
@@ -300,14 +300,14 @@ body[data-format="double"] .page-container.viewing.right-page
 	left 50%
 	padding-left gutter_width
 body[data-format="double"] .page-container.viewing.right-page:after
-	content: "";
-	opacity: 0.2;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	position: absolute;
-	z-index: -1;  
+	content ""
+	opacity 0.2
+	top 0
+	left 0
+	bottom 3px
+	right 0
+	position absolute
+	z-index -1
 	background url('../imgs/assets/border.png') repeat-y (gutter_width/2) top #fff
 
 body[data-format="mobile"]

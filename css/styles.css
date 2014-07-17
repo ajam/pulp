@@ -36,7 +36,7 @@ html:-ms-fullscreen {
   background-color: #fff;
   padding: 7px;
   border-bottom: 1px solid #000;
-  margin-bottom: 0;
+  margin-bottom: 5px;
 }
 html:-moz-full-screen #header {
   visibility: hidden;
@@ -160,7 +160,7 @@ html:-ms-fullscreen #modal-container {
 /* N A V  B U T T O N S */
 #btns {
   position: absolute;
-  top: 45px;
+  top: 50px;
   right: 0;
   bottom: 0;
   left: 0;
@@ -280,7 +280,7 @@ html:-ms-fullscreen #modal-container {
   text-align: center;
 }
 #pages-wrapper {
-  height: calc(100% - 45px);
+  height: calc(100% - 50px);
 }
 #pages {
   height: 100%;
@@ -338,7 +338,7 @@ body[data-format="double"] .page-container.viewing.right-page:after {
   filter: alpha(opacity=20);
   top: 0;
   left: 0;
-  bottom: 0;
+  bottom: 3px;
   right: 0;
   position: absolute;
   z-index: -1;
