@@ -252,7 +252,7 @@
 
 			// If it's a wide format
 			// And we're navigating to an odd page, then subtract it down so the route puts you on the even page with the odd page visible to the right
-			if ( state.get('format') == 'double' && page % 2 != 0 ){
+			if ( state.get('format') == 'double' && page % 2 != 0 && page != 1 ){
 				page = page - 1;
 			}
 			$('.header-item[data-which="page-number"] .header-text').html('Page ' + page + ' / ' + states.pages_max)
