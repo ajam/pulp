@@ -93,12 +93,19 @@ html:-ms-fullscreen
 	display inline-table
 	vertical-align top
 .header-btn
-	width (header_height - header_padding*2)
+	min-width (header_height - header_padding*2)
 	border-radius 2px
 	text-align center
-.header-btn
 	font-size 1.7em
 	border 1px solid #646464
+.header-btn[data-btn="export"]
+	padding 0 6px
+	.label
+		position relative
+		font-size 13px
+		top 6px
+	// .header-btn-icon
+	// 	font-size 18px
 .header-btn[data-group="social"]
 	font-size 1.7em
 .header-text
