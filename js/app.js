@@ -39,7 +39,8 @@
 		gutterWidth: 40, // Same as above, this is the `padding-left` value for `.viewing.right-page`.
 		scaleMultiplier: 1,
 		firstRun: true,
-		lazyLoadExtent: 6 // How many pages behind and ahead do you want to load your images
+		lazyLoadExtent: 6, // How many pages behind and ahead do you want to load your images
+		imgFormat: 'jpg'
 	}
 
 	var helpers = {
@@ -521,7 +522,6 @@
 			return transition_duration;
 		},
 		lazyLoadImages: function(page){
-			// console.log('lazyload')
 			page = +page;
 			var extent = states.lazyLoadExtent,
 					min_range = page - extent,
@@ -539,7 +539,7 @@
 				page_number = range[i];
 				$img = $('#page-container-'+page_number).find('img');
 				src = $img.attr('src');
-				if (src.indexOf('placeholder') > -1) $img.attr('src', src.replace('placeholder', 'page-'+page_number));
+				if (src.indexOf('data:image\/gif') > -1) $img.attr('src', 'imgs/pages/page-'+page_number+'.'+states.imgFormat );
 			}
 
 		},
