@@ -35,7 +35,6 @@ html:-ms-fullscreen {
   height: 45px;
   background-color: #fff;
   padding: 7px;
-  border-bottom: 1px solid #000;
   margin-bottom: 5px;
 }
 html:-moz-full-screen #header {
