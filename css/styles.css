@@ -73,7 +73,7 @@ html:-ms-fullscreen #modal-container {
 .header-item-container:hover {
   cursor: pointer;
 }
-.header-item-container:hover .header-btn[data-group="options"] {
+.header-item-container:hover .header-btn {
   color: #fff;
   border-color: #848484;
   background-color: #000;
@@ -81,7 +81,7 @@ html:-ms-fullscreen #modal-container {
 .header-item-container:hover .header-text {
   cursor: default;
 }
-.header-item-container:active .header-btn[data-group="options"] {
+.header-item-container:active .header-btn {
   color: #4f4f4f;
   border-color: #4f4f4f;
 }
@@ -97,7 +97,7 @@ html:-ms-fullscreen #modal-container {
   border-radius: 2px;
   text-align: center;
 }
-.header-btn[data-group="options"] {
+.header-btn {
   font-size: 1.7em;
   border: 1px solid #646464;
 }
@@ -115,20 +115,16 @@ html:-ms-fullscreen #modal-container {
 .header-btn-icon {
   position: relative;
 }
-.header-btn[data-group="options"] .header-btn-icon {
+.header-btn .header-btn-icon {
   top: 6px;
-}
-.header-btn[data-group="social"] .header-btn-icon {
-  top: 7px;
 }
 .header-group {
   height: 100%;
 }
-.header-group[data-which="social"],
-.header-group[data-which="options"] {
+.header-group {
   float: right;
 }
-.header-group[data-which="options"] .header-item-container {
+.header-group .header-item-container {
   padding: 0 8px;
 }
 .header-item[data-which="page-number"] .header-text {
