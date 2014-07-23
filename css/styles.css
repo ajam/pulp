@@ -165,12 +165,16 @@ html:-ms-fullscreen #modal-container {
   cursor: pointer;
 }
 .btn-tooltip.social-btns {
-  width: 31px !important;
+  width: 122px !important;
+  position: absolute;
+  left: -83px;
 }
 .btn-tooltip.social-btns li {
   text-align: center !important;
   padding: 6px 0;
+  width: 38px;
   font-size: 18px;
+  display: inline-block;
 }
 .header-item-container:hover .btn-tooltip {
   display: block;
