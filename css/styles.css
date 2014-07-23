@@ -99,16 +99,13 @@ html:-ms-fullscreen #modal-container {
   font-size: 1.7em;
   border: 1px solid #646464;
 }
-.header-btn[data-btn="export"] {
+.header-item-container[data-btn="export"] .header-btn {
   padding: 0 6px;
 }
-.header-btn[data-btn="export"] .label {
+.header-item-container[data-btn="export"] .header-btn .label {
   position: relative;
   font-size: 13px;
   top: 6px;
-}
-.header-btn[data-group="social"] {
-  font-size: 1.7em;
 }
 .header-text {
   display: table-cell;
@@ -140,21 +137,48 @@ html:-ms-fullscreen #modal-container {
 .btn-tooltip {
   display: none;
   position: absolute;
+  background-color: #000;
+  color: #f1f1f1;
+  z-index: 99999;
+  border: 1px solid #848484;
+}
+.header-item-container[data-action="modal"] .btn-tooltip {
   left: -14%;
   width: 125%;
   text-align: center;
   font-size: 10px;
-  background-color: #000;
-  color: #f1f1f1;
   padding: 5px 0;
-  z-index: 999;
-  border: 1px solid #848484;
+  bottom: -22px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
-  bottom: -22px;
+}
+.header-item-container[data-action="dropdown"] .btn-tooltip {
+  border-color: #000;
+  width: calc(100% - 16px);
+}
+.header-item-container[data-action="dropdown"] li {
+  padding: 6px;
+  font-size: 12px;
+  text-align: left !important;
+}
+.header-item-container[data-action="dropdown"] li:hover {
+  background-color: #666;
+  cursor: pointer;
+}
+.btn-tooltip.social-btns {
+  width: 31px !important;
+}
+.btn-tooltip.social-btns li {
+  text-align: center !important;
+  padding: 6px 0;
+  font-size: 18px;
 }
 .header-item-container:hover .btn-tooltip {
   display: block;
+}
+.header-item-container:hover .header-btn {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 /* end header */
 /* P R O G R E S S */

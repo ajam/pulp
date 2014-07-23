@@ -14,26 +14,35 @@
 	<body>
 		<div id="header">
 			<ul class="header-group">
-				<li class="header-item-container">
-					<div class="header-item header-btn" data-btn="export" data-action="dropdown">
+				<li class="header-item-container" data-btn="export" data-action="dropdown">
+					<div class="header-item header-btn">
 						<span class="label">Other formats</span> <span class="ajmint-icon-download header-btn-icon"></span>
 					</div>
-					<!-- <div class="btn-tooltip">Read elsehow</div> -->
-				</li><li class="header-item-container">
-					<div class="header-item header-btn" data-btn="endnotes" data-action="modal">
+					<ul class="btn-tooltip">
+						<li>PDF</li>
+						<li>ePub</li>
+						<li>View on Amazon...</li>
+						<li>View in iBooks...</li>
+					</ul>
+				</li><li class="header-item-container" data-btn="endnotes" data-action="modal">
+					<div class="header-item header-btn">
 						<div class="ajmint-icon-doc-text-inv header-btn-icon"></div>
 					</div>
 					<div class="btn-tooltip">Endnotes</div>
-				</li><li class="header-item-container">
-					<div class="header-item header-btn" data-btn="fullscreen">
+				</li><li class="header-item-container" data-btn="fullscreen" data-action="modal">
+					<div class="header-item header-btn">
 						<div class="ajmint-icon-resize-full header-btn-icon"></div>
 					</div>
 					<div class="btn-tooltip">Fullscreen</div>
-				</li><li class="header-item-container">
-					<div class="header-item header-btn" data-btn="share" data-action="dropdown">
+				</li><li class="header-item-container" data-btn="share" data-action="dropdown">
+					<div class="header-item header-btn">
 						<div class="ajmint-x-icon-export header-btn-icon"></div>
 					</div>
-					<div class="btn-tooltip">Share</div>
+					<ul class="btn-tooltip social-btns">
+						<li class="ajmint-icon-twitter"></li>
+						<li class="ajmint-icon-facebook"></li>
+						<li class="ajmint-icon-gplus"></li>
+					</ul>
 				</li>
 			</ul>
 			<ul class="header-group">
