@@ -191,11 +191,11 @@ html:-ms-fullscreen #modal-container {
   height: 100%;
 }
 .main-nav-btn {
-  -webkit-transition: color 300ms ease-out;
-  -moz-transition: color 300ms ease-out;
-  -o-transition: color 300ms ease-out;
-  -ms-transition: color 300ms ease-out;
-  transition: color 300ms ease-out;
+  -webkit-transition: color 250ms ease-out;
+  -moz-transition: color 250ms ease-out;
+  -o-transition: color 250ms ease-out;
+  -ms-transition: color 250ms ease-out;
+  transition: color 250ms ease-out;
 }
 .main-nav-btn-container:hover .main-nav-btn {
   color: #000;
