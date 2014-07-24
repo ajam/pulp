@@ -1,6 +1,9 @@
-#header span#ajmint-logo {
-    padding-left:10px;
-    display: inline-block;
+#header #ajmint-logo {
+/*    padding-left:10px;
+    width: auto;
+*/    
+		float: left;
+		padding-left: 10px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -32,11 +35,11 @@
 	color: #fff;
 }
 
-#header span#ajmint-logo img {
+#header #ajmint-logo img {
 	height:25px;
 }
 
-#header span#ajmint-logo #ajmint-logo-dropdown {
+#header #ajmint-logo #ajmint-logo-dropdown {
 	font-family: Helvetica, Arial, sans-serif;
 	top: 18px;
 	position: absolute;
@@ -50,21 +53,21 @@
 	display: block;
 }
 
-#header span#ajmint-logo #ajmint-logo-dropdown a {
+#header #ajmint-logo #ajmint-logo-dropdown a {
 	color: #666;
 }
 
-#header span#ajmint-logo #ajmint-logo-dropdown ul {
+#header #ajmint-logo #ajmint-logo-dropdown ul {
 	width: 233px;
 	list-style:none;
 	margin: 0;
 }
 
-#header span#ajmint-logo #ajmint-logo-dropdown ul li {
+#header #ajmint-logo #ajmint-logo-dropdown ul li {
 	padding: 10px 5px 10px 20px;
 }
 
-#header span#ajmint-logo #ajmint-logo-dropdown ul li:hover {
+#header #ajmint-logo #ajmint-logo-dropdown ul li:hover {
 	background: #222;
 }
 
@@ -198,13 +201,13 @@
 		display:block;
 	}
 
-	#header span#ajmint-logo {
+	#header #ajmint-logo {
 		float:left;
 		z-index:2;
 		position: absolute;
 	}
 
-	#header span#ajmint-logo img {
+	#header #ajmint-logo img {
 		margin-top: 11px;
 	}
 
@@ -226,7 +229,7 @@
 		display: none;
 	}
 
-	#header span#logo:hover #ajmint-logo-dropdown {
+	#header #logo:hover #ajmint-logo-dropdown {
 		display: none;
 	}
 
