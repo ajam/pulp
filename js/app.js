@@ -498,17 +498,18 @@
 	}
 
 	var routing = {
-		setInitRouteChecks: function(page, triggerLazyLoad){
+		setInitRouteChecks: function(page, triggerLazyLoad, cb){
 			var transition_duration = true;
 			// If our URL we came from is a hotspot then lazyLoad won't be triggered
 			// Because it's categorically false when navigating to a hotspot
 			// The only time that changes would be when we're on a first run
 			// So it has a fall back to `true` in that scenario
+			// TODO, now that `setInitRouteChecks` is a callback, if we're on first run, you can cancel route navigation and kick people to the first page if that's the desired behavior
 			triggerLazyLoad = triggerLazyLoad || states.firstRun;
 			if (states.firstRun) { 
 				helpers.saveCurrentStates(page); 
 				transition_duration = false;
-				if (page == "1"){
+				if (page == '1'){
 					layout.toggleNavHelpers(true);
 				}
 			} else {
@@ -518,7 +519,7 @@
 			if (triggerLazyLoad) this.lazyLoadImages(page);
 			layout.displayPageNumber(page);
 			layout.showAppropriateNavBtns(page);
-			return transition_duration;
+			cb(transition_duration);
 		},
 		lazyLoadImages: function(page){
 			page = +page;
@@ -553,19 +554,21 @@
 			routing.router = new routing.Router;
 
 			routing.router.on('route:page', function(page) {
-				var transition_duration = routing.setInitRouteChecks(page, true); // Second arg is lazy load trigger
-				routing.read(page, null, transition_duration);
+				// Second arg is lazy load trigger	
+				routing.setInitRouteChecks(page, true, function(transitionDuration){
+					routing.read(page, null, transitionDuration);
+				});
 			});
 
 			routing.router.on('route:hotspot', function(page, hotspot) {
-
-				var transition_duration = routing.setInitRouteChecks(page);
-				// If we're on desktop, kill the hotspot
-				if (state.get('format') != 'mobile' ) {
-					hotspot = '';
-					routing.router.navigate(page, { replace: true });
-				}
-				routing.read(page, hotspot, transition_duration);
+				routing.setInitRouteChecks(page, null, function(transitionDuration){;
+					// If we're on desktop, kill the hotspot
+					if (state.get('format') != 'mobile' ) {
+						hotspot = '';
+						routing.router.navigate(page, { replace: true });
+					}
+					routing.read(page, hotspot, transitionDuration);
+				});
 			});
 
 			// For bookmarkable Urls
