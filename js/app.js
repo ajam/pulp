@@ -19,7 +19,7 @@
 				if (this_page == 1) return 'bookend';
 			}
 			// If the window is wide enough for two pages
-			if (windowWidth > this.get('single-page-width')*2 + settings.gutterWidth) return 'double';
+			if (windowWidth > this.get('single-page-width')*2 + pulpSettings.gutterWidth) return 'double';
 			// If it's less than a single page
 			if (windowWidth <= this.get('single-page-width')) return 'mobile';
 			// Everything else
@@ -28,13 +28,6 @@
 	});
 
 	var state = new State;
-
-	var settings = {
-		lazyLoadExtent: 6, // How many pages behind and ahead do you want to load your images
-		transitionDuration: '350ms', // This value should match what's in your css, the reason it's not pulling the value from the css and you have to save it here is that on load there is no item that has this animation value. Possible TODO for the future is to add and then remove that item but for now, no need to clutter up the DOM.
-		gutterWidth: 40, // Same as above, this is the `padding-left` value for `.viewing.right-page`.
-		imgFormat: 'jpg' // What format are your images in
-	}
 
 	var states = {
 		currentPage: '1',
@@ -53,7 +46,7 @@
 			return css;
 		},
 		addDuration: function(cssObj, transitionDuration){
-			var duration = transitionDuration ? settings.transitionDuration : 0
+			var duration = transitionDuration ? pulpSettings.transitionDuration : 0
 			_.extend(cssObj, {'transition-duration': duration});
 			return cssObj;
 		},
@@ -184,7 +177,7 @@
 
 				if (state.determinePageFormat(null, null, true) == 'double') {
 					img_width = img_width*2;
-					img_width_wrapper = img_width+settings.gutterWidth;
+					img_width_wrapper = img_width+pulpSettings.gutterWidth;
 					if (init.browser[0] == 'Firefox') img_width_wrapper = img_width_wrapper - 1; // Minus one for sub-pixel rendering hack
 				}
 				// Apply the dimensions from the image to the wrapper
@@ -525,7 +518,7 @@
 		},
 		lazyLoadImages: function(page){
 			page = +page;
-			var extent = settings.lazyLoadExtent,
+			var extent = pulpSettings.lazyLoadExtent,
 					min_range = page - extent,
 					max_range = page + extent;
 
@@ -541,7 +534,7 @@
 				page_number = range[i];
 				$img = $('#page-container-'+page_number).find('img');
 				src = $img.attr('src');
-				if (src.indexOf('data:image\/gif') > -1) $img.attr('src', 'imgs/pages/page-'+page_number+'.'+settings.imgFormat );
+				if (src.indexOf('data:image\/gif') > -1) $img.attr('src', 'imgs/pages/page-'+page_number+'.'+pulpSettings.imgFormat );
 			}
 
 		},
@@ -755,6 +748,7 @@
 
 	var init = {
 		go: function(){
+			this.whitelabel(pulpSettings.whitelabel);
 			this.browser = this.browserCheck();
 			layout.bakeMasks();
 			init.loadPages();
@@ -790,6 +784,21 @@
 	    M= M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
 	    if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
 	    return M;
+		},
+		whitelabel: function(whitelabelObj){
+			if (whitelabelObj){
+				// JS + CSS
+				_.each(whitelabelObj.files, function(files, extension){
+					var tag;
+					for (var i = 0; i < files.length; i++) {
+						if (extension == 'js') tag = '<script src="whitelabel/js/'+files[i]+'"></script>';
+						if (extension == 'css') tag  = '<link rel="stylesheet" type="text/css" href="whitelabel/css/'+files[i]+'" />';
+						document.write(tag);
+					}
+				});
+				// Logo Markup
+				$('#header').prepend(whitelabelObj.logo);
+			}
 		}
 	}
 
