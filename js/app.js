@@ -500,6 +500,11 @@
 	var routing = {
 		setInitRouteChecks: function(page, triggerLazyLoad){
 			var transition_duration = true;
+			// If our URL we came from is a hotspot then lazyLoad won't be triggered
+			// Because it's categorically false when navigating to a hotspot
+			// The only time that changes would be when we're on a first run
+			// So it has a fall back to `true` in that scenario
+			triggerLazyLoad = triggerLazyLoad || states.firstRun;
 			if (states.firstRun) { 
 				helpers.saveCurrentStates(page); 
 				transition_duration = false;
@@ -510,7 +515,6 @@
 				layout.toggleNavHelpers(false);
 			}
 			// Load the image for the next ten pages if they still have placeholder images
-			// TODO, there's a bug where images don't always show on page load
 			if (triggerLazyLoad) this.lazyLoadImages(page);
 			layout.displayPageNumber(page);
 			layout.showAppropriateNavBtns(page);
@@ -549,8 +553,7 @@
 			routing.router = new routing.Router;
 
 			routing.router.on('route:page', function(page) {
-				// Only trigger lazy load, the second arg here, when we're changing pages.
-				var transition_duration = routing.setInitRouteChecks(page, true);
+				var transition_duration = routing.setInitRouteChecks(page, true); // Second arg is lazy load trigger
 				routing.read(page, null, transition_duration);
 			});
 
