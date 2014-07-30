@@ -577,7 +577,7 @@
 		},
 		onPageLoad: function(locationHash){
 			// If it doesn't have a hash then go to the first page
-			// Should this always start you from the beginning on load?
+			// TODO question, should this always start you from the beginning on load?
 			if (!locationHash){
 				routing.router.navigate(states.currentPage, { trigger: true, replace: true });
 			}
