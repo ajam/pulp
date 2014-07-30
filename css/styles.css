@@ -30,6 +30,12 @@ html:-ms-fullscreen {
 }
 /* end globals */
 /* H E A D E R */
+body[data-state="hotspot"] #header {
+  visibility: hidden;
+}
+body[data-state="hotspot"] #footer {
+  display: none;
+}
 #header {
   width: 100%;
   height: 45px;
