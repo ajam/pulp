@@ -531,6 +531,7 @@ body[data-format="double"] .page-container.center-page.exit-to-left
 	top 0
 #bottom-mask
 	transform rotateX(180deg);
+	-webkit-transform translate3d(0,0,0) /* To fix a z-indexing position in Safari + iOS, this enables hardware acceleration but doesn't change the styling */
 	bottom -1px /* To cover up some small clipping that occurs */
 // .page, .mask
 // transition: transform .3s ease-out
