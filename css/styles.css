@@ -389,6 +389,10 @@ body[data-format="mobile"] #btns {
 }
 /* end page formatting */
 /* T R A N S I T I O N S */
+body[data-format="double"] .exit-to-left,
+body[data-format="double"] .exit-to-right {
+  z-index: -1;
+}
 /* Single */
 .page-container.exit-to-left {
   -webkit-animation: exit-to-left 350ms linear;
