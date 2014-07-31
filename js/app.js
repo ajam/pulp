@@ -189,6 +189,11 @@
 		implementPageFormat: {
 			bookend: function(){
 				this.single();
+				// if (states.currentPage == 2) { 
+				// 	$('#page-container-3').addClass('exit-to-right');
+				// } else {
+				// 	this.single();
+				// }
 			},
 			mobile: function(){
 				this.single();
@@ -492,6 +497,9 @@
 			// Unless we're coming from the coming
 			if (state.get('format') == 'double' && states.lastPage != 1) {
 				$('#page-container-'+ (+states.lastPage + 1) ).removeClass('viewing').removeClass('right-page').find('.page').css(helpers.setTransitionCss('transform', 'scale(1)', false));
+			} else if (state.get('format') == 'bookend' && states.currentPage == 1 ) {
+				console.log('here')
+				$('#page-container-'+ (+states.lastPage + 1) ).removeClass('viewing').removeClass('right-page');
 			}
 			state.set('zoom','page');
 		}

@@ -2,7 +2,7 @@
 
 ajam_blue = #2677B9
 max_width = 577px
-transition_opts = 350ms linear
+transition_opts = 5000ms linear
 gutter_width = 40px
 header_height = 45px
 header_padding = 7px
@@ -391,6 +391,12 @@ body[data-format="double"] .page-container.right-page.enter-from-right
 /* Double center  */
 body[data-format="double"] .page-container.center-page.exit-to-left
 	animation double-center-exit-to-left transition_opts
+// body[data-format="bookend"] .page-container.enter-from-left
+// 	animation double-center-enter-from-left transition_opts
+// body[data-format="bookend"] .page-container.exit-to-right
+// 	animation double-left-exit-to-right transition_opts
+// body[data-format="bookend"] .page-container.exit-to-right.right-page
+// 	animation double-right-exit-to-right transition_opts
 /* end double center */
 
 
@@ -505,13 +511,37 @@ body[data-format="double"] .page-container.center-page.exit-to-left
 	}
 }
 
-
+// Bookends
 @keyframes double-center-exit-to-left {
 	from{
 		left 25%
 	}
 	to{
 		left -50%
+	}
+}
+@keyframes double-center-enter-from-left {
+	from{
+		left -75%
+	}
+	to{
+		left 0%
+	}
+}
+@keyframes double-left-exit-to-right {
+	from{
+		left -25%
+	}
+	to{
+		left 75%
+	}
+}
+@keyframes double-right-exit-to-right {
+	from{
+		left 50%
+	}
+	to{
+		left 125%
 	}
 }
 /* end transitions */

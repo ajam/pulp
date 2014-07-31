@@ -391,100 +391,100 @@ body[data-format="mobile"] #btns {
 /* T R A N S I T I O N S */
 /* Single */
 .page-container.exit-to-left {
-  -webkit-animation: exit-to-left 350ms linear;
-  -moz-animation: exit-to-left 350ms linear;
-  -o-animation: exit-to-left 350ms linear;
-  -ms-animation: exit-to-left 350ms linear;
-  animation: exit-to-left 350ms linear;
+  -webkit-animation: exit-to-left 5000ms linear;
+  -moz-animation: exit-to-left 5000ms linear;
+  -o-animation: exit-to-left 5000ms linear;
+  -ms-animation: exit-to-left 5000ms linear;
+  animation: exit-to-left 5000ms linear;
 }
 .page-container.enter-from-left {
-  -webkit-animation: enter-from-left 350ms linear;
-  -moz-animation: enter-from-left 350ms linear;
-  -o-animation: enter-from-left 350ms linear;
-  -ms-animation: enter-from-left 350ms linear;
-  animation: enter-from-left 350ms linear;
+  -webkit-animation: enter-from-left 5000ms linear;
+  -moz-animation: enter-from-left 5000ms linear;
+  -o-animation: enter-from-left 5000ms linear;
+  -ms-animation: enter-from-left 5000ms linear;
+  animation: enter-from-left 5000ms linear;
 }
 .page-container.exit-to-right {
-  -webkit-animation: exit-to-right 350ms linear;
-  -moz-animation: exit-to-right 350ms linear;
-  -o-animation: exit-to-right 350ms linear;
-  -ms-animation: exit-to-right 350ms linear;
-  animation: exit-to-right 350ms linear;
+  -webkit-animation: exit-to-right 5000ms linear;
+  -moz-animation: exit-to-right 5000ms linear;
+  -o-animation: exit-to-right 5000ms linear;
+  -ms-animation: exit-to-right 5000ms linear;
+  animation: exit-to-right 5000ms linear;
 }
 .page-container.enter-from-right {
-  -webkit-animation: enter-from-right 350ms linear;
-  -moz-animation: enter-from-right 350ms linear;
-  -o-animation: enter-from-right 350ms linear;
-  -ms-animation: enter-from-right 350ms linear;
-  animation: enter-from-right 350ms linear;
+  -webkit-animation: enter-from-right 5000ms linear;
+  -moz-animation: enter-from-right 5000ms linear;
+  -o-animation: enter-from-right 5000ms linear;
+  -ms-animation: enter-from-right 5000ms linear;
+  animation: enter-from-right 5000ms linear;
 }
 /* end single */
 /* Double left  */
 body[data-format="double"] .page-container.exit-to-left {
-  -webkit-animation: double-left-exit-to-left 350ms linear;
-  -moz-animation: double-left-exit-to-left 350ms linear;
-  -o-animation: double-left-exit-to-left 350ms linear;
-  -ms-animation: double-left-exit-to-left 350ms linear;
-  animation: double-left-exit-to-left 350ms linear;
+  -webkit-animation: double-left-exit-to-left 5000ms linear;
+  -moz-animation: double-left-exit-to-left 5000ms linear;
+  -o-animation: double-left-exit-to-left 5000ms linear;
+  -ms-animation: double-left-exit-to-left 5000ms linear;
+  animation: double-left-exit-to-left 5000ms linear;
 }
 body[data-format="double"] .page-container.enter-from-left {
-  -webkit-animation: double-left-enter-from-left 350ms linear;
-  -moz-animation: double-left-enter-from-left 350ms linear;
-  -o-animation: double-left-enter-from-left 350ms linear;
-  -ms-animation: double-left-enter-from-left 350ms linear;
-  animation: double-left-enter-from-left 350ms linear;
+  -webkit-animation: double-left-enter-from-left 5000ms linear;
+  -moz-animation: double-left-enter-from-left 5000ms linear;
+  -o-animation: double-left-enter-from-left 5000ms linear;
+  -ms-animation: double-left-enter-from-left 5000ms linear;
+  animation: double-left-enter-from-left 5000ms linear;
 }
 body[data-format="double"] .page-container.exit-to-right {
-  -webkit-animation: double-left-exit-to-right 350ms linear;
-  -moz-animation: double-left-exit-to-right 350ms linear;
-  -o-animation: double-left-exit-to-right 350ms linear;
-  -ms-animation: double-left-exit-to-right 350ms linear;
-  animation: double-left-exit-to-right 350ms linear;
+  -webkit-animation: double-left-exit-to-right 5000ms linear;
+  -moz-animation: double-left-exit-to-right 5000ms linear;
+  -o-animation: double-left-exit-to-right 5000ms linear;
+  -ms-animation: double-left-exit-to-right 5000ms linear;
+  animation: double-left-exit-to-right 5000ms linear;
 }
 body[data-format="double"] .page-container.enter-from-right {
-  -webkit-animation: double-left-enter-from-right 350ms linear;
-  -moz-animation: double-left-enter-from-right 350ms linear;
-  -o-animation: double-left-enter-from-right 350ms linear;
-  -ms-animation: double-left-enter-from-right 350ms linear;
-  animation: double-left-enter-from-right 350ms linear;
+  -webkit-animation: double-left-enter-from-right 5000ms linear;
+  -moz-animation: double-left-enter-from-right 5000ms linear;
+  -o-animation: double-left-enter-from-right 5000ms linear;
+  -ms-animation: double-left-enter-from-right 5000ms linear;
+  animation: double-left-enter-from-right 5000ms linear;
 }
 /* D O U B L E  R I G H T  */
 body[data-format="double"] .page-container.right-page.exit-to-left {
-  -webkit-animation: double-right-exit-to-left 350ms linear;
-  -moz-animation: double-right-exit-to-left 350ms linear;
-  -o-animation: double-right-exit-to-left 350ms linear;
-  -ms-animation: double-right-exit-to-left 350ms linear;
-  animation: double-right-exit-to-left 350ms linear;
+  -webkit-animation: double-right-exit-to-left 5000ms linear;
+  -moz-animation: double-right-exit-to-left 5000ms linear;
+  -o-animation: double-right-exit-to-left 5000ms linear;
+  -ms-animation: double-right-exit-to-left 5000ms linear;
+  animation: double-right-exit-to-left 5000ms linear;
 }
 body[data-format="double"] .page-container.right-page.enter-from-left {
-  -webkit-animation: double-right-enter-from-left 350ms linear;
-  -moz-animation: double-right-enter-from-left 350ms linear;
-  -o-animation: double-right-enter-from-left 350ms linear;
-  -ms-animation: double-right-enter-from-left 350ms linear;
-  animation: double-right-enter-from-left 350ms linear;
+  -webkit-animation: double-right-enter-from-left 5000ms linear;
+  -moz-animation: double-right-enter-from-left 5000ms linear;
+  -o-animation: double-right-enter-from-left 5000ms linear;
+  -ms-animation: double-right-enter-from-left 5000ms linear;
+  animation: double-right-enter-from-left 5000ms linear;
 }
 body[data-format="double"] .page-container.right-page.exit-to-right {
-  -webkit-animation: double-right-exit-to-right 350ms linear;
-  -moz-animation: double-right-exit-to-right 350ms linear;
-  -o-animation: double-right-exit-to-right 350ms linear;
-  -ms-animation: double-right-exit-to-right 350ms linear;
-  animation: double-right-exit-to-right 350ms linear;
+  -webkit-animation: double-right-exit-to-right 5000ms linear;
+  -moz-animation: double-right-exit-to-right 5000ms linear;
+  -o-animation: double-right-exit-to-right 5000ms linear;
+  -ms-animation: double-right-exit-to-right 5000ms linear;
+  animation: double-right-exit-to-right 5000ms linear;
 }
 body[data-format="double"] .page-container.right-page.enter-from-right {
-  -webkit-animation: double-right-enter-from-right 350ms linear;
-  -moz-animation: double-right-enter-from-right 350ms linear;
-  -o-animation: double-right-enter-from-right 350ms linear;
-  -ms-animation: double-right-enter-from-right 350ms linear;
-  animation: double-right-enter-from-right 350ms linear;
+  -webkit-animation: double-right-enter-from-right 5000ms linear;
+  -moz-animation: double-right-enter-from-right 5000ms linear;
+  -o-animation: double-right-enter-from-right 5000ms linear;
+  -ms-animation: double-right-enter-from-right 5000ms linear;
+  animation: double-right-enter-from-right 5000ms linear;
 }
 /* end double left */
 /* Double center  */
 body[data-format="double"] .page-container.center-page.exit-to-left {
-  -webkit-animation: double-center-exit-to-left 350ms linear;
-  -moz-animation: double-center-exit-to-left 350ms linear;
-  -o-animation: double-center-exit-to-left 350ms linear;
-  -ms-animation: double-center-exit-to-left 350ms linear;
-  animation: double-center-exit-to-left 350ms linear;
+  -webkit-animation: double-center-exit-to-left 5000ms linear;
+  -moz-animation: double-center-exit-to-left 5000ms linear;
+  -o-animation: double-center-exit-to-left 5000ms linear;
+  -ms-animation: double-center-exit-to-left 5000ms linear;
+  animation: double-center-exit-to-left 5000ms linear;
 }
 /* end double center */
 /* end transitions */
@@ -1194,5 +1194,140 @@ body[data-format="double"] .page-container.center-page.exit-to-left {
 
   100% {
     left: -50%;
+  }
+}
+@-moz-keyframes double-center-enter-from-left {
+  0% {
+    left: -75%;
+  }
+
+  100% {
+    left: 0%;
+  }
+}
+@-webkit-keyframes double-center-enter-from-left {
+  0% {
+    left: -75%;
+  }
+
+  100% {
+    left: 0%;
+  }
+}
+@-o-keyframes double-center-enter-from-left {
+  0% {
+    left: -75%;
+  }
+
+  100% {
+    left: 0%;
+  }
+}
+@-ms-keyframes double-center-enter-from-left {
+  0% {
+    left: -75%;
+  }
+
+  100% {
+    left: 0%;
+  }
+}
+@keyframes double-center-enter-from-left {
+  0% {
+    left: -75%;
+  }
+
+  100% {
+    left: 0%;
+  }
+}
+@-moz-keyframes double-left-exit-to-right {
+  0% {
+    left: -25%;
+  }
+
+  100% {
+    left: 75%;
+  }
+}
+@-webkit-keyframes double-left-exit-to-right {
+  0% {
+    left: -25%;
+  }
+
+  100% {
+    left: 75%;
+  }
+}
+@-o-keyframes double-left-exit-to-right {
+  0% {
+    left: -25%;
+  }
+
+  100% {
+    left: 75%;
+  }
+}
+@-ms-keyframes double-left-exit-to-right {
+  0% {
+    left: -25%;
+  }
+
+  100% {
+    left: 75%;
+  }
+}
+@keyframes double-left-exit-to-right {
+  0% {
+    left: -25%;
+  }
+
+  100% {
+    left: 75%;
+  }
+}
+@-moz-keyframes double-right-exit-to-right {
+  0% {
+    left: 50%;
+  }
+
+  100% {
+    left: 125%;
+  }
+}
+@-webkit-keyframes double-right-exit-to-right {
+  0% {
+    left: 50%;
+  }
+
+  100% {
+    left: 125%;
+  }
+}
+@-o-keyframes double-right-exit-to-right {
+  0% {
+    left: 50%;
+  }
+
+  100% {
+    left: 125%;
+  }
+}
+@-ms-keyframes double-right-exit-to-right {
+  0% {
+    left: 50%;
+  }
+
+  100% {
+    left: 125%;
+  }
+}
+@keyframes double-right-exit-to-right {
+  0% {
+    left: 50%;
+  }
+
+  100% {
+    left: 125%;
   }
 }
