@@ -390,6 +390,10 @@ body[data-format="mobile"] #btns {
 /* end page formatting */
 /* T R A N S I T I O N S */
 /* Single */
+body[data-format="double"] .exit-to-left,
+body[data-format="double"] .exit-to-right {
+  z-index: -1;
+}
 .page-container.exit-to-left {
   -webkit-animation: exit-to-left 5000ms linear;
   -moz-animation: exit-to-left 5000ms linear;
