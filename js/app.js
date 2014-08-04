@@ -217,6 +217,7 @@
 						helpers.saveCurrentStates(current_id);
 					}
 				} else {
+					console.log('here')
 					current_id = 2;
 				}
 				$('#page-container-' + current_id).addClass('viewing');
@@ -466,6 +467,10 @@
 		},
 		movePages: function(currentPage, newPage, classes){
 			if (state.get('format') != 'double'){
+				console.log(state.get('format'))
+				// if (state.get('format') != 'double') {
+
+				// }
 				// Exit the current page
 				$('#page-container-'+currentPage).addClass(classes.exiting);
 				// Enter the next page, the one that is shown in the hash
