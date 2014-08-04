@@ -451,7 +451,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page
 		left 0
 	}
 	to{
-		left -100%
+		left 'calc(-100% - %s)' % gutter_width
 	}
 }
 
@@ -460,7 +460,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page
 		left 0
 	}
 	to{
-		left 100%
+		left 'calc(100% + %s)' % gutter_width
 	}
 }
 
@@ -475,7 +475,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page
 
 @keyframes double-left-enter-from-right {
 	from{
-		left 100%
+		left 'calc(100% + %s)' % gutter_width
 	}
 	to{
 		left 0
@@ -488,7 +488,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page
 		left 50%
 	}
 	to{
-		left -50%
+		left 'calc(-50% - %s)' % gutter_width
 	}
 }
 
@@ -497,13 +497,13 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page
 		left 50%
 	}
 	to{
-		left 150%
+		left 'calc(150% + %s)' % gutter_width
 	}
 }
 
 @keyframes double-right-enter-from-left {
 	from{
-		left -50%
+		left 'calc(-50% - %s)' % gutter_width
 	}
 	to{
 		left 50%
@@ -566,15 +566,13 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page
 
 /* M E D I A  Q U E R I E S */
 @media (max-width: 570px)
+	.header-group
+		display none
 	#header
 		padding 3px
 		height (header_height*2/3)
-		.header-btn
-			font-size 1.2em
-		.header-btn-icon
-			top 5px
-		.header-group[data-which="right"] .header-item-container
-			padding 0 4px
+		#ajmint-logo img
+			margin-top 0!important
 	#pages
 		width 100%
 	.btn-tooltip

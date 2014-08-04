@@ -554,18 +554,15 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
 /* end masks */
 /* M E D I A  Q U E R I E S */
 @media (max-width: 570px) {
+  .header-group {
+    display: none;
+  }
   #header {
     padding: 3px;
     height: 30px;
   }
-  #header .header-btn {
-    font-size: 1.2em;
-  }
-  #header .header-btn-icon {
-    top: 5px;
-  }
-  #header .header-group[data-which="right"] .header-item-container {
-    padding: 0 4px;
+  #header #ajmint-logo img {
+    margin-top: 0 !important;
   }
   #pages {
     width: 100%;
@@ -829,7 +826,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: -100%;
+    left: calc(-100% - 40px);
   }
 }
 @-webkit-keyframes double-left-exit-to-left {
@@ -838,7 +835,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: -100%;
+    left: calc(-100% - 40px);
   }
 }
 @-o-keyframes double-left-exit-to-left {
@@ -847,7 +844,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: -100%;
+    left: calc(-100% - 40px);
   }
 }
 @-ms-keyframes double-left-exit-to-left {
@@ -856,7 +853,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: -100%;
+    left: calc(-100% - 40px);
   }
 }
 @keyframes double-left-exit-to-left {
@@ -865,7 +862,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: -100%;
+    left: calc(-100% - 40px);
   }
 }
 @-moz-keyframes double-left-exit-to-right {
@@ -874,7 +871,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: 100%;
+    left: calc(100% + 40px);
   }
 }
 @-webkit-keyframes double-left-exit-to-right {
@@ -883,7 +880,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: 100%;
+    left: calc(100% + 40px);
   }
 }
 @-o-keyframes double-left-exit-to-right {
@@ -892,7 +889,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: 100%;
+    left: calc(100% + 40px);
   }
 }
 @-ms-keyframes double-left-exit-to-right {
@@ -901,7 +898,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: 100%;
+    left: calc(100% + 40px);
   }
 }
 @keyframes double-left-exit-to-right {
@@ -910,7 +907,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: 100%;
+    left: calc(100% + 40px);
   }
 }
 @-moz-keyframes double-left-enter-from-left {
@@ -960,7 +957,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
 }
 @-moz-keyframes double-left-enter-from-right {
   0% {
-    left: 100%;
+    left: calc(100% + 40px);
   }
 
   100% {
@@ -969,7 +966,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
 }
 @-webkit-keyframes double-left-enter-from-right {
   0% {
-    left: 100%;
+    left: calc(100% + 40px);
   }
 
   100% {
@@ -978,7 +975,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
 }
 @-o-keyframes double-left-enter-from-right {
   0% {
-    left: 100%;
+    left: calc(100% + 40px);
   }
 
   100% {
@@ -987,7 +984,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
 }
 @-ms-keyframes double-left-enter-from-right {
   0% {
-    left: 100%;
+    left: calc(100% + 40px);
   }
 
   100% {
@@ -996,7 +993,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
 }
 @keyframes double-left-enter-from-right {
   0% {
-    left: 100%;
+    left: calc(100% + 40px);
   }
 
   100% {
@@ -1009,7 +1006,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: -50%;
+    left: calc(-50% - 40px);
   }
 }
 @-webkit-keyframes double-right-exit-to-left {
@@ -1018,7 +1015,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: -50%;
+    left: calc(-50% - 40px);
   }
 }
 @-o-keyframes double-right-exit-to-left {
@@ -1027,7 +1024,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: -50%;
+    left: calc(-50% - 40px);
   }
 }
 @-ms-keyframes double-right-exit-to-left {
@@ -1036,7 +1033,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: -50%;
+    left: calc(-50% - 40px);
   }
 }
 @keyframes double-right-exit-to-left {
@@ -1045,7 +1042,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: -50%;
+    left: calc(-50% - 40px);
   }
 }
 @-moz-keyframes double-right-exit-to-right {
@@ -1054,7 +1051,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: 150%;
+    left: calc(150% + 40px);
   }
 }
 @-webkit-keyframes double-right-exit-to-right {
@@ -1063,7 +1060,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: 150%;
+    left: calc(150% + 40px);
   }
 }
 @-o-keyframes double-right-exit-to-right {
@@ -1072,7 +1069,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: 150%;
+    left: calc(150% + 40px);
   }
 }
 @-ms-keyframes double-right-exit-to-right {
@@ -1081,7 +1078,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: 150%;
+    left: calc(150% + 40px);
   }
 }
 @keyframes double-right-exit-to-right {
@@ -1090,12 +1087,12 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   }
 
   100% {
-    left: 150%;
+    left: calc(150% + 40px);
   }
 }
 @-moz-keyframes double-right-enter-from-left {
   0% {
-    left: -50%;
+    left: calc(-50% - 40px);
   }
 
   100% {
@@ -1104,7 +1101,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
 }
 @-webkit-keyframes double-right-enter-from-left {
   0% {
-    left: -50%;
+    left: calc(-50% - 40px);
   }
 
   100% {
@@ -1113,7 +1110,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
 }
 @-o-keyframes double-right-enter-from-left {
   0% {
-    left: -50%;
+    left: calc(-50% - 40px);
   }
 
   100% {
@@ -1122,7 +1119,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
 }
 @-ms-keyframes double-right-enter-from-left {
   0% {
-    left: -50%;
+    left: calc(-50% - 40px);
   }
 
   100% {
@@ -1131,7 +1128,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
 }
 @keyframes double-right-enter-from-left {
   0% {
-    left: -50%;
+    left: calc(-50% - 40px);
   }
 
   100% {
