@@ -188,7 +188,12 @@
 		},
 		implementPageFormat: {
 			bookend: function(){
-				this.single();
+				// this.single();
+				if (states.currentPage == 2) { 
+					$('#page-container-3').addClass('exit-to-right').addClass('right-page');
+				} else {
+					this.single();
+				}
 			},
 			mobile: function(){
 				this.single();
@@ -212,6 +217,7 @@
 						helpers.saveCurrentStates(current_id);
 					}
 				} else {
+					console.log('here')
 					current_id = 2;
 				}
 				$('#page-container-' + current_id).addClass('viewing');
@@ -461,6 +467,10 @@
 		},
 		movePages: function(currentPage, newPage, classes){
 			if (state.get('format') != 'double'){
+				console.log(state.get('format'))
+				// if (state.get('format') != 'double') {
+
+				// }
 				// Exit the current page
 				$('#page-container-'+currentPage).addClass(classes.exiting);
 				// Enter the next page, the one that is shown in the hash
@@ -492,6 +502,9 @@
 			// Unless we're coming from the coming
 			if (state.get('format') == 'double' && states.lastPage != 1) {
 				$('#page-container-'+ (+states.lastPage + 1) ).removeClass('viewing').removeClass('right-page').find('.page').css(helpers.setTransitionCss('transform', 'scale(1)', false));
+			} else if (state.get('format') == 'bookend' && states.currentPage == 1 ) {
+				console.log('here')
+				$('#page-container-'+ (+states.lastPage + 1) ).removeClass('viewing').removeClass('right-page');
 			}
 			state.set('zoom','page');
 		}
