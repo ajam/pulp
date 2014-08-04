@@ -188,12 +188,12 @@
 		},
 		implementPageFormat: {
 			bookend: function(){
-				this.single();
-				// if (states.currentPage == 2) { 
-				// 	$('#page-container-3').addClass('exit-to-right');
-				// } else {
-				// 	this.single();
-				// }
+				// this.single();
+				if (states.currentPage == 2) { 
+					$('#page-container-3').addClass('exit-to-right').addClass('right-page');
+				} else {
+					this.single();
+				}
 			},
 			mobile: function(){
 				this.single();
