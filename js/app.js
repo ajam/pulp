@@ -292,11 +292,11 @@
 
 	var listeners = {
 		header: function(){
-			$('.header-btn[data-btn="fullscreen"]').on('click', function(){
+			$('.header-item-container[data-btn="fullscreen"]').on('click', function(){
 				helpers.toggleFullScreen();
 			});
 
-			$('.header-btn[data-action="modal"]').on('click', function(){
+			$('.header-item-container[data-action="modal"]').on('click', function(){
 				layout.toggleModal();
 			});
 

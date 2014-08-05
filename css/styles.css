@@ -46,19 +46,22 @@ body[data-state="hotspot"] #footer {
 html:-moz-full-screen #header {
   visibility: hidden;
 }
-html:-moz-full-screen #modal-container {
+html:-moz-full-screen #modal-container,
+html:-moz-full-screen #footer {
   display: none !important;
 }
 html:-webkit-full-screen #header {
   visibility: hidden;
 }
-html:-webkit-full-screen #modal-container {
+html:-webkit-full-screen #modal-container,
+html:-webkit-full-screen #footer {
   display: none !important;
 }
 html:-fullscreen #header {
   visibility: hidden;
 }
-html:-fullscreen #modal-container {
+html:-fullscreen #modal-container,
+html:-fullscreen #footer {
   display: none !important;
 }
 html:-ms-fullscreen {
@@ -67,7 +70,8 @@ html:-ms-fullscreen {
 html:-ms-fullscreen #header {
   visibility: hidden;
 }
-html:-ms-fullscreen #modal-container {
+html:-ms-fullscreen #modal-container,
+html:-ms-fullscreen #footer {
   display: none !important;
 }
 .header-item-container {
