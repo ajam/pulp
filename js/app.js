@@ -121,6 +121,7 @@
 			this.mainContent = '#main-content-wrapper'
 			this.drawerContainer = '#side-drawer-container';
 			this.drawerContent = '#side-drawer-content';
+			this.drawerHandle = '#side-drawer-handle';
 			$.detectSwipe.scrollExceptionCondition = function(){
 				return ($('body').attr('data-side-drawer-open') == 'true' || $('body').attr('data-side-drawer-state') == 'changing' );
 			}
@@ -314,18 +315,35 @@
 		},
 		onDrawerTransitionEnd: function(e){
 			$('body').attr('data-side-drawer-state', 'stable');
+		},
+		dragDrawer: function(e){
+			//Disable scrolling by preventing default touch behaviour
+			e.preventDefault();
+			e.stopPropagation();
+			var orig = e.originalEvent;
+			var x = Number(orig.changedTouches[0].pageX);
+
+			this.last_x = this.last_x || x;
+			var d_x = this.last_x - x;
+
+			// Move a div with id "rect"
+			var current_translateX = +$('#main-content-wrapper').css('transform').match(/(-?[0-9\.]+)/g)[4]; // http://stackoverflow.com/questions/5968227/get-the-value-of-webkit-transform-of-an-element-with-jquery
+			console.log(current_translateX, d_x);
+			$('body[data-side-drawer-open="true"]	#main-content-wrapper').css({
+				'transition-duration': '0',
+				'transform': 'translateX(' + (current_translateX - d_x) + 'px)'
+			});
+			this.last_x = x;
+			return false;
+		},
+		snapDrawer: function(){
+			this.last_x = false;
+			$(layout.mainContent).css({
+				'transition-duration': pulpSettings.drawerTransitionDuration,
+				'transform': 'auto'
+			});
+			layout.slideContentArea(true);
 		}
-		// toggleDrawer: function(state){
-		// 	// TODO, change this to animation callbacks
-		// 	if (state == 'open') { 
-		// 		$('body').attr('data-side-drawer', 'false');
-		// 	} else if (state == 'hide-after-slide-finishes') {
-		// 		_.delay(layout.toggleDrawer, pulpSettings.drawerTransitionDuration, 'hide');
-		// 	} else if (state == 'hide'){
-		// 		$(init.drawerContainer).hide();
-		// 		$('body').attr('data-side-drawer-animation-done', 'true');
-		// 	}
-		// }
 	}
 
 	var listeners = {
@@ -400,6 +418,8 @@
 			// Disable scroll bug on iOS
 			new ScrollFix(document.getElementById('side-drawer-container'));
 			$('body').on('touchmove', layout.catchDrawerScroll);
+			$(layout.drawerHandle).on("touchstart touchmove", layout.dragDrawer);
+			$(layout.drawerHandle).on("touchend", layout.snapDrawer);
 		}
 	}
 
@@ -812,13 +832,13 @@
 		go: function(){
 			this.whitelabel(pulpSettings.whitelabel);
 			this.browser = this.browserCheck();
+			layout.init();
 			layout.bakeMasks();
 			this.loadPages();
 			listeners.resize();
 			listeners.header();
 			listeners.keyboardAndGestures();
 			listeners.drawer();
-			layout.init();
 		},
 		loadPages: function(){
 			$.getJSON('data/pages.json')

@@ -8,7 +8,7 @@ header_height = 45px
 header_padding = 7px
 header_margin = 5px
 
-drawer_width = 266px
+drawer_width = 200px
 drawer_transition_opts = 500ms cubic-bezier(0,0,.2,1)
 bg_layout_color = #fff
 
@@ -47,6 +47,7 @@ html:-ms-fullscreen
 	background-color #fff
 	transition transform drawer_transition_opts
 	position absolute
+	transform translateX(0px)
 #main-content-wrapper,#pages-wrapper,#pages
 	backface-visibility hidden 
 /* end globals */
@@ -278,12 +279,26 @@ html:-ms-fullscreen
 	transition-timing-function linear, linear
 	-webkit-overflow-scrolling touch
 
+#side-drawer-handle
+	position absolute
+	right 0
+	top header_height
+	bottom 0
+	left 0
+	// background-color #f0a
+	display none
+	z-index 999
+
 body[data-side-drawer-open="true"]
 	#main-content-wrapper
 		transform translateX(drawer_width*-1)
 		overflow-y hidden
-	#pages-wrapper
+	#pages-wrapper,#btns
 		pointer-events none
+// Open as soon as you click and only disappears after its stable false
+body[data-side-drawer-open="false"][data-side-drawer-state="changing"],body[data-side-drawer-open="true"]
+	#side-drawer-handle
+		display block
 body[data-side-drawer-open="false"][data-side-drawer-state="stable"]
 	#side-drawer-container
 		display none
@@ -622,6 +637,8 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page
 		display block
 		.header-btn
 			border none
+	#side-drawer-handle
+		top (header_height*2/3)
 	#header
 		padding 3px
 		height (header_height*2/3)
