@@ -117,6 +117,15 @@
 	}
 
 	var layout = {
+		init: function(){
+			this.mainContent = '#main-content-wrapper'
+			this.drawerContainer = '#side-drawer-container';
+			this.drawerContent = '#side-drawer-content';
+			$.detectSwipe.scrollExceptionCondition = function(){
+				return ($('body').attr('data-side-drawer-open') == 'true' || $('body').attr('data-side-drawer-state') == 'changing' );
+			}
+			this.slideContentArea(true);
+		},
 		bakeMasks: function(){
 			$('#pages').append('<div class="mask" id="top-mask"></div>').append('<div class="mask" id="bottom-mask"></div>');
 		},
@@ -217,7 +226,6 @@
 						helpers.saveCurrentStates(current_id);
 					}
 				} else {
-					console.log('here')
 					current_id = 2;
 				}
 				$('#page-container-' + current_id).addClass('viewing');
@@ -287,7 +295,37 @@
 			endnotes.sort(helpers.sortByNumber)
 			var content = templates.endnotesFactory({endnotes: endnotes});
 			$('#modal-content').html(content);
+		},
+		catchDrawerScroll: function(e){
+			if ($('body').attr('data-side-drawer') == 'true'){
+				if(!$(layout.drawerContent).has($(e.target)).length || $(layout.drawerContent).height() < $(layout.drawerContainer).height()){
+					e.preventDefault();
+					layout.slideContentArea();
+				}
+			}
+		},
+		slideContentArea: function(open){
+			var $body = $('body');
+			var state = $body.attr('data-side-drawer-state');
+			if (state) $body.attr('data-side-drawer-state', 'changing');
+			open = open || $body.attr('data-side-drawer-open') == 'true';
+			$body.attr('data-side-drawer-open', !open);
+			_.delay(this.onDrawerTransitionEnd, 500)
+		},
+		onDrawerTransitionEnd: function(e){
+			$('body').attr('data-side-drawer-state', 'stable');
 		}
+		// toggleDrawer: function(state){
+		// 	// TODO, change this to animation callbacks
+		// 	if (state == 'open') { 
+		// 		$('body').attr('data-side-drawer', 'false');
+		// 	} else if (state == 'hide-after-slide-finishes') {
+		// 		_.delay(layout.toggleDrawer, pulpSettings.drawerTransitionDuration, 'hide');
+		// 	} else if (state == 'hide'){
+		// 		$(init.drawerContainer).hide();
+		// 		$('body').attr('data-side-drawer-animation-done', 'true');
+		// 	}
+		// }
 	}
 
 	var listeners = {
@@ -298,6 +336,10 @@
 
 			$('.header-item-container[data-action="modal"]').on('click', function(){
 				layout.toggleModal();
+			});
+
+			$('.header-item-container[data-action="drawer"]').on('click', function(){
+				layout.slideContentArea();
 			});
 
 			$('#modal-container').on('click', '.close', function(){
@@ -352,7 +394,12 @@
 			});
 		},
 		pageTransitions: function(){
-			$(".page-container").on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', transitions.onAnimationEnd)
+			$('.page-container').on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', transitions.onAnimationEnd);
+		},
+		drawer: function(){
+			// Disable scroll bug on iOS
+			new ScrollFix(document.getElementById('side-drawer-container'));
+			$('body').on('touchmove', layout.catchDrawerScroll);
 		}
 	}
 
@@ -467,10 +514,6 @@
 		},
 		movePages: function(currentPage, newPage, classes){
 			if (state.get('format') != 'double'){
-				console.log(state.get('format'))
-				// if (state.get('format') != 'double') {
-
-				// }
 				// Exit the current page
 				$('#page-container-'+currentPage).addClass(classes.exiting);
 				// Enter the next page, the one that is shown in the hash
@@ -503,7 +546,6 @@
 			if (state.get('format') == 'double' && states.lastPage != 1) {
 				$('#page-container-'+ (+states.lastPage + 1) ).removeClass('viewing').removeClass('right-page').find('.page').css(helpers.setTransitionCss('transform', 'scale(1)', false));
 			} else if (state.get('format') == 'bookend' && states.currentPage == 1 ) {
-				console.log('here')
 				$('#page-container-'+ (+states.lastPage + 1) ).removeClass('viewing').removeClass('right-page');
 			}
 			state.set('zoom','page');
@@ -765,15 +807,18 @@
 		}
 	}
 
+
 	var init = {
 		go: function(){
 			this.whitelabel(pulpSettings.whitelabel);
 			this.browser = this.browserCheck();
 			layout.bakeMasks();
-			init.loadPages();
+			this.loadPages();
 			listeners.resize();
 			listeners.header();
 			listeners.keyboardAndGestures();
+			listeners.drawer();
+			layout.init();
 		},
 		loadPages: function(){
 			$.getJSON('data/pages.json')

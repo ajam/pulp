@@ -9,5 +9,7 @@ var pulpSettings = {
 	lazyLoadExtent: 6, // How many pages behind and ahead do you want to load your images
 	transitionDuration: '350ms', // This value should match what's in your css, the reason it's not pulling the value from the css and you have to save it here is that on load there is no item that has this animation value. Possible TODO for the future is to add and then remove that item but for now, no need to clutter up the DOM.
 	gutterWidth: 40, // Same as above, this is the `padding-left` value for `.viewing.right-page`.
-	imgFormat: 'jpg' // What format are your images in
+	imgFormat: 'jpg', // What format are your images in
+	drawerWidth: 266,
+	drawerTransitionDuration: 500 // Should match stylesheet value. Possibly simplify this to take the same duration as `transitionDuration`.
 }

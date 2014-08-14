@@ -8,10 +8,12 @@ header_height = 45px
 header_padding = 7px
 header_margin = 5px
 
+drawer_width = 266px
+drawer_transition_opts = 500ms cubic-bezier(0,0,.2,1)
 bg_layout_color = #fff
 
 header_item_color = #000
-header_item_hover_color = #fff
+header_item_hover_color = #666
 header_item_bg_hover_color = #000
 
 arrow_color = #ccc
@@ -38,6 +40,15 @@ a:hover
 	text-decoration underline
 html:-ms-fullscreen
 	width 100% /* needed to center contents in IE */
+
+#main-content-wrapper
+	width 100%
+	height 100%
+	background-color #fff
+	transition transform drawer_transition_opts
+	position absolute
+#main-content-wrapper,#pages-wrapper,#pages
+	backface-visibility hidden 
 /* end globals */
 
 /* H E A D E R */
@@ -84,7 +95,7 @@ html:-ms-fullscreen
 	.header-btn
 		color header_item_hover_color
 		border-color #848484
-		background-color header_item_bg_hover_color
+		// background-color header_item_bg_hover_color
 	.header-text
 		cursor default
 .header-item-container:active
@@ -129,6 +140,8 @@ html:-ms-fullscreen
 	font-size 1.2em
 	font-weight 200
 
+.header-group.mobile
+	display none
 .btn-tooltip
 	display none
 	position absolute
@@ -250,6 +263,33 @@ html:-ms-fullscreen
 
 /* end nav buttons */
 
+/* S N A P P E R  D R A W E R  */
+#side-drawer-container
+	position absolute
+	height 100%
+	right 0
+	top 0
+	background-color #fc0
+	width drawer_width
+	padding 15px
+	overflow auto
+	transition-property top, bottom
+	transition-duration .2s, .2s
+	transition-timing-function linear, linear
+	-webkit-overflow-scrolling touch
+
+body[data-side-drawer-open="true"]
+	#main-content-wrapper
+		transform translateX(drawer_width*-1)
+		overflow-y hidden
+	#pages-wrapper
+		pointer-events none
+body[data-side-drawer-open="false"][data-side-drawer-state="stable"]
+	#side-drawer-container
+		display none
+
+/* end snapper drawer */
+
 /* M O D A L */
 #modal-container
 	display none
@@ -353,13 +393,13 @@ body[data-format="mobile"]
 /* end page formatting */
 
 /* T R A N S I T I O N S */
-body[data-format="double"]
-	.exit-to-left,.exit-to-right
-		z-index -1
+// body[data-format="double"]
+// 	.exit-to-left,.exit-to-right
+// 		z-index -1
 /* Single */
-body[data-format="double"]
-	.exit-to-left,.exit-to-right
-		z-index -1
+// body[data-format="double"]
+// 	.exit-to-left,.exit-to-right
+// 		z-index -1
 .page-container.exit-to-left
 	animation exit-to-left transition_opts
 .page-container.enter-from-left
@@ -407,6 +447,16 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page
 	animation double-right-exit-to-right transition_opts
 	padding-left 40px
 /* end double center */
+
+// Drawer transitions
+@keyframes wrapper-slide-to-left{
+	from{
+		left 0
+	}
+	to{
+		left drawer_width*-1
+	}
+}
 
 // Left page single page
 @keyframes exit-to-left {
@@ -566,8 +616,12 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page
 
 /* M E D I A  Q U E R I E S */
 @media (max-width: 570px)
-	.header-group
+	.header-group.desktop
 		display none
+	.header-group.mobile
+		display block
+		.header-btn
+			border none
 	#header
 		padding 3px
 		height (header_height*2/3)
