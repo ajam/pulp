@@ -328,7 +328,6 @@
 
 			// Move a div with id "rect"
 			var current_translateX = +$('#main-content-wrapper').css('transform').match(/(-?[0-9\.]+)/g)[4]; // http://stackoverflow.com/questions/5968227/get-the-value-of-webkit-transform-of-an-element-with-jquery
-			console.log(current_translateX, d_x);
 			$('body[data-side-drawer-open="true"]	#main-content-wrapper').css({
 				'transition-duration': '0',
 				'transform': 'translateX(' + (current_translateX - d_x) + 'px)'
@@ -839,6 +838,7 @@
 			listeners.header();
 			listeners.keyboardAndGestures();
 			listeners.drawer();
+			FastClick.attach(document.body);
 		},
 		loadPages: function(){
 			$.getJSON('data/pages.json')
