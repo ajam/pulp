@@ -112,7 +112,6 @@
 
 	var templates = {
 		pageFactory: _.template( $('#page-template').html() ),
-		hotspotFactory: _.template( $('#hotspot-template').html() ),
 		endnotesFactory: _.template( $('#endnotes-template').html() )
 	}
 
@@ -409,6 +408,10 @@
 				var direction = $(this).attr('data-dir');
 				routing.set.fromKeyboardOrGesture(direction);
 			});
+
+			$('#pages').on('click', '.mask', function() {
+				routing.set.fromHotspotClick( $(this) );
+			});
 		},
 		pageTransitions: function(){
 			$('.page-container').on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', transitions.onAnimationEnd);
@@ -660,7 +663,7 @@
 			fromHotspotClick: function($hotspot){
 				// Only do this on mobile
 				if (state.get('format') == 'mobile'){
-					var page_hotspot = $hotspot.attr('id').split('-').slice(1,3), // `hotspot-1-1` -> ["1", "1"];
+					var page_hotspot = $hotspot.attr('data-hotspot-id').split('-'), // `1-1` -> ["1", "1"];
 							page = page_hotspot[0],
 							hotspot = page_hotspot[1],
 							hash = '';
@@ -812,6 +815,7 @@
 			var css = helpers.setTransitionCss('transform', 'scale('+ scale_multiplier +') translate('+x_adjuster+'px, '+y_adjuster+'px)', transitionDuration);
 			$currentPage.css(css);
 			zooming.sizeMasks(th_yMiddle*2, cg_yMiddle*2, scale_multiplier, transitionDuration);
+			zooming.applyHotspotIdToMasks(page, hotspot);
 			// // Hide the footnotes
 			// $('#page-container-'+page+' .footnote-container').css('opacity', 0);
 			states.scaleMultiplier = scale_multiplier;
@@ -823,6 +827,9 @@
 			var css = { 'height': mask_height+'px', opacity: 1 };
 			css = helpers.addDuration(css, transitionDuration)
 			$('.mask').css(css);
+		},
+		applyHotspotIdToMasks: function(page, hotspot){
+			$('.mask').attr('data-hotspot-id', page + '-' + hotspot);
 		}
 	}
 
