@@ -50,6 +50,7 @@ html:-ms-fullscreen
 	transition transform drawer_transition_opts
 	position absolute
 	transform translateX(0px)
+	overflow-x hidden
 #main-content-wrapper,#pages-wrapper,#pages
 	backface-visibility hidden 
 /* end globals */
@@ -267,7 +268,7 @@ html:-ms-fullscreen
 /* end nav buttons */
 
 /* S N A P P E R  D R A W E R  */
-body.mobile
+body[data-format="mobile"]
 	background-color #5B5B5B
 #side-drawer-container
 	position absolute
@@ -280,8 +281,8 @@ body.mobile
 	padding 15px
 	overflow auto
 	transition-property top, bottom
-	transition-duration .2s, .2s
-	transition-timing-function linear, linear
+	transition-duration 200ms, 200ms
+	transition-timing-function cubic-bezier(0,0,.2,1), cubic-bezier(0,0,.2,1)
 	-webkit-overflow-scrolling touch
 	box-shadow 10px 0px 12px -5px #000 inset
 	a
@@ -303,44 +304,73 @@ body.mobile
 	display none
 	z-index 999
 
+/* Common styles between desktop and mobile on drawer open */
 body[data-side-drawer-open="true"]
 	#main-content-wrapper
-		transform translateX(drawer_width*-1)
 		overflow-y hidden
 	#pages-wrapper,#btns
 		pointer-events none
 // Open as soon as you click and only disappears after its stable false
-body[data-side-drawer-open="false"][data-side-drawer-state="changing"],body[data-side-drawer-open="true"]
+body[data-side-drawer-open="false"][data-side-drawer-state="changing"],
+body[data-side-drawer-open="true"]
 	#side-drawer-handle
 		display block
 body[data-side-drawer-open="false"][data-side-drawer-state="stable"]
-	#side-drawer-container
+	#side-drawer-container//,#desktop-drawer-container
 		display none
+	// #desktop-drawer-container
+	// 	box-shadow -3px 15px 19px -17px #000
+
+
+
+/* Mobile */
+body[data-format="mobile"][data-side-drawer-open="true"]
+	#main-content-wrapper
+		transform translateX(drawer_width*-1)
+/* end mobile */
+/* Desktop */
+// body[data-side-drawer-open="true"]
+// 	#desktop-drawer-container
+// 		display block
+
+// body[data-format="single"][data-side-drawer-open="false"],
+// body[data-format="double"][data-side-drawer-open="false"],
+// body[data-format="bookend"][data-side-drawer-open="false"]
+// 	#desktop-drawer-container
+// 		transform translateX(100%)
+
+body[data-format="single"][data-side-drawer-open="true"],
+body[data-format="double"][data-side-drawer-open="true"],
+body[data-format="bookend"][data-side-drawer-open="true"]
+	#desktop-drawer-container
+		transform translateX(0px)
+		right 0px
+
+/* end desktop */
 
 /* end snapper drawer */
 
 /* M O D A L */
 #desktop-drawer-container
-	display none
 	position absolute
-	width 375px
-	top 100px
-	left "calc(50% - %s)" % (@width/2)
+	width 33%
+	right -15px
+	transform translateX(100%)
+	bottom 0px
+	padding 5px 15px
+	top header_height
 	background-color #fff
-	border 1px solid #000
 	z-index 9999
-	.close
-		position absolute
-		padding 2px 5px
-		width 100%
-		text-align right
-		color #aaa
-		font-size 1.5em
-	.close:hover
-		cursor pointer
-		color #000
+	transition-duration 500ms, 50ms
+	transition-timing-function cubic-bezier(0,0,.2,1), cubic-bezier(0,0,.2,1)
+	box-shadow -3px 15px 19px -7px #000
+	.section-title
+		margin-bottom 8px
+	.endnote
+		font-size 1.2em
+		margin-bottom 5px
 .section-title
-	font-size 1.6em
+	font-size 1.4em
 	font-weight bold
 	border-bottom 1px solid #646464
 	margin-bottom 5px

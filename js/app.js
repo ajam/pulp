@@ -121,6 +121,9 @@
 			this.drawerContainer = '#side-drawer-container';
 			this.drawerContent = '#side-drawer-content';
 			this.drawerHandle = '#side-drawer-handle';
+			// An Ajam custom implementation:
+			// Disable swipe detection if the drawer is open
+			// If we didn't do this, then the page would be listening for swipes to change pages when we're using the slide gesture to close the drawer
 			$.detectSwipe.scrollExceptionCondition = function(){
 				return ($('body').attr('data-side-drawer-open') == 'true' || $('body').attr('data-side-drawer-state') == 'changing' );
 			}
@@ -310,8 +313,11 @@
 		},
 		slideContentArea: function(open){
 			var $body = $('body');
-			var state = $body.attr('data-side-drawer-state');
-			if (state) $body.attr('data-side-drawer-state', 'changing');
+			var drawer_state = $body.attr('data-side-drawer-state');
+
+			if (drawer_state) { 
+				$body.attr('data-side-drawer-state', 'changing'); 
+			}
 			open = open || $body.attr('data-side-drawer-open') == 'true';
 			$body.attr('data-side-drawer-open', !open);
 			_.delay(this.onDrawerTransitionEnd, 500)
@@ -424,8 +430,9 @@
 			// Disable scroll bug on iOS
 			new ScrollFix(document.getElementById('side-drawer-container'));
 			$('body').on('touchmove', layout.catchDrawerScroll);
-			$(layout.drawerHandle).on("touchstart touchmove", layout.dragDrawer);
-			$(layout.drawerHandle).on("touchend", layout.snapDrawer);
+			$(layout.drawerHandle).on('touchstart touchmove', layout.dragDrawer);
+			$(layout.drawerHandle).on('touchend', layout.snapDrawer);
+			$(layout.drawerHandle).on('click', layout.snapDrawer);
 		}
 	}
 
