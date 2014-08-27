@@ -51,6 +51,7 @@ html:-ms-fullscreen
 	position absolute
 	transform translateX(0px)
 	overflow-x hidden
+	overflow-y hidden
 #main-content-wrapper,#pages-wrapper,#pages
 	backface-visibility hidden 
 /* end globals */
@@ -280,9 +281,6 @@ body[data-format="mobile"]
 	width drawer_width
 	padding 15px
 	overflow auto
-	transition-property top, bottom
-	transition-duration 200ms, 200ms
-	transition-timing-function cubic-bezier(0,0,.2,1), cubic-bezier(0,0,.2,1)
 	-webkit-overflow-scrolling touch
 	box-shadow 10px 0px 12px -5px #000 inset
 	a
@@ -306,8 +304,6 @@ body[data-format="mobile"]
 
 /* Common styles between desktop and mobile on drawer open */
 body[data-side-drawer-open="true"]
-	#main-content-wrapper
-		overflow-y hidden
 	#pages-wrapper,#btns
 		pointer-events none
 // Open as soon as you click and only disappears after its stable false
@@ -315,37 +311,23 @@ body[data-side-drawer-open="false"][data-side-drawer-state="changing"],
 body[data-side-drawer-open="true"]
 	#side-drawer-handle
 		display block
+
+/* Mobile */
 body[data-side-drawer-open="false"][data-side-drawer-state="stable"]
 	#side-drawer-container//,#desktop-drawer-container
 		display none
-	// #desktop-drawer-container
-	// 	box-shadow -3px 15px 19px -17px #000
-
-
-
-/* Mobile */
 body[data-format="mobile"][data-side-drawer-open="true"]
 	#main-content-wrapper
 		transform translateX(drawer_width*-1)
 /* end mobile */
+
 /* Desktop */
-// body[data-side-drawer-open="true"]
-// 	#desktop-drawer-container
-// 		display block
-
-// body[data-format="single"][data-side-drawer-open="false"],
-// body[data-format="double"][data-side-drawer-open="false"],
-// body[data-format="bookend"][data-side-drawer-open="false"]
-// 	#desktop-drawer-container
-// 		transform translateX(100%)
-
 body[data-format="single"][data-side-drawer-open="true"],
 body[data-format="double"][data-side-drawer-open="true"],
 body[data-format="bookend"][data-side-drawer-open="true"]
 	#desktop-drawer-container
-		transform translateX(0px)
+		transform translateX(0%)
 		right 0px
-
 /* end desktop */
 
 /* end snapper drawer */
@@ -361,8 +343,7 @@ body[data-format="bookend"][data-side-drawer-open="true"]
 	top header_height
 	background-color #fff
 	z-index 9999
-	transition-duration 500ms, 50ms
-	transition-timing-function cubic-bezier(0,0,.2,1), cubic-bezier(0,0,.2,1)
+	transition transform 500ms cubic-bezier(0,0,.2,1),right 100ms cubic-bezier(0,0,.2,1)
 	box-shadow -3px 15px 19px -7px #000
 	.section-title
 		margin-bottom 8px
@@ -674,7 +655,7 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page
 		display block
 		.header-btn
 			border none
-	#side-drawer-handle
+	#side-drawer-handle,#desktop-drawer-container
 		top (header_height*2/3)
 	#header
 		padding 3px

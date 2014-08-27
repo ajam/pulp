@@ -44,6 +44,7 @@ html:-ms-fullscreen {
   -ms-transform: translateX(0px);
   transform: translateX(0px);
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 #main-content-wrapper,
 #pages-wrapper,
@@ -309,21 +310,6 @@ body[data-format="mobile"] {
   width: 66%;
   padding: 15px;
   overflow: auto;
-  -webkit-transition-property: top, bottom;
-  -moz-transition-property: top, bottom;
-  -o-transition-property: top, bottom;
-  -ms-transition-property: top, bottom;
-  transition-property: top, bottom;
-  -webkit-transition-duration: 200ms, 200ms;
-  -moz-transition-duration: 200ms, 200ms;
-  -o-transition-duration: 200ms, 200ms;
-  -ms-transition-duration: 200ms, 200ms;
-  transition-duration: 200ms, 200ms;
-  -webkit-transition-timing-function: cubic-bezier(0, 0, 0.2, 1), cubic-bezier(0, 0, 0.2, 1);
-  -moz-transition-timing-function: cubic-bezier(0, 0, 0.2, 1), cubic-bezier(0, 0, 0.2, 1);
-  -o-transition-timing-function: cubic-bezier(0, 0, 0.2, 1), cubic-bezier(0, 0, 0.2, 1);
-  -ms-transition-timing-function: cubic-bezier(0, 0, 0.2, 1), cubic-bezier(0, 0, 0.2, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1), cubic-bezier(0, 0, 0.2, 1);
   -webkit-overflow-scrolling: touch;
   -webkit-box-shadow: 10px 0px 12px -5px #000 inset;
   box-shadow: 10px 0px 12px -5px #000 inset;
@@ -349,9 +335,6 @@ body[data-format="mobile"] {
   z-index: 999;
 }
 /* Common styles between desktop and mobile on drawer open */
-body[data-side-drawer-open="true"] #main-content-wrapper {
-  overflow-y: hidden;
-}
 body[data-side-drawer-open="true"] #pages-wrapper,
 body[data-side-drawer-open="true"] #btns {
   pointer-events: none;
@@ -360,10 +343,10 @@ body[data-side-drawer-open="false"][data-side-drawer-state="changing"] #side-dra
 body[data-side-drawer-open="true"] #side-drawer-handle {
   display: block;
 }
+/* Mobile */
 body[data-side-drawer-open="false"][data-side-drawer-state="stable"] #side-drawer-container {
   display: none;
 }
-/* Mobile */
 body[data-format="mobile"][data-side-drawer-open="true"] #main-content-wrapper {
   -webkit-transform: translateX(-66%);
   -moz-transform: translateX(-66%);
@@ -376,11 +359,11 @@ body[data-format="mobile"][data-side-drawer-open="true"] #main-content-wrapper {
 body[data-format="single"][data-side-drawer-open="true"] #desktop-drawer-container,
 body[data-format="double"][data-side-drawer-open="true"] #desktop-drawer-container,
 body[data-format="bookend"][data-side-drawer-open="true"] #desktop-drawer-container {
-  -webkit-transform: translateX(0px);
-  -moz-transform: translateX(0px);
-  -o-transform: translateX(0px);
-  -ms-transform: translateX(0px);
-  transform: translateX(0px);
+  -webkit-transform: translateX(0%);
+  -moz-transform: translateX(0%);
+  -o-transform: translateX(0%);
+  -ms-transform: translateX(0%);
+  transform: translateX(0%);
   right: 0px;
 }
 /* end desktop */
@@ -400,16 +383,11 @@ body[data-format="bookend"][data-side-drawer-open="true"] #desktop-drawer-contai
   top: 45px;
   background-color: #fff;
   z-index: 9999;
-  -webkit-transition-duration: 500ms, 50ms;
-  -moz-transition-duration: 500ms, 50ms;
-  -o-transition-duration: 500ms, 50ms;
-  -ms-transition-duration: 500ms, 50ms;
-  transition-duration: 500ms, 50ms;
-  -webkit-transition-timing-function: cubic-bezier(0, 0, 0.2, 1), cubic-bezier(0, 0, 0.2, 1);
-  -moz-transition-timing-function: cubic-bezier(0, 0, 0.2, 1), cubic-bezier(0, 0, 0.2, 1);
-  -o-transition-timing-function: cubic-bezier(0, 0, 0.2, 1), cubic-bezier(0, 0, 0.2, 1);
-  -ms-transition-timing-function: cubic-bezier(0, 0, 0.2, 1), cubic-bezier(0, 0, 0.2, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1), cubic-bezier(0, 0, 0.2, 1);
+  -webkit-transition: -webkit-transform 500ms cubic-bezier(0, 0, 0.2, 1), right 100ms cubic-bezier(0, 0, 0.2, 1);
+  -moz-transition: -moz-transform 500ms cubic-bezier(0, 0, 0.2, 1), right 100ms cubic-bezier(0, 0, 0.2, 1);
+  -o-transition: -o-transform 500ms cubic-bezier(0, 0, 0.2, 1), right 100ms cubic-bezier(0, 0, 0.2, 1);
+  -ms-transition: -ms-transform 500ms cubic-bezier(0, 0, 0.2, 1), right 100ms cubic-bezier(0, 0, 0.2, 1);
+  transition: transform 500ms cubic-bezier(0, 0, 0.2, 1), right 100ms cubic-bezier(0, 0, 0.2, 1);
   -webkit-box-shadow: -3px 15px 19px -7px #000;
   box-shadow: -3px 15px 19px -7px #000;
 }
@@ -679,7 +657,8 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page {
   .header-group.mobile .header-btn {
     border: none;
   }
-  #side-drawer-handle {
+  #side-drawer-handle,
+  #desktop-drawer-container {
     top: 30px;
   }
   #header {
