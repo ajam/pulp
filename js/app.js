@@ -595,11 +595,11 @@
 			// TODO, now that `setInitRouteChecks` is a callback, if we're on first run, you can cancel route navigation and kick people to the first page if that's the desired behavior
 			triggerLazyLoad = triggerLazyLoad || states.firstRun;
 			if (states.firstRun) { 
+				// Always start on the first page
+				page = '1';
 				helpers.saveCurrentStates(page); 
 				transition_duration = false;
-				if (page == '1'){
-					layout.toggleNavHelpers(true);
-				}
+				layout.toggleNavHelpers(true);
 			} else {
 				layout.toggleNavHelpers(false);
 			}
@@ -607,7 +607,7 @@
 			if (triggerLazyLoad) this.lazyLoadImages(page);
 			layout.displayPageNumber(page);
 			layout.showAppropriateNavBtns(page);
-			cb(transition_duration);
+			cb(transition_duration, page);
 		},
 		lazyLoadImages: function(page){
 			page = +page;
@@ -643,8 +643,8 @@
 
 			routing.router.on('route:page', function(page) {
 				// Second arg is lazy load trigger	
-				routing.setInitRouteChecks(page, true, function(transitionDuration){
-					routing.read(page, null, transitionDuration);
+				routing.setInitRouteChecks(page, true, function(transitionDuration, goToPage){
+					routing.read(goToPage, null, transitionDuration);
 				});
 			});
 
@@ -664,11 +664,8 @@
 			routing.onPageLoad(window.location.hash);
 		},
 		onPageLoad: function(locationHash){
-			// If it doesn't have a hash then go to the first page
-			// TODO question, should this always start you from the beginning on load?
-			if (!locationHash){
-				routing.router.navigate(states.currentPage, { trigger: true, replace: true });
-			}
+			// If it doesn't have a hash on load then go to the first page
+			routing.router.navigate('1', { trigger: true, replace: true });
 		},
 		set: {
 			fromHotspotClick: function($hotspot){
