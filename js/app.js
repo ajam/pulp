@@ -23,7 +23,7 @@
 			// If it's less than a single page
 			if (windowWidth <= this.get('single-page-width')) return 'mobile';
 			// Everything else
-			return 'single'
+			return 'single';
 		}
 	});
 
@@ -46,7 +46,7 @@
 			return css;
 		},
 		addDuration: function(cssObj, transitionDuration){
-			var duration = transitionDuration ? pulpSettings.transitionDuration : 0
+			var duration = transitionDuration ? pulpSettings.transitionDuration : 0;
 			_.extend(cssObj, {'transition-duration': duration});
 			return cssObj;
 		},
