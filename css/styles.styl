@@ -8,7 +8,7 @@ header_height = 45px
 header_padding = 7px
 header_margin = 5px
 
-drawer_width = 200px
+drawer_width = 66%
 drawer_transition_opts = 500ms cubic-bezier(0,0,.2,1)
 bg_layout_color = #fff
 
@@ -18,6 +18,8 @@ header_item_bg_hover_color = #000
 
 arrow_color = #ccc
 arrow_hover_color = #000
+the_beige = #f3f0df
+bg_gray = #34393A
 // progress_bar_height = 3px
 // progress_bar_margin = 4px
 // progress_bar_color = #474545
@@ -68,23 +70,23 @@ body[data-state="hotspot"]
 html:-moz-full-screen
 	#header
 		visibility hidden
-	#modal-container,#footer
+	#desktop-drawer-container,#footer
 		display none!important
 html:-webkit-full-screen
 	#header
 		visibility hidden
-	#modal-container,#footer
+	#desktop-drawer-container,#footer
 		display none!important
 html:-fullscreen
 	#header
 		visibility hidden
-	#modal-container,#footer
+	#desktop-drawer-container,#footer
 		display none!important
 html:-ms-fullscreen
 	width 100%
 	#header
 		visibility hidden
-	#modal-container,#footer
+	#desktop-drawer-container,#footer
 		display none!important
 
 .header-item-container
@@ -265,12 +267,15 @@ html:-ms-fullscreen
 /* end nav buttons */
 
 /* S N A P P E R  D R A W E R  */
+body.mobile
+	background-color #5B5B5B
 #side-drawer-container
 	position absolute
 	height 100%
 	right 0
 	top 0
-	background-color #fc0
+	color #fff
+	background-color bg_gray
 	width drawer_width
 	padding 15px
 	overflow auto
@@ -278,6 +283,15 @@ html:-ms-fullscreen
 	transition-duration .2s, .2s
 	transition-timing-function linear, linear
 	-webkit-overflow-scrolling touch
+	box-shadow 10px 0px 12px -5px #000 inset
+	a
+		color #71BFFF
+.drawer-section-container
+	margin-bottom 15px
+	li
+		font-size 1.3em
+		margin-bottom 3px
+		font-weight 200
 
 #side-drawer-handle
 	position absolute
@@ -306,7 +320,7 @@ body[data-side-drawer-open="false"][data-side-drawer-state="stable"]
 /* end snapper drawer */
 
 /* M O D A L */
-#modal-container
+#desktop-drawer-container
 	display none
 	position absolute
 	width 375px
@@ -325,19 +339,12 @@ body[data-side-drawer-open="false"][data-side-drawer-state="stable"]
 	.close:hover
 		cursor pointer
 		color #000
-#endnotes
-	margin 10px
-	max-height 500px
-	overflow-x hidden
-	overflow-y scroll
-	.endnote
-		font-size 1.2em
-		margin-bottom 5px
-		font-weight 200
 .section-title
-	padding 10px 10px 0 10px
-	font-size 1.3em
+	font-size 1.6em
 	font-weight bold
+	border-bottom 1px solid #646464
+	margin-bottom 5px
+	padding-bottom 3px
 /* end modal */
 
 /* P A G E S */
@@ -644,6 +651,8 @@ body[data-format="bookend"] .page-container.exit-to-right.right-page
 		height (header_height*2/3)
 		#ajmint-logo img
 			margin-top 0!important
+		.header-btn-icon
+			top 4px
 	#pages
 		width 100%
 	.btn-tooltip
