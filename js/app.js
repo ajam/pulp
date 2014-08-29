@@ -637,7 +637,6 @@
 			// Because it's categorically false when navigating to a hotspot
 			// The only time that changes would be when we're on a first run
 			// So it has a fall back to `true` in that scenario
-			// TODO, now that `setInitRouteChecks` is a callback, if we're on first run, you can cancel route navigation and kick people to the first page if that's the desired behavior
 			triggerLazyLoad = triggerLazyLoad || states.firstRun;
 			if (states.firstRun) { 
 				// Always start on the first page
@@ -740,7 +739,9 @@
 				if (direction && $('body').attr('data-state') != 'page-change'){
 					var pp_info = helpers.hashToPageHotspotDict( window.location.hash ),
 							hotspot_max = Number( $('#page-'+pp_info.page).attr('data-length') ),
-							format = state.get('format').format,
+							formatState = state.get('format'),
+							format = formatState.format,
+							bookend = formatState.bookend,
 							leaf_to;
 
 					pp_info.page = pp_info.page || 1; // If there's no page, go to the first page
@@ -748,9 +749,13 @@
 					states.lastHotspot = pp_info.hotspot;
 					
 					// Send it to the appropriate function to transform the new page and hotspot locations
-					(format == 'mobile') ? leaf_to = 'hotspot' : leaf_to = 'page';
+					if (format == 'mobile' && bookend == 'false') {
+						leaf_to = 'hotspot';
+					} else {
+						leaf_to = 'page';
+					}
 
-					// TODO, current errors on arrow up keys and other things that have a direction variable but not a function under leafing
+					console.log(direction)
 					pp_info = leafing[direction][leaf_to](pp_info, hotspot_max, states.pages_max);
 					// Add our new info to the hash
 					// or nof if we're going to a full pulle
