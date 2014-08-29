@@ -4,26 +4,42 @@
 	var State = Backbone.Model.extend({
 		initialize: function(){
 			this.set('single-page-width', parseInt( $('#pages').css('max-width') ));
-			this.set('format', null);
+			this.set('format', {});
 			this.set('zoom', null);
 		},
 		setPageFormat: function(page){
-			this.set('format', this.determinePageFormat( page ) );
+			this.set('format', this.determineLayoutInformation( page ) );
 		},
-		determinePageFormat: function(page, windowWidth, bypass){
+		determineLayoutInformation: function(page){
+			var bookend = this.determineBookend(page);
+			var format = this.determinePageFormat(page);
+			// console.log(format, bookend)
+			return { format: format, bookend: bookend };
+		},
+		determinePageFormat: function(page, windowWidth){
 			windowWidth = windowWidth || $(window).width();
-			// If we're on the first page
-			// TODO, last page
-			if (!bypass){
-				var this_page = page || states.currentPage;
-				if (this_page == 1) return 'bookend';
+			var format;
+			if (windowWidth > this.get('single-page-width')*2 + PULP_SETTINGS.gutterWidth) {
+				// If the window is wide enough for two pages
+				format = 'double';
+			} else if (windowWidth <= this.get('single-page-width')) {
+				// If it's less than a single page
+				format = 'mobile';
+			} else {
+				// Everything else
+				format = 'single';
 			}
-			// If the window is wide enough for two pages
-			if (windowWidth > this.get('single-page-width')*2 + pulpSettings.gutterWidth) return 'double';
-			// If it's less than a single page
-			if (windowWidth <= this.get('single-page-width')) return 'mobile';
-			// Everything else
-			return 'single';
+			return format;
+		},
+		determineBookend: function(page){
+			var this_page = page || states.currentPage,
+					bookend;
+			if (this_page == 1) {
+				bookend = 'true';
+			} else {
+				bookend = 'false'
+			}
+			return bookend;
 		}
 	});
 
@@ -46,15 +62,20 @@
 			return css;
 		},
 		addDuration: function(cssObj, transitionDuration){
-			var duration = transitionDuration ? pulpSettings.transitionDuration : 0;
+			var duration = transitionDuration ? PULP_SETTINGS.transitionDuration : 0;
 			_.extend(cssObj, {'transition-duration': duration});
 			return cssObj;
 		},
 		saveCurrentStates: function(page, hotspot, lastPage){
-			if (state.get('format') == 'double' && page % 2 != 0) page = page - 1;
+			var formatState = state.get('format'),
+					format = formatState.format,
+					bookend = formatState.bookend;
+
+			if (format == 'double' && bookend == 'false' && page % 2 != 0) page = page - 1;
 			if (page) states.currentPage = page;
 			if (hotspot) states.currentHotspot = hotspot;
 			if (lastPage) states.lastPage = lastPage;
+			console.log(page)
 		},
 		hashToPageHotspotDict: function(hash){
 			// If for some reason it has a slash as the last character, cut it so as to not mess up the split
@@ -142,7 +163,6 @@
 
 				// Add listeners
 				listeners.hotspotClicks( $page );
-				listeners.pageTransitions();
 			}
 			// Once images are loaded, measure the hotspot locations
 			layout.measurePageElements(function(){
@@ -186,10 +206,11 @@
 
 				img_width = img_width_wrapper = $img.width();
 				img_height = $img.height();
+				console.log(state.determineBookend())
 
 				if (state.determinePageFormat(null, null, true) == 'double') {
 					img_width = img_width*2;
-					img_width_wrapper = img_width+pulpSettings.gutterWidth;
+					img_width_wrapper = img_width+PULP_SETTINGS.gutterWidth;
 					if (init.browser[0] == 'Firefox') img_width_wrapper = img_width_wrapper - 1; // Minus one for sub-pixel rendering hack
 				}
 				// Apply the dimensions from the image to the wrapper
@@ -214,11 +235,12 @@
 				$('.right-page').removeClass('viewing').removeClass('right-page');
 			},
 			double: function(){
+				var $pageContainer;
 				// Clear all info
 				states.hotspot = '';
 				states.lastHotspot = '';
 				var current_id;
-				// If we're not on the first page...
+				// If we're not on the first page
 				if (states.currentPage != 1){
 					// Get the id of the current page based on what is visible
 					current_id = +$('.page-container.viewing').attr('id').split('-')[2]; // `page-container-1` -> 1
@@ -231,7 +253,9 @@
 				} else {
 					current_id = 2;
 				}
-				$('#page-container-' + current_id).addClass('viewing');
+				$pageContainer = $('#page-container-' + current_id);
+				if ($pageContainer.hasClass('right-page')) { $pageContainer.removeClass('right-page'); }
+				$pageContainer.addClass('viewing');
 				$('#page-container-' + (current_id + 1)).addClass('right-page').addClass('viewing');
 			}
 		},
@@ -259,13 +283,16 @@
 		},
 		displayPageNumber: function(page){
 			page = +page;
+			var formatState = state.get('format'),
+					format = formatState.format,
+					bookend = formatState.bookend;
 			// var format = state.determinePageFormat();
 			// If we're double and it's an even page and it's not the last page, then put it on the odd page
 			// if (format != 'single' && page % 2 == 0 && page != states.pages_max) page = +page + 1;
 
 			// If it's a wide format
 			// And we're navigating to an odd page, then subtract it down so the route puts you on the even page with the odd page visible to the right
-			if ( state.get('format') == 'double' && page % 2 != 0 && page != 1 ){
+			if ( state.get('format').format == 'double' && bookend == 'false' && page % 2 != 0 ){
 				page = page - 1;
 			}
 			$('.header-item[data-which="page-number"] .header-text').html('Page ' + page + ' / ' + states.pages_max)
@@ -297,7 +324,6 @@
 		bakeEndnotes: function(endnotes){
 			endnotes.sort(helpers.sortByNumber)
 			_.each(endnotes, function(endnote){
-				console.log(endnote)
 				var endnote_markup = templates.endnoteFactory({endnote: endnote});
 				// Bake into desktop and mobile endnotes containers
 				$('.endnotes').append(endnote_markup);
@@ -347,7 +373,7 @@
 		snapDrawer: function(){
 			this.last_x = false;
 			$(layout.mainContent).css({
-				'transition-duration': pulpSettings.drawerTransitionDuration,
+				'transition-duration': PULP_SETTINGS.drawerTransitionDuration,
 				'transform': 'auto'
 			});
 			layout.slideContentArea(true);
@@ -380,10 +406,15 @@
 			})
 		},
 		state: function(){
-			state.on('change:format', function(model, format) {
+			state.on('change:format', function(model, formats) {
 				// $('#pages').attr('data-format', format)
-				$('body').attr('data-format', format)
-				layout.implementPageFormat[format]();
+				$('body').attr('data-format', formats.format);
+				$('body').attr('data-bookend', formats.bookend);
+				if (formats.bookend == 'false'){
+					layout.implementPageFormat[formats.format]();
+				} else {
+					layout.implementPageFormat.bookend();
+				}
 			});
 			state.on('change:zoom', function(model, zoom) {
 				// $('#pages').attr('data-state', zoom);
@@ -423,9 +454,6 @@
 				routing.set.fromHotspotClick( $(this) );
 			});
 		},
-		pageTransitions: function(){
-			$('.page-container').on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', transitions.onAnimationEnd);
-		},
 		drawer: function(){
 			// Disable scroll bug on iOS
 			new ScrollFix(document.getElementById('side-drawer-container'));
@@ -440,11 +468,14 @@
 	var leafing = {
 		prev: {
 			page: function(pp_info){
-				var format = state.get('format')
+				var formatState = state.get('format'),
+						format = formatState.format,
+						bookend = formatState.bookend;
 				if (pp_info.page != 1){
-					if (format != 'double'){
+					if (format != 'double' && bookend == 'false'){
 						pp_info.page--;
 					} else {
+						console.log('here')
 						if (pp_info.page != 2){
 							pp_info.page = pp_info.page - 2;
 						} else {
@@ -479,7 +510,11 @@
 		next: {
 			page: function(pp_info, hotspot_max, pages_max){
 				var increment_by = 1;
-				if (state.get('format') == 'double') increment_by = 2;
+				var formatState = state.get('format'),
+						format = formatState.format,
+						bookend = formatState.bookend;
+
+				if (format == 'double' && bookend == 'false') { increment_by = 2; }
 
 				if ( (pp_info.page + increment_by) <= pages_max ){
 					pp_info.page = pp_info.page + increment_by
@@ -508,9 +543,12 @@
 	// Change pages
 	var transitions = {
 		goIfNecessary: function(currentPage, newPage){
+			var formatState = state.get('format'),
+					format = formatState.format,
+					bookend = formatState.bookend;
 			// If it's a wide format
 			// And we're navigating to an odd page, then subtract it down so the route puts you on the even page with the odd page visible to the right
-			if ( state.get('format') == 'double' && newPage % 2 != 0 ){
+			if ( format == 'double' && bookend == 'false' && newPage % 2 != 0 ){
 				newPage = newPage - 1;
 				routing.router.navigate(newPage.toString(), { replace: true });
 			}
@@ -546,7 +584,9 @@
 			return classes;
 		},
 		movePages: function(currentPage, newPage, classes){
-			if (state.get('format') != 'double'){
+			var format = state.get('format').format,
+					bookend = state.get('format').bookend;
+			if (format != 'double' || bookend == 'true'){
 				// Exit the current page
 				$('#page-container-'+currentPage).addClass(classes.exiting);
 				// Enter the next page, the one that is shown in the hash
@@ -563,6 +603,8 @@
 				$('#page-container-'+newPage).addClass('viewing').addClass(classes.entering);
 				$('#page-container-'+(newPage + 1) ).addClass(classes.entering).addClass('right-page').addClass('viewing');
 			}
+			// Call animation end after the time as provided in the config file. This used to work by setting an animationEnd but that triggers an event for every child div.
+			_.delay(transitions.onAnimationEnd, parseFloat(PULP_SETTINGS.transitionDuration) )
 		},
 		onAnimationEnd: function(){
 			// Remove all navigation classes, which will have finished their animation since we're inside that callback
@@ -576,9 +618,12 @@
 			$('#page-container-'+states.lastPage).removeClass('viewing').find('.page').css(helpers.setTransitionCss('transform', 'scale(1)', false));
 			// If we were on a double view, do the same for its next page
 			// Unless we're coming from the coming
-			if (state.get('format') == 'double' && states.lastPage != 1) {
+			var formatState = state.get('format'),
+					format = formatState.format,
+					bookend = formatState.bookend;
+			if (format == 'double' && bookend == 'false' && states.lastPage != 1) {
 				$('#page-container-'+ (+states.lastPage + 1) ).removeClass('viewing').removeClass('right-page').find('.page').css(helpers.setTransitionCss('transform', 'scale(1)', false));
-			} else if (state.get('format') == 'bookend' && states.currentPage == 1 ) {
+			} else if (bookend == 'true' && states.currentPage == 1 ) {
 				$('#page-container-'+ (+states.lastPage + 1) ).removeClass('viewing').removeClass('right-page');
 			}
 			state.set('zoom','page');
@@ -611,7 +656,7 @@
 		},
 		lazyLoadImages: function(page){
 			page = +page;
-			var extent = pulpSettings.lazyLoadExtent,
+			var extent = PULP_SETTINGS.lazyLoadExtent,
 					min_range = page - extent,
 					max_range = page + extent;
 
@@ -627,7 +672,7 @@
 				page_number = range[i];
 				$img = $('#page-container-'+page_number).find('img');
 				src = $img.attr('src');
-				if (src.indexOf('data:image\/gif') > -1) $img.attr('src', 'imgs/pages/page-'+page_number+'.'+pulpSettings.imgFormat );
+				if (src.indexOf('data:image\/gif') > -1) $img.attr('src', 'imgs/pages/page-'+page_number+'.'+PULP_SETTINGS.imgFormat );
 			}
 
 		},
@@ -651,7 +696,7 @@
 			routing.router.on('route:hotspot', function(page, hotspot) {
 				routing.setInitRouteChecks(page, null, function(transitionDuration){;
 					// If we're on desktop, kill the hotspot
-					if (state.get('format') != 'mobile' ) {
+					if (state.get('format').format != 'mobile' ) {
 						hotspot = '';
 						routing.router.navigate(page, { replace: true });
 					}
@@ -670,7 +715,7 @@
 		set: {
 			fromHotspotClick: function($hotspot){
 				// Only do this on mobile
-				if (state.get('format') == 'mobile'){
+				if (state.get('format').format == 'mobile'){
 					var page_hotspot = $hotspot.attr('data-hotspot-id').split('-'), // `1-1` -> ["1", "1"];
 							page = page_hotspot[0],
 							hotspot = page_hotspot[1],
@@ -695,7 +740,7 @@
 				if (direction && $('body').attr('data-state') != 'page-change'){
 					var pp_info = helpers.hashToPageHotspotDict( window.location.hash ),
 							hotspot_max = Number( $('#page-'+pp_info.page).attr('data-length') ),
-							format = state.get('format'),
+							format = state.get('format').format,
 							leaf_to;
 
 					pp_info.page = pp_info.page || 1; // If there's no page, go to the first page
@@ -723,7 +768,7 @@
 				// Remove the hotspot from the hash if you're on desktop
 				// Turn the location hash into a more readable dictionary `{page: Number, hotspot: Number}`
 				var pp_info = helpers.hashToPageHotspotDict(window.location.hash);
-				if (state.get('format') != 'mobile' && pp_info.hotspot){
+				if (state.get('format').format != 'mobile' && pp_info.hotspot){
 					routing.router.navigate(pp_info.page.toString(), { replace: true } );
 					states.currentHotspot = '';
 				}
@@ -755,7 +800,7 @@
 			transitions.goIfNecessary(+states.currentPage, page);
 
 			// Now zoom to the appropriate hotspot or page
-			if (state.get('format') == 'mobile' && hotspot){
+			if (state.get('format').format == 'mobile' && hotspot){
 				zooming.toHotspot(page, hotspot, transitionDuration);
 			}else{
 				// If no hotspot specified, reset to full page view
@@ -781,7 +826,11 @@
 
 			// Set the page state to changing if there are more than the appropriate number of viewing objects, else set it to page
 			var zoom_state, normal_length;
-			if ( state.get('format') != 'double') {
+			var formatState = state.get('format'),
+					format = formatState.format,
+					bookend = formatState.bookend;
+
+			if ( format != 'double' && bookend == 'false') {
 				normal_length = 1;
 			} else {
 				normal_length = 2;
@@ -844,7 +893,8 @@
 
 	var init = {
 		go: function(){
-			this.whitelabel(pulpSettings.whitelabel);
+			
+			this.whitelabel(PULP_SETTINGS.whitelabel);
 			this.browser = this.browserCheck();
 			layout.init();
 			layout.bakeMasks();
