@@ -285,12 +285,24 @@ body[data-format="mobile"]
 	box-shadow 10px 0px 12px -5px #000 inset
 	a
 		color #71BFFF
+	.section-title
+		margin-top 5px
 .drawer-section-container
-	margin-bottom 15px
+	margin-bottom 20px
 	li
 		font-size 1.3em
 		margin-bottom 3px
 		font-weight 200
+.drawer-section-container[data-which="share"]
+	li
+		display inline-block
+		width 30%
+		font-size 2em
+		text-align center
+		padding-top 5px
+	li:hover // Temporary until more comprehensive social button styles
+		background-color #fc0
+		cursor pointer
 
 #side-drawer-handle
 	position absolute
