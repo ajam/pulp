@@ -13,7 +13,6 @@
 		determineLayoutInformation: function(page){
 			var bookend = this.determineBookend(page);
 			var format = this.determinePageFormat(page);
-			// console.log(format, bookend)
 			return { format: format, bookend: bookend };
 		},
 		determinePageFormat: function(page, windowWidth){
@@ -75,7 +74,6 @@
 			if (page) states.currentPage = page;
 			if (hotspot) states.currentHotspot = hotspot;
 			if (lastPage) states.lastPage = lastPage;
-			console.log(page)
 		},
 		hashToPageHotspotDict: function(hash){
 			// If for some reason it has a slash as the last character, cut it so as to not mess up the split
@@ -123,11 +121,7 @@
 		  }  
 		},
 		sortByNumber: function(a,b) {
-			if (a.number < b.number)
-				return -1;
-			if (a.number > b.number)
-				return 1;
-			return 0;
+			return a.number - b.number;
 		}
 	}
 
@@ -156,6 +150,8 @@
 		bakePages: function(pages){
 			var page_markup, $page;
 			states.pages_max = pages.length;
+			// Sort pages before baking
+			pages = pages.sort(helpers.sortByNumber)
 			for (var i = 0; i < pages.length; i++){
 				page_markup = templates.pageFactory(pages[i]);
 				$('#pages').append(page_markup);
@@ -164,6 +160,9 @@
 				// Add listeners
 				listeners.hotspotClicks( $page );
 			}
+			// Set the z-index of the last page to 1000 so it can be on top of `#btns`
+			$('#page-container-'+states.pages_max).css('z-index', '1000')
+
 			// Once images are loaded, measure the hotspot locations
 			layout.measurePageElements(function(){
 				// Listen for changes in state
@@ -206,7 +205,6 @@
 
 				img_width = img_width_wrapper = $img.width();
 				img_height = $img.height();
-				console.log(state.determineBookend())
 
 				if (state.determinePageFormat(null, null, true) == 'double') {
 					img_width = img_width*2;
@@ -276,6 +274,10 @@
 				if (location_hash) {
 					// Turn the location hash into a more readable dictionary `{page: Number, hotspot: Number}`
 					var page_hotspot = helpers.hashToPageHotspotDict(location_hash);
+					// Show hide appropriate nav btns
+					// This also gets called hash change, but if we're going from double to single then the hash won't change
+					// This will cause problems if we go from the last page to second to last, the number doesn't change but we do need to change the buttns
+					layout.showAppropriateNavBtns(page_hotspot.page);
 					// And initiate zooming to that hotspot, (page_number, hotspot_number, transitionDuration)
 					routing.read(page_hotspot.page, page_hotspot.hotspot, false);
 				}
@@ -299,10 +301,12 @@
 		},
 		showAppropriateNavBtns: function(page){
 			page = +page;
-			var direction;
+			var direction,
+					format = state.get('format').format;
+
 			if (page == 1) { 
 				direction = 'prev';
-			} else if (page == states.pages_max) {
+			} else if (page == states.pages_max || (format == 'double' && page == states.pages_max - 1) ){
 				direction = 'next';
 		 	}
 		 	$('.main-nav-btn-container').removeClass('full').css('display', 'inline-block');
@@ -310,6 +314,7 @@
 			 	$('.main-nav-btn-container[data-dir="'+direction+'"]').hide();
 			 	$('.main-nav-btn-container[data-dir="'+this.otherDir(direction)+'"]').addClass('full');
 		 	}
+
 		},
 		otherDir: function(dir){
 			if (dir == 'prev') return 'next';
@@ -475,7 +480,6 @@
 					if (format != 'double' && bookend == 'false'){
 						pp_info.page--;
 					} else {
-						console.log('here')
 						if (pp_info.page != 2){
 							pp_info.page = pp_info.page - 2;
 						} else {
@@ -648,7 +652,7 @@
 				layout.toggleNavHelpers(false);
 			}
 			// Load the image for the next ten pages if they still have placeholder images
-			if (triggerLazyLoad) this.lazyLoadImages(page);
+			if (triggerLazyLoad) { this.lazyLoadImages(page); }
 			layout.displayPageNumber(page);
 			layout.showAppropriateNavBtns(page);
 			cb(transition_duration, page);
@@ -755,7 +759,6 @@
 						leaf_to = 'page';
 					}
 
-					console.log(direction)
 					pp_info = leafing[direction][leaf_to](pp_info, hotspot_max, states.pages_max);
 					// Add our new info to the hash
 					// or nof if we're going to a full pulle
@@ -898,7 +901,6 @@
 
 	var init = {
 		go: function(){
-			
 			this.whitelabel(PULP_SETTINGS.whitelabel);
 			this.browser = this.browserCheck();
 			layout.init();

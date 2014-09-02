@@ -476,6 +476,13 @@ body[data-state="page-change"] #pages-wrapper {
   -ms-user-select: none;
   user-select: none;
 }
+.paragraph-text {
+  position: absolute;
+  text-align: left;
+  font-size: 1.2em;
+  line-height: 2em;
+  z-index: 9999;
+}
 /* end pages */
 /*  P A G E  F O R M A T T I N G  */
 body[data-format="double"][data-bookend="false"] #pages {
