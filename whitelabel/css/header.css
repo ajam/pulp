@@ -10,7 +10,6 @@
     -moz-user-select: -moz-none;
     -ms-user-select: none;
     user-select: none;
-    background-color: #f0c;
 }
 
 #header #ajmint-mainmenu-trigger .ajmint-icon-down-dir,
@@ -199,7 +198,7 @@
 }
 */
 
-@media (max-width: 900px) {
+/*@media (max-width: 900px) {
 	#header {
 		display:block;
 	}
@@ -208,10 +207,6 @@
 		float:left;
 		z-index:2;
 		position: absolute;
-	}
-
-	#header #ajmint-logo img {
-		/*margin-top: 11px;*/
 	}
 
 
@@ -302,7 +297,7 @@
 		margin-top: auto;
 		border-left: none;
 	}
-}
+}*/
 
 @media (max-width: 570px) {
 	#header #ajmint-mainmenu-trigger {

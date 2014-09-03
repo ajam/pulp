@@ -8,6 +8,7 @@
 
 	 	<link rel="stylesheet" type="text/css" href="css/thirdparty/reset.css">
 	 	<link rel="stylesheet" type="text/css" href="css/ajmint-icons.css">
+	 	<link rel="stylesheet" type="text/css" href="css/thirdparty/octicons.css">
 	 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 
 	</head>
@@ -17,9 +18,9 @@
 				<div class="drawer-section-container" data-which="share">
 					<!-- <div class="section-title">Share</div> -->
 					<ul>
-						<li class="ajmint-icon-twitter"></li>
-						<li class="ajmint-icon-facebook"></li>
-						<li class="ajmint-icon-gplus"></li>
+						<li class="ajmint-icon-twitter" data-social-btn="twitter"></li>
+						<li class="ajmint-icon-facebook" data-social-btn="facebook"></li>
+						<li class="ajmint-icon-gplus" data-social-btn="gplus"></li>
 					</ul>
 				</div>
 				<div class="drawer-section-container">
@@ -48,31 +49,29 @@
 					</li>
 				</ul>
 				<ul class="header-group desktop">
-					<li class="header-item-container" data-btn="export" data-action="dropdown">
+					<li class="header-item-container dropdowned" data-btn="export">
 						<div class="header-item header-btn">
-							<span class="ajmint-icon-download header-btn-icon"></span>
+							<span class="ajmint-icon-download-cloud header-btn-icon"></span>
 						</div>
-						<ul class="btn-tooltip">
+						<ul class="btn-dropdown" data-which="social-btns">
 							<li>PDF</li>
 							<li>ePub</li>
 							<li>View on Amazon...</li>
 							<li>View in iBooks...</li>
 						</ul>
-					</li><li class="header-item-container" data-btn="endnotes" data-action="drawer">
+					</li><li class="header-item-container tooltipped" data-btn="endnotes" data-action="drawer" aria-label="Endnotes">
 						<div class="header-item header-btn">
 							<div class="ajmint-icon-doc-text-inv header-btn-icon"></div>
 						</div>
-						<div class="btn-tooltip">Endnotes</div>
-					</li><li class="header-item-container" data-btn="fullscreen">
+					</li><li class="header-item-container tooltipped" data-btn="fullscreen" aria-label="Fullscreen">
 						<div class="header-item header-btn">
 							<div class="ajmint-icon-resize-full header-btn-icon"></div>
 						</div>
-						<div class="btn-tooltip">Fullscreen</div>
-					</li><li class="header-item-container" data-btn="share" data-action="dropdown">
+					</li><li class="header-item-container dropdowned" data-btn="share">
 						<div class="header-item header-btn">
 							<div class="ajmint-x-icon-export header-btn-icon"></div>
 						</div>
-						<ul class="btn-tooltip social-btns">
+						<ul class="btn-dropdown" data-which="share">
 							<li class="ajmint-icon-twitter"></li>
 							<li class="ajmint-icon-facebook"></li>
 							<li class="ajmint-icon-gplus"></li>
