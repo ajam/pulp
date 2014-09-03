@@ -953,7 +953,10 @@
 					}
 				});
 				// Logo Markup
-				$('#header').prepend(whitelabelObj.logo);
+				// Note, this is appending because we have elements that are floating right in the header
+				// This is to avoid a bug which would cause those elements to be pushed to the next line
+				// If this is causing issues or you aren't floating those buttons to the right, then you might want to change this line to `.prepend`
+				$('#header').append(whitelabelObj.logo);
 			}
 		}
 	}

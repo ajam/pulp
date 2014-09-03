@@ -196,6 +196,7 @@ html:-ms-fullscreen #footer {
   text-align: left;
   -webkit-border-radius: 2px;
   border-radius: 2px;
+  top: 100%;
 }
 .btn-dropdown li {
   padding: 8px;
