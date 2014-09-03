@@ -11,21 +11,25 @@ $(document).ready(function() {
     }
   });
 
-  $('#ajmint-mainmenu-trigger').click(function() {
-    if ( $(this).hasClass('ajmint-expanded') ) {
-      $icon = $(this).find('span.ajmint-icon-up-dir');
-      $icon.addClass('ajmint-icon-down-dir');
-      $icon.removeClass('ajmint-icon-up-dir');
+  $('#ajmint-mainmenu-trigger').on('mouseenter', expandDropdown);
 
-      $(this).removeClass('ajmint-expanded');
-    } else {
-      $icon = $(this).find('span.ajmint-icon-down-dir');
-      $icon.addClass('ajmint-icon-up-dir');
-      $icon.removeClass('ajmint-icon-down-dir');
+  $('#ajmint-mainmenu-trigger').on('mouseleave', closeDropdown);
 
-      $(this).addClass('ajmint-expanded');
-    }
-  });
+	function closeDropdown(){
+    $icon = $(this).find('span.ajmint-icon-up-dir');
+    $icon.addClass('ajmint-icon-down-dir');
+    $icon.removeClass('ajmint-icon-up-dir');
+
+    $(this).removeClass('ajmint-expanded');
+	}
+
+	function expandDropdown(){
+    $icon = $(this).find('span.ajmint-icon-down-dir');
+    $icon.addClass('ajmint-icon-up-dir');
+    $icon.removeClass('ajmint-icon-down-dir');
+
+    $(this).addClass('ajmint-expanded');
+	}
 
   function resizeDropdownWidth() {
     if ($(window).width() >= 822) {

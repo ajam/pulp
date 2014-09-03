@@ -2,14 +2,15 @@
 /*    padding-left:10px;
     width: auto;
 */    
-		float: left;
 		padding-left: 10px;
+		display: inline-block;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: -moz-none;
     -ms-user-select: none;
     user-select: none;
+    background-color: #f0c;
 }
 
 #header #ajmint-mainmenu-trigger .ajmint-icon-down-dir,
@@ -54,13 +55,14 @@
 }
 
 #header #ajmint-logo #ajmint-logo-dropdown a {
-	color: #666;
+	color: #ccc;
 }
 
 #header #ajmint-logo #ajmint-logo-dropdown ul {
 	width: 233px;
-	list-style:none;
+	list-style: none;
 	margin: 0;
+	padding: 6px 0;
 }
 
 #header #ajmint-logo #ajmint-logo-dropdown ul li {
@@ -68,7 +70,8 @@
 }
 
 #header #ajmint-logo #ajmint-logo-dropdown ul li:hover {
-	background: #222;
+	background-color: #666;
+	color: #fff;
 }
 
 #header #ajmint-dropdown {
@@ -191,10 +194,10 @@
     vertical-align: top;
 }
 
-#header li {
+/*#header li {
     line-height:18px;
 }
-
+*/
 
 @media (max-width: 900px) {
 	#header {

@@ -66,7 +66,6 @@ body[data-state="hotspot"] #footer {
 }
 #header {
   width: 100%;
-  height: 45px;
   background-color: #fff;
   padding: 7px;
   margin-bottom: 5px;
@@ -78,6 +77,7 @@ body[data-state="hotspot"] #footer {
   -o-transition: opacity 100ms linear;
   -ms-transition: opacity 100ms linear;
   transition: opacity 100ms linear;
+  background-color: #fc0;
 }
 html:-moz-full-screen #header {
   visibility: hidden;
@@ -141,7 +141,6 @@ html:-ms-fullscreen #footer {
   border-radius: 2px;
   text-align: center;
   font-size: 1.7em;
-  border: 1px solid #646464;
 }
 .header-item-container[data-btn="export"] .header-btn {
   padding: 0 6px;
@@ -151,28 +150,25 @@ html:-ms-fullscreen #footer {
   font-size: 13px;
   top: 6px;
 }
-.header-text {
+.header-text,
+.header-btn-icon {
   display: table-cell;
-  vertical-align: bottom;
+  vertical-align: middle;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-.header-btn-icon {
   position: relative;
-}
-.header-btn .header-btn-icon {
-  top: 6px;
-}
-.header-group {
-  height: 100%;
 }
 .header-group {
   float: right;
+  height: 28px;
+  display: inline-block;
+  background-color: #0cf;
 }
 .header-group .header-item-container {
   padding: 0 8px;
+  text-align: center;
 }
 .header-item[data-which="page-number"] .header-text {
   font-size: 1.2em;
@@ -700,9 +696,6 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
   }
   #header #ajmint-logo img {
     margin-top: 0 !important;
-  }
-  #header .header-btn-icon {
-    top: 4px;
   }
   #pages {
     width: 100%;
