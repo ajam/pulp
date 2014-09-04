@@ -2,7 +2,7 @@
 
 ajam_blue = #2677B9
 max_width = 577px
-transition_opts = 500ms linear
+transition_opts = 400ms linear
 gutter_width = 40px
 header_height = 46px
 header_item_height = 28px
@@ -60,6 +60,7 @@ html:-ms-fullscreen
 	overflow-y hidden
 #main-content-wrapper,#pages-wrapper,#pages,.page-container,.page,.page img
 	backface-visibility hidden 
+	// transform-style preserve-3d
 /* end globals */
 
 /* H E A D E R */
@@ -567,14 +568,11 @@ body[data-format="double"][data-bookend="false"] .page-container.right-page.ente
 /* Double center  */
 body[data-format="double"][data-bookend="false"] .page-container.center-page.exit-to-left
 	animation double-center-exit-to-left transition_opts
-body[data-format="single"][data-bookend="true"] .page-container.enter-from-left,
 body[data-format="double"][data-bookend="true"] .page-container.enter-from-left
 	animation double-center-enter-from-left transition_opts
-body[data-format="single"][data-bookend="true"] .page-container.exit-to-right,
 body[data-format="double"][data-bookend="true"] .page-container.exit-to-right
 	animation double-left-exit-to-right transition_opts
 	width 50%
-body[data-format="single"][data-bookend="true"] .page-container.exit-to-right.right-page,
 body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.right-page
 	animation double-right-exit-to-right transition_opts
 	padding-left 40px
@@ -590,7 +588,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 	}
 }
 
-// Left page single page
+// Left page 'single' page
 @keyframes exit-to-left {
 	from{
 		left 0

@@ -349,7 +349,7 @@
 			}
 			open = open || $body.attr('data-side-drawer-open') == 'true';
 			$body.attr('data-side-drawer-open', !open);
-			_.delay(this.onDrawerTransitionEnd, 500)
+			_.delay(this.onDrawerTransitionEnd, parseInt(PULP_SETTINGS.transitionDuration))
 		},
 		onDrawerTransitionEnd: function(e){
 			$('body').attr('data-side-drawer-state', 'stable');
@@ -836,15 +836,17 @@
 					format = formatState.format,
 					bookend = formatState.bookend;
 
-			if ( format != 'double' && bookend == 'false') {
+			if ( format != 'double') {
 				normal_length = 1;
 			} else {
 				normal_length = 2;
 			}
+			var pages_visible = $('.viewing').length
 			// If there are more pages visible than there should be, then we're changing pages.
-			if ( $('.viewing').length == normal_length ) {
+			if ( pages_visible == normal_length ) {
+				console.log('here')
 				zoom_state = 'page';
-			} else if ( $('.viewing').length > normal_length  ) {
+			} else if ( pages_visible > normal_length  ) {
 				zoom_state = 'page-change';
 			}
 
