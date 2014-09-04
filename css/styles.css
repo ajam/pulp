@@ -48,7 +48,10 @@ html:-ms-fullscreen {
 }
 #main-content-wrapper,
 #pages-wrapper,
-#pages {
+#pages,
+.page-container,
+.page,
+.page img {
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   -ms-backface-visibility: hidden;
