@@ -180,6 +180,10 @@ html:-ms-fullscreen #footer {
   font-size: 1.3em;
   font-weight: 200;
 }
+.header-item[data-which="page-number"] .header-text input {
+  width: 22px;
+  text-align: right;
+}
 .header-group.mobile {
   display: none;
 }

@@ -299,7 +299,7 @@
 			if ( format == 'double' && page > 1 && page % 2 != 0 ){
 				page = page - 1;
 			}
-			$('.header-item[data-which="page-number"] .header-text').html('Page ' + page + ' / ' + states.pages_max)
+			$('.header-item[data-which="page-number"] .header-text').html('Page <input type="text" value="'+page+'"/> / ' + states.pages_max)
 		},
 		showAppropriateNavBtns: function(page){
 			page = +page;
@@ -393,17 +393,35 @@
 				helpers.toggleFullScreen();
 			});
 
-			// $('.header-item-container[data-action="modal"]').on('click', function(){
-			// 	layout.toggleDesktopDrawer();
-			// });
-
 			$('.header-item-container[data-action="drawer"]').on('click', function(){
 				layout.slideContentArea();
 			});
 
-			// $('#modal-container').on('click', '.close', function(){
-			// 	layout.toggleModal();
-			// });
+			$('.header-item[data-which="page-number"]').on('keydown', 'input', function(e){
+				// Stop propagation so the arrows don't trigger a page change
+				e.stopPropagation();
+				var page_number = +$(this).val() || 1;
+				// Do some validation on the page_number so it stays within our page bounds
+				if (page_number < 1){
+					page_number = 1;
+				} else if (page_number > states.pages_max) {
+					page_number = states.pages_max;
+				}
+				// Listen for the enter key
+				// But only if there is a value 
+				if (page_number && e.keyCode === 13 ) {
+					// If this is the same as the page we're on, then don't navigate there
+					if (page_number != states.currentPage){
+						// Backbone requires this to be a string
+						routing.router.navigate(page_number.toString(), {trigger: true});
+					} else {
+						// This will only get come into play if we aren't changing pages
+						layout.displayPageNumber(page_number);
+						
+					}
+				}
+			})
+
 		},
 		resize: function(){
 			layout.updateDebounce = _.debounce(layout.update, 100);
