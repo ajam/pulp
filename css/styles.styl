@@ -369,14 +369,20 @@ body[data-format="mobile"]
 		font-size 2em
 		text-align center
 		padding 10px 0
-	li:hover // TK, temporary until more comprehensive social button styles
+	li:hover 
 		cursor pointer
-	li[data-social-btn="twitter"]:hover
+	li[data-social-btn="twitter"]
 		background-color twitter_color
-	li[data-social-btn="facebook"]:hover
+	li[data-social-btn="facebook"]
 		background-color facebook_color
-	li[data-social-btn="gplus"]:hover
+	li[data-social-btn="gplus"]
 		background-color gplus_color
+	li[data-social-btn="twitter"]:hover
+		background-color lighten(twitter_color, 15%)
+	li[data-social-btn="facebook"]:hover
+		background-color lighten(facebook_color, 15%)
+	li[data-social-btn="gplus"]:hover
+		background-color lighten(gplus_color, 15%)
 		
 
 #side-drawer-handle
