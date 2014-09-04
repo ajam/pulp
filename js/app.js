@@ -612,12 +612,8 @@
 				$('#page-container-'+newPage).addClass(classes.entering).addClass('viewing');
 				$('#page-container-'+(newPage + 1) ).addClass(classes.entering).addClass('right-page').addClass('viewing');
 			}
-			// Call animation end after the time as provided in the config file. This used to work by setting an animationEnd but that triggers an event for every child div.
-			// _.delay(transitions.onAnimationEnd, parseFloat(PULP_SETTINGS.transitionDuration) - 200)
-			console.log('---')
 		},
 		onAnimationEnd: function(){
-			console.log(new Date().getTime())
 			// Remove all navigation classes, which will have finished their animation since we're inside that callback
 			$('.page-container').removeClass('enter-from-left')
 						 .removeClass('enter-from-right')
