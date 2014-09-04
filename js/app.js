@@ -219,7 +219,6 @@
 		},
 		implementPageFormat: {
 			bookend: function(){
-				// this.single();
 				if (states.currentPage == 2) { 
 					$('#page-container-3').addClass('exit-to-right').addClass('right-page');
 				} else {
@@ -234,10 +233,10 @@
 			},
 			double: function(){
 				var $pageContainer;
+				var current_id;
 				// Clear all info
 				states.hotspot = '';
 				states.lastHotspot = '';
-				var current_id;
 				// If we're not on the first page
 				if (states.currentPage != 1){
 					// Get the id of the current page based on what is visible
@@ -245,7 +244,6 @@
 					// If it's an odd page that means we were on a right page, so the current focus should now be on the left page
 					if (current_id % 2 != 0) {
 						current_id--;
-						// This next line might not be necessary, or it might be crucial
 						helpers.saveCurrentStates(current_id);
 					}
 				} else {
