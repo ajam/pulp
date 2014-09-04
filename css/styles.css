@@ -301,7 +301,6 @@ html:-ms-fullscreen #footer {
   right: 0;
   left: 0;
   z-index: 999;
-  background-color: rgba(255,0,204,0.5);
 }
 .main-nav-btn-container {
   display: inline-block;
