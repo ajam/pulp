@@ -286,15 +286,14 @@
 		displayPageNumber: function(page){
 			page = +page;
 			var formatState = state.get('format'),
-					format = formatState.format,
-					bookend = formatState.bookend;
+					format = formatState.format;
 			// var format = state.determinePageFormat();
 			// If we're double and it's an even page and it's not the last page, then put it on the odd page
 			// if (format != 'single' && page % 2 == 0 && page != states.pages_max) page = +page + 1;
 
 			// If it's a wide format
 			// And we're navigating to an odd page, then subtract it down so the route puts you on the even page with the odd page visible to the right
-			if ( state.get('format').format == 'double' && bookend == 'false' && page % 2 != 0 ){
+			if ( format == 'double' && page > 1 && page % 2 != 0 ){
 				page = page - 1;
 			}
 			$('.header-item[data-which="page-number"] .header-text').html('Page ' + page + ' / ' + states.pages_max)
@@ -835,18 +834,17 @@
 			// Set the page state to changing if there are more than the appropriate number of viewing objects, else set it to page
 			var zoom_state, normal_length;
 			var formatState = state.get('format'),
-					format = formatState.format,
-					bookend = formatState.bookend;
+					format = formatState.format;
 
 			if ( format != 'double') {
 				normal_length = 1;
 			} else {
 				normal_length = 2;
 			}
+
 			var pages_visible = $('.viewing').length
 			// If there are more pages visible than there should be, then we're changing pages.
 			if ( pages_visible == normal_length ) {
-				console.log('here')
 				zoom_state = 'page';
 			} else if ( pages_visible > normal_length  ) {
 				zoom_state = 'page-change';
