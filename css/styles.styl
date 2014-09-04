@@ -469,6 +469,8 @@ body[data-state="page-change"]
 	position absolute
 	height 100%
 	width 100%
+	transform translate3d(0,0,0)
+	z-index -1
 .page-mask
 	overflow hidden
 .page
@@ -736,8 +738,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 #top-mask
 	top 0
 #bottom-mask
-	transform rotateX(180deg);
-	-webkit-transform translate3d(0,0,0) /* To fix a z-indexing position in Safari + iOS, this enables hardware acceleration but doesn't change the styling */
+	transform rotateX(180deg) translate3d(0,0,0);
 	bottom -1px /* To cover up some small clipping that occurs */
 // .page, .mask
 // transition: transform .3s ease-out

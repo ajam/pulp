@@ -528,6 +528,12 @@ body[data-state="page-change"] #pages-wrapper {
   position: absolute;
   height: 100%;
   width: 100%;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  z-index: -1;
 }
 .page-mask {
   overflow: hidden;
@@ -736,13 +742,11 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
   top: 0;
 }
 #bottom-mask {
-  -webkit-transform: rotateX(180deg);
-  -moz-transform: rotateX(180deg);
-  -o-transform: rotateX(180deg);
-  -ms-transform: rotateX(180deg);
-  transform: rotateX(180deg);
-  -webkit-transform: translate3d(0, 0, 0);
-/* To fix a z-indexing position in Safari + iOS, this enables hardware acceleration but doesn't change the styling */
+  -webkit-transform: rotateX(180deg) translate3d(0, 0, 0);
+  -moz-transform: rotateX(180deg) translate3d(0, 0, 0);
+  -o-transform: rotateX(180deg) translate3d(0, 0, 0);
+  -ms-transform: rotateX(180deg) translate3d(0, 0, 0);
+  transform: rotateX(180deg) translate3d(0, 0, 0);
   bottom: -1px;
 /* To cover up some small clipping that occurs */
 }

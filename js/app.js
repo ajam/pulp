@@ -159,6 +159,7 @@
 
 				// Add listeners
 				listeners.hotspotClicks( $page );
+				listeners.pageTransitions();
 			}
 			// Set the z-index of the last page to 1000 so it can be on top of `#btns`
 			$('#page-container-'+states.pages_max).css('z-index', '1000')
@@ -246,8 +247,6 @@
 				current_id = states.currentPage;
 				// Get the id of the current page based on what is visible
 				var alt_current_id = +$('.page-container.viewing').attr('id').split('-')[2]; // `page-container-1` -> 1
-				console.log('curr',current_id)
-				console.log('alt',alt_current_id)
 				// If it's an odd page that means we were on a right page, so the current focus should now be on the left page
 				if (current_id % 2 != 0 && current_id != 1) {
 					current_id--;
@@ -354,7 +353,7 @@
 			}
 			open = open || $body.attr('data-side-drawer-open') == 'true';
 			$body.attr('data-side-drawer-open', !open);
-			_.delay(this.onDrawerTransitionEnd, parseInt(PULP_SETTINGS.transitionDuration))
+			_.delay(this.onDrawerTransitionEnd, PULP_SETTINGS.drawerTransitionDuration)
 		},
 		onDrawerTransitionEnd: function(e){
 			$('body').attr('data-side-drawer-state', 'stable');
@@ -461,6 +460,9 @@
 			$('#pages').on('click', '.mask', function() {
 				routing.set.fromHotspotClick( $(this) );
 			});
+		},
+		pageTransitions: function(){
+			$('.page-container').on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', transitions.onAnimationEnd_throttled)
 		},
 		drawer: function(){
 			// Disable scroll bug on iOS
@@ -608,13 +610,14 @@
 				$('#page-container-'+(currentPage + 1) ).addClass(classes.exiting);
 				// Enter the next two
 				$('#page-container-'+newPage).addClass(classes.entering).addClass('viewing');
-				console.log('add right page', newPage)
 				$('#page-container-'+(newPage + 1) ).addClass(classes.entering).addClass('right-page').addClass('viewing');
 			}
 			// Call animation end after the time as provided in the config file. This used to work by setting an animationEnd but that triggers an event for every child div.
-			_.delay(transitions.onAnimationEnd, parseFloat(PULP_SETTINGS.transitionDuration) )
+			// _.delay(transitions.onAnimationEnd, parseFloat(PULP_SETTINGS.transitionDuration) - 200)
+			console.log('---')
 		},
 		onAnimationEnd: function(){
+			console.log(new Date().getTime())
 			// Remove all navigation classes, which will have finished their animation since we're inside that callback
 			$('.page-container').removeClass('enter-from-left')
 						 .removeClass('enter-from-right')
@@ -907,6 +910,9 @@
 	var init = {
 		go: function(){
 			this.whitelabel(PULP_SETTINGS.whitelabel);
+			// Add a throttle because the animation end is called once per child
+			// You could use `_.delay` but the timing wont' always be precise and you'll get a flicker.
+			transitions.onAnimationEnd_throttled = _.throttle(transitions.onAnimationEnd, 5);
 			this.browser = this.browserCheck();
 			layout.init();
 			layout.bakeMasks();
@@ -915,6 +921,7 @@
 			listeners.header();
 			listeners.keyboardAndGestures();
 			listeners.drawer();
+
 			FastClick.attach(document.body);
 		},
 		loadPages: function(){
