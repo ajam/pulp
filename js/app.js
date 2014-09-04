@@ -234,26 +234,30 @@
 				$('.right-page').removeClass('viewing').removeClass('right-page');
 			},
 			double: function(){
-				var $pageContainer;
-				var current_id;
-				// Clear all info
+				var $pageContainer,
+						current_id;
+
+				var formatState = state.get('format'),
+						bookend = formatState.bookend;
+				// Clear all hotspot info since we're in double mode
 				states.hotspot = '';
 				states.lastHotspot = '';
-				// If we're not on the first page
-				if (states.currentPage != 1){
-					// Get the id of the current page based on what is visible
-					current_id = +$('.page-container.viewing').attr('id').split('-')[2]; // `page-container-1` -> 1
-					// If it's an odd page that means we were on a right page, so the current focus should now be on the left page
-					if (current_id % 2 != 0) {
-						current_id--;
-						helpers.saveCurrentStates(current_id);
-					}
-				} else {
-					current_id = 2;
+
+				current_id = states.currentPage;
+				// Get the id of the current page based on what is visible
+				var alt_current_id = +$('.page-container.viewing').attr('id').split('-')[2]; // `page-container-1` -> 1
+				console.log('curr',current_id)
+				console.log('alt',alt_current_id)
+				// If it's an odd page that means we were on a right page, so the current focus should now be on the left page
+				if (current_id % 2 != 0 && current_id != 1) {
+					current_id--;
+					// Make that adjustment in our global state tracker
+					// helpers.saveCurrentStates(current_id);
 				}
 				$pageContainer = $('#page-container-' + current_id);
 				if ($pageContainer.hasClass('right-page')) { $pageContainer.removeClass('right-page'); }
 				$pageContainer.addClass('viewing');
+				if (current_id != 1)
 				$('#page-container-' + (current_id + 1)).addClass('right-page').addClass('viewing');
 			}
 		},
@@ -593,7 +597,7 @@
 				// Exit the current page
 				$('#page-container-'+currentPage).addClass(classes.exiting);
 				// Enter the next page, the one that is shown in the hash
-				$('#page-container-'+newPage).addClass('viewing').addClass(classes.entering);
+				$('#page-container-'+newPage).addClass(classes.entering);//.addClass('viewing');
 			} else {
 				// Exit both the current and one shown in the url since they are already viewable
 				// If it's the current page it will look nicer if it exits starting from the center.
@@ -603,7 +607,8 @@
 				$('#page-container-'+currentPage).addClass(classes.exiting + first_page_exit_classes);
 				$('#page-container-'+(currentPage + 1) ).addClass(classes.exiting);
 				// Enter the next two
-				$('#page-container-'+newPage).addClass('viewing').addClass(classes.entering);
+				$('#page-container-'+newPage).addClass(classes.entering).addClass('viewing');
+				console.log('add right page', newPage)
 				$('#page-container-'+(newPage + 1) ).addClass(classes.entering).addClass('right-page').addClass('viewing');
 			}
 			// Call animation end after the time as provided in the config file. This used to work by setting an animationEnd but that triggers an event for every child div.
