@@ -224,10 +224,10 @@
 		},
 		implementPageFormat: {
 			bookend: function(){
-				if (states.currentPage == '2') { 
-					$('#page-container-3').addClass('exit-to-right').addClass('right-page');
-				} else if (states.currentPage != '1') {
+				if (states.currentPage != '1') {
 					$('#page-container-'+ (states.currentPage + 1)).addClass('exit-to-right')//.addClass('right-page');
+				} else if (states.currentPage == '2') { 
+					$('#page-container-3').addClass('exit-to-right').addClass('right-page');
 				}
 			},
 			mobile: function(){
