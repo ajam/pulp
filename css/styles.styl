@@ -220,11 +220,26 @@ input[type="number"]
 .tooltipped:hover:after
 	display inline-block
 
+
 // `.tooltipped-i` elements are parents of input elements
 // Input elements can't have pseudo elements so on focus of the input (through js), apply a data attribute on this parent, which will get the tootlip
 .tooltipped-i[data-focus="true"]:before,
 .tooltipped-i[data-focus="true"]:after
 	display inline-block
+	animation decay 700ms linear forwards
+	animation-delay 3.5s
+
+
+@keyframes decay {
+	from{
+		opacity 1
+	}
+	to{
+		opacity 0
+	}
+	
+}
+
 
 .dropdowned:before,
 .dropdowned:after,

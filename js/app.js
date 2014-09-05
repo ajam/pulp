@@ -394,8 +394,6 @@
 				// Do you show the tooltip?
 				$('.tooltipped-i').attr('data-focus', focus);
 
-				$('body').attr('data-goToPageFocus', focus);
-
 				// Firefox loses control of the text area unless we reapply focus
 				if (focus || forceFocus){
 					$('.tooltipped-i input').focus();
