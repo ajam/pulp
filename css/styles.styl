@@ -26,9 +26,8 @@ twitter_color = #00ACED
 facebook_color = #3C599F
 gplus_color = #DD4B39
 
-// progress_bar_height = 3px
-// progress_bar_margin = 4px
-// progress_bar_color = #474545
+mobile_query = "(max-width: " + max_width + ")"
+
 /* G L O B A L S */
 *
 	box-sizing border-box
@@ -221,10 +220,10 @@ input[type="number"]
 .tooltipped:hover:after
 	display inline-block
 
-// `.tooltipped-i` elements are input elements
-// They should get their tooltip when they have the page's focus instead of mouse hover
-.tooltipped-i:focus:before,
-.tooltipped-i:focus:after
+// `.tooltipped-i` elements are parents of input elements
+// Input elements can't have pseudo elements so on focus of the input (through js), apply a data attribute on this parent, which will get the tootlip
+.tooltipped-i[data-focus="true"]:before,
+.tooltipped-i[data-focus="true"]:after
 	display inline-block
 
 .dropdowned:before,
@@ -237,8 +236,8 @@ input[type="number"]
 	display none
 	right 50%
 
-.tooltipped-i:before,
-.tooltipped-i:after,
+// .tooltipped-i:before,
+// .tooltipped-i:after,
 .tooltipped:before,
 .tooltipped:after
 	pointer-events none
@@ -774,7 +773,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 /* end masks */
 
 /* M E D I A  Q U E R I E S */
-@media (max-width: max_width)
+@media mobile_query
 	.header-group.desktop
 		display none
 	.header-group.mobile
@@ -792,5 +791,14 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 		width 100%
 	.header-group .header-item-container
 		padding 0 4px 0 0 
+	.tooltipped-i[data-focus="true"]:before,
+	.tooltipped-i[data-focus="true"]:after
+		display none
+	.header-item[data-which="page-number"] .header-text
+		position relative
+		top 3px
+		input
+			width 25px
+
 
 /* end media queries */

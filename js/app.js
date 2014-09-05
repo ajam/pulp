@@ -303,7 +303,7 @@
 			if ( format == 'double' && page > 1 && page % 2 != 0 ){
 				page = page - 1;
 			}
-			$('.header-item[data-which="page-number"] .header-text input').val(page);
+			$('.header-item[data-which="page-number"] .header-text input').val(page)//.blur();
 		},
 		showAppropriateNavBtns: function(page){
 			page = +page;
@@ -388,6 +388,35 @@
 				'transform': 'auto'
 			});
 			layout.slideContentArea(true);
+		},
+		goToPage: {
+			focus: function(focus, forceFocus){
+				// Do you show the tooltip?
+				$('.tooltipped-i').attr('data-focus', focus);
+
+				$('body').attr('data-goToPageFocus', focus);
+
+				// Firefox loses control of the text area unless we reapply focus
+				if (focus || forceFocus){
+					$('.tooltipped-i input').focus();
+				}
+
+			},
+			navigate: function(go, pageNumber){
+				if (go) {
+					routing.router.navigate(pageNumber.toString(), {trigger: true});
+				} else {
+					// This will only get come into play if we are on double format and we have navigated to page 3 in the input box and hit return
+					// We won't be initiating a page change but we do want the display number to change
+					layout.displayPageNumber(pageNumber);
+				}
+				layout.goToPage.focus(false);
+			},
+			deny: function(){
+				var current_page = states.currentPage;
+				layout.displayPageNumber(current_page);
+				layout.goToPage.focus(false);
+			}
 		}
 	}
 
@@ -401,29 +430,56 @@
 				layout.slideContentArea();
 			});
 
+			$('.tooltipped-i input').on('focus', function(){
+				var that = this;
+				// Chrome doesn't like this so put it in a try catch
+				try {
+					that.setSelectionRange(0,999); 
+				}
+				catch (e){
+					$(that).select();
+				}
+			});
+			$('.tooltipped-i input').on('blur', function(){
+				var that = this;
+				layout.goToPage.deny();
+			});
+
 			$('.header-item[data-which="page-number"] input').on('keydown', function(e){
 				// Stop propagation so the arrows don't trigger a page change
 				e.stopPropagation();
-				var page_number = +$(this).val() || 1;
+			});
+
+			// Listen for key up so we have the final value
+			$('.header-item[data-which="page-number"] input').on('keyup', function(e){
+				e.stopPropagation();
+				var page_number = +$(this).val() || 1,
+						keyCode = e.keyCode,
+						current_page = states.currentPage,
+						is_new_page = current_page != page_number
+
 				// Do some validation on the page_number so it stays within our page bounds
 				if (page_number < 1){
 					page_number = 1;
 				} else if (page_number > states.pages_max) {
 					page_number = states.pages_max;
 				}
+				// // Enable tooltop based on whether we're going to a different page
+				layout.goToPage.focus(is_new_page, true);
+
 				// Listen for the enter key
 				// But only if there is a value 
-				if (page_number && e.keyCode === 13 ) {
-					// If this is the same as the page we're on, then don't navigate there
-					if (page_number != states.currentPage){
-						// Backbone requires this to be a string
-						routing.router.navigate(page_number.toString(), {trigger: true});
-					} else {
-						// This will only get come into play if we aren't changing pages
-						layout.displayPageNumber(page_number);
-						
-					}
+				if (page_number && keyCode === 13 ) {
+					// Navigate to that page
+					layout.goToPage.navigate(is_new_page, page_number);
+
+					$('.tooltipped-i input').blur();
+
+					// Escape key will turn the number into the page we're currently on
+				} else if (keyCode == 27) {
+					layout.goToPage.deny();
 				}
+
 			})
 
 		},
