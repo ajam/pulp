@@ -162,6 +162,15 @@ html:-ms-fullscreen
 		width 22px
 		text-align right
 
+// Disable spinners on number input
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button 
+	appearance none
+	margin 0
+
+input[type="number"]
+	-moz-appearance textfield
+
 .header-group.mobile
 	display none
 

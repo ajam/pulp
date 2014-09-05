@@ -299,7 +299,7 @@
 			if ( format == 'double' && page > 1 && page % 2 != 0 ){
 				page = page - 1;
 			}
-			$('.header-item[data-which="page-number"] .header-text').html('Page <input type="text" value="'+page+'"/> / ' + states.pages_max)
+			$('.header-item[data-which="page-number"] .header-text').html('Page <input min="1" max="'+states.pages_max+'" type="number" value="'+page+'"/> / ' + states.pages_max)
 		},
 		showAppropriateNavBtns: function(page){
 			page = +page;
