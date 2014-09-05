@@ -556,7 +556,6 @@ body[data-state="page-change"] #pages-wrapper {
   -o-transform: translate3d(0, 0, 0);
   -ms-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
-  z-index: -1;
 }
 .page-mask {
   overflow: hidden;
