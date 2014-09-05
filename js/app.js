@@ -246,7 +246,8 @@
 
 				current_id = states.currentPage;
 				// Get the id of the current page based on what is visible
-				var alt_current_id = +$('.page-container.viewing').attr('id').split('-')[2]; // `page-container-1` -> 1
+				// var alt_current_id = +$('.page-container.viewing').attr('id').split('-')[2]; // `page-container-1` -> 1
+				// console.log(current_id, alt_current_id)
 				// If it's an odd page that means we were on a right page, so the current focus should now be on the left page
 				if (current_id % 2 != 0 && current_id != 1) {
 					current_id--;
@@ -256,8 +257,9 @@
 				$pageContainer = $('#page-container-' + current_id);
 				if ($pageContainer.hasClass('right-page')) { $pageContainer.removeClass('right-page'); }
 				$pageContainer.addClass('viewing');
-				if (current_id != 1)
-				$('#page-container-' + (current_id + 1)).addClass('right-page').addClass('viewing');
+				if (current_id != 1) {
+					$('#page-container-' + (current_id + 1)).addClass('right-page').addClass('viewing');
+				}
 			}
 		},
 		update: function(){
@@ -578,22 +580,33 @@
 			if ( format == 'double' && bookend == 'false' && newPage % 2 != 0 ){
 				newPage = newPage - 1;
 				routing.router.navigate(newPage.toString(), { replace: true });
+				// Keep the dispay up to date
+				layout.displayPageNumber(newPage);
 			}
-			var classes = this.determineTransition(currentPage, newPage);			
-			if (classes) transitions.movePages(currentPage, newPage, classes);
+			var classes = this.determineTransition(currentPage, newPage, format, bookend);			
+			if (classes) {
+				transitions.movePages(currentPage, newPage, classes);
+			}
 		},
-		determineTransition: function(currentPage, newPage){
+		determineTransition: function(currentPage, newPage, format, bookend){
 			var classes;
-			// The page is different so let's change it!
-			if (currentPage != newPage){
-				// Next page
-				if ( currentPage < newPage ) {
-					classes = transitions.moveForward();
-				// Previous page
-				} else {
-					classes = transitions.moveBack();
+
+			// This first condition protects against the case where you start from an odd page and expand the window to double format
+			// In this case, the `currentPage` and `newPage` numbers differ, but you don't want to animate the transition, it should just snap into place
+			// This could probably be handled more elegantly, but this works and is *hopefully* the very last bug to fix.
+			if (format != 'double' || currentPage - newPage != 1 || bookend != 'false'){
+				// The page is different so let's change it!
+				if (currentPage != newPage){
+					// Next page
+					if ( currentPage < newPage ) {
+						classes = transitions.moveForward();
+					// Previous page
+					} else {
+						classes = transitions.moveBack();
+					}
 				}
 			}
+
 			return classes;
 		},
 		moveForward: function(){
@@ -622,7 +635,9 @@
 				// Exit both the current and one shown in the url since they are already viewable
 				// If it's the current page it will look nicer if it exits starting from the center.
 				var first_page_exit_classes = '';
-				if (currentPage == 1) first_page_exit_classes = ' center-page';
+				if (currentPage == 1) { 
+					first_page_exit_classes = ' center-page'; 
+				}
 
 				$('#page-container-'+currentPage).addClass(classes.exiting + first_page_exit_classes);
 				$('#page-container-'+(currentPage + 1) ).addClass(classes.exiting);

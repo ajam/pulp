@@ -178,126 +178,13 @@
     list-style:none;
 }
 
-/*#header ul, #header ol {
-    padding:0 !important;
-}
-*/
-/*#header ul {
-    display: inline;
-	float: left;
-}*/
-
 #header ul.ajmint-inline>li,
 #header ol.ajmint-inline>li {
     display:inline-block !important;
     vertical-align: top;
 }
 
-/*#header li {
-    line-height:18px;
-}
-*/
 
-/*@media (max-width: 900px) {
-	#header {
-		display:block;
-	}
-
-	#header #ajmint-logo {
-		float:left;
-		z-index:2;
-		position: absolute;
-	}
-
-
-	#header #ajmint-dropdown {
-		right:0;
-		top: 0;
-		z-index:1;
-		width:auto;
-		background: #0c0c0c;
-		padding-left: 0;
-		left: auto;
-	}
-
-	#header .button {
-		display: none;
-	}
-
-	#header #logo:hover #ajmint-logo-dropdown {
-		display: none;
-	}
-
-	#header #ajmint-dropdown #ajmint-hamburger {
-		float:right;
-		display:block;
-		height: 50px;
-	}
-
-	#header #ajmint-dropdown #ajmint-hamburger img {
-		margin-top: 16px;
-	}
-
-	#header #ajmint-dropdown #ajmint-toc { 
-		float: right;
-		position: relative;
-	}
-
-	#header #ajmint-dropdown .ajmint-menuitem {
-		clear:both;
-		display:none;
-	}
-
-	#header #ajmint-dropdown .ajmint-menuitem.ajmint-expanded {
-		display:block;
-	}
-
-	#header .ajmint-separator {
-		display: none;
-	}
-
-	#header .ajmint-inline.ajmint-chapters {
-		float:right;
-		width:100%;
-		margin-right:0px;
-	}
-
-
-	#header ul.ajmint-inline {
-		display: block;
-		-webkit-margin-before: 0em;
-	}
-
-	#header .ajmint-inline.ajmint-chapters li {
-		display:block !important;
-	}
-
-	#header .ajmint-inline.ajmint-chapters a li {
-		display: block;
-		padding: 0.5em 0;
-	}
-
-	#header ul.ajmint-inline.ajmint-chapters.ajmint-mainsite {
-		display: block;
-		margin-top: 5px;
-		padding-top: 5px !important;
-	}
-
-	#header #ajmint-dropdown #ajmint-socialbuttons {
-		margin-top: 10px;
-		float: left;
-	}
-
-	#header .ajmint-inline.ajmint-social {
-		float:left;
-		text-align:left;
-		width:100%;
-		margin-right:0px;
-		padding:0 20px 10px 0 !important;
-		margin-top: auto;
-		border-left: none;
-	}
-}*/
 
 @media (max-width: 570px) {
 	#header #ajmint-mainmenu-trigger {
@@ -305,5 +192,13 @@
 	}
 	#header #ajmint-logo {
 		padding: 0;
+	}
+}
+
+@media (max-width: 315px) {
+	#header #ajmint-logo img {
+		height: 22px;
+		position: absolute;
+		top: 4px;
 	}
 }
