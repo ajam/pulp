@@ -221,14 +221,24 @@ input[type="number"]
 .tooltipped:hover:after
 	display inline-block
 
+// `.tooltipped-i` elements are input elements
+// They should get their tooltip when they have the page's focus instead of mouse hover
+.tooltipped-i:focus:before,
+.tooltipped-i:focus:after
+	display inline-block
+
 .dropdowned:before,
 .dropdowned:after,
+.tooltipped-i:before,
+.tooltipped-i:after,
 .tooltipped:before,
 .tooltipped:after
 	position absolute
 	display none
 	right 50%
 
+.tooltipped-i:before,
+.tooltipped-i:after,
 .tooltipped:before,
 .tooltipped:after
 	pointer-events none
@@ -236,6 +246,7 @@ input[type="number"]
 
 .dropdowned:before,
 .dropdowned:after,
+.tooltipped-i:before,
 .tooltipped:before
 	z-index 9998
 	width 0
@@ -248,6 +259,7 @@ input[type="number"]
 	margin-right -5px
 	border-bottom-color rgba(0,0,0,0.8)
 
+.tooltipped-i:after,
 .tooltipped:after
 	z-index 9997
 	transform translateX(50%)
@@ -762,7 +774,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 /* end masks */
 
 /* M E D I A  Q U E R I E S */
-@media (max-width: 570px)
+@media (max-width: max_width)
 	.header-group.desktop
 		display none
 	.header-group.mobile

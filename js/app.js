@@ -151,7 +151,9 @@
 			var page_markup, $page;
 			states.pages_max = pages.length;
 			// Sort pages before baking
-			pages = pages.sort(helpers.sortByNumber)
+			pages = pages.sort(helpers.sortByNumber);
+			// Add `_pages_max` info to header
+			$('.header-item[data-which="page-number"] #pages-max').html(states.pages_max);
 			for (var i = 0; i < pages.length; i++){
 				page_markup = templates.pageFactory(pages[i]);
 				$('#pages').append(page_markup);
@@ -301,7 +303,7 @@
 			if ( format == 'double' && page > 1 && page % 2 != 0 ){
 				page = page - 1;
 			}
-			$('.header-item[data-which="page-number"] .header-text').html('Page <input min="1" max="'+states.pages_max+'" type="number" value="'+page+'"/> / ' + states.pages_max)
+			$('.header-item[data-which="page-number"] .header-text input').val(page);
 		},
 		showAppropriateNavBtns: function(page){
 			page = +page;
@@ -399,7 +401,7 @@
 				layout.slideContentArea();
 			});
 
-			$('.header-item[data-which="page-number"]').on('keydown', 'input', function(e){
+			$('.header-item[data-which="page-number"] input').on('keydown', function(e){
 				// Stop propagation so the arrows don't trigger a page change
 				e.stopPropagation();
 				var page_number = +$(this).val() || 1;
