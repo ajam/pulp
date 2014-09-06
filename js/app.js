@@ -153,7 +153,9 @@
 			// Sort pages before baking
 			pages = pages.sort(helpers.sortByNumber);
 			// Add `_pages_max` info to header
-			$('.header-item[data-which="page-number"] #pages-max').html(states.pages_max);
+			var $header_page_display = $('.header-item[data-which="page-number"]');
+			$header_page_display.find('#pages-max').html(states.pages_max);
+			$header_page_display.find('input').attr('max', states.pages_max);
 			for (var i = 0; i < pages.length; i++){
 				page_markup = templates.pageFactory(pages[i]);
 				$('#pages').append(page_markup);
@@ -392,12 +394,12 @@
 		goToPage: {
 			focus: function(focus, forceFocus){
 				// Do you show the tooltip?
-				$('.tooltipped-i').attr('data-focus', focus);
+				// $('.tooltipped-i').attr('data-focus', focus);
 
 				// Firefox loses control of the text area unless we reapply focus
-				if (focus || forceFocus){
-					$('.tooltipped-i input').focus();
-				}
+				// if (focus || forceFocus){
+				// 	$('.tooltipped-i input').focus();
+				// }
 
 			},
 			navigate: function(go, pageNumber){
@@ -413,7 +415,7 @@
 			deny: function(){
 				var current_page = states.currentPage;
 				layout.displayPageNumber(current_page);
-				layout.goToPage.focus(false);
+				// layout.goToPage.focus(false);
 			}
 		}
 	}
@@ -430,12 +432,15 @@
 
 			$('.tooltipped-i input').on('focus', function(){
 				var that = this;
-				// Chrome doesn't like this so put it in a try catch
-				try {
-					that.setSelectionRange(0,999); 
-				}
-				catch (e){
-					$(that).select();
+				// If there is no selection
+				if (!window.getSelection().focusNode){
+					// Chrome doesn't like this so put it in a try catch
+					try {
+						that.setSelectionRange(0,999); 
+					}
+					catch (e){
+						$(that).select();
+					}
 				}
 			});
 			$('.tooltipped-i input').on('blur', function(){
