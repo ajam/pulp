@@ -483,7 +483,11 @@
 					layout.goToPage.deny();
 				}
 
-			})
+			});
+
+			$('.social-btn[data-which="twitter"]').on('click', social.sendTweet);
+			$('.social-btn[data-which="facebook"]').on('click', social.sendFbShare);
+			$('.social-btn[data-which="gplus"]').on('click', social.sendGPlusShare);
 
 		},
 		resize: function(){
@@ -997,6 +1001,73 @@
 	}
 
 
+	/* Usage: $el.click( sendTweet ) */
+	// These functions only need `e` but you can pass in special `text` or a url hash as `route` if you want.
+	var social = {
+		init: function(){
+			this.shareable_url = 'http://'+ window.location.hostname + window.location.pathname;
+		},
+		sendTweet: function(e, text, route){
+			var base_url = 'https://twitter.com/intent/tweet?url=' + social.shareable_url;
+					text = text || PULP_SETTINGS.social.twitter_text;
+
+			if (route) {
+				base_url += route;
+			}
+
+			var tweet_text  = "&text=" + text,
+			    via_account = 'ajam',
+			    related     = "&related=ajam",
+			    counter_url = "&counturl=" + social.shareable_url;
+
+			var twitter_url = social.percentEncode(base_url + tweet_text + ' via @' + via_account + related + counter_url);
+
+			console.log(base_url)
+			var leftPos = e.pageX - 400,
+			    topPos = e.pageY - 350;
+
+			var settings = 'width=500,height=300,top=' + topPos + ',left=' + leftPos + ',scrollbars=no,location=0,statusbars=0,menubars=0,toolbars=0,resizable=0';
+			
+			window.open(twitter_url, 'Tweet', settings);
+		},
+		sendFbShare: function(e, text, promoImgUrl){
+			var base_url    = 'http://www.facebook.com/dialog/feed',
+					app_id      = '?app_id='+PULP_SETTINGS.social.fb_app_id,
+					page_url    = '&link=' + social.shareable_url,
+					text 			  = text || PULP_SETTINGS.social.fb_text,
+					promoImgUrl = promoImgUrl || PULP_SETTINGS.social.promo_img_url;
+				
+			var description = '&description='+text,
+					redirect    = '&redirect_uri='+social.shareable_url,
+					image       = '&image='+promoImgUrl;
+
+			var facebook_url = base_url + app_id + page_url + description + redirect + image;
+					facebook_url = social.percentEncode(facebook_url);
+			
+			var leftPos = e.pageX - 400,
+					topPos = e.pageY - 350;
+
+			var settings = 'width=900,height=450,top=' + topPos + ',left=' + leftPos + ',scrollbars=no,location=0,statusbars=0,menubars=0,toolbars=0,resizable=0';
+			
+			window.open(facebook_url, 'Share', settings);
+		},
+		sendGPlusShare: function(e){
+			var base_url = 'https://plus.google.com/share',
+					page_url = '?url=' + social.shareable_url;
+
+			var gplus_url = base_url + page_url;
+					gplus_url = social.percentEncode(gplus_url);
+
+			var settings = 'width=600,height=600,scrollbars=yes,resizable=yes,toolbar=no,menubar=no';
+			
+			window.open(gplus_url, 'Share', settings);
+		},
+	  percentEncode: function(string){
+			return string.replace(/#/g, '%23').replace(/,/g, '%2c').replace(/ /g, '%20');
+		}
+	}
+
+
 	var init = {
 		go: function(){
 			this.whitelabel(PULP_SETTINGS.whitelabel);
@@ -1011,7 +1082,7 @@
 			listeners.header();
 			listeners.keyboardAndGestures();
 			listeners.drawer();
-
+			social.init();
 			FastClick.attach(document.body);
 		},
 		loadPages: function(){

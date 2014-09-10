@@ -440,22 +440,22 @@ body[data-format="mobile"] {
 .drawer-section-container[data-which="share"] li:hover {
   cursor: pointer;
 }
-.drawer-section-container[data-which="share"] li[data-social-btn="twitter"] {
+.drawer-section-container[data-which="share"] li[data-which="twitter"] {
   background-color: #00aced;
 }
-.drawer-section-container[data-which="share"] li[data-social-btn="facebook"] {
+.drawer-section-container[data-which="share"] li[data-which="facebook"] {
   background-color: #3c599f;
 }
-.drawer-section-container[data-which="share"] li[data-social-btn="gplus"] {
+.drawer-section-container[data-which="share"] li[data-which="gplus"] {
   background-color: #dd4b39;
 }
-.drawer-section-container[data-which="share"] li[data-social-btn="twitter"]:hover {
+.drawer-section-container[data-which="share"] li[data-which="twitter"]:hover {
   background-color: #17bfff;
 }
-.drawer-section-container[data-which="share"] li[data-social-btn="facebook"]:hover {
+.drawer-section-container[data-which="share"] li[data-which="facebook"]:hover {
   background-color: #4b6cbb;
 }
-.drawer-section-container[data-which="share"] li[data-social-btn="gplus"]:hover {
+.drawer-section-container[data-which="share"] li[data-which="gplus"]:hover {
   background-color: #e26657;
 }
 #side-drawer-handle {

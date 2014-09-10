@@ -10,5 +10,11 @@ var PULP_SETTINGS = {
 	"transitionDuration": "400ms",
 	"gutterWidth": 40,
 	"imgFormat": "jpg",
-	"drawerTransitionDuration": 500
+	"drawerTransitionDuration": 500,
+	"social": {
+		"twitter_text": "TK",
+		"fb_text": "TK",
+		"promo_img_url": "TK.png",
+		"fb_app_id": "123456"
+	}
 }
