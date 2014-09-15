@@ -770,13 +770,20 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 .mask {
   position: absolute;
   background-color: #fff;
-  height: 0;
+  z-index: 999;
   opacity: 0;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
+}
+.mask[data-orientation="horizontal"] {
+  height: 0;
   left: 0;
   right: 0;
-  z-index: 999;
+}
+.mask[data-orientation="vertical"] {
+  width: 0;
+  top: 0;
+  bottom: 0;
 }
 #top-mask {
   top: 0;
@@ -789,6 +796,17 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
   transform: rotateX(180deg) translate3d(0, 0, 0);
   bottom: -1px;
 /* To cover up some small clipping that occurs */
+}
+#left-mask {
+  left: 0;
+}
+#right-mask {
+  right: 0;
+  -webkit-transform: rotateX(180deg) translate3d(0, 0, 0);
+  -moz-transform: rotateX(180deg) translate3d(0, 0, 0);
+  -o-transform: rotateX(180deg) translate3d(0, 0, 0);
+  -ms-transform: rotateX(180deg) translate3d(0, 0, 0);
+  transform: rotateX(180deg) translate3d(0, 0, 0);
 }
 /* end masks */
 /* M E D I A  Q U E R I E S */

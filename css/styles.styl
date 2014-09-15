@@ -772,19 +772,26 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 .mask
 	position absolute
 	background-color bg_layout_color
-	height 0
+	z-index 999
 	opacity 0
+.mask[data-orientation="horizontal"]
+	height 0
 	left 0
 	right 0
-	z-index 999
-	// transition height 0s, opacity 0s
+.mask[data-orientation="vertical"]
+	width 0
+	top 0
+	bottom 0
 #top-mask
 	top 0
 #bottom-mask
 	transform rotateX(180deg) translate3d(0,0,0);
 	bottom -1px /* To cover up some small clipping that occurs */
-// .page, .mask
-// transition: transform .3s ease-out
+#left-mask
+	left 0
+#right-mask
+	right 0
+	transform rotateX(180deg) translate3d(0,0,0);
 /* end masks */
 
 /* M E D I A  Q U E R I E S */

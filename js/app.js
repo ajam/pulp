@@ -145,7 +145,10 @@
 			this.slideContentArea(true);
 		},
 		bakeMasks: function(){
-			$('#pages').append('<div class="mask" id="top-mask"></div>').append('<div class="mask" id="bottom-mask"></div>');
+			$('#pages').append('<div class="mask" data-orientation="horizontal" id="top-mask"></div>')
+								 .append('<div class="mask" data-orientation="horizontal" id="bottom-mask"></div>')
+								 .append('<div class="mask" data-orientation="vertical" id="left-mask"></div>')
+								 .append('<div class="mask" data-orientation="vertical" id="right-mask"></div>');
 		},
 		bakePages: function(pages){
 			var page_markup, $page;
@@ -928,10 +931,16 @@
 			var page_css = helpers.setTransitionCss('transform', 'scale(1)', transitionDuration);
 			$page.css(page_css);
 			// Reset masks
-			var mask_css = helpers.addDuration({ 'height': 0, opacity: 0 }, transitionDuration);
-			$('.mask').css(mask_css);
-			// // Bring back footnotes
-			// $('#page-container-'+page_number+' .footnote-container').css('opacity', 1);
+			var mask_css = { opacity: 0 };
+			// Set their appropriate zero values
+			var horizontal_mask_css = _.extend({height: 0}, mask_css);
+			var vertical_mask_css 	= _.extend({width: 0}, mask_css);
+
+			horizontal_mask_css = helpers.addDuration(horizontal_mask_css, transitionDuration);
+			vertical_mask_css 	= helpers.addDuration(vertical_mask_css,   transitionDuration);
+			// Apply css
+			$('.mask[data-orientation="horizontal"]').css(horizontal_mask_css);
+			$('.mask[data-orientation="vertical"]').css(vertical_mask_css);
 
 			// Set the page state to changing if there are more than the appropriate number of viewing objects, else set it to page
 			var zoom_state, normal_length;
@@ -944,7 +953,7 @@
 				normal_length = 2;
 			}
 
-			var pages_visible = $('.viewing').length
+			var pages_visible = $('.viewing').length;
 			// If there are more pages visible than there should be, then we're changing pages.
 			if ( pages_visible == normal_length ) {
 				zoom_state = 'page';
@@ -961,8 +970,9 @@
 			var buffer = .2;
 			var $currentPage = $('#page-'+page),
 					cg_width = $currentPage.width(),
+					cg_height = $currentPage.height(),
 					viewport_xMiddle = $(window).width() / 2,
-					cg_yMiddle = $currentPage.height() / 2;
+					cg_yMiddle = cg_height / 2;
 
 			// This value is stored on load because it changes on different scales but is really constant
 			// It's essentially the height of the toolbar, but by defining it this way, you can protect against other elements that impact the height
@@ -972,31 +982,105 @@
 					th_top = Number($targetHotspot.attr('data-top')),
 					th_left = Number($targetHotspot.attr('data-left')),
 					th_width = Number($targetHotspot.attr('data-width')),
+					th_height = Number($targetHotspot.attr('data-height')),
 					th_xMiddle = th_width / 2,
-					th_yMiddle = Number($targetHotspot.attr('data-height')) / 2;
+					th_yMiddle = th_height / 2;
 
-			var scale_multiplier = 1 / (th_width / cg_width); // Scale the width of the page by this to expand the target hotspot to full view
+			// This returns an object of structure, which gives you a number that is your scale multiplier and whether you are sizing the panel to meet the width of the page or the height of the page
+			/*
+				{
+					multiplier: 2,
+					orientation: 'vertical'
+				}
+			*/
+			var scale_multiplication_info = this.calcScaleMultiplier(th_width, th_height, cg_width, cg_height),
+					scale_multiplier = scale_multiplication_info.multiplier,
+					scale_multiplier_orientation = scale_multiplication_info.orientation;
+
+			// var scale_multiplier = 1 / (th_width / cg_width); // Scale the width of the page by this to expand the target hotspot to full view
 			var x_adjuster = viewport_xMiddle - th_left - th_xMiddle,
 					y_adjuster = cg_yMiddle - th_top - th_yMiddle + cg_top;
 
 			var css = helpers.setTransitionCss('transform', 'scale('+ scale_multiplier +') translate('+x_adjuster+'px, '+y_adjuster+'px)', transitionDuration);
+			// Scale the page according to the scale and translation to bring this hotspot to the center
 			$currentPage.css(css);
-			zooming.sizeMasks(th_yMiddle*2, cg_yMiddle*2, scale_multiplier, transitionDuration);
+			// Roll in the masks to the appropriate edge of the hotspote
+			zooming.sizeMasks(th_width, th_height, cg_width, cg_height, scale_multiplier, transitionDuration, scale_multiplier_orientation);
+			// Add the page and hotspot into on the mask so it will behave like a hotspot when we click it and then trigger zooming back out to the page
 			zooming.applyHotspotIdToMasks(page, hotspot);
-			// // Hide the footnotes
-			// $('#page-container-'+page+' .footnote-container').css('opacity', 0);
+			// Save the scale multiplier we were using
 			states.scaleMultiplier = scale_multiplier;
 			// Set the page state
 			state.set('zoom', 'hotspot');
 		},
-		sizeMasks: function(th_height, cg_height, scaler, transitionDuration){
-			var mask_height = ( cg_height - (th_height * scaler) ) / 2;
-			var css = { 'height': mask_height+'px', opacity: 1 };
-			css = helpers.addDuration(css, transitionDuration)
-			$('.mask').css(css);
+		sizeMasks: function(thWidth, thHeight, cgWidth, cgHeight, scalerMultiplier, transitionDuration, orientation){
+			var dimension,
+					mask_dimension_value,
+					tationorien, // This is the opposite of `orienation`, hence it's its verlan.
+					siondimen; // The opposite of dimension
+			// If we are scaling to a hotspot that is a horizontal panel
+			// Then we'll be affecting the page mask height
+			// And we'll be scaling the width on masks around vertical panels
+			// Essentially, we cover up the side that doesn't meet the edge
+			if (orientation == 'horizontal'){
+				dimension = 'height';
+				mask_dimension_value = ( cgHeight - (thHeight * scalerMultiplier) ) / 2;
+				// Set the opposites
+				tationorien = 'vertical';
+				siondimen = 'width';
+			} else if (orientation == 'vertical') {
+				dimension = 'width';
+				mask_dimension_value = ( cgWidth - (thWidth * scalerMultiplier) ) / 2;
+				// Set the opposites
+				tationorien = 'horizontal';
+				siondimen = 'height';
+			}
+
+			var css = {
+				opacity: 1
+			};
+			// Set this css value dynamically based on what we calculated above
+			css[dimension] = mask_dimension_value + 'px';
+			// Add the calculated transition duration
+			css = helpers.addDuration(css, transitionDuration);
+			// And animate
+			$('.mask[data-orientation="'+orientation+'"]').css(css);
+
+			// Kill the other masks
+			var ssc = {
+				opacity: 0
+			};
+			ssc[siondimen] = 0;
+			ssc = helpers.addDuration(ssc, transitionDuration);
+			$('.mask[data-orientation="'+tationorien+'"]').css(ssc);
 		},
 		applyHotspotIdToMasks: function(page, hotspot){
 			$('.mask').attr('data-hotspot-id', page + '-' + hotspot);
+		},
+		calcScaleMultiplier: function(targetHotspotWidth, targetHotspotHeight, currentPageWidth, currentPageHeight){
+			// Determine whether this hotspot is vertical or horizontal and report back
+			var orientation = this.determineHotspotOrientation(targetHotspotWidth, targetHotspotHeight),
+					multiplier;
+
+			if (orientation == 'horizontal'){
+				multiplier = 1 / (targetHotspotWidth / currentPageWidth);
+			} else {
+				multiplier = 1 / (targetHotspotHeight / currentPageHeight);
+			}
+
+			return {
+				multiplier: multiplier,
+				orientation: orientation
+			}
+		},
+		determineHotspotOrientation: function(width, height){
+			var orientation;
+			if (width < height){
+				orientation = 'vertical';
+			} else {
+				orientation = 'horizontal';
+			}
+			return orientation;
 		}
 	}
 
