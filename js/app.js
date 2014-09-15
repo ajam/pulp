@@ -80,7 +80,6 @@
 			// if (hash.charAt(hash.length - 1) == '/') hash = hash.substring(0, hash.length -1);
 			hash = hash.replace('#', '').split('/'); // `#1/3` -> ["1", "3"]
 			hash = _.map(hash, function(val) { return Number(val)}); // Convert to number  ["1", "3"] -> [1, 3]
-			
 			return { page: hash[0], hotspot: hash[1] }
 		},
 		getNavDirection: function(e, code){
@@ -585,16 +584,23 @@
 				return pp_info;
 			},
 			hotspot: function(pp_info){
+				var this_page_hotspot_max;
 				// Decrease our hotspot cursor by one
 				pp_info.hotspot--;
 				// If that's less than zero then that means we were on a full view page, so go to the last hotspot of the previous panel
 				if (pp_info.hotspot < 0){
 					pp_info.hotspot = '' // Go to panel view
 
-					if (pp_info.page != 1) { // TODO handle first page to go back to main window or something
+					if (pp_info.page != 1) { 
 						pp_info.page--;
-						// pp_info.hotspot = $('#page-'+pp_info.page).attr('data-length'); // Go back to last hotspot
-						states.lastHotspot = Number($('#page-'+pp_info.page).attr('data-length')) + 1; // Start off with the last panel
+						this_page_hotspot_max = Number($('#page-'+pp_info.page).attr('data-length'));
+
+						// If this page has hotspots
+						// Start off with the last hotspot
+						if (this_page_hotspot_max) {
+							states.lastHotspot = this_page_hotspot_max + 1;
+						}
+
 					}
 
 				} else if(pp_info.hotspot < 1){ // If that takes us below the first hotspot, go to the full view of this page
@@ -851,9 +857,17 @@
 							format = formatState.format,
 							bookend = formatState.bookend,
 							leaf_to;
+					console.log('starting',pp_info.hotspot, states.lastHotspot)
 
 					pp_info.page = pp_info.page || 1; // If there's no page, go to the first page
+					//Evaluate this as a string in case it's zero and that's meaningfull
+					// if (pp_info.hotspot === 0) { pp_info.hotspot = '0' }
 					pp_info.hotspot = pp_info.hotspot || states.lastHotspot || 0; // If there was no hotspot in the hash, see if there was a saved hotspot states, if not start at zero
+					// But convert it back to a number if it can be
+					// if (pp_info.hotspot === '0') { pp_info.hotspot = 0 }
+					console.log(pp_info.hotspot)
+					// if (!_.isNaN(+pp_info.hotspot)) { pp_info.hotspot = Number(pp_info.hotspot) }
+					
 					states.lastHotspot = pp_info.hotspot;
 					
 					// Send it to the appropriate function to transform the new page and hotspot locations
@@ -863,13 +877,15 @@
 						leaf_to = 'page';
 					}
 
+
 					pp_info = leafing[direction][leaf_to](pp_info, hotspot_max, states.pages_max);
 					// Add our new info to the hash
-					// or nof if we're going to a full pulle
+					// or not if we're going to a full pulle
 					var newhash = pp_info.page.toString();
 					if (pp_info.hotspot){
 						newhash += '/' + pp_info.hotspot
 					}
+					// console.log(newhash)
 					// // Store the previous hash
 					// states.previousPage = helpers.hashToPageHotspotDict( window.location.hash ).page;
 					// Go to there
