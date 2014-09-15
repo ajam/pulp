@@ -1,3 +1,6 @@
+#footer{
+	height: 100%;
+}
 .footer {
     float: left;
     width: 100%;
@@ -8,6 +11,7 @@
     background: #3f4245;
     font-size: 11px;
     color: #fff;
+    height: 100%;
 }
 
 .globalFooter a {
