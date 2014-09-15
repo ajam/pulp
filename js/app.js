@@ -428,7 +428,8 @@
 				helpers.toggleFullScreen();
 			});
 
-			$('.header-item-container[data-action="drawer"]').on('click', function(){
+			$('.header-item-container[data-action="drawer"], .section-title-close[data-action="drawer"]').on('click', function(){
+				$('.header-item-container[data-action="drawer"]').toggleClass('active');
 				layout.slideContentArea();
 			});
 

@@ -120,19 +120,25 @@ html:-ms-fullscreen #footer {
   height: 100%;
   position: relative;
 }
-.header-item-container:hover {
+.header-item-container:hover,
+.header-item-container.active {
   cursor: pointer;
 }
-.header-item-container:hover .header-btn {
+.header-item-container:hover .header-btn,
+.header-item-container.active .header-btn {
   color: #2677b9;
   border-color: #848484;
 }
-.header-item-container:hover .header-text {
+.header-item-container:hover .header-text,
+.header-item-container.active .header-text {
   cursor: default;
 }
 .header-item-container:active .header-btn {
-  color: #4f4f4f;
+  color: #1b5382;
   border-color: #4f4f4f;
+}
+.header-item-container.active:hover .header-btn {
+  color: #226ba6;
 }
 .header-item {
   height: 100%;
@@ -532,6 +538,18 @@ body[data-format="double"][data-side-drawer-open="true"] #desktop-drawer-contain
 }
 #desktop-drawer-container .section-title {
   margin-bottom: 8px;
+}
+#desktop-drawer-container .section-title span {
+  font-weight: normal;
+  font-size: 12px;
+}
+#desktop-drawer-container .section-title .section-title-close {
+  float: right;
+  color: #999;
+}
+#desktop-drawer-container .section-title .section-title-close:hover {
+  cursor: pointer;
+  color: #666;
 }
 #desktop-drawer-container .endnote {
   font-size: 1.2em;

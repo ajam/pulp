@@ -107,7 +107,7 @@ html:-ms-fullscreen
 	display inline-block
 	height 100%
 	position relative
-.header-item-container:hover
+.header-item-container:hover,.header-item-container.active
 	cursor pointer
 	.header-btn
 		color header_item_hover_color
@@ -117,8 +117,13 @@ html:-ms-fullscreen
 		cursor default
 .header-item-container:active
 	.header-btn
-		color #4f4f4f
+		color darken(header_item_hover_color, 30%)
 		border-color #4f4f4f
+
+.header-item-container.active:hover
+	.header-btn
+		color darken(header_item_hover_color, 10%)
+
 
 .header-item
 	height 100%
@@ -484,6 +489,15 @@ buffer_for_tooltip = 11px
 	box-shadow -3px 15px 19px -7px #000
 	.section-title
 		margin-bottom 8px
+		span
+			font-weight normal
+			font-size 12px
+		.section-title-close
+			float right
+			color #999
+		.section-title-close:hover
+			cursor pointer
+			color #666
 	.endnote
 		font-size 1.2em
 		margin-bottom 10px
