@@ -1059,28 +1059,27 @@
 		},
 		calcScaleMultiplier: function(targetHotspotWidth, targetHotspotHeight, currentPageWidth, currentPageHeight){
 			// Determine whether this hotspot is vertical or horizontal and report back
-			var orientation = this.determineHotspotOrientation(targetHotspotWidth, targetHotspotHeight),
-					multiplier;
+			var multiplier,
+					orientations = ['horizontal', 'vertical'],
+					multipliers = [],
+					orientation;
 
-			if (orientation == 'horizontal'){
-				multiplier = 1 / (targetHotspotWidth / currentPageWidth);
-			} else {
-				multiplier = 1 / (targetHotspotHeight / currentPageHeight);
-			}
+			// Horizontal scaler
+			multipliers.push( 1 / (targetHotspotWidth / currentPageWidth) );
+			// Vertical scaler
+			multipliers.push( 1 / (targetHotspotHeight / currentPageHeight) );
+
+			// Always scale by the smaller value 
+			multiplier = _.min(multipliers);
+
+			// Figure out which one that was
+			var index = multipliers.indexOf(multiplier);
+			orientation = orientations[index];
 
 			return {
 				multiplier: multiplier,
 				orientation: orientation
 			}
-		},
-		determineHotspotOrientation: function(width, height){
-			var orientation;
-			if (width < height){
-				orientation = 'vertical';
-			} else {
-				orientation = 'horizontal';
-			}
-			return orientation;
 		}
 	}
 
