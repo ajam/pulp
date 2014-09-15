@@ -430,6 +430,10 @@ body[data-format="mobile"] {
   margin-bottom: 3px;
   font-weight: 200;
 }
+.drawer-section-container li.endnote {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
 .drawer-section-container[data-which="share"] li {
   display: inline-block;
   width: 32.5%;
@@ -531,7 +535,7 @@ body[data-format="double"][data-side-drawer-open="true"] #desktop-drawer-contain
 }
 #desktop-drawer-container .endnote {
   font-size: 1.2em;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .section-title {
   font-size: 1.4em;

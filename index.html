@@ -169,7 +169,7 @@
 		</div>
 		<!-- Endnotes template -->
 		<script type="text/template" id="endnote-template">
-			<li class="endnote"><%= endnote.number %>. <% if (endnote.link) { print( '<a href="'+endnote.link+'" target="_blank">'+endnote.text+'</a>' ) } else { print(endnote.text) } %></li>
+			<li class="endnote"><%= endnote.number %>. <% if (endnote.url) { print( '<a href="'+endnote.url+'" target="_blank">'+endnote.text+'</a>' ) } else { print(endnote.text) } %></li>
 		</script>
 		<!-- end endnotes template -->
 
