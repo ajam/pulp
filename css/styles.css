@@ -407,6 +407,9 @@ input[type="number"] {
 body[data-format="mobile"] {
   background-color: #5b5b5b;
 }
+body[data-format="mobile"] .header-item-container.active .header-btn {
+  color: #000;
+}
 #side-drawer-container {
   position: absolute;
   height: 100%;
