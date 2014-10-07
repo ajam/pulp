@@ -81,7 +81,7 @@ body[data-state="hotspot"] #footer {
   -o-transition: opacity 100ms linear;
   -ms-transition: opacity 100ms linear;
   transition: opacity 100ms linear;
-  max-width: 1154px;
+  max-width: 1194px;
 }
 html:-moz-full-screen #header {
   visibility: hidden;
