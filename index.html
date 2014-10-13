@@ -11,6 +11,14 @@
 	 	<link rel="stylesheet" type="text/css" href="css/liebe-ruth.css">
 	 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 
+	 	<!-- DON'T FORGET TO FILL OUT OpenGraph FIELDS -->
+		<meta property="og:title" content="insert-title">
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="http://insert-url.com">
+		<meta property="og:image" content="path/to/social-image.png">
+		<meta property="og:site_name" content="insert-site-name">
+		<meta property="og:description" content="insert-description">
+
 	</head>
 	<body>
 		<div id="side-drawer-container" class="mobile-scrollable">
@@ -81,7 +89,7 @@
 					<li class="header-item-container tooltipped-i"  aria-label="'Return' to navigate. 'Esc' to clear.">
 						<div class="header-item" data-which="page-number">
 							<div class="header-text">
-								Page <input min="1" type="number" /> / <span id="pages-max"></span>
+								Page <input min="1" type="number" id="page-number-input"/> / <span id="pages-max"></span>
 							</div>
 						</div>
 				</ul>

@@ -1201,6 +1201,7 @@
 			listeners.drawer();
 			social.init();
 			FastClick.attach(document.body);
+			this.browserHacks();
 		},
 		loadPages: function(){
 			$.getJSON('data/pages.json')
@@ -1212,13 +1213,12 @@
 					layout.bakeEndnotes(endnotes);
 				})
 				.error(function(error){
-					// TK, remove console.log for production
-					console.log('Error: Data file not found!');
+					alert('Error: Data file not found!');
 				});
 		},
 		browserCheck: function(){
 	    var ua= navigator.userAgent, tem, 
-	    M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+	    M= ua.match(/(android|opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
 	    if(/trident/i.test(M[1])){
 	        tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
 	        return 'IE '+(tem[1] || '');
@@ -1247,6 +1247,13 @@
 				// This is to avoid a bug which would cause those elements to be pushed to the next line
 				// If this is causing issues or you aren't floating those buttons to the right, then you might want to change this line to `.prepend`
 				$('#header').append(whitelabelObj.logo);
+			}
+		},
+		browserHacks: function(){
+			// Android browsers aren't showing a "Go" button on page number change, so make that field a text field on android
+			if (this.browser[0] == 'Android'){
+				$('#page-number-input').attr('type','text');
+				
 			}
 		}
 	}
