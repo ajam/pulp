@@ -50,7 +50,7 @@ html:-ms-fullscreen {
 #pages,
 .page-container,
 .page,
-.page img {
+.hotspot {
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   -ms-backface-visibility: hidden;
