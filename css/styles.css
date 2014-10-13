@@ -392,17 +392,16 @@ input[type="number"] {
   right: 80px;
   width: 115%;
   text-align: center;
-  display: none;
   font-size: 1.4em;
   font-weight: 200;
   font-family: "LiebeRuth-Light", Helvetica;
   line-height: 15px;
   color: #000;
-  -webkit-animation: bounce-left-right 2.5s infinite;
-  -moz-animation: bounce-left-right 2.5s infinite;
-  -o-animation: bounce-left-right 2.5s infinite;
-  -ms-animation: bounce-left-right 2.5s infinite;
-  animation: bounce-left-right 2.5s infinite;
+  -webkit-animation: bounce-left-right 2.75s infinite;
+  -moz-animation: bounce-left-right 2.75s infinite;
+  -o-animation: bounce-left-right 2.75s infinite;
+  -ms-animation: bounce-left-right 2.75s infinite;
+  animation: bounce-left-right 2.75s infinite;
 }
 .nav-helper-arrows {
   font-size: 1.4em;

@@ -50,7 +50,8 @@
 		lastPage: '',
 		lastHotspot: '',
 		scaleMultiplier: 1,
-		firstRun: true
+		firstRun: true,
+		showNavHelpers: true
 	}
 
 	var helpers = {
@@ -272,6 +273,10 @@
 			// What's done on window resize:
 			// See if we can accommodate single or double
 			state.setPageFormat();
+			// If we're on page 2 and we're now in double, kill the expand helper because they've done what we've asked
+			if (states.currentPage == 2){
+				layout.toggleNavHelpers(false);
+			}
 			// Grab the page
 			var $page = $('#page-'+states.currentPage);
 			// Scale the page back down to 1x1, ($page, transitionDuration)
@@ -332,6 +337,11 @@
 		},
 		toggleNavHelpers: function(show){
 			$('.nav-helpers').toggle(show);
+		},
+		navHelpersMode: function(mode){
+			$('.nav-helpers-child').hide();
+			$('.nav-helpers-child[data-mode="'+mode+'"]').show();
+
 		},
 		toggleDesktopDrawer: function(){
 			$('#desktop-drawer-container').toggle();
@@ -747,7 +757,9 @@
 
 	var routing = {
 		setInitRouteChecks: function(page, triggerLazyLoad, cb){
-			var transition_duration = true;
+			var transition_duration = true,
+					formatState = state.get('format'),
+					format = formatState.format;
 			// If our URL we came from is a hotspot then lazyLoad won't be triggered
 			// Because it's categorically false when navigating to a hotspot
 			// The only time that changes would be when we're on a first run
@@ -758,7 +770,12 @@
 				page = '1';
 				helpers.saveCurrentStates(page); 
 				transition_duration = false;
+				// Show the nav helpers
 				layout.toggleNavHelpers(true);
+				layout.navHelpersMode('intro');
+			} else if (states.showNavHelpers && page == '2' && format == 'single'){
+				layout.navHelpersMode('expand');
+				states.showNavHelpers = false;
 			} else {
 				layout.toggleNavHelpers(false);
 			}
@@ -858,7 +875,7 @@
 							format = formatState.format,
 							bookend = formatState.bookend,
 							leaf_to;
-					console.log('starting',pp_info.hotspot, states.lastHotspot)
+					// console.log('starting',pp_info.hotspot, states.lastHotspot)
 
 					pp_info.page = pp_info.page || 1; // If there's no page, go to the first page
 					//Evaluate this as a string in case it's zero and that's meaningfull
@@ -866,7 +883,7 @@
 					pp_info.hotspot = pp_info.hotspot || states.lastHotspot || 0; // If there was no hotspot in the hash, see if there was a saved hotspot states, if not start at zero
 					// But convert it back to a number if it can be
 					// if (pp_info.hotspot === '0') { pp_info.hotspot = 0 }
-					console.log(pp_info.hotspot)
+					// console.log(pp_info.hotspot)
 					// if (!_.isNaN(+pp_info.hotspot)) { pp_info.hotspot = Number(pp_info.hotspot) }
 					
 					states.lastHotspot = pp_info.hotspot;
@@ -1122,7 +1139,7 @@
 
 			var twitter_url = social.percentEncode(base_url + tweet_text + ' via @' + via_account + related + counter_url);
 
-			console.log(base_url)
+			// console.log(base_url)
 			var leftPos = e.pageX - 400,
 			    topPos = e.pageY - 350;
 
