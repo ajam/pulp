@@ -802,6 +802,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 /* M A S K S */
 .mask
 	position absolute
+	// background-color #f0c
 	background-color bg_layout_color
 	z-index 999
 	opacity 0
@@ -816,13 +817,13 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 #top-mask
 	top 0
 #bottom-mask
-	transform rotateX(180deg) translate3d(0,0,0);
+	transform rotateX(180deg) translate3d(0,0,1);
 	bottom -1px /* To cover up some small clipping that occurs */
 #left-mask
 	left 0
 #right-mask
 	right 0
-	transform rotateX(180deg) translate3d(0,0,0);
+	transform rotateX(180deg) translate3d(0,0,1);
 /* end masks */
 
 /* M E D I A  Q U E R I E S */
