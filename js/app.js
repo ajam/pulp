@@ -1132,10 +1132,10 @@
 				base_url += route;
 			}
 
-			var tweet_text  = "&text=" + text,
-			    via_account = 'ajam',
-			    related     = "&related=ajam",
-			    counter_url = "&counturl=" + social.shareable_url;
+			var tweet_text  = '&text=' + text,
+			    via_account = PULP_SETTINGS.social.twitter_account,
+			    related     = '&related='+via_account,
+			    counter_url = '&counturl=' + social.shareable_url;
 
 			var twitter_url = social.percentEncode(base_url + tweet_text + ' via @' + via_account + related + counter_url);
 

@@ -667,8 +667,8 @@ body[data-format="double"][data-bookend="false"] .page-container.viewing.right-p
   z-index: -1;
   background: url("../imgs/assets/border.png") repeat-y 20px top #fff;
 }
-body[data-format="mobile"][data-bookend="false"] #btns {
-  display: none;
+body[data-format="mobile"] #btns {
+  visibility: hidden;
 }
 /* MOZ Specific hacks */
 @-moz-document url-prefix() {

@@ -13,6 +13,7 @@ var PULP_SETTINGS = {
 	"drawerTransitionDuration": 500,
 	"social": {
 		"twitter_text": "TK",
+		"twitter_account": "ajam",
 		"fb_text": "TK",
 		"promo_img_url": "TK.png",
 		"fb_app_id": "123456"
