@@ -148,7 +148,7 @@ html:-ms-fullscreen
 	position relative
 .header-btn-icon
 	font-size 2.2em
-	text-shadow 1px 2px 1px #E9E9E9
+	text-shadow 1px 1px 1px #E9E9E9
 // 	position relative
 
 .header-group
@@ -354,27 +354,39 @@ input[type="number"]
 [class^="ajmint-icon-"]:before, [class*=" ajmint-icon-"]:before
 	width auto!important
 
+nav_helper_right = 80px
 .nav-helpers
 	position absolute
-	top 55%
-	width 100%
+	top 43%
+	right nav_helper_right
+	width 115%
 	text-align center
 	display none
-	font-size 1.2em
+	font-size 1.4em
 	font-weight 200
+	font-family "LiebeRuth-Light", Helvetica
 	line-height 15px
-	color #ccc
-	animation bounce-up-down 2.5s infinite
+	color #000
+	animation bounce-left-right 2.5s infinite
+.nav-helper-arrows
+	font-size 1.4em
+	white-space nowrap
+	margin 9px 0 10px 0
+	font-family Helvetica
+	span
+		padding 1px 4px
+		border 1px solid #ccc
+		background linear-gradient(180deg, #FFF 0%, #E3E3E3 100%) repeat scroll 0% 0% #FFF
 
-@keyframes bounce-up-down {
+@keyframes bounce-left-right {
 	0%{
-		top 55%
+		right nav_helper_right
 	}
 	50%{
-		top 53.5%
+		right nav_helper_right - (nav_helper_right/5)
 	}
 	100%{
-		top 55%
+		right nav_helper_right
 	}
 }
 

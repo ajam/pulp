@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'pulp-icon';
-  src: url('../font/pulp-icon.eot?50995852');
-  src: url('../font/pulp-icon.eot?50995852#iefix') format('embedded-opentype'),
-       url('../font/pulp-icon.woff?50995852') format('woff'),
-       url('../font/pulp-icon.ttf?50995852') format('truetype'),
-       url('../font/pulp-icon.svg?50995852#pulp-icon') format('svg');
+  src: url('../fonts/pulp-icon/pulp-icon.eot?50995852');
+  src: url('../fonts/pulp-icon/pulp-icon.eot?50995852#iefix') format('embedded-opentype'),
+       url('../fonts/pulp-icon/pulp-icon.woff?50995852') format('woff'),
+       url('../fonts/pulp-icon/pulp-icon.ttf?50995852') format('truetype'),
+       url('../fonts/pulp-icon/pulp-icon.svg?50995852#pulp-icon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
