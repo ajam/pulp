@@ -12,16 +12,19 @@
 		},
 		determineLayoutInformation: function(page){
 			var bookend = this.determineBookend(page);
-			var format = this.determinePageFormat(page);
+			var format = this.determinePageFormat();
 			return { format: format, bookend: bookend };
 		},
-		determinePageFormat: function(page, windowWidth){
+		determinePageFormat: function(windowWidth){
 			windowWidth = windowWidth || $(window).width();
 			var format;
-			if (windowWidth > this.get('single-page-width')*2 + PULP_SETTINGS.gutterWidth) {
+			// var w = parseInt($('.page-container.viewing').css('width')) || parseInt($('.page-container').css('width'));
+			var w =this.get('single-page-width')
+			// console.log('determining page format',windowWidth,w)
+			if (windowWidth > w*2 + PULP_SETTINGS.gutterWidth) {
 				// If the window is wide enough for two pages
 				format = 'double';
-			} else if (windowWidth <= this.get('single-page-width')) {
+			} else if (windowWidth <= w) {
 				// If it's less than a single page
 				format = 'mobile';
 			} else {
@@ -160,6 +163,8 @@
 			$header_page_display.find('#pages-max').html(states.pages_max);
 			$header_page_display.find('input').attr('max', states.pages_max);
 			for (var i = 0; i < pages.length; i++){
+				// For non-lazy loading of cover images
+				_.extend(pages[i], {img_format: PULP_SETTINGS.imgFormat});
 				page_markup = templates.pageFactory(pages[i]);
 				$('#pages').append(page_markup);
 				$page = $('#page-'+pages[i].number);
@@ -204,24 +209,53 @@
 			// You could try a javascript implementation of this, but that has its own issues.
 			var $pages = $('#pages'),
 					$pagesWrapper = $('#pages-wrapper');
-			_.each([$pages,$pagesWrapper], function($el) { $el.css('max-width', 'auto').css('max-height', 'auto'); });
+
+			var auto_width_height = {
+				'max-width': 'auto',
+				'max-height': 'auto'
+			}
+
+			$pages.css(auto_width_height);
+			$pagesWrapper.css(auto_width_height);
+
 			$pages.imagesLoaded().done(function(){
 				var $img = $pages.find('img'),
 						img_width,
 						img_height,
 						img_width_wrapper;
 
+				// img_width = img_width_wrapper = parseInt($pages.css('width'));
+				// img_height = parseInt($pages.css('height'));
+
 				img_width = img_width_wrapper = $img.width();
 				img_height = $img.height();
 
-				if (state.determinePageFormat(null, null, true) == 'double') {
+				console.log(img_width,img_height)
+				console.log($pages.css('width'))
+				console.log($pages.css('height'))
+
+
+				var format = state.determinePageFormat();
+
+				console.log('resulting format',format)
+
+				if (format == 'double') {
+					console.log('setting double');
 					img_width = img_width*2;
 					img_width_wrapper = img_width+PULP_SETTINGS.gutterWidth;
 					if (init.browser[0] == 'Firefox') img_width_wrapper = img_width_wrapper - 1; // Minus one for sub-pixel rendering hack
 				}
 				// Apply the dimensions from the image to the wrapper
 				// Apply a bit of a margin on pages_wrapper to accommodate the gutter
-				_.each([{el: $pages, width: img_width}, {el:$pagesWrapper, width: img_width_wrapper}], function(el) { el.el.css('max-width', (el.width)+'px').css('max-height', img_height+'px');; });
+				var groups = [
+					{el: $pages,        width: img_width}, 
+					{el: $pagesWrapper, width: img_width_wrapper}
+				];
+
+				_.each(groups, function(group) { 
+					group.el.css('max-width', (group.width)+'px').css('max-height', img_height+'px');
+				});
+
 				// Also apply this height to the btns overlay
 				$('#btns').css('height', img_height+'px')
 				if (cb) cb();
@@ -803,7 +837,9 @@
 				page_number = range[i];
 				$img = $('#page-container-'+page_number).find('img');
 				src = $img.attr('src');
-				if (src.indexOf('data:image\/gif') > -1) $img.attr('src', 'imgs/pages/page-'+page_number+'.'+PULP_SETTINGS.imgFormat );
+				if (src.indexOf('data:image\/gif') > -1) {
+					$img.attr('src', 'imgs/pages/page-'+page_number+'.'+PULP_SETTINGS.imgFormat );
+				}
 			}
 
 		},
@@ -879,12 +915,7 @@
 
 					pp_info.page = pp_info.page || 1; // If there's no page, go to the first page
 					//Evaluate this as a string in case it's zero and that's meaningfull
-					// if (pp_info.hotspot === 0) { pp_info.hotspot = '0' }
 					pp_info.hotspot = pp_info.hotspot || states.lastHotspot || 0; // If there was no hotspot in the hash, see if there was a saved hotspot states, if not start at zero
-					// But convert it back to a number if it can be
-					// if (pp_info.hotspot === '0') { pp_info.hotspot = 0 }
-					// console.log(pp_info.hotspot)
-					// if (!_.isNaN(+pp_info.hotspot)) { pp_info.hotspot = Number(pp_info.hotspot) }
 					
 					states.lastHotspot = pp_info.hotspot;
 					
@@ -895,7 +926,6 @@
 						leaf_to = 'page';
 					}
 
-
 					pp_info = leafing[direction][leaf_to](pp_info, hotspot_max, states.pages_max);
 					// Add our new info to the hash
 					// or not if we're going to a full pulle
@@ -903,7 +933,6 @@
 					if (pp_info.hotspot){
 						newhash += '/' + pp_info.hotspot
 					}
-					// console.log(newhash)
 					// // Store the previous hash
 					// states.previousPage = helpers.hashToPageHotspotDict( window.location.hash ).page;
 					// Go to there
@@ -955,6 +984,7 @@
 
 			// Save the current page and hotspot to what the route said, save previous route's information as previous page.
 			helpers.saveCurrentStates(page, hotspot, states.currentPage);
+
 		}
 	}
 
