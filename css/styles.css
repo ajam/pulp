@@ -81,7 +81,7 @@ body[data-state="hotspot"] #footer {
   -o-transition: opacity 100ms linear;
   -ms-transition: opacity 100ms linear;
   transition: opacity 100ms linear;
-  max-width: 1194px;
+  max-width: 2050px;
 }
 html:-moz-full-screen #header {
   visibility: hidden;
@@ -171,7 +171,6 @@ html:-ms-fullscreen #footer {
 }
 .header-btn-icon {
   font-size: 2.2em;
-  text-shadow: 1px 1px 1px #e9e9e9;
 }
 .header-group {
   float: right;
@@ -585,7 +584,7 @@ body[data-format="double"][data-side-drawer-open="true"] #desktop-drawer-contain
 #pages-wrapper,
 #pages {
   position: relative;
-  max-width: 577px;
+  max-width: 1024px;
   margin: 0 auto;
   width: 100%;
   text-align: center;
@@ -643,16 +642,16 @@ body[data-state="page-change"] #pages-wrapper {
 /* end pages */
 /*  P A G E  F O R M A T T I N G  */
 body[data-format="double"][data-bookend="false"] #pages {
-  max-width: 1154px;
+  max-width: 2048px;
   position: relative;
-  left: -20px;
+  left: -1px;
 }
 body[data-format="double"][data-bookend="false"] .page-container.viewing {
   width: 50%;
 }
 body[data-format="double"][data-bookend="false"] .page-container.viewing.right-page {
   left: 50%;
-  padding-left: 40px;
+  padding-left: 2px;
 }
 body[data-format="double"][data-bookend="false"] .page-container.viewing.right-page:after {
   content: "";
@@ -665,7 +664,7 @@ body[data-format="double"][data-bookend="false"] .page-container.viewing.right-p
   right: 0;
   position: absolute;
   z-index: -1;
-  background: url("../imgs/assets/border.png") repeat-y 20px top #fff;
+  background: url("../imgs/assets/border.png") repeat-y 1px top #fff;
 }
 body[data-format="mobile"] #btns {
   visibility: hidden;
@@ -849,45 +848,6 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 }
 /* end masks */
 /* M E D I A  Q U E R I E S */
-@media (max-width: 577px) {
-  .header-group.desktop {
-    display: none;
-  }
-  .header-group.mobile {
-    display: block;
-  }
-  .header-group.mobile .header-btn {
-    border: none;
-  }
-  #side-drawer-handle,
-  #desktop-drawer-container {
-    top: 30.666666666666668px;
-  }
-  #header {
-    padding: 3px;
-    height: 30.666666666666668px;
-  }
-  #header #ajmint-logo img {
-    margin-top: 0 !important;
-  }
-  #pages {
-    width: 100%;
-  }
-  .header-group .header-item-container {
-    padding: 0 4px 0 0;
-  }
-  .tooltipped-i[data-focus="true"]:before,
-  .tooltipped-i[data-focus="true"]:after {
-    display: none;
-  }
-  .header-item[data-which="page-number"] .header-text {
-    position: relative;
-    top: 3px;
-  }
-  .header-item[data-which="page-number"] .header-text input {
-    width: 25px;
-  }
-}
 /* end media queries */
 @-moz-keyframes decay {
   from {
@@ -1146,7 +1106,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
     left: 0;
   }
   to {
-    left: calc(-100% - 40px);
+    left: calc(-100% - 2px);
   }
 }
 @-webkit-keyframes double-left-exit-to-left {
@@ -1154,7 +1114,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
     left: 0;
   }
   to {
-    left: calc(-100% - 40px);
+    left: calc(-100% - 2px);
   }
 }
 @-o-keyframes double-left-exit-to-left {
@@ -1162,7 +1122,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
     left: 0;
   }
   to {
-    left: calc(-100% - 40px);
+    left: calc(-100% - 2px);
   }
 }
 @keyframes double-left-exit-to-left {
@@ -1170,7 +1130,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
     left: 0;
   }
   to {
-    left: calc(-100% - 40px);
+    left: calc(-100% - 2px);
   }
 }
 @-moz-keyframes double-left-exit-to-right {
@@ -1178,7 +1138,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
     left: 0;
   }
   to {
-    left: calc(100% + 40px);
+    left: calc(100% + 2px);
   }
 }
 @-webkit-keyframes double-left-exit-to-right {
@@ -1186,7 +1146,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
     left: 0;
   }
   to {
-    left: calc(100% + 40px);
+    left: calc(100% + 2px);
   }
 }
 @-o-keyframes double-left-exit-to-right {
@@ -1194,7 +1154,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
     left: 0;
   }
   to {
-    left: calc(100% + 40px);
+    left: calc(100% + 2px);
   }
 }
 @keyframes double-left-exit-to-right {
@@ -1202,7 +1162,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
     left: 0;
   }
   to {
-    left: calc(100% + 40px);
+    left: calc(100% + 2px);
   }
 }
 @-moz-keyframes double-left-enter-from-left {
@@ -1239,7 +1199,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 }
 @-moz-keyframes double-left-enter-from-right {
   from {
-    left: calc(100% + 40px);
+    left: calc(100% + 2px);
   }
   to {
     left: 0;
@@ -1247,7 +1207,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 }
 @-webkit-keyframes double-left-enter-from-right {
   from {
-    left: calc(100% + 40px);
+    left: calc(100% + 2px);
   }
   to {
     left: 0;
@@ -1255,7 +1215,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 }
 @-o-keyframes double-left-enter-from-right {
   from {
-    left: calc(100% + 40px);
+    left: calc(100% + 2px);
   }
   to {
     left: 0;
@@ -1263,7 +1223,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 }
 @keyframes double-left-enter-from-right {
   from {
-    left: calc(100% + 40px);
+    left: calc(100% + 2px);
   }
   to {
     left: 0;
@@ -1274,7 +1234,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
     left: 50%;
   }
   to {
-    left: calc(-50% - 40px);
+    left: calc(-50% - 2px);
   }
 }
 @-webkit-keyframes double-right-exit-to-left {
@@ -1282,7 +1242,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
     left: 50%;
   }
   to {
-    left: calc(-50% - 40px);
+    left: calc(-50% - 2px);
   }
 }
 @-o-keyframes double-right-exit-to-left {
@@ -1290,7 +1250,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
     left: 50%;
   }
   to {
-    left: calc(-50% - 40px);
+    left: calc(-50% - 2px);
   }
 }
 @keyframes double-right-exit-to-left {
@@ -1298,7 +1258,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
     left: 50%;
   }
   to {
-    left: calc(-50% - 40px);
+    left: calc(-50% - 2px);
   }
 }
 @-moz-keyframes double-right-exit-to-right {
@@ -1306,7 +1266,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
     left: 50%;
   }
   to {
-    left: calc(150% + 40px);
+    left: calc(150% + 2px);
   }
 }
 @-webkit-keyframes double-right-exit-to-right {
@@ -1314,7 +1274,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
     left: 50%;
   }
   to {
-    left: calc(150% + 40px);
+    left: calc(150% + 2px);
   }
 }
 @-o-keyframes double-right-exit-to-right {
@@ -1322,7 +1282,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
     left: 50%;
   }
   to {
-    left: calc(150% + 40px);
+    left: calc(150% + 2px);
   }
 }
 @keyframes double-right-exit-to-right {
@@ -1330,12 +1290,12 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
     left: 50%;
   }
   to {
-    left: calc(150% + 40px);
+    left: calc(150% + 2px);
   }
 }
 @-moz-keyframes double-right-enter-from-left {
   from {
-    left: calc(-50% - 40px);
+    left: calc(-50% - 2px);
   }
   to {
     left: 50%;
@@ -1343,7 +1303,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 }
 @-webkit-keyframes double-right-enter-from-left {
   from {
-    left: calc(-50% - 40px);
+    left: calc(-50% - 2px);
   }
   to {
     left: 50%;
@@ -1351,7 +1311,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 }
 @-o-keyframes double-right-enter-from-left {
   from {
-    left: calc(-50% - 40px);
+    left: calc(-50% - 2px);
   }
   to {
     left: 50%;
@@ -1359,7 +1319,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 }
 @keyframes double-right-enter-from-left {
   from {
-    left: calc(-50% - 40px);
+    left: calc(-50% - 2px);
   }
   to {
     left: 50%;
