@@ -417,6 +417,9 @@ input[type="number"] {
   background: -ms-linear-gradient(270deg, #fff 0%, #e3e3e3 100%) repeat scroll 0% 0% #fff;
   background: linear-gradient(180deg, #fff 0%, #e3e3e3 100%) repeat scroll 0% 0% #fff;
 }
+.nav-helper-arrows span:first-child {
+  margin-right: 2px;
+}
 /* end nav buttons */
 /* S N A P P E R  D R A W E R  */
 body[data-format="mobile"] {
@@ -848,6 +851,45 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 }
 /* end masks */
 /* M E D I A  Q U E R I E S */
+@media (max-width: 550px) {
+  .header-group.desktop {
+    display: none;
+  }
+  .header-group.mobile {
+    display: block;
+  }
+  .header-group.mobile .header-btn {
+    border: none;
+  }
+  #side-drawer-handle,
+  #desktop-drawer-container {
+    top: 30.666666666666668px;
+  }
+  #header {
+    padding: 3px;
+    height: 30.666666666666668px;
+  }
+  #header #ajmint-logo img {
+    margin-top: 0 !important;
+  }
+  #pages {
+    width: 100%;
+  }
+  .header-group .header-item-container {
+    padding: 0 4px 0 0;
+  }
+  .tooltipped-i[data-focus="true"]:before,
+  .tooltipped-i[data-focus="true"]:after {
+    display: none;
+  }
+  .header-item[data-which="page-number"] .header-text {
+    position: relative;
+    top: 3px;
+  }
+  .header-item[data-which="page-number"] .header-text input {
+    width: 25px;
+  }
+}
 /* end media queries */
 @-moz-keyframes decay {
   from {

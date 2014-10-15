@@ -26,7 +26,9 @@ twitter_color = #00ACED
 facebook_color = #3C599F
 gplus_color = #DD4B39
 
-mobile_query = "(max-width: " + max_width + ")"
+mobile_query_width = 550px
+
+mobile_query = "(max-width: " + mobile_query_width + ")"
 
 /* G L O B A L S */
 *
@@ -376,7 +378,8 @@ nav_helper_right = 80px
 		padding 1px 4px
 		border 1px solid #ccc
 		background linear-gradient(180deg, #FFF 0%, #E3E3E3 100%) repeat scroll 0% 0% #FFF
-
+	span:first-child
+		margin-right 2px
 @keyframes bounce-left-right {
 	0%{
 		right nav_helper_right
