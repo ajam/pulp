@@ -17,14 +17,14 @@
 		},
 		determinePageFormat: function(windowWidth){
 			windowWidth = windowWidth || $(window).width();
-			var format;
-			// var w = parseInt($('.page-container.viewing').css('width')) || parseInt($('.page-container').css('width'));
-			var w =this.get('single-page-width')
-			// console.log('determining page format',windowWidth,w)
-			if (windowWidth > w*2 + PULP_SETTINGS.gutterWidth) {
+			var format,
+					current_format = this.get('format').format;
+			var page_width = parseInt($('.page-container.viewing img').css('width')) || parseInt($('.page-container img').css('width'));
+
+			if (windowWidth > page_width*2 + PULP_SETTINGS.gutterWidth) {
 				// If the window is wide enough for two pages
 				format = 'double';
-			} else if (windowWidth <= w) {
+			} else if (windowWidth <= page_width) {
 				// If it's less than a single page
 				format = 'mobile';
 			} else {
@@ -213,7 +213,7 @@
 			var auto_width_height = {
 				'max-width': 'auto',
 				'max-height': 'auto'
-			}
+			};
 
 			$pages.css(auto_width_height);
 			$pagesWrapper.css(auto_width_height);
@@ -230,17 +230,9 @@
 				img_width = img_width_wrapper = $img.width();
 				img_height = $img.height();
 
-				console.log(img_width,img_height)
-				console.log($pages.css('width'))
-				console.log($pages.css('height'))
-
-
 				var format = state.determinePageFormat();
 
-				console.log('resulting format',format)
-
 				if (format == 'double') {
-					console.log('setting double');
 					img_width = img_width*2;
 					img_width_wrapper = img_width+PULP_SETTINGS.gutterWidth;
 					if (init.browser[0] == 'Firefox') img_width_wrapper = img_width_wrapper - 1; // Minus one for sub-pixel rendering hack
