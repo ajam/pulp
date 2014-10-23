@@ -1,0 +1,127 @@
+{
+  "endnotes": [
+  ],
+  "pages": [
+    {
+      "number": 1,
+      "hotspots": [],
+      "script_text": "",
+      "page_text": []
+    },
+    {
+      "number": 2,
+      "hotspots": [
+        "top:0.53%;left:2.51%;width:95.32%;height:47.07%;",
+        "top:49.07%;left:2.51%;width:47.14%;height:50.13%;",
+        "top:48.80%;left:50.87%;width:46.97%;height:50.27%;"
+      ],
+      "script_text": "",
+      "page_text": []
+    },
+    {
+      "number": 3,
+      "hotspots": [
+        "top:0.80%;left:2.17%;width:38.99%;height:32.40%;",
+        "top:0.80%;left:42.72%;width:55.46%;height:32.40%;",
+        "top:34.40%;left:2.17%;width:38.99%;height:31.07%;",
+        "top:34.40%;left:42.89%;width:55.46%;height:31.07%;",
+        "top:66.80%;left:1.99%;width:47.14%;height:32.00%;",
+        "top:66.93%;left:50.69%;width:47.31%;height:32.00%;"
+      ],
+      "script_text": "",
+      "page_text": []
+    },
+    {
+      "number": 4,
+      "hotspots": [
+        "top:1.07%;left:3.21%;width:46.27%;height:31.60%;",
+        "top:1.07%;left:50.69%;width:46.79%;height:31.47%;",
+        "top:33.87%;left:3.03%;width:33.45%;height:33.60%;",
+        "top:33.87%;left:37.52%;width:28.08%;height:33.47%;",
+        "top:33.73%;left:66.12%;width:31.20%;height:33.47%;",
+        "top:68.80%;left:3.03%;width:35.70%;height:29.07%;",
+        "top:68.67%;left:40.47%;width:56.50%;height:29.33%;"
+      ],
+      "script_text": "",
+      "page_text": []
+    },
+    {
+      "number": 5,
+      "hotspots": [
+        "top:1.07%;left:2.34%;width:46.45%;height:52.67%;",
+        "top:1.20%;left:50.69%;width:46.97%;height:41.73%;",
+        "top:43.47%;left:50.52%;width:47.31%;height:10.80%;",
+        "top:55.07%;left:2.34%;width:46.79%;height:44.27%;",
+        "top:55.20%;left:50.87%;width:46.79%;height:43.73%;"
+      ],
+      "script_text": "",
+      "page_text": []
+    },
+    {
+      "number": 6,
+      "hotspots": [
+        "top:66.40%;left:63.69%;width:34.84%;height:32.67%;"
+      ],
+      "script_text": "",
+      "page_text": []
+    },
+    {
+      "number": 7,
+      "hotspots": [
+        "top:0.53%;left:1.30%;width:58.06%;height:31.47%;",
+        "top:0.80%;left:60.92%;width:36.57%;height:31.33%;",
+        "top:33.07%;left:1.82%;width:57.19%;height:31.87%;",
+        "top:33.47%;left:60.75%;width:36.57%;height:31.60%;",
+        "top:66.00%;left:1.30%;width:36.22%;height:32.80%;",
+        "top:66.00%;left:39.08%;width:58.41%;height:32.93%;"
+      ],
+      "script_text": "",
+      "page_text": []
+    },
+    {
+      "number": 8,
+      "hotspots": [],
+      "script_text": "",
+      "page_text": []
+    },
+    {
+      "number": 9,
+      "hotspots": [
+        "top:0.80%;left:2.69%;width:57.54%;height:33.33%;",
+        "top:0.93%;left:61.61%;width:36.57%;height:33.33%;",
+        "top:35.33%;left:2.86%;width:46.79%;height:32.93%;",
+        "top:35.47%;left:51.04%;width:47.14%;height:33.07%;",
+        "top:69.33%;left:3.03%;width:57.02%;height:29.47%;",
+        "top:69.60%;left:61.61%;width:36.22%;height:29.47%;"
+      ],
+      "script_text": "",
+      "page_text": []
+    },
+    {
+      "number": 10,
+      "hotspots": [
+        "top:0.40%;left:1.65%;width:48.01%;height:30.93%;",
+        "top:0.00%;left:48.27%;width:50.43%;height:31.33%;",
+        "top:32.40%;left:2.69%;width:30.68%;height:33.33%;",
+        "top:32.40%;left:34.75%;width:32.06%;height:33.07%;",
+        "top:32.40%;left:67.50%;width:30.50%;height:33.07%;",
+        "top:66.80%;left:2.86%;width:30.50%;height:32.53%;",
+        "top:66.67%;left:35.27%;width:30.50%;height:32.53%;",
+        "top:66.40%;left:67.33%;width:30.68%;height:32.80%;"
+      ],
+      "script_text": "",
+      "page_text": []
+    },
+    {
+      "number": 11,
+      "hotspots": [
+        "top:0.93%;left:1.47%;width:97.05%;height:33.73%;",
+        "top:35.87%;left:1.99%;width:43.33%;height:31.87%;",
+        "top:35.87%;left:46.88%;width:51.30%;height:31.60%;",
+        "top:68.80%;left:1.99%;width:96.53%;height:30.40%;"
+      ],
+      "script_text": "",
+      "page_text": []
+    }
+  ]
+}
