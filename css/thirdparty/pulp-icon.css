@@ -1,0 +1,64 @@
+@font-face {
+  font-family: 'pulp-icon';
+  src: url('../../fonts/pulp-icon/pulp-icon.eot?50995852');
+  src: url('../../fonts/pulp-icon/pulp-icon.eot?50995852#iefix') format('embedded-opentype'),
+       url('../../fonts/pulp-icon/pulp-icon.woff?50995852') format('woff'),
+       url('../../fonts/pulp-icon/pulp-icon.ttf?50995852') format('truetype'),
+       url('../../fonts/pulp-icon/pulp-icon.svg?50995852#pulp-icon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'pulp-icon';
+    src: url('../font/pulp-icon.svg?76154492#pulp-icon') format('svg');
+  }
+}
+*/
+ 
+ [class^="pulp-icon-"]:before, [class*=" pulp-icon-"]:before {
+  font-family: "pulp-icon";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+     
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.pulp-icon-download-cloud:before { content: '\e800'; } /* '' */
+.pulp-icon-menu:before { content: '\e801'; } /* '' */
+.pulp-icon-resize-full:before { content: '\e802'; } /* '' */
+.pulp-icon-twitter:before { content: '\e803'; } /* '' */
+.pulp-icon-facebook:before { content: '\e804'; } /* '' */
+.pulp-icon-reddit:before { content: '\e805'; } /* '' */
+.pulp-icon-gplus:before { content: '\e806'; } /* '' */
+.pulp-icon-angle-left:before { content: '\e807'; } /* '' */
+.pulp-icon-angle-right:before { content: '\e808'; } /* '' */
+.pulp-icon-dot-3:before { content: '\e809'; } /* '' */
+.pulp-icon-share:before { content: '\e80a'; } /* '' */
+.pulp-icon-chat-1:before { content: '\e80b'; } /* '' */
