@@ -1,4 +1,5 @@
 var PULP_SETTINGS = {
+	"imgFormat": "jpg",
 	"whitelabel": {
 		"files": {
 			"js": [] // A list of paths for any other javascript files to include. Example configuation `["header.js"]`. Path starts at the `whitelist` folder
@@ -8,7 +9,6 @@ var PULP_SETTINGS = {
 	"lazyLoadExtent": 6,
 	"transitionDuration": "400ms",
 	"gutterWidth": 2,
-	"imgFormat": "jpg",
 	"drawerTransitionDuration": 500,
 	"social": {
 		"twitter_text": "THE TEXT TO DISPLAY WHEN SOMEONE CLICKS ON THE TWEET BUTTON",
