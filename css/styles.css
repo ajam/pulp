@@ -82,7 +82,7 @@ body[data-state="hotspot"] #footer {
   -o-transition: opacity 100ms linear;
   -ms-transition: opacity 100ms linear;
   transition: opacity 100ms linear;
-  height: 46px;
+  height: 39px;
 }
 html:-moz-full-screen #header {
   display: none;
@@ -259,6 +259,7 @@ input[type="number"] {
 }
 .btn-dropdown a {
   color: #fff;
+  text-decoration: none;
 }
 .btn-dropdown li:hover {
   cursor: pointer;

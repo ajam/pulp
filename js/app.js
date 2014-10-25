@@ -1322,7 +1322,7 @@
 					layout.bakeEndnotes(endnotes);
 				})
 				.error(function(error){
-					alert('Error: Data file not found!');
+					alert('Error loading data. Data file is either missing or the JSON is malformed. Try running it through jsonlint.com');
 				});
 		},
 		browserCheck: function(){

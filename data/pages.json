@@ -1,5 +1,14 @@
 {
   "endnotes": [
+    {
+      "number": 1,
+      "text": "p. 1, panel 3: Sample text endnote"
+    },
+    {
+      "number": 2,
+      "text": "p. 3, panel 1: Sample hyperline endnote",
+      "url": "http://github.com/ajam/pulp"
+    }
   ],
   "pages": [
     {
@@ -11,9 +20,9 @@
     {
       "number": 2,
       "hotspots": [
-        "top:0.53%;left:2.51%;width:95.32%;height:47.07%;",
-        "top:49.07%;left:2.51%;width:47.14%;height:50.13%;",
-        "top:48.80%;left:50.87%;width:46.97%;height:50.27%;"
+        "top:0.33%;left:2.17%;width:95.84%;height:47.73%;",
+        "top:48.73%;left:2.08%;width:47.66%;height:50.67%;",
+        "top:48.53%;left:50.61%;width:47.31%;height:50.87%;"
       ],
       "script_text": "",
       "page_text": []
@@ -21,12 +30,12 @@
     {
       "number": 3,
       "hotspots": [
-        "top:0.80%;left:2.17%;width:38.99%;height:32.40%;",
-        "top:0.80%;left:42.72%;width:55.46%;height:32.40%;",
-        "top:34.40%;left:2.17%;width:38.99%;height:31.07%;",
-        "top:34.40%;left:42.89%;width:55.46%;height:31.07%;",
-        "top:66.80%;left:1.99%;width:47.14%;height:32.00%;",
-        "top:66.93%;left:50.69%;width:47.31%;height:32.00%;"
+        "top:0.53%;left:1.56%;width:39.77%;height:33.00%;",
+        "top:0.80%;left:42.37%;width:56.33%;height:32.53%;",
+        "top:34.20%;left:1.65%;width:39.95%;height:31.73%;",
+        "top:34.33%;left:42.37%;width:56.15%;height:31.40%;",
+        "top:66.53%;left:1.82%;width:48.01%;height:32.60%;",
+        "top:66.53%;left:50.52%;width:47.92%;height:32.60%;"
       ],
       "script_text": "",
       "page_text": []
@@ -34,13 +43,13 @@
     {
       "number": 4,
       "hotspots": [
-        "top:1.07%;left:3.21%;width:46.27%;height:31.60%;",
-        "top:1.07%;left:50.69%;width:46.79%;height:31.47%;",
-        "top:33.87%;left:3.03%;width:33.45%;height:33.60%;",
-        "top:33.87%;left:37.52%;width:28.08%;height:33.47%;",
-        "top:33.73%;left:66.12%;width:31.20%;height:33.47%;",
-        "top:68.80%;left:3.03%;width:35.70%;height:29.07%;",
-        "top:68.67%;left:40.47%;width:56.50%;height:29.33%;"
+        "top:0.80%;left:2.51%;width:47.05%;height:32.00%;",
+        "top:0.80%;left:50.26%;width:47.40%;height:32.07%;",
+        "top:33.67%;left:2.69%;width:33.80%;height:33.80%;",
+        "top:33.73%;left:36.22%;width:29.81%;height:33.80%;",
+        "top:33.60%;left:65.68%;width:31.80%;height:33.80%;",
+        "top:68.60%;left:2.60%;width:36.40%;height:29.73%;",
+        "top:68.53%;left:39.86%;width:57.54%;height:29.80%;"
       ],
       "script_text": "",
       "page_text": []
@@ -48,11 +57,10 @@
     {
       "number": 5,
       "hotspots": [
-        "top:1.07%;left:2.34%;width:46.45%;height:52.67%;",
-        "top:1.20%;left:50.69%;width:46.97%;height:41.73%;",
-        "top:43.47%;left:50.52%;width:47.31%;height:10.80%;",
-        "top:55.07%;left:2.34%;width:46.79%;height:44.27%;",
-        "top:55.20%;left:50.87%;width:46.79%;height:43.73%;"
+        "top:0.87%;left:1.99%;width:47.23%;height:53.20%;",
+        "top:0.87%;left:50.09%;width:47.75%;height:42.07%;",
+        "top:54.87%;left:1.99%;width:47.31%;height:44.80%;",
+        "top:54.87%;left:50.26%;width:47.75%;height:44.87%;"
       ],
       "script_text": "",
       "page_text": []
@@ -60,23 +68,23 @@
     {
       "number": 6,
       "hotspots": [
-        "top:66.40%;left:63.69%;width:34.84%;height:32.67%;"
+        "top:0.40%;left:1.82%;width:48.01%;height:33.07%;",
+        "top:0.47%;left:50.35%;width:48.18%;height:32.80%;",
+        "top:34.07%;left:1.82%;width:96.79%;height:31.80%;",
+        "top:66.20%;left:1.91%;width:61.18%;height:32.80%;"
       ],
       "script_text": "",
       "page_text": []
     },
     {
       "number": 7,
-      "hotspots": [
-        "top:0.53%;left:1.30%;width:58.06%;height:31.47%;",
-        "top:0.80%;left:60.92%;width:36.57%;height:31.33%;",
-        "top:33.07%;left:1.82%;width:57.19%;height:31.87%;",
-        "top:33.47%;left:60.75%;width:36.57%;height:31.60%;",
-        "top:66.00%;left:1.30%;width:36.22%;height:32.80%;",
-        "top:66.00%;left:39.08%;width:58.41%;height:32.93%;"
-      ],
+      "hotspots": [],
       "script_text": "",
-      "page_text": []
+      "page_text": [
+      	"You can put abitrary paragraph text here.",
+      	"And it can be html so you can include <a href='http://github.com/ajam/pulp' target='_blank'>hyperlinks</a>.",
+      	"Or a special span element classed `internal-link` with a data attribute of `data-destination='endnotes'` to create a link that will open or close the drawer. <span class='internal-link' data-destination='endnotes'>Click here to test</span>."
+      ]
     }
   ]
 }
