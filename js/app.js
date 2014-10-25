@@ -23,6 +23,7 @@
 			windowWidth = windowWidth || $(window).width();
 			var format,
 					current_format = this.get('format').format;
+<<<<<<< HEAD
 			var dynamic_page_width = parseInt($('.page-container.viewing img').css('width')) || parseInt($('.page-container img').css('width')),
 					static_page_width = this.get('single-page-width'),
 					page_limit = 635;
@@ -32,6 +33,14 @@
 				// If the window is wide enough for two pages
 				format = 'double';
 			} else if (windowWidth <= page_limit) {
+=======
+			var page_width = parseInt($('.page-container.viewing img').css('width')) || parseInt($('.page-container img').css('width'));
+
+			if (windowWidth > page_width*2 + PULP_SETTINGS.gutterWidth) {
+				// If the window is wide enough for two pages
+				format = 'double';
+			} else if (windowWidth <= page_width) {
+>>>>>>> a61440b068874fdc9bb60b222fffacd8ff429d30
 				// If it's less than a single page
 				format = 'mobile';
 			} else {
@@ -246,6 +255,9 @@
 						img_height,
 						img_width_wrapper;
 
+				// img_width = img_width_wrapper = parseInt($pages.css('width'));
+				// img_height = parseInt($pages.css('height'));
+
 				img_width = img_width_wrapper = $img.width();
 				img_height = $img.height();
 
@@ -389,6 +401,10 @@
 		navHelpersMode: function(mode){
 			$('.nav-helpers-child').hide();
 			$('.nav-helpers-child[data-mode="'+mode+'"]').show();
+<<<<<<< HEAD
+=======
+
+>>>>>>> a61440b068874fdc9bb60b222fffacd8ff429d30
 		},
 		toggleDesktopDrawer: function(){
 			$('#desktop-drawer-container').toggle();
@@ -1224,17 +1240,30 @@
 				var base_url = 'https://twitter.com/intent/tweet?url=' + social.shareable_url;
 						text = text || PULP_SETTINGS.social.twitter_text;
 
+<<<<<<< HEAD
 				if (route) {
 					base_url += route;
 				}
+=======
+			var tweet_text  = '&text=' + text,
+			    via_account = PULP_SETTINGS.social.twitter_account,
+			    related     = '&related='+via_account,
+			    counter_url = '&counturl=' + social.shareable_url;
+>>>>>>> a61440b068874fdc9bb60b222fffacd8ff429d30
 
 				var tweet_text  = '&text=' + text,
 				    via_account = PULP_SETTINGS.social.twitter_account,
 				    related     = '&related='+via_account,
 				    counter_url = '&counturl=' + social.shareable_url;
 
+<<<<<<< HEAD
 				var leftPos = e.pageX - 400,
 				    topPos = e.pageY - 350;
+=======
+			// console.log(base_url)
+			var leftPos = e.pageX - 400,
+			    topPos = e.pageY - 350;
+>>>>>>> a61440b068874fdc9bb60b222fffacd8ff429d30
 
 				var composed_url = social.percentEncode(base_url + tweet_text + ' via @' + via_account + related + counter_url);
 				var settings = 'width=500,height=300,top=' + topPos + ',left=' + leftPos + ',scrollbars=no,location=0,statusbars=0,menubars=0,toolbars=0,resizable=0';
@@ -1322,7 +1351,11 @@
 					layout.bakeEndnotes(endnotes);
 				})
 				.error(function(error){
+<<<<<<< HEAD
 					alert('Error loading data. Data file is either missing or the JSON is malformed. Try running it through jsonlint.com');
+=======
+					alert('Error: Data file not found!');
+>>>>>>> a61440b068874fdc9bb60b222fffacd8ff429d30
 				});
 		},
 		browserCheck: function(){
@@ -1362,6 +1395,7 @@
 			// Android browsers aren't showing a "Go" button on page number change, so make that field a text field on android
 			if (this.browser[0] == 'Android'){
 				$('#page-number-input').attr('type','text');
+<<<<<<< HEAD
 			}
 
 			// Kill nav helpers on touch devices
@@ -1376,6 +1410,9 @@
 		addMobileClass: function(){
 			if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
 				$('body').addClass('mobile');
+=======
+				
+>>>>>>> a61440b068874fdc9bb60b222fffacd8ff429d30
 			}
 		}
 }

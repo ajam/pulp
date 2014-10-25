@@ -11,10 +11,18 @@ var PULP_SETTINGS = {
 	"gutterWidth": 2,
 	"drawerTransitionDuration": 500,
 	"social": {
+<<<<<<< HEAD
 		"twitter_text": "THE TEXT TO DISPLAY WHEN SOMEONE CLICKS ON THE TWEET BUTTON",
 		"twitter_account": "THE RELATED TWITTER ACCOUNT.", // Example configuration `"ajam"`. Displays in tweet as `via @ajam`.
 		"fb_text": "THE TEXT TO DISPLAY WHEN SOMEONE CLICKS ON THE FACEBOOK SHARE BUTTON",
 		"promo_img_url": "PUBLISHED URL FOR IMAGE TO USE AS SOCIAL PROMO", // Example configuration: `"http://projects.aljazeera.com/2014/terms-of-service/imgs/promos/promo.jpg"`. TODO, this could be removed and tweet buttson grab path in og tag
 		"fb_app_id": "YOUR FB APP ID" // Facebook requires that you tie these buttons to an app. Example configuration: `"892982325351256"`
+=======
+		"twitter_text": "TK",
+		"twitter_account": "ajam",
+		"fb_text": "TK",
+		"promo_img_url": "TK.png",
+		"fb_app_id": "123456"
+>>>>>>> a61440b068874fdc9bb60b222fffacd8ff429d30
 	}
 }

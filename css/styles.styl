@@ -27,7 +27,11 @@ facebook_color = #3C599F
 reddit_color = #336699
 gplus_color = #DD4B39
 
+<<<<<<< HEAD
 mobile_query_width = 775px
+=======
+mobile_query_width = 550px
+>>>>>>> a61440b068874fdc9bb60b222fffacd8ff429d30
 
 mobile_query = "(max-width: " + mobile_query_width + ")"
 
@@ -80,8 +84,13 @@ body[data-state="hotspot"]
 	margin-right auto
 	opacity 1
 	transition opacity 100ms linear
+<<<<<<< HEAD
 	height header_height - header_padding
 	// max-width max_width*2 + gutter_width
+=======
+	max-width max_width*2 + gutter_width
+	// background-color #fc0
+>>>>>>> a61440b068874fdc9bb60b222fffacd8ff429d30
 html:-moz-full-screen
 	#header
 		display none
@@ -161,11 +170,16 @@ html:-ms-fullscreen
 	position relative
 .header-btn-icon
 	font-size 2.2em
+<<<<<<< HEAD
 a .header-btn-icon
 	color #000
 a .header-btn-icon:hover
 	color ajam_blue
 
+=======
+	// text-shadow 1px 1px 1px #E9E9E9
+// 	position relative
+>>>>>>> a61440b068874fdc9bb60b222fffacd8ff429d30
 
 .header-group
 	float right
@@ -382,11 +396,19 @@ button_offset = 35%
 	top 45%
 	font-size 6em
 
+<<<<<<< HEAD
+=======
+// Override the font-size 1em
+[class^="ajmint-icon-"]:before, [class*=" ajmint-icon-"]:before
+	width auto!important
+
+>>>>>>> a61440b068874fdc9bb60b222fffacd8ff429d30
 nav_helper_right = 80px
 .nav-helpers
 	position absolute
 	top 43.5%
 	right nav_helper_right
+<<<<<<< HEAD
 	width 90%
 	text-align center
 	font-size 1.4em
@@ -394,13 +416,25 @@ nav_helper_right = 80px
 	font-family Helvetica, sans-serif
 	line-height 15px
 	color #969696
+=======
+	width 115%
+	text-align center
+	font-size 1.4em
+	font-weight 200
+	font-family "LiebeRuth-Light", Helvetica
+	line-height 15px
+	color #000
+>>>>>>> a61440b068874fdc9bb60b222fffacd8ff429d30
 	animation bounce-left-right 2.75s infinite
 .nav-helper-arrows
 	font-size 1.4em
 	white-space nowrap
 	margin 9px 0 10px 0
 	font-family Helvetica
+<<<<<<< HEAD
 	color #000
+=======
+>>>>>>> a61440b068874fdc9bb60b222fffacd8ff429d30
 	span
 		padding 1px 4px
 		border 1px solid #ccc
@@ -858,6 +892,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 /* M A S K S */
 .mask
 	position absolute
+	// background-color #f0c
 	background-color bg_layout_color
 	z-index 999
 	opacity 0
