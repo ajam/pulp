@@ -89,14 +89,14 @@ One improvement that can be made is these transition times also have to be chang
 
 To have your changes reflected, you then recompile the CSS, which isn't as hard as it sounds. To do that, first make sure you have [NodeJS](http://nodejs.org) installed and then run these two commands to install Stylus and Nib. You may have to enter your administrator password.
 
-````
+````bash
 sudo npm install -g stylus
 sudo npm install -g nib
 ````
 
 Then, a useful command to have Stylus watch your `.styl` files for changes and automatically recompile the CSS is the following. Execute this command from within the root Pulp folder:
 
-````
+````bash
 stylus -u nib -w css
 ````
 
