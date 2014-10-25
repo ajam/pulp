@@ -52,6 +52,10 @@ To define your panel regions, we've made a companion interface called [Pulp Pres
 
 Pulp Press has a few other options such as specifying endnotes or alt text for each page image, which can be nice for including the script. "Page text" is abitrary paragraph text you might want to overlay on the page. This text will appear on any page but if you want this text to be clickable, that will only work on the last page. We used this feature to include hyperlinks on the last page of the comic so readers could have a place to go once they've finished.
 
+#### Comments
+
+Beacuse comments aren't built into the interface, we've included an icon in the header that link to a page that hosts your comments. It's a simple anchor tag so you can add an external link to a comments page. Or, if you don't have comments, you can delete that toolbar button.
+
 ### Extra configuration
 
 Pulp also has a few options that it lets you change, if you so wish. They are all in the `config.js` file. Here's what a sample configuruation looks like with an explanation of what the values do. For the most part, you won't have to change any of the animation timings
