@@ -1,6 +1,10 @@
 (function(){
 	'use strict';
 
+	// This could be used to fire page events that can then be picked up at various other parts of the code
+	// Useful for analytics
+	// window.pulpPageEvents = _.extend({}, Backbone.Events);
+
 	var State = Backbone.Model.extend({
 		initialize: function(){
 			this.set('single-page-width', parseInt( $('#pages').css('max-width') ));
@@ -12,16 +16,22 @@
 		},
 		determineLayoutInformation: function(page){
 			var bookend = this.determineBookend(page);
-			var format = this.determinePageFormat(page);
+			var format = this.determinePageFormat();
 			return { format: format, bookend: bookend };
 		},
-		determinePageFormat: function(page, windowWidth){
+		determinePageFormat: function(windowWidth){
 			windowWidth = windowWidth || $(window).width();
-			var format;
-			if (windowWidth > this.get('single-page-width')*2 + PULP_SETTINGS.gutterWidth) {
+			var format,
+					current_format = this.get('format').format;
+			var dynamic_page_width = parseInt($('.page-container.viewing img').css('width')) || parseInt($('.page-container img').css('width')),
+					static_page_width = this.get('single-page-width'),
+					page_limit = 635;
+
+			// console.log(windowWidth, dynamic_page_width, dynamic_page_width*2 + PULP_SETTINGS.gutterWidth)
+			if (windowWidth > dynamic_page_width*2 + PULP_SETTINGS.gutterWidth) {
 				// If the window is wide enough for two pages
 				format = 'double';
-			} else if (windowWidth <= this.get('single-page-width')) {
+			} else if (windowWidth <= page_limit) {
 				// If it's less than a single page
 				format = 'mobile';
 			} else {
@@ -50,7 +60,8 @@
 		lastPage: '',
 		lastHotspot: '',
 		scaleMultiplier: 1,
-		firstRun: true
+		firstRun: true,
+		showNavHelpers: true
 	}
 
 	var helpers = {
@@ -83,6 +94,7 @@
 			return { page: hash[0], hotspot: hash[1] }
 		},
 		getNavDirection: function(e, code){
+			var direction;
 			// Only allow this only one panel is visible, i.e. not during a transition
 			if (code == 37 || code == 38 || code == 39 || code == 40 || code == 'swipeleft' || code == 'swiperight' || code == 'pinch'){
 				// Don't do the default behavior if it's an arrow, swipe or pinch
@@ -91,11 +103,21 @@
 
 				// Do this
 				// Left arrow
-				if (code == 37 || code == 'swiperight') return 'prev';
+				if (code == 37 || code == 'swiperight'){
+					direction = 'prev';
+				}
 				// Right arrow
-				if (code == 39 || code == 'swipeleft') return 'next';
+				else if (code == 39 || code == 'swipeleft'){
+					direction = 'next';
+				} 
 				// Esc, up, down arrows
-				if (code == 27 || code == 38 || code == 40 || code == 'pinch') return false;
+				else if (code == 27 || code == 38 || code == 40 || code == 'pinch') {
+					direction = false;
+				}
+
+				return direction;
+				// Esc, up, down arrows
+				// if (code == 27 || code == 38 || code == 40 || code == 'pinch') return false;
 				// if (code == 27 || code == 38 || code == 40 || code == 'pinch') return 'pageView';
 			}
 			return false;
@@ -159,6 +181,8 @@
 			$header_page_display.find('#pages-max').html(states.pages_max);
 			$header_page_display.find('input').attr('max', states.pages_max);
 			for (var i = 0; i < pages.length; i++){
+				// For non-lazy loading of cover images
+				_.extend(pages[i], {img_format: PULP_SETTINGS.imgFormat});
 				page_markup = templates.pageFactory(pages[i]);
 				$('#pages').append(page_markup);
 				$page = $('#page-'+pages[i].number);
@@ -176,6 +200,10 @@
 				listeners.state();
 				// Read the hash and navigate
 				routing.init();
+
+				// Secrets
+				// $('body').append('<img id="easter-egg-img" src="imgs/assets/spy.png"/>');
+
 			});
 		},
 		measureHotspotsHeaderOffset: function(){
@@ -203,7 +231,15 @@
 			// You could try a javascript implementation of this, but that has its own issues.
 			var $pages = $('#pages'),
 					$pagesWrapper = $('#pages-wrapper');
-			_.each([$pages,$pagesWrapper], function($el) { $el.css('max-width', 'auto').css('max-height', 'auto'); });
+
+			var auto_width_height = {
+				'max-width': 'auto',
+				'max-height': 'auto'
+			};
+
+			$pages.css(auto_width_height);
+			$pagesWrapper.css(auto_width_height);
+
 			$pages.imagesLoaded().done(function(){
 				var $img = $pages.find('img'),
 						img_width,
@@ -213,16 +249,29 @@
 				img_width = img_width_wrapper = $img.width();
 				img_height = $img.height();
 
-				if (state.determinePageFormat(null, null, true) == 'double') {
+				var format = state.determinePageFormat();
+
+				if (format == 'double') {
 					img_width = img_width*2;
 					img_width_wrapper = img_width+PULP_SETTINGS.gutterWidth;
 					if (init.browser[0] == 'Firefox') img_width_wrapper = img_width_wrapper - 1; // Minus one for sub-pixel rendering hack
 				}
 				// Apply the dimensions from the image to the wrapper
 				// Apply a bit of a margin on pages_wrapper to accommodate the gutter
-				_.each([{el: $pages, width: img_width}, {el:$pagesWrapper, width: img_width_wrapper}], function(el) { el.el.css('max-width', (el.width)+'px').css('max-height', img_height+'px');; });
+				var groups = [
+					{el: $pages,        width: img_width}, 
+					{el: $pagesWrapper, width: img_width_wrapper}
+				];
+
+				_.each(groups, function(group) { 
+					group.el.css('max-width', (group.width)+'px').css('max-height', img_height+'px');
+				});
+
 				// Also apply this height to the btns overlay
-				$('#btns').css('height', img_height+'px')
+				$('#btns').css('height', img_height+'px');
+				// And to the header, which shouldn't go below 960
+				var header_width = _.max([960, img_width]);
+				$('#header').css('max-width', header_width+'px');
 				if (cb) cb();
 			});
 		},
@@ -272,6 +321,10 @@
 			// What's done on window resize:
 			// See if we can accommodate single or double
 			state.setPageFormat();
+			// If we're on page 2 and we're now in double, kill the expand helper because they've done what we've asked
+			if (states.currentPage == 2){
+				layout.toggleNavHelpers(false);
+			}
 			// Grab the page
 			var $page = $('#page-'+states.currentPage);
 			// Scale the page back down to 1x1, ($page, transitionDuration)
@@ -333,6 +386,10 @@
 		toggleNavHelpers: function(show){
 			$('.nav-helpers').toggle(show);
 		},
+		navHelpersMode: function(mode){
+			$('.nav-helpers-child').hide();
+			$('.nav-helpers-child[data-mode="'+mode+'"]').show();
+		},
 		toggleDesktopDrawer: function(){
 			$('#desktop-drawer-container').toggle();
 		},
@@ -361,7 +418,8 @@
 			}
 			open = open || $body.attr('data-side-drawer-open') == 'true';
 			$body.attr('data-side-drawer-open', !open);
-			_.delay(this.onDrawerTransitionEnd, PULP_SETTINGS.drawerTransitionDuration)
+			_.delay(this.onDrawerTransitionEnd, PULP_SETTINGS.drawerTransitionDuration);
+
 		},
 		onDrawerTransitionEnd: function(e){
 			$('body').attr('data-side-drawer-state', 'stable');
@@ -405,8 +463,12 @@
 
 			},
 			navigate: function(go, pageNumber){
+				var page_number_str = pageNumber.toString()
 				if (go) {
-					routing.router.navigate(pageNumber.toString(), {trigger: true});
+					routing.router.navigate(page_number_str, {trigger: true});
+
+					// You could hook analytics in here
+
 				} else {
 					// This will only get come into play if we are on double format and we have navigated to page 3 in the input box and hit return
 					// We won't be initiating a page change but we do want the display number to change
@@ -419,18 +481,45 @@
 				layout.displayPageNumber(current_page);
 				// layout.goToPage.focus(false);
 			}
-		}
+		},
+		fullScreenChange: function(){
+			// You could use this function to listen for fullscreen event changes for analytics
+			// Exiting
+		  if ((document.fullScreenElement && document.fullScreenElement !== null) || (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+				mode = 'exit';
+			} 
+			// Entering
+			else {
+				mode = 'enter';
+			}
+	  }
 	}
 
 	var listeners = {
 		header: function(){
 			$('.header-item-container[data-btn="fullscreen"]').on('click', function(){
 				helpers.toggleFullScreen();
+
+			});
+
+			// Alternative format options for download
+			$('.btn-dropdown[data-which="alt-formats"] a,.drawer-section-container[data-section="downloads"] a').on('click', function(){
+				// You could use this for analytics
+				return true;
+			});
+
+			// Which endnotes were clicked
+			$('.endnotes').on('click', 'a', function(){
+				// You could use this for analytics
+				return true;
 			});
 
 			$('.header-item-container[data-action="drawer"], .section-title-close[data-action="drawer"]').on('click', function(){
 				$('.header-item-container[data-action="drawer"]').toggleClass('active');
 				layout.slideContentArea();
+				// You could use this for analytics in knowing whether endnotes or drawer was opened
+				// Everyone's configuration is different but reach out if you have questions
+
 			});
 
 			$('.tooltipped-i input').on('focus', function(){
@@ -488,14 +577,15 @@
 
 			});
 
-			$('.social-btn[data-which="twitter"]').on('click', social.sendTweet);
-			$('.social-btn[data-which="facebook"]').on('click', social.sendFbShare);
-			$('.social-btn[data-which="gplus"]').on('click', social.sendGPlusShare);
+			// Share buttons
+			$('.social-btn').on('click', function(e){
+				var which = $(this).attr('data-which');
+				social.share[which](e);
+			});
 
 		},
 		resize: function(){
-			layout.updateDebounce = _.debounce(layout.update, 100);
-			// TODO, Does this trigger on different mobile device orientation changes?
+			layout.updateDebounce = _.debounce(layout.update, 500);
 			window.addEventListener('resize', function(){
 				layout.updateDebounce();
 			})
@@ -515,9 +605,6 @@
 				// $('#pages').attr('data-state', zoom);
 				$('body').attr('data-state', zoom);
 			});
-			// state.on('change:device', function(model, device) {
-			// 	console.log(device)
-			// });
 		},
 		hotspotClicks: function($page){
 			$page.on('click', '.hotspot', function() {
@@ -542,12 +629,21 @@
 
 			$('.main-nav-btn-container').on('click', function(){
 				var direction = $(this).attr('data-dir');
+				// Another hook for analytics
 				routing.set.fromKeyboardOrGesture(direction);
 			});
 
 			$('#pages').on('click', '.mask', function() {
 				routing.set.fromHotspotClick( $(this) );
 			});
+
+			$('#pages').on('click', '.internal-link[data-destination="endnotes"]', function() {
+				$('.header-item-container[data-action="drawer"]').toggleClass('active');
+				layout.slideContentArea();
+				// Other analytics hooks could go here
+
+			});
+
 		},
 		pageTransitions: function(){
 			$('.page-container').on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', transitions.onAnimationEnd_throttled)
@@ -559,6 +655,12 @@
 			$(layout.drawerHandle).on('touchstart touchmove', layout.dragDrawer);
 			$(layout.drawerHandle).on('touchend', layout.snapDrawer);
 			$(layout.drawerHandle).on('click', layout.snapDrawer);
+		},
+		fullscreen: function(){
+			document.addEventListener('webkitfullscreenchange', layout.fullScreenChange, false);
+			document.addEventListener('mozfullscreenchange', layout.fullScreenChange, false);
+			document.addEventListener('fullscreenchange', layout.fullScreenChange, false);
+			document.addEventListener('MSFullscreenChange', layout.fullScreenChange, false);		
 		}
 	}
 
@@ -701,6 +803,7 @@
 		movePages: function(currentPage, newPage, classes){
 			var format = state.get('format').format,
 					bookend = state.get('format').bookend;
+
 			if (format != 'double' || bookend == 'true'){
 				// Exit the current page
 				$('#page-container-'+currentPage).addClass(classes.exiting);
@@ -720,6 +823,7 @@
 				$('#page-container-'+newPage).addClass(classes.entering).addClass('viewing');
 				$('#page-container-'+(newPage + 1) ).addClass(classes.entering).addClass('right-page').addClass('viewing');
 			}
+			// You could hook analytics in here
 		},
 		onAnimationEnd: function(){
 			// Remove all navigation classes, which will have finished their animation since we're inside that callback
@@ -747,7 +851,9 @@
 
 	var routing = {
 		setInitRouteChecks: function(page, triggerLazyLoad, cb){
-			var transition_duration = true;
+			var transition_duration = true,
+					formatState = state.get('format'),
+					format = formatState.format;
 			// If our URL we came from is a hotspot then lazyLoad won't be triggered
 			// Because it's categorically false when navigating to a hotspot
 			// The only time that changes would be when we're on a first run
@@ -758,7 +864,12 @@
 				page = '1';
 				helpers.saveCurrentStates(page); 
 				transition_duration = false;
+				// Show the nav helpers
 				layout.toggleNavHelpers(true);
+				layout.navHelpersMode('intro');
+			} else if (states.showNavHelpers && page == '2' && format == 'single'){
+				layout.navHelpersMode('expand');
+				states.showNavHelpers = false;
 			} else {
 				layout.toggleNavHelpers(false);
 			}
@@ -786,7 +897,9 @@
 				page_number = range[i];
 				$img = $('#page-container-'+page_number).find('img');
 				src = $img.attr('src');
-				if (src.indexOf('data:image\/gif') > -1) $img.attr('src', 'imgs/pages/page-'+page_number+'.'+PULP_SETTINGS.imgFormat );
+				if (src.indexOf('data:image\/gif') > -1) {
+					$img.attr('src', 'imgs/pages/page-'+page_number+'.'+PULP_SETTINGS.imgFormat );
+				}
 			}
 
 		},
@@ -828,21 +941,25 @@
 		},
 		set: {
 			fromHotspotClick: function($hotspot){
-				// Only do this on mobile
+				// Only do this on mobile, this check is pretty extraneous since the btn overlay prevents this on desktop
 				if (state.get('format').format == 'mobile'){
 					var page_hotspot = $hotspot.attr('data-hotspot-id').split('-'), // `1-1` -> ["1", "1"];
 							page = page_hotspot[0],
 							hotspot = page_hotspot[1],
-							hash = '';
+							hash = '',
+							direction = '';
 
 					// If you've tapped on the active hotspot...
 					if (states.currentPage == page && states.currentHotspot == hotspot) {
 						states.lastHotspot = hotspot; // Record the last hotspot you were on. You can then pick up from here on swipe.
 						states.currentHotspot  = hotspot = '' // Set the current hotspot and hotspot variable to nothing to signify that you're on a page view
 						hash = page; // And in the url hash, display only the page number.
+						direction = 'zoom_out';
 					}else{
 						hash = page + '/' + hotspot; // Otherwise, send the page and hotspot to the route.
+						direction = 'zoom_in';
 					}
+					// You could hook analytics in here
 
 					// Change the hash
 					routing.router.navigate(hash, {trigger: true});
@@ -858,16 +975,11 @@
 							format = formatState.format,
 							bookend = formatState.bookend,
 							leaf_to;
-					console.log('starting',pp_info.hotspot, states.lastHotspot)
+					// console.log('starting',pp_info.hotspot, states.lastHotspot)
 
 					pp_info.page = pp_info.page || 1; // If there's no page, go to the first page
 					//Evaluate this as a string in case it's zero and that's meaningfull
-					// if (pp_info.hotspot === 0) { pp_info.hotspot = '0' }
 					pp_info.hotspot = pp_info.hotspot || states.lastHotspot || 0; // If there was no hotspot in the hash, see if there was a saved hotspot states, if not start at zero
-					// But convert it back to a number if it can be
-					// if (pp_info.hotspot === '0') { pp_info.hotspot = 0 }
-					console.log(pp_info.hotspot)
-					// if (!_.isNaN(+pp_info.hotspot)) { pp_info.hotspot = Number(pp_info.hotspot) }
 					
 					states.lastHotspot = pp_info.hotspot;
 					
@@ -878,7 +990,6 @@
 						leaf_to = 'page';
 					}
 
-
 					pp_info = leafing[direction][leaf_to](pp_info, hotspot_max, states.pages_max);
 					// Add our new info to the hash
 					// or not if we're going to a full pulle
@@ -886,7 +997,6 @@
 					if (pp_info.hotspot){
 						newhash += '/' + pp_info.hotspot
 					}
-					// console.log(newhash)
 					// // Store the previous hash
 					// states.previousPage = helpers.hashToPageHotspotDict( window.location.hash ).page;
 					// Go to there
@@ -938,6 +1048,7 @@
 
 			// Save the current page and hotspot to what the route said, save previous route's information as previous page.
 			helpers.saveCurrentStates(page, hotspot, states.currentPage);
+
 		}
 	}
 
@@ -1107,60 +1218,72 @@
 		init: function(){
 			this.shareable_url = 'http://'+ window.location.hostname + window.location.pathname;
 		},
-		sendTweet: function(e, text, route){
-			var base_url = 'https://twitter.com/intent/tweet?url=' + social.shareable_url;
-					text = text || PULP_SETTINGS.social.twitter_text;
+		share: {
 
-			if (route) {
-				base_url += route;
-			}
+			twitter: function(e, text, route){
+				var base_url = 'https://twitter.com/intent/tweet?url=' + social.shareable_url;
+						text = text || PULP_SETTINGS.social.twitter_text;
 
-			var tweet_text  = "&text=" + text,
-			    via_account = 'ajam',
-			    related     = "&related=ajam",
-			    counter_url = "&counturl=" + social.shareable_url;
+				if (route) {
+					base_url += route;
+				}
 
-			var twitter_url = social.percentEncode(base_url + tweet_text + ' via @' + via_account + related + counter_url);
+				var tweet_text  = '&text=' + text,
+				    via_account = PULP_SETTINGS.social.twitter_account,
+				    related     = '&related='+via_account,
+				    counter_url = '&counturl=' + social.shareable_url;
 
-			console.log(base_url)
-			var leftPos = e.pageX - 400,
-			    topPos = e.pageY - 350;
+				var leftPos = e.pageX - 400,
+				    topPos = e.pageY - 350;
 
-			var settings = 'width=500,height=300,top=' + topPos + ',left=' + leftPos + ',scrollbars=no,location=0,statusbars=0,menubars=0,toolbars=0,resizable=0';
-			
-			window.open(twitter_url, 'Tweet', settings);
-		},
-		sendFbShare: function(e, text, promoImgUrl){
-			var base_url    = 'http://www.facebook.com/dialog/feed',
-					app_id      = '?app_id='+PULP_SETTINGS.social.fb_app_id,
-					page_url    = '&link=' + social.shareable_url,
-					text 			  = text || PULP_SETTINGS.social.fb_text,
-					promoImgUrl = promoImgUrl || PULP_SETTINGS.social.promo_img_url;
+				var composed_url = social.percentEncode(base_url + tweet_text + ' via @' + via_account + related + counter_url);
+				var settings = 'width=500,height=300,top=' + topPos + ',left=' + leftPos + ',scrollbars=no,location=0,statusbars=0,menubars=0,toolbars=0,resizable=0';
 				
-			var description = '&description='+text,
-					redirect    = '&redirect_uri='+social.shareable_url,
-					image       = '&image='+promoImgUrl;
+				window.open(composed_url, 'Tweet', settings);
+			},
+			facebook: function(e, text, promoImgUrl){
+				var base_url    = 'http://www.facebook.com/dialog/feed',
+						app_id      = '?app_id='+PULP_SETTINGS.social.fb_app_id,
+						page_url    = '&link=' + social.shareable_url,
+						text 			  = text || PULP_SETTINGS.social.fb_text,
+						promoImgUrl = promoImgUrl || PULP_SETTINGS.social.promo_img_url;
+					
+				var description = '&description='+text,
+						redirect    = '&redirect_uri='+social.shareable_url,
+						image       = '&image='+promoImgUrl;
 
-			var facebook_url = base_url + app_id + page_url + description + redirect + image;
-					facebook_url = social.percentEncode(facebook_url);
+				var facebook_url = base_url + app_id + page_url + description + redirect + image;
+				
+				var leftPos = e.pageX - 400,
+						topPos = e.pageY - 350;
+
+				var composed_url = social.percentEncode(facebook_url);
+				var settings = 'width=900,height=450,top=' + topPos + ',left=' + leftPos + ',scrollbars=no,location=0,statusbars=0,menubars=0,toolbars=0,resizable=0';
+				
+				window.open(composed_url, 'Share', settings);
+			},
+			gplus: function(e){
+				var base_url = 'https://plus.google.com/share',
+						page_url = '?url=' + social.shareable_url,
+						gplus_url = base_url + page_url;
+
+				var composed_url = social.percentEncode(gplus_url);
+				var settings = 'width=600,height=600,scrollbars=yes,resizable=yes,toolbar=no,menubar=no';
+				
+				window.open(composed_url, 'Share', settings);
+			},
+			reddit: function(e){
+				var base_url = 'https://www.reddit.com/submit',
+						page_url = '?url=' + social.shareable_url;
+
+				var reddit_url = base_url + page_url;
+
+				var composed_url = social.percentEncode(reddit_url);
+				var settings = 'width=600,height=600,scrollbars=yes,resizable=yes,toolbar=no,menubar=no';
+
+				window.open(composed_url, 'Share', settings);
+			}
 			
-			var leftPos = e.pageX - 400,
-					topPos = e.pageY - 350;
-
-			var settings = 'width=900,height=450,top=' + topPos + ',left=' + leftPos + ',scrollbars=no,location=0,statusbars=0,menubars=0,toolbars=0,resizable=0';
-			
-			window.open(facebook_url, 'Share', settings);
-		},
-		sendGPlusShare: function(e){
-			var base_url = 'https://plus.google.com/share',
-					page_url = '?url=' + social.shareable_url;
-
-			var gplus_url = base_url + page_url;
-					gplus_url = social.percentEncode(gplus_url);
-
-			var settings = 'width=600,height=600,scrollbars=yes,resizable=yes,toolbar=no,menubar=no';
-			
-			window.open(gplus_url, 'Share', settings);
 		},
 	  percentEncode: function(string){
 			return string.replace(/#/g, '%23').replace(/,/g, '%2c').replace(/ /g, '%20');
@@ -1175,6 +1298,8 @@
 			// You could use `_.delay` but the timing wont' always be precise and you'll get a flicker.
 			transitions.onAnimationEnd_throttled = _.throttle(transitions.onAnimationEnd, 5);
 			this.browser = this.browserCheck();
+			this.touch = this.touchCheck();
+			this.addMobileClass();
 			layout.init();
 			layout.bakeMasks();
 			this.loadPages();
@@ -1182,8 +1307,10 @@
 			listeners.header();
 			listeners.keyboardAndGestures();
 			listeners.drawer();
+			listeners.fullscreen();
 			social.init();
 			FastClick.attach(document.body);
+			this.browserHacks();
 		},
 		loadPages: function(){
 			$.getJSON('data/pages.json')
@@ -1195,13 +1322,12 @@
 					layout.bakeEndnotes(endnotes);
 				})
 				.error(function(error){
-					// TK, remove console.log for production
-					console.log('Error: Data file not found!');
+					alert('Error: Data file not found!');
 				});
 		},
 		browserCheck: function(){
 	    var ua= navigator.userAgent, tem, 
-	    M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+	    M= ua.match(/(android|opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
 	    if(/trident/i.test(M[1])){
 	        tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
 	        return 'IE '+(tem[1] || '');
@@ -1231,8 +1357,28 @@
 				// If this is causing issues or you aren't floating those buttons to the right, then you might want to change this line to `.prepend`
 				$('#header').append(whitelabelObj.logo);
 			}
+		},
+		browserHacks: function(){
+			// Android browsers aren't showing a "Go" button on page number change, so make that field a text field on android
+			if (this.browser[0] == 'Android'){
+				$('#page-number-input').attr('type','text');
+			}
+
+			// Kill nav helpers on touch devices
+			if (this.touch){
+				$('.nav-helpers').remove();
+			}
+		},
+		touchCheck: function(){
+			return 'ontouchstart' in window // works on most browsers 
+				|| 'onmsgesturechange' in window; // works on ie10
+		},
+		addMobileClass: function(){
+			if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+				$('body').addClass('mobile');
+			}
 		}
-	}
+}
 
 	init.go();
 

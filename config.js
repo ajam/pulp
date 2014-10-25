@@ -4,7 +4,7 @@ var PULP_SETTINGS = {
 		"files": {
 			"js": [] // A list of paths for any other javascript files to include. Example configuation `["header.js"]`. Path starts at the `whitelist` folder
 		},
-		"logo": "INSERT HTML TO DISPLAY A LOGO IN THE UPPER LEFT" // Example configuration `"<img src='imgs/assets/logo.png'/>"`. Path starts at the project root folder
+		"logo": "" // HTML for a logo. Example configuration `"<img src='imgs/assets/logo.png'/>"`. Path starts at the project root folder
 	},
 	"lazyLoadExtent": 6,
 	"transitionDuration": "400ms",

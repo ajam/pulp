@@ -77,51 +77,6 @@
       ],
       "script_text": "",
       "page_text": []
-    },
-    {
-      "number": 8,
-      "hotspots": [],
-      "script_text": "",
-      "page_text": []
-    },
-    {
-      "number": 9,
-      "hotspots": [
-        "top:0.80%;left:2.69%;width:57.54%;height:33.33%;",
-        "top:0.93%;left:61.61%;width:36.57%;height:33.33%;",
-        "top:35.33%;left:2.86%;width:46.79%;height:32.93%;",
-        "top:35.47%;left:51.04%;width:47.14%;height:33.07%;",
-        "top:69.33%;left:3.03%;width:57.02%;height:29.47%;",
-        "top:69.60%;left:61.61%;width:36.22%;height:29.47%;"
-      ],
-      "script_text": "",
-      "page_text": []
-    },
-    {
-      "number": 10,
-      "hotspots": [
-        "top:0.40%;left:1.65%;width:48.01%;height:30.93%;",
-        "top:0.00%;left:48.27%;width:50.43%;height:31.33%;",
-        "top:32.40%;left:2.69%;width:30.68%;height:33.33%;",
-        "top:32.40%;left:34.75%;width:32.06%;height:33.07%;",
-        "top:32.40%;left:67.50%;width:30.50%;height:33.07%;",
-        "top:66.80%;left:2.86%;width:30.50%;height:32.53%;",
-        "top:66.67%;left:35.27%;width:30.50%;height:32.53%;",
-        "top:66.40%;left:67.33%;width:30.68%;height:32.80%;"
-      ],
-      "script_text": "",
-      "page_text": []
-    },
-    {
-      "number": 11,
-      "hotspots": [
-        "top:0.93%;left:1.47%;width:97.05%;height:33.73%;",
-        "top:35.87%;left:1.99%;width:43.33%;height:31.87%;",
-        "top:35.87%;left:46.88%;width:51.30%;height:31.60%;",
-        "top:68.80%;left:1.99%;width:96.53%;height:30.40%;"
-      ],
-      "script_text": "",
-      "page_text": []
     }
   ]
 }
