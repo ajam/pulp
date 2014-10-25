@@ -27,13 +27,14 @@ An open-source viewer for displaying comics online, developed for the (soon-to-b
 	* Safari 7.1
 	* Firefox 32
 	* iPhone 4
-	* iPhone 5
 	* iPhone 5c
+	* iPhone 6
 	* iPad Retina
 	* iPad 2
 	* iPad Air
 	* Samsung Nexus
-	* HTC One
+	* Android - Samsung HTC One
+	* Android - Moto X
 
 ### Getting started
 
