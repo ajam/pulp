@@ -1,14 +1,14 @@
 @import 'nib'
 
 ajam_blue = #2677B9
-max_width = 577px
+max_width = 1024px
 transition_opts = 400ms linear
-gutter_width = 40px
+gutter_width = 2px
 header_height = 46px
 header_item_height = 28px
 header_padding = 7px
-header_margin = 5px
-
+header_margin = 0px
+	
 drawer_width = 66%
 drawer_transition_opts = 500ms cubic-bezier(0,0,.2,1)
 bg_layout_color = #fff
@@ -24,9 +24,12 @@ header_item_bg_hover_color = #000
 
 twitter_color = #00ACED
 facebook_color = #3C599F
+reddit_color = #336699
 gplus_color = #DD4B39
 
-mobile_query = "(max-width: " + max_width + ")"
+mobile_query_width = 775px
+
+mobile_query = "(max-width: " + mobile_query_width + ")"
 
 /* G L O B A L S */
 *
@@ -57,7 +60,7 @@ html:-ms-fullscreen
 	transform translateX(0px)
 	overflow-x hidden
 	overflow-y hidden
-#main-content-wrapper,#pages-wrapper,#pages,.page-container,.page,.page img
+#main-content-wrapper,#pages-wrapper,#pages,.page-container,.page,.hotspot
 	backface-visibility hidden 
 	// transform-style preserve-3d
 /* end globals */
@@ -70,38 +73,47 @@ body[data-state="hotspot"]
 		display none
 #header
 	width 100%
-	// height header_height
 	background-color bg_layout_color
-	padding header_padding
-	// border-bottom 1px solid #000
+	padding header_padding 5px header_padding 5px
 	margin-bottom header_margin
 	margin-left auto
 	margin-right auto
 	opacity 1
 	transition opacity 100ms linear
-	max-width max_width*2
-	// background-color #fc0
+	// max-width max_width*2 + gutter_width
 html:-moz-full-screen
 	#header
-		visibility hidden
+		display none
 	#desktop-drawer-container,#footer
 		display none!important
+	#pages-wrapper
+		top 5px
+		height calc(100% - 10px)
 html:-webkit-full-screen
 	#header
-		visibility hidden
+		display none
 	#desktop-drawer-container,#footer
 		display none!important
+	#pages-wrapper
+		top 5px
+		height calc(100% - 10px)
 html:-fullscreen
 	#header
-		visibility hidden
+		display none
 	#desktop-drawer-container,#footer
 		display none!important
+	#pages-wrapper
+		top 5px
+		height calc(100% - 10px)
 html:-ms-fullscreen
 	width 100%
 	#header
-		visibility hidden
+		display none
 	#desktop-drawer-container,#footer
 		display none!important
+	#pages-wrapper
+		top 5px
+		height calc(100% - 10px)
 
 .header-item-container
 	display inline-block
@@ -148,8 +160,11 @@ html:-ms-fullscreen
 	position relative
 .header-btn-icon
 	font-size 2.2em
-	text-shadow 1px 2px 1px #E9E9E9
-// 	position relative
+a .header-btn-icon
+	color #000
+a .header-btn-icon:hover
+	color ajam_blue
+
 
 .header-group
 	float right
@@ -165,6 +180,12 @@ html:-ms-fullscreen
 	input
 		width 22px
 		text-align right
+
+.internal-link
+	color ajam_blue
+.internal-link:hover
+	text-decoration underline
+	cursor pointer
 
 // Disable spinners on number input
 input::-webkit-outer-spin-button,
@@ -193,9 +214,15 @@ input[type="number"]
 	li
 		padding 8px
 		font-size 1.2em
+		user-select none
+	a
+		color #fff
 	li:hover
 		cursor pointer
 		background-color ajam_blue
+
+.drawer-section-container[data-section="downloads"]
+	line-height 1.7em
 
 .dropdowned[data-btn="export"] .btn-dropdown,
 .dropdowned[data-btn="export"]:hover:after
@@ -314,6 +341,7 @@ input[type="number"]
 /* end progress */
 
 /* N A V  B U T T O N S */
+button_offset = 35%
 #btns
 	position absolute
 	top (header_height + header_margin)
@@ -330,14 +358,16 @@ input[type="number"]
 	width 100%
 .main-nav-btn-container[data-dir="prev"]
 	text-align left
+	.btn-text
+		transform translateX(-1*button_offset)
 .main-nav-btn-container[data-dir="next"]
 	text-align right
+	.btn-text
+		transform translateX(button_offset)
 .main-nav-btn-container:hover
 	cursor pointer
 .main-nav-btn
 	display inline-block
-	// padding 0 8px
-	// border 1px solid #646464
 	position relative
 	color arrow_color
 	height 100%
@@ -350,39 +380,55 @@ input[type="number"]
 	top 45%
 	font-size 6em
 
-// Override the font-size 1em
-[class^="ajmint-icon-"]:before, [class*=" ajmint-icon-"]:before
-	width auto!important
-
+nav_helper_right = 80px
 .nav-helpers
 	position absolute
-	top 55%
-	width 100%
+	top 43.5%
+	right nav_helper_right
+	width 90%
 	text-align center
-	display none
-	font-size 1.2em
+	font-size 1.4em
 	font-weight 200
+	font-family Helvetica, sans-serif
 	line-height 15px
-	color #ccc
-	animation bounce-up-down 2.5s infinite
-
-@keyframes bounce-up-down {
+	color #969696
+	animation bounce-left-right 2.75s infinite
+.nav-helper-arrows
+	font-size 1.4em
+	white-space nowrap
+	margin 9px 0 10px 0
+	font-family Helvetica
+	color #000
+	span
+		padding 1px 4px
+		border 1px solid #ccc
+		background linear-gradient(180deg, #FFF 0%, #E3E3E3 100%) repeat scroll 0% 0% #FFF
+	span:first-child
+		margin-right 2px
+@keyframes bounce-left-right {
 	0%{
-		top 55%
+		right nav_helper_right
 	}
 	50%{
-		top 53.5%
+		right nav_helper_right - (nav_helper_right/5)
 	}
 	100%{
-		top 55%
+		right nav_helper_right
 	}
 }
 
 /* end nav buttons */
 
+body.mobile
+	.mobile-hide
+		display none
+
 /* S N A P P E R  D R A W E R  */
 body[data-format="mobile"]
 	background-color #5B5B5B
+	.header-item-container.active
+		.header-btn
+			color header_item_color
 #side-drawer-container
 	position absolute
 	height 100%
@@ -399,6 +445,13 @@ body[data-format="mobile"]
 		color #71BFFF
 	.section-title
 		margin-top 5px
+#easter-egg-img
+	position absolute
+	top 9%
+	right drawer_width - 1.5 // The image has some padding
+	z-index -1
+	width 20%
+	display none
 .drawer-section-container
 	margin-bottom 20px
 	li
@@ -407,11 +460,14 @@ body[data-format="mobile"]
 		font-weight 200
 	li.endnote
 		font-size 1.1em
-		margin-bottom 10px
+		margin-bottom 8px
+		line-height 1.2em
+	.endnote-number
+		color #969696
 .drawer-section-container[data-which="share"]
 	li
 		display inline-block
-		width 32.5%
+		width 24.5%
 		font-size 2em
 		text-align center
 		padding 10px 0
@@ -421,12 +477,16 @@ body[data-format="mobile"]
 		background-color twitter_color
 	li[data-which="facebook"]
 		background-color facebook_color
+	li[data-which="reddit"]
+		background-color reddit_color
 	li[data-which="gplus"]
 		background-color gplus_color
 	li[data-which="twitter"]:hover
 		background-color lighten(twitter_color, 15%)
 	li[data-which="facebook"]:hover
 		background-color lighten(facebook_color, 15%)
+	li[data-which="reddit"]:hover
+		background-color lighten(reddit_color, 15%)
 	li[data-which="gplus"]:hover
 		background-color lighten(gplus_color, 15%)
 		
@@ -472,6 +532,10 @@ body[data-format="double"][data-side-drawer-open="true"]
 
 /* M O D A L */
 buffer_for_tooltip = 11px
+.endnote-number
+	vertical-align super
+	font-size smaller
+	padding-right 5px
 #desktop-drawer-container
 	position absolute
 	width 33%
@@ -500,7 +564,8 @@ buffer_for_tooltip = 11px
 			color #666
 	.endnote
 		font-size 1.2em
-		margin-bottom 10px
+		margin-bottom 8px
+		line-height 1.3em
 .section-title
 	font-size 1.4em
 	font-weight bold
@@ -517,7 +582,7 @@ buffer_for_tooltip = 11px
 	width 100%
 	text-align center
 #pages-wrapper
-	height "calc(100% - %s)" % (header_height + header_margin)
+	height "calc(100% - %s)" % (header_height)
 #pages
 	height 100%
 body[data-state="page-change"]
@@ -546,9 +611,12 @@ body[data-state="page-change"]
 .paragraph-text
 	position absolute
 	text-align left
-	font-size 1.2em
-	line-height 2em
+	font-size 1.5em
 	z-index 9999
+	padding 20px
+	line-height 1.5em
+	p
+		margin-bottom 10px
 /* end pages */
 
 /*  P A G E  F O R M A T T I N G  */
@@ -573,9 +641,9 @@ body[data-format="double"][data-bookend="false"] .page-container.viewing.right-p
 	z-index -1
 	background url('../imgs/assets/border.png') repeat-y (gutter_width/2) top #fff
 
-body[data-format="mobile"][data-bookend="false"]
+body[data-format="mobile"]//[data-bookend="false"]
 	#btns
-		display none
+		visibility hidden
 
 /* MOZ Specific hacks */
 @-moz-document url-prefix()
@@ -640,7 +708,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 /* end double center */
 
 // Drawer transitions
-@keyframes wrapper-slide-to-left{
+@keyframes wrapper-slide-to-left {
 	from{
 		left 0
 	}
@@ -802,17 +870,26 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 #top-mask
 	top 0
 #bottom-mask
-	transform rotateX(180deg) translate3d(0,0,0);
+	transform rotateX(180deg) translate3d(0,0,1);
 	bottom -1px /* To cover up some small clipping that occurs */
 #left-mask
 	left 0
 #right-mask
 	right 0
-	transform rotateX(180deg) translate3d(0,0,0);
+	transform rotateX(180deg) translate3d(0,0,1);
 /* end masks */
 
 /* M E D I A  Q U E R I E S */
-@media mobile_query
+@media (max-width: 1024px)
+	#pages-wrapper
+		height "calc(100% - %s)" % (header_height + header_padding*2)
+
+mobile_header_height = header_height*2/3
+
+
+body[data-format="mobile"]
+	#easter-egg-img
+		display block
 	.header-group.desktop
 		display none
 	.header-group.mobile
@@ -820,12 +897,15 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 		.header-btn
 			border none
 	#side-drawer-handle,#desktop-drawer-container
-		top (header_height*2/3)
+		top mobile_header_height
 	#header
 		padding 3px
-		height (header_height*2/3)
-		#ajmint-logo img
-			margin-top 0!important
+		margin-bottom 8px
+		height mobile_header_height
+	#btns
+		top auto
+	#pages-wrapper
+		height 100%
 	#pages
 		width 100%
 	.header-group .header-item-container
@@ -838,6 +918,8 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 		top 3px
 		input
 			width 25px
+	.nav-helpers
+		display none
 
 
 /* end media queries */
