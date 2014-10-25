@@ -98,7 +98,7 @@ stylus -u nib -w css
 
 This command tells it to use Nib and watch the folder `css`. 
 
-One improvement would be to not have to make these changes twice (once in `config.js` and once in `styles.styl`). The solution is to create a larger build process, which has its own issues.
+One improvement would be to not have to make these changes twice (once in `config.js` and once in `styles.styl`). The solution is to create a larger build process, which has its own issues. Since these values should work for most people, however, hopefully you wont' have to change it so much.
 
 ### LICENSE
 
