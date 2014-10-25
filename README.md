@@ -61,7 +61,7 @@ Beacuse comments aren't built into the interface, we've included an icon in the 
 Pulp also has a few options that it lets you change, if you so wish. They are all in the `config.js` file. Here's what a sample configuruation looks like with an explanation of what the values do. For the most part, you won't have to change any of the animation timings
 
 
-````json
+````js
 {
 	"imgFormat": "jpg", // What format are your images in?
 	"whitelabel": {
