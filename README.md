@@ -11,7 +11,7 @@ An open-source viewer for displaying comics online, developed for the (soon-to-b
 #### Single view
 ![](https://raw.githubusercontent.com/ajam/pulp/master/demo-assets/single-view.gif)
 
-#### Mobile view
+#### Mobile view (panel by panel)
 ![](https://raw.githubusercontent.com/ajam/pulp/master/demo-assets/mobile-view.gif)
 
 
