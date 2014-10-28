@@ -2,12 +2,14 @@
   "endnotes": [
     {
       "number": 1,
-      "text": "p. 1, panel 3: Sample text endnote"
+      "text": "Sample text endnote",
+      "page_panel": "p. 1, panel 3"
     },
     {
       "number": 2,
-      "text": "p. 3, panel 1: Sample hyperline endnote",
-      "url": "http://github.com/ajam/pulp"
+      "text": "Sample hyperlink endnote",
+      "url": "http://github.com/ajam/pulp",
+      "page_panel": "p. 3, panel 1"
     }
   ],
   "pages": [

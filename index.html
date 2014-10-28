@@ -148,16 +148,11 @@
 		<!-- Endnotes template, split on the first color since that will be our page panel convention -->
 		<script type="text/template" id="endnote-template">
 			<li class="endnote"><span class="endnote-number"><%= endnote.number %></span>
+			<%= endnote.page_panel %>: 
 			<% if (endnote.url) { %>
-				<% var endnote_text_arr = endnote.text.split(':'); %>
-				<% var endnote_text_string = endnote_text_arr[0] + ': '; %>
-				<% endnote_text_string += '<a href="'+endnote.url+'" target="_blank">' %>
-				<% endnote_text_arr.shift(); %>
-				<% endnote_text_string += endnote_text_arr.join(':').trim(); %>
-				<% endnote_text_string += '</a>' %>
-				<% print(endnote_text_string) %>
+				<a href="<%= endnote.url %>" target="_blank"><%= endnote.text %></a>
 			<% } else { %>
-				<% print(endnote.text) %>
+				<%= endnote.text %>
 			<% } %>
 			</li>
 		</script>
