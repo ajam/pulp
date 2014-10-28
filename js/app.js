@@ -97,7 +97,7 @@
 			var direction;
 			// console.log(code)
 			// Only allow this only one panel is visible, i.e. not during a transition
-			if (code == 37 || code == 38 || code == 39 || code == 40 || code == 'swipeleft' || code == 'swiperight' || code == 'pinch'){
+			if (code == 37 || code == 38 || code == 39 || code == 40 || code == 'swipeleft' || code == 'swiperight'){
 				// Don't do the default behavior if it's an arrow, swipe or pinch
 				e.preventDefault();
 				e.stopPropagation();
@@ -111,16 +111,10 @@
 				else if (code == 39 || code == 'swipeleft'){
 					direction = 'next';
 				} 
-				// Pinch
-				else if (code == 'pinch') {
-					direction = 'pageView';
-				}
 				// Esc, up, down arrows
 				else if (code == 27 || code == 38 || code == 40 ) {
 					direction = false;
 				}
-
-				// alert(direction)
 
 				return direction;
 			}
@@ -631,10 +625,16 @@
 				routing.set.fromKeyboardOrGesture(direction);
 			});
 
-			// Pinch not currently supported
 			$(document).on('pinchin pinchout', function(e){
-				var direction = helpers.getNavDirection(e, 'pinch');
-				routing.set.fromKeyboardOrGesture(direction);
+				// `fromHotspotClick` expects a jQuery object of a hotspot
+				// So let's grab the last hotpot, if there was one
+				// Or else the first one one on this page
+				var current_page = states.currentPage,
+						current_hotspot = states.currentHotspot || '1';
+
+				var $dummyHotspot = $('<div class="dummy-hotspot" data-hotspot-id="'+current_page+'-'+current_hotspot+'"></div>');
+				routing.set.fromHotspotClick( $dummyHotspot );
+				$dummyHotspot.remove();
 			});
 
 			$('.main-nav-btn-container').on('click', function(){
@@ -749,10 +749,6 @@
 				}
 				return pp_info;
 			}
-		},
-		pageView: function(pp_info){
-			pp_info.hotspot = '';
-			return pp_info;
 		}
 	}
 
