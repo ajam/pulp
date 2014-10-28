@@ -3,7 +3,7 @@ Pulp
 
 An open-source viewer for displaying comics online, developed for the (soon-to-be-released) story [Terms of Service](http://projects.aljazeera.com/2014/terms-of-service). Layout your pages with [Pulp press](https://github.com/ajam/pulp-press) and place the resulting the `pages.json` file the `data/` folder. For more detailed instructions. Read below.
 
-##### [View demo](http://ajam.github.io/pulp)
+#### [View demo](http://ajam.github.io/pulp)
 
 ### Requirements / assumptions
 
@@ -44,7 +44,7 @@ Getting up and running takes three steps
 2. Place your images in the `imgs/pages/` folder — they can be any format, e.g. `.jpg`, `.png`, `.gif` etc.
 3. A `pages.json` file that defines the coordinates of your panels on the page — more on this next. Place this file in the `data/` folder.
 
-To define your panel regions, we've made a companion interface called [Pulp Press][https://ajam.github.io/pulp-press]. It has its own [instructions page](http://github.com/ajam/pulp-press) but it's fairly simple to use.
+To define your panel regions, we've made a companion interface called [Pulp Press](https://ajam.github.io/pulp-press). It has its own [instructions page](http://github.com/ajam/pulp-press) but it's fairly simple to use.
 
 1. Upload your images
 2. Click and drag to define the order of your panels
