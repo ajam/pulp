@@ -95,6 +95,7 @@
 		},
 		getNavDirection: function(e, code){
 			var direction;
+			// console.log(code)
 			// Only allow this only one panel is visible, i.e. not during a transition
 			if (code == 37 || code == 38 || code == 39 || code == 40 || code == 'swipeleft' || code == 'swiperight' || code == 'pinch'){
 				// Don't do the default behavior if it's an arrow, swipe or pinch
@@ -110,15 +111,18 @@
 				else if (code == 39 || code == 'swipeleft'){
 					direction = 'next';
 				} 
+				// Pinch
+				else if (code == 'pinch') {
+					direction = 'pageView';
+				}
 				// Esc, up, down arrows
-				else if (code == 27 || code == 38 || code == 40 || code == 'pinch') {
+				else if (code == 27 || code == 38 || code == 40 ) {
 					direction = false;
 				}
 
+				// alert(direction)
+
 				return direction;
-				// Esc, up, down arrows
-				// if (code == 27 || code == 38 || code == 40 || code == 'pinch') return false;
-				// if (code == 27 || code == 38 || code == 40 || code == 'pinch') return 'pageView';
 			}
 			return false;
 		},
@@ -624,6 +628,12 @@
 
 			$(document).on('swiperight', function(e){
 				var direction = helpers.getNavDirection(e, 'swiperight');
+				routing.set.fromKeyboardOrGesture(direction);
+			});
+
+			// Pinch not currently supported
+			$(document).on('pinchin pinchout', function(e){
+				var direction = helpers.getNavDirection(e, 'pinch');
 				routing.set.fromKeyboardOrGesture(direction);
 			});
 

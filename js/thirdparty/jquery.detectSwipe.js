@@ -24,7 +24,6 @@
   }
 
   function onTouchMove(e) {
-  	console.log($.detectSwipe.scrollExceptionCondition())
   	if ( $.detectSwipe.scrollExceptionCondition() ) { return false; }
     if ( $.detectSwipe.preventDefault ) { e.preventDefault(); }
     if(isMoving) {
@@ -33,15 +32,25 @@
       var dx = startX - x;
       var dy = startY - y;
       var dir;
-      if(Math.abs(dx) >= $.detectSwipe.threshold) {
-        dir = dx > 0 ? 'left' : 'right'
-      }
-      else if(Math.abs(dy) >= $.detectSwipe.threshold) {
-        dir = dy > 0 ? 'down' : 'up'
+      var two_fingers = e.touches.length == 2;
+      var action;
+      if (!two_fingers){
+      	action = 'swipe';
+	      if(Math.abs(dx) >= $.detectSwipe.threshold) {
+	        dir = dx > 0 ? 'left' : 'right'
+	      }
+	      else if(Math.abs(dy) >= $.detectSwipe.threshold) {
+	        dir = dy > 0 ? 'down' : 'up'
+	      }
+      } else {
+      	action = 'pinch';
+      	// TODO, add directional detection
+      	// For Pulp, the action is the same whether you're pinching in or out
+      	dir = 'out';
       }
       if(dir) {
         onTouchEnd.call(this);
-        $(this).trigger('swipe', dir).trigger('swipe' + dir);
+        $(this).trigger('swipe', dir).trigger(action + dir);
       }
     }
   }
@@ -66,7 +75,7 @@
 
   $.event.special.swipe = { setup: setup };
 
-  $.each(['left', 'up', 'down', 'right'], function () {
+  $.each(['left', 'up', 'down', 'right', 'in', 'out'], function () {
     $.event.special['swipe' + this] = { setup: function(){
       $(this).on('swipe', $.noop);
     } };
