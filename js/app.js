@@ -297,7 +297,7 @@
 				states.hotspot = '';
 				states.lastHotspot = '';
 
-				current_id = states.currentPage;
+				current_id = +states.currentPage;
 				// Get the id of the current page based on what is visible
 				// var alt_current_id = +$('.page-container.viewing').attr('id').split('-')[2]; // `page-container-1` -> 1
 				// console.log(current_id, alt_current_id)
@@ -866,12 +866,16 @@
 			// So it has a fall back to `true` in that scenario
 			triggerLazyLoad = triggerLazyLoad || states.firstRun;
 			if (states.firstRun) { 
-				// Always start on the first page
-				page = '1';
+				var show_nav_helpers = false;
+				// If starting on the first page
+				if (PULP_SETTINGS.startOnFirstPage || page == '1') {
+					page = '1';
+					show_nav_helpers = true;
+				}
 				helpers.saveCurrentStates(page); 
 				transition_duration = false;
 				// Show the nav helpers
-				layout.toggleNavHelpers(true);
+				layout.toggleNavHelpers(show_nav_helpers);
 				layout.navHelpersMode('intro');
 			} else if (states.showNavHelpers && page == '2' && format == 'single'){
 				layout.navHelpersMode('expand');
@@ -879,7 +883,7 @@
 			} else {
 				layout.toggleNavHelpers(false);
 			}
-			// Load the image for the next ten pages if they still have placeholder images
+			// Load the image for the next n pages if they still have placeholder images
 			if (triggerLazyLoad) { this.lazyLoadImages(page); }
 			layout.displayPageNumber(page);
 			layout.showAppropriateNavBtns(page);
@@ -943,7 +947,13 @@
 		},
 		onPageLoad: function(locationHash){
 			// If it doesn't have a hash on load then go to the first page
-			routing.router.navigate('1', { trigger: true, replace: true });
+			var destination;
+			if (!locationHash || PULP_SETTINGS.startOnFirstPage){
+				destination = '1';
+			} else {
+				destination	= states.currentPage;
+			}
+			routing.router.navigate(destination, { trigger: true, replace: true });
 		},
 		set: {
 			fromHotspotClick: function($hotspot){

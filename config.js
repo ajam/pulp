@@ -6,6 +6,7 @@ var PULP_SETTINGS = {
 		},
 		"logo": "" // HTML for a logo. Example configuration `"<img src='imgs/assets/logo.png'/>"`. Path starts at the project root folder
 	},
+	"startOnFirstPage": true,
 	"lazyLoadExtent": 6,
 	"transitionDuration": "400ms",
 	"gutterWidth": 2,
