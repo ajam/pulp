@@ -1,7 +1,7 @@
 Pulp
 ===
 
-An open-source viewer for displaying comics online, developed for the (soon-to-be-released) story [Terms of Service](http://projects.aljazeera.com/2014/terms-of-service). Layout your pages with [Pulp press](https://github.com/ajam/pulp-press) and place the resulting the `pages.json` file the `data/` folder. For more detailed instructions. Read below.
+An open-source viewer for displaying comics online, developed for the  story [Terms of Service](http://projects.aljazeera.com/2014/terms-of-service). Layout your pages with [Pulp press](https://github.com/ajam/pulp-press) and place the resulting the `pages.json` file the `data/` folder. For more detailed instructions. Read below.
 
 #### [Live demo](http://ajam.github.io/pulp)
 
