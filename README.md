@@ -67,6 +67,10 @@ Pulp Press has a few other options such as specifying endnotes or alt text for e
 
 Beacuse comments aren't built into the interface, we've included an icon in the header that link to a page that hosts your comments. It's a simple anchor tag so you can add an external link to a comments page. Or, if you don't have comments, you can delete that toolbar button.
 
+#### Feeling at ease
+
+The CSS animations and transitions use a custom ease `cubic-bezier(0,0,.2,1)` which is a slightly modified `easeOutQuint`, so it's faster at the beginning than it is toward the end. This movement makes the animations feel snappier and more reactive when the user initiates an action, such as opening the side drawer, for instance.
+
 ### Extra configuration
 
 Pulp also has a few options that it lets you change, if you so wish. They are all in the `config.js` file. Here's what a sample configuruation looks like with an explanation of what the values do. For the most part, you won't have to change any of the animation timings
