@@ -953,7 +953,7 @@
 			} else {
 				destination	= states.currentPage;
 			}
-			routing.router.navigate(destination, { trigger: true, replace: true });
+			routing.router.navigate(destination.toString(), { trigger: true, replace: true });
 		},
 		set: {
 			fromHotspotClick: function($hotspot){
