@@ -1002,7 +1002,8 @@
 					states.lastHotspot = pp_info.hotspot;
 					
 					// Send it to the appropriate function to transform the new page and hotspot locations
-					if (format == 'mobile' && bookend == 'false') {
+					// if (format == 'mobile' && bookend == 'false') { /* DESKTOP_ZOOM_MODE, replace this line with the following one */
+					if (bookend == 'false') {
 						leaf_to = 'hotspot';
 					} else {
 						leaf_to = 'page';
