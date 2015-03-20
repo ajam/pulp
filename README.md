@@ -104,13 +104,11 @@ Pulp also has a few options that it lets you change, if you so wish. They are al
 
 You might also want to include some `<noscript>` for people who have JavaScript disabled, such as:
 
-````
+````html
 <noscript>
 	<p>It appears you have JavaScript disabled.</p>
 	<p>View the PDF version: <a href="link/to/comic.pdf">link/to/comic.pdf</a></p>
-</div>
 </noscript>
-
 ````
 
 One improvement that can be made is these transition times also have to be changed in the Stylus CSS, `css/styles.styl`. The CSS is written using a preprocessor called Stylus with an add-on called Nib. Nib greatly simplifies writing animations as it writes all the CSS vendor prefixes for you.
