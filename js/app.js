@@ -932,11 +932,12 @@
 
 			routing.router.on('route:hotspot', function(page, hotspot) {
 				routing.setInitRouteChecks(page, null, function(transitionDuration){;
-					// If we're on desktop, kill the hotspot
-					if (state.get('format').format != 'mobile' ) {
-						hotspot = '';
-						routing.router.navigate(page, { replace: true });
-					}
+					/* DESKTOP_ZOOM_MODE, Comment out this if-statement */
+					// // If we're on desktop, kill the hotspot
+					// if (state.get('format').format != 'mobile' ) {
+						// hotspot = null;
+						// routing.router.navigate(page, { replace: true });
+					// }
 					routing.read(page, hotspot, transitionDuration);
 				});
 			});
@@ -958,7 +959,8 @@
 		set: {
 			fromHotspotClick: function($hotspot){
 				// Only do this on mobile, this check is pretty extraneous since the btn overlay prevents this on desktop
-				if (state.get('format').format == 'mobile'){
+				/* DESKTOP_ZOOM_MODE, Comment out this if-statement */
+				// if (state.get('format').format == 'mobile'){
 					var page_hotspot = $hotspot.attr('data-hotspot-id').split('-'), // `1-1` -> ["1", "1"];
 							page = page_hotspot[0],
 							hotspot = page_hotspot[1],
@@ -979,7 +981,7 @@
 
 					// Change the hash
 					routing.router.navigate(hash, {trigger: true});
-				}
+				// }
 			},
 			fromKeyboardOrGesture: function(direction){
 				// direction can be: next, prev, pageView or false if it wasn't a key code we captured
@@ -1055,7 +1057,8 @@
 			transitions.goIfNecessary(+states.currentPage, page);
 
 			// Now zoom to the appropriate hotspot or page
-			if (state.get('format').format == 'mobile' && hotspot){
+			// if (state.get('format').format == 'mobile' && hotspot){ /* DESKTOP_ZOOM_MODE, replace this line with the following one */
+			if (hotspot){
 				zooming.toHotspot(page, hotspot, transitionDuration);
 			}else{
 				// If no hotspot specified, reset to full page view
