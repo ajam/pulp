@@ -451,6 +451,9 @@ input[type="number"] {
   -o-animation: bounce-left-right 2.75s infinite;
   -ms-animation: bounce-left-right 2.75s infinite;
   animation: bounce-left-right 2.75s infinite;
+  opacity: 0.75;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+  filter: alpha(opacity=75);
 }
 .nav-helper-arrows {
   font-size: 1.4em;
