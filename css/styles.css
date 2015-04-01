@@ -202,7 +202,7 @@ a .header-btn-icon:hover {
   padding: 0 8px;
   text-align: center;
 }
-.header-item[data-which="page-number"] .header-text {
+.header-item .header-text {
   font-size: 1.3em;
   font-weight: 200;
 }
@@ -501,6 +501,15 @@ body[data-format="mobile"] .header-item-container.active .header-btn {
 }
 #side-drawer-container .section-title {
   margin-top: 5px;
+}
+#side-drawer-container .section-subtitle {
+  letter-spacing: 1px;
+  font-size: 1.2em;
+  color: #fff;
+}
+#side-drawer-container .section-subtitle span {
+  color: #aaa;
+  text-transform: none;
 }
 #easter-egg-img {
   position: absolute;
@@ -975,9 +984,16 @@ body[data-format="mobile"] .tooltipped-i[data-focus="true"]:before,
 body[data-format="mobile"] .tooltipped-i[data-focus="true"]:after {
   display: none;
 }
-body[data-format="mobile"] .header-item[data-which="page-number"] .header-text {
+body[data-format="mobile"] .header-item .header-text {
   position: relative;
   top: 3px;
+}
+body[data-format="mobile"] .header-item[data-which="pub-date"] .header-text {
+  -webkit-transform: translateX(-10px);
+  -moz-transform: translateX(-10px);
+  -o-transform: translateX(-10px);
+  -ms-transform: translateX(-10px);
+  transform: translateX(-10px);
 }
 body[data-format="mobile"] .header-item[data-which="page-number"] .header-text input {
   width: 25px;

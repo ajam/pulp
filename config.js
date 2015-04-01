@@ -1,4 +1,5 @@
 var PULP_SETTINGS = {
+	"pubDate": "Jan 1, 1970",
 	"imgFormat": "jpg",
 	"whitelabel": {
 		"files": {

@@ -155,6 +155,7 @@
 			this.drawerContainer = '#side-drawer-container';
 			this.drawerContent = '#side-drawer-content';
 			this.drawerHandle = '#side-drawer-handle';
+			this.pubDate = '.pub-date-js';
 			// An Ajam custom implementation:
 			// Disable swipe detection if the drawer is open
 			// If we didn't do this, then the page would be listening for swipes to change pages when we're using the slide gesture to close the drawer
@@ -162,6 +163,7 @@
 				return ($('body').attr('data-side-drawer-open') == 'true' || $('body').attr('data-side-drawer-state') == 'changing' );
 			}
 			this.slideContentArea(true);
+			this.bakePubDate();
 		},
 		bakeMasks: function(){
 			$('#pages').append('<div class="mask" data-orientation="horizontal" id="top-mask"></div>')
@@ -490,6 +492,10 @@
 			else {
 				mode = 'enter';
 			}
+	  },
+	  bakePubDate: function(){
+	  	var pub_date = PULP_SETTINGS.pubDate;
+	  	$(this.pubDate).html(pub_date);
 	  }
 	}
 

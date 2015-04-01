@@ -80,6 +80,7 @@ Pulp also has a few options that it lets you change, if you so wish. They are al
 
 ````js
 {
+	"pubDate": "Jan 1, 1970", // This will appear in the header on desktop and in the drawer on mobile
 	"imgFormat": "jpg", // What format are your images in?
 	"whitelabel": {
 		"files": {

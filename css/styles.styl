@@ -175,9 +175,10 @@ a .header-btn-icon:hover
 	.header-item-container
 		padding 0 8px
 		text-align center
-.header-item[data-which="page-number"] .header-text
+.header-item .header-text
 	font-size 1.3em
 	font-weight 200
+.header-item[data-which="page-number"] .header-text
 	input
 		width 22px
 		text-align right
@@ -447,6 +448,13 @@ body[data-format="mobile"]
 		color #71BFFF
 	.section-title
 		margin-top 5px
+	.section-subtitle
+		letter-spacing 1px
+		font-size 1.2em
+		color #fff
+	.section-subtitle span
+		color #aaa
+		text-transform none
 #easter-egg-img
 	position absolute
 	top 9%
@@ -915,9 +923,12 @@ body[data-format="mobile"]
 	.tooltipped-i[data-focus="true"]:before,
 	.tooltipped-i[data-focus="true"]:after
 		display none
-	.header-item[data-which="page-number"] .header-text
+	.header-item .header-text
 		position relative
 		top 3px
+	.header-item[data-which="pub-date"] .header-text
+		transform translateX(-10px)
+	.header-item[data-which="page-number"] .header-text
 		input
 			width 25px
 	.nav-helpers
