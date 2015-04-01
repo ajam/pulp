@@ -6,16 +6,16 @@ An open-source viewer for displaying comics online, developed for the  story [Te
 #### [Live demo](http://ajam.github.io/pulp)
 
 #### Double view
-![](https://raw.githubusercontent.com/ajam/pulp/master/demo-assets/double-view.gif)
+![](https://raw.githubusercontent.com/ajam/pulp/gh-pages/demo-assets/double-view.gif)
 
 #### Single view
-![](https://raw.githubusercontent.com/ajam/pulp/master/demo-assets/single-view.gif)
+![](https://raw.githubusercontent.com/ajam/pulp/gh-pages/demo-assets/single-view.gif)
 
 #### Mobile view (panel by panel swiping, tap to zoom)
-![](https://raw.githubusercontent.com/ajam/pulp/master/demo-assets/mobile-view-simulator.gif)
+![](https://raw.githubusercontent.com/ajam/pulp/gh-pages/demo-assets/mobile-view-simulator.gif)
 
 #### Mobile drawer
-![](https://raw.githubusercontent.com/ajam/pulp/master/demo-assets/drawer.gif)
+![](https://raw.githubusercontent.com/ajam/pulp/gh-pages/demo-assets/drawer.gif)
 
 ### Requirements / assumptions
 
