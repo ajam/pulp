@@ -112,7 +112,18 @@ You might also want to include some `<noscript>` for people who have JavaScript 
 </noscript>
 ````
 
-One improvement that can be made is these transition times also have to be changed in the Stylus CSS, `css/styles.styl`. The CSS is written using a preprocessor called Stylus with an add-on called Nib. Nib greatly simplifies writing animations as it writes all the CSS vendor prefixes for you.
+## Choosing an image format
+
+Pulp can handle a variety of image formats. Here's [one thread](https://github.com/ajam/pulp/issues/37) that discusses some choices. See the "In the wild" section for more examples.
+
+## In the wild
+
+* Al Jazeera America — [Terms of Service](http://projects.aljazeera.com/2014/terms-of-service)
+* SF Public Press — [Traumatized by the Streets](http://sfpublicpress.org/graphics/traumatized/#1)
+
+## Making changes
+
+Once you change the transition timings in the `config.js`, the transition timings also have to be changed in the Stylus CSS, `css/styles.styl` (It would be nice to improve this but anything else would require a larger build process such as Gulp or Grunt). The CSS is written using a preprocessor called Stylus with an add-on called Nib. Nib greatly simplifies writing animations as it writes all the CSS vendor prefixes for you.
 
 To have your changes reflected, you then recompile the CSS, which isn't as hard as it sounds. To do that, first make sure you have [NodeJS](http://nodejs.org) installed and then run these two commands to install Stylus and Nib. You may have to enter your administrator password.
 
@@ -121,7 +132,7 @@ sudo npm install -g stylus
 sudo npm install -g nib
 ````
 
-Then, a useful command to have Stylus watch your `.styl` files for changes and automatically recompile the CSS is the following. Execute this command from within the root Pulp folder:
+A useful command to have Stylus watch your `.styl` files for changes and automatically recompile the CSS is the following. Execute this command from within the root Pulp folder:
 
 ````bash
 stylus -u nib -w css
@@ -129,7 +140,7 @@ stylus -u nib -w css
 
 This command tells it to use Nib and watch the folder `css`. 
 
-One improvement would be to not have to make these changes twice (once in `config.js` and once in `styles.styl`). The solution is to create a larger build process, which has its own issues. Since these values should work for most people, however, hopefully you wont' have to change it so much.
+One improvement would be to not have to make these changes twice (once in `config.js` and once in `styles.styl`). The solution is to create a larger build process, which has its own issues. Since these values should work for most people, however, hopefully you wont' have to change it so much. Let me know by [filing an issue](https://github.com/ajam/pulp/issues).
 
 ### LICENSE
 
