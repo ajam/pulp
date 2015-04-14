@@ -960,7 +960,7 @@
 			fromHotspotClick: function($hotspot){
 				// Only do this on mobile, this check is sometimes redundant since the btn overlay prevents this in `mobile-only` `panelZoomMode`
 				/* DESKTOP_ZOOM_MODE */
-				if (PULP_SETTINGS.panelZoomMode == 'all-devices' && state.get('format').format == 'mobile'){
+				if (PULP_SETTINGS.panelZoomMode == 'all-devices' || state.get('format').format == 'mobile'){
 					var page_hotspot = $hotspot.attr('data-hotspot-id').split('-'), // `1-1` -> ["1", "1"];
 							page = page_hotspot[0],
 							hotspot = page_hotspot[1],
