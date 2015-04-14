@@ -436,7 +436,14 @@ input[type="number"] {
   font-size: 6em;
 }
 body[data-panel-zoom-mode="all-devices"] #btns {
-  display: none;
+  pointer-events: none;
+}
+body[data-panel-zoom-mode="all-devices"] .main-nav-btn-container {
+  width: auto;
+  pointer-events: all;
+}
+body[data-panel-zoom-mode="all-devices"] .main-nav-btn-container[data-dir="next"] {
+  float: right;
 }
 .nav-helpers {
   position: absolute;

@@ -384,7 +384,12 @@ button_offset = 35%
 
 body[data-panel-zoom-mode="all-devices"]
 	#btns
-		display none /* DESKTOP_ZOOM_MODE, For now disable buttons, ideally they would be moved to the header. Keyboard navigation is still possible */
+		pointer-events none
+	.main-nav-btn-container
+		width auto
+		pointer-events all
+	.main-nav-btn-container[data-dir="next"]
+		float right
 
 nav_helper_right = 80px
 .nav-helpers
