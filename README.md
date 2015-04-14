@@ -87,6 +87,7 @@ Pulp also has a few options that it lets you change, if you so wish. They are al
 		},
 		"logo": "<img src='imgs/assets/logo.png'></img>" // Do you want to include an image in the top left?
 	},
+	"panelZoomMode": "mobile-only", // Default is `mobile-only`. Can also be: `all-devices` which will allow for clicking to panels all the time everywhere; `desktop-hover` which will zoom to a portion of that image on hover on desktop (NOT YET IMPLEMENTED; or `desktop-hover-touch-zoom` which will hover on desktop and on touch devices be a zoom (NOT YET IMPLEMENTED)
 	"lazyLoadExtent": 6, // How many pages behind and ahead do you want to load your images
 	"transitionDuration": "400ms", // This value should match what's in your css under `transition_opts`.
 	"gutterWidth": 2, // This should also match your css value, in this case `gutter_width`. This is the `padding-left` value for `.viewing.right-page`.
@@ -97,7 +98,8 @@ Pulp also has a few options that it lets you change, if you so wish. They are al
 		"fb_text": "A new web comic about etc etc topics topics.", // The text to display when someone clicks on the Facebook button
 		"promo_img_url": "http://www.website.com/comic-project/imgs/promo.jpg", // The full path of the image to display in the FB share or Tweet button
 		"fb_app_id": "892982325351256" // Facebook requires that you tie these buttons to an app. You have to create an app through the FB dev interface and your app will have the id.
-	}
+	},
+	"requireStartOnFirstPage": false // On load, will the comic require users to land on the first page? Better to disable this to allow for page-specific links
 }
 
 ````

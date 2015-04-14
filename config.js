@@ -6,7 +6,7 @@ var PULP_SETTINGS = {
 		},
 		"logo": "" // HTML for a logo. Example configuration `"<img src='imgs/assets/logo.png'/>"`. Path starts at the project root folder
 	},
-	"startOnFirstPage": true,
+	"panelZoomMode": "mobile-only", // Default is `mobile-only`. Can also be: `all-devices` which will allow for clicking to panels all the time everywhere; `desktop-hover` which will zoom to a portion of that image on hover on desktop (NOT YET IMPLEMENTED; or `desktop-hover-touch-zoom` which will hover on desktop and on touch devices be a zoom (NOT YET IMPLEMENTED)
 	"lazyLoadExtent": 6,
 	"transitionDuration": "400ms",
 	"gutterWidth": 2,
@@ -17,5 +17,6 @@ var PULP_SETTINGS = {
 		"fb_text": "THE TEXT TO DISPLAY WHEN SOMEONE CLICKS ON THE FACEBOOK SHARE BUTTON",
 		"promo_img_url": "PUBLISHED URL FOR IMAGE TO USE AS SOCIAL PROMO", // Example configuration: `"http://projects.aljazeera.com/2014/terms-of-service/imgs/promos/promo.jpg"`. TODO, this could be removed and tweet buttson grab path in og tag
 		"fb_app_id": "YOUR FB APP ID" // Facebook requires that you tie these buttons to an app. Example configuration: `"892982325351256"`
-	}
+	},
+	"requireStartOnFirstPage": false
 }

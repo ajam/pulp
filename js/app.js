@@ -868,7 +868,7 @@
 			if (states.firstRun) { 
 				var show_nav_helpers = false;
 				// If starting on the first page
-				if (PULP_SETTINGS.startOnFirstPage || page == '1') {
+				if (PULP_SETTINGS.requireStartOnFirstPage || page == '1') {
 					page = '1';
 					show_nav_helpers = true;
 				}
@@ -932,12 +932,12 @@
 
 			routing.router.on('route:hotspot', function(page, hotspot) {
 				routing.setInitRouteChecks(page, null, function(transitionDuration){;
-					/* DESKTOP_ZOOM_MODE, Comment out this if-statement */
-					// // If we're on desktop, kill the hotspot
-					// if (state.get('format').format != 'mobile' ) {
-						// hotspot = null;
-						// routing.router.navigate(page, { replace: true });
-					// }
+					/* DESKTOP_ZOOM_MODE */
+					// If we're on desktop, kill the hotspot
+					if (PULP_SETTINGS.panelZoomMode != 'all-devices' && state.get('format').format != 'mobile' ) {
+						hotspot = null;
+						routing.router.navigate(page, { replace: true });
+					}
 					routing.read(page, hotspot, transitionDuration);
 				});
 			});
@@ -949,7 +949,7 @@
 		onPageLoad: function(locationHash){
 			// If it doesn't have a hash on load then go to the first page
 			var destination;
-			if (!locationHash || PULP_SETTINGS.startOnFirstPage){
+			if (!locationHash || PULP_SETTINGS.requireStartOnFirstPage){
 				destination = '1';
 			} else {
 				destination	= states.currentPage;
@@ -958,9 +958,9 @@
 		},
 		set: {
 			fromHotspotClick: function($hotspot){
-				// Only do this on mobile, this check is pretty extraneous since the btn overlay prevents this on desktop
-				/* DESKTOP_ZOOM_MODE, Comment out this if-statement */
-				// if (state.get('format').format == 'mobile'){
+				// Only do this on mobile, this check is sometimes redundant since the btn overlay prevents this in `mobile-only` `panelZoomMode`
+				/* DESKTOP_ZOOM_MODE */
+				if (PULP_SETTINGS.panelZoomMode == 'all-devices' && state.get('format').format == 'mobile'){
 					var page_hotspot = $hotspot.attr('data-hotspot-id').split('-'), // `1-1` -> ["1", "1"];
 							page = page_hotspot[0],
 							hotspot = page_hotspot[1],
@@ -981,7 +981,7 @@
 
 					// Change the hash
 					routing.router.navigate(hash, {trigger: true});
-				// }
+				}
 			},
 			fromKeyboardOrGesture: function(direction){
 				// direction can be: next, prev, pageView or false if it wasn't a key code we captured
@@ -1002,8 +1002,7 @@
 					states.lastHotspot = pp_info.hotspot;
 					
 					// Send it to the appropriate function to transform the new page and hotspot locations
-					// if (format == 'mobile' && bookend == 'false') { /* DESKTOP_ZOOM_MODE, replace this line with the following one */
-					if (bookend == 'false') {
+					if ((format == 'mobile' || PULP_SETTINGS.panelZoomMode == 'all-devices') && bookend == 'false') { /* DESKTOP_ZOOM_MODE */
 						leaf_to = 'hotspot';
 					} else {
 						leaf_to = 'page';
@@ -1058,8 +1057,7 @@
 			transitions.goIfNecessary(+states.currentPage, page);
 
 			// Now zoom to the appropriate hotspot or page
-			// if (state.get('format').format == 'mobile' && hotspot){ /* DESKTOP_ZOOM_MODE, replace this line with the following one */
-			if (hotspot){
+			if ((state.get('format').format == 'mobile' || PULP_SETTINGS.panelZoomMode == 'all-devices') && hotspot){ /* DESKTOP_ZOOM_MODE */
 				zooming.toHotspot(page, hotspot, transitionDuration);
 			}else{
 				// If no hotspot specified, reset to full page view
@@ -1320,6 +1318,7 @@
 			this.browser = this.browserCheck();
 			this.touch = this.touchCheck();
 			this.addMobileClass();
+			this.addPanelZoomModeClass();
 			layout.init();
 			layout.bakeMasks();
 			this.loadPages();
@@ -1397,6 +1396,9 @@
 			if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
 				$('body').addClass('mobile');
 			}
+		},
+		addPanelZoomModeClass: function(){
+			$('body').attr('data-panel-zoom-mode', PULP_SETTINGS.panelZoomMode);
 		}
 }
 

@@ -377,7 +377,6 @@ input[type="number"] {
   right: 0;
   left: 0;
   z-index: 999;
-  display: none;
 }
 .main-nav-btn-container {
   display: inline-block;
@@ -435,6 +434,9 @@ input[type="number"] {
   position: relative;
   top: 45%;
   font-size: 6em;
+}
+body[data-panel-zoom-mode="all-devices"] #btns {
+  display: none;
 }
 .nav-helpers {
   position: absolute;
