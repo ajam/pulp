@@ -173,7 +173,7 @@
 						<% for (var i = 0; i < hotspots.length; i++ ) {%>
 							<div class="hotspot" id="hotspot-<%= number %>-<% print(i + 1) %>" data-hotspot-id="<%= number %>-<% print(i + 1) %>" style="<%= hotspots[i] %>"></div>
 						<% } %>
-						<!-- <div class="hover-image"></div> -->
+						<div class="hover-image"></div>
 						<!-- Dont lazy load the first image -->
 						<% if (number == 1) { %>
 							<img src="imgs/pages/page-1.<%= img_format %>" alt="<%= script_text %>"/>
@@ -198,6 +198,7 @@
 		<script src="js/thirdparty/jquery.detectSwipe.js"></script>
 		<script src="js/thirdparty/scrollfix.js"></script>
 		<script src="js/thirdparty/fastclick.js"></script>
+		<script src="js/thirdparty/sideburns.js"></script>
 		<script src="js/app.js"></script>
 		<!-- end javascripts -->
 

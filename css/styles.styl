@@ -382,7 +382,8 @@ button_offset = 35%
 	top 45%
 	font-size 6em
 
-body[data-panel-zoom-mode="all-devices"]
+body[data-panel-zoom-mode="all-devices"],
+body[data-panel-zoom-mode="desktop-hover"]
 	#btns
 		pointer-events none
 	.main-nav-btn-container
@@ -390,6 +391,18 @@ body[data-panel-zoom-mode="all-devices"]
 		pointer-events all
 	.main-nav-btn-container[data-dir="next"]
 		float right
+		
+.hover-image
+	position absolute
+	background-size contain
+	width 100%
+	height 100%
+	background-color #6cc
+	opacity 0
+	transition opacity 300ms linear
+
+.hover-image.visible
+	opacity 1
 
 nav_helper_right = 80px
 .nav-helpers

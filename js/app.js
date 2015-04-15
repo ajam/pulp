@@ -654,6 +654,38 @@
 
 			});
 
+
+			$('#pages').on('mouseover', '.page', function(){
+				$(this).find('.hover-image').addClass('visible');
+			});
+
+			$('#pages').on('mouseout', '.page', function(){
+				$(this).find('.hover-image').removeClass('visible');
+			});
+
+			$('#pages').on('mousemove', '.page', function(e){
+				var $page       = $(this),
+						$hover_img  = $page.find('.hover-image'),
+						scale_value = 1.4,
+						page_width  = $page.width(),
+						page_height = $page.height(),
+						adjusted_x  = e.pageX - $page.offset().left,
+						adjusted_y  = e.pageY - $page.offset().top,
+						x_perc      = adjusted_x / page_width,
+						y_perc      = adjusted_y / page_height;
+
+				var scale =  new Scale().domain(0.05, .95)
+																.range(scale_value*10, scale_value*-10);
+
+				var scaled_x_perc = scale(x_perc),
+						scaled_y_perc = scale(y_perc);
+
+				$hover_img.css({
+					'transform': 'scale('+scale_value+') translate('+scaled_x_perc+'%,'+scaled_y_perc+'%)'
+				});
+
+			});
+
 		},
 		pageTransitions: function(){
 			$('.page-container').on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', transitions.onAnimationEnd_throttled)
@@ -900,15 +932,24 @@
 
 			var range = _.range(min_range, max_range),
 					page_number,
+					$page_container,
 					$img,
+					img_file_name,
+					img_file_path,
 					src;
 
 			for (var i = 0; i < range.length; i++){
 				page_number = range[i];
-				$img = $('#page-container-'+page_number).find('img');
+				$page_container = $('#page-container-'+page_number);
+				$img = $page_container.find('img');
 				src = $img.attr('src');
 				if (src.indexOf('data:image\/gif') > -1) {
-					$img.attr('src', 'imgs/pages/page-'+page_number+'.'+PULP_SETTINGS.imgFormat );
+					img_file_name = page_number + '.' + PULP_SETTINGS.imgFormat;
+					img_file_path = 'imgs/pages/page-' + img_file_name;
+					$img.attr('src', img_file_path);
+					if (PULP_SETTINGS.panelZoomMode == 'desktop-hover') {
+						$page_container.find('.hover-image').css('background-image', 'url('+img_file_path+')');
+					}
 				}
 			}
 
