@@ -674,11 +674,19 @@
 						x_perc      = adjusted_x / page_width,
 						y_perc      = adjusted_y / page_height;
 
-				var scale =  new Scale().domain(0.05, .95)
+				var scale =  new Scale().domain(0.36, .64)
 																.range(scale_value*10, scale_value*-10);
 
 				var scaled_x_perc = scale(x_perc),
 						scaled_y_perc = scale(y_perc);
+
+				if (scaled_x_perc > scale_value*10)  { scaled_x_perc = scale_value*10 }
+				if (scaled_x_perc < scale_value*-10) { scaled_x_perc = scale_value*-10 }
+				if (scaled_y_perc > scale_value*10)  { scaled_y_perc = scale_value*10 }
+				if (scaled_y_perc < scale_value*-10) { scaled_y_perc = scale_value*-10 }
+
+				// console.log(x_perc, y_perc)
+				// console.log(scaled_x_perc, scaled_y_perc)
 
 				$hover_img.css({
 					'transform': 'scale('+scale_value+') translate('+scaled_x_perc+'%,'+scaled_y_perc+'%)'
