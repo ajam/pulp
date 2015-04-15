@@ -664,9 +664,10 @@
 			});
 
 			$('#pages').on('mousemove', '.page', function(e){
-				var $page       = $(this),
+				var scale_value = 1.5,
+						fit         = 96, // Between 95 and 100. Change this value if you want to cut off the edges a little bit. This is useful if you have white space around your panels
+						$page       = $(this),
 						$hover_img  = $page.find('.hover-image'),
-						scale_value = 1.4,
 						page_width  = $page.width(),
 						page_height = $page.height(),
 						adjusted_x  = e.pageX - $page.offset().left,
@@ -674,22 +675,21 @@
 						x_perc      = adjusted_x / page_width,
 						y_perc      = adjusted_y / page_height;
 
-				var scale =  new Scale().domain(0.36, .64)
-																.range(scale_value*10, scale_value*-10);
+				var translate_percentage = fit*((page_width*scale_value - page_width)/2)/page_width;
+
+				var scale =  new Scale().domain(.25, .75)
+																.range(translate_percentage, -1*translate_percentage);
 
 				var scaled_x_perc = scale(x_perc),
 						scaled_y_perc = scale(y_perc);
 
-				if (scaled_x_perc > scale_value*10)  { scaled_x_perc = scale_value*10 }
-				if (scaled_x_perc < scale_value*-10) { scaled_x_perc = scale_value*-10 }
-				if (scaled_y_perc > scale_value*10)  { scaled_y_perc = scale_value*10 }
-				if (scaled_y_perc < scale_value*-10) { scaled_y_perc = scale_value*-10 }
-
-				// console.log(x_perc, y_perc)
-				// console.log(scaled_x_perc, scaled_y_perc)
+				if (scaled_x_perc > translate_percentage)  { scaled_x_perc = translate_percentage }
+				if (scaled_x_perc < translate_percentage*-1) { scaled_x_perc = translate_percentage*-1 }
+				if (scaled_y_perc > translate_percentage)  { scaled_y_perc = translate_percentage }
+				if (scaled_y_perc < translate_percentage*-1) { scaled_y_perc = translate_percentage*-1 }
 
 				$hover_img.css({
-					'transform': 'scale('+scale_value+') translate('+scaled_x_perc+'%,'+scaled_y_perc+'%)'
+					'transform': 'translate('+scaled_x_perc+'%,'+scaled_y_perc+'%) scale('+scale_value+')'
 				});
 
 			});
