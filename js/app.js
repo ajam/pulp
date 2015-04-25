@@ -149,6 +149,7 @@
 		endnoteFactory: _.template( $('#endnote-template').html() )
 	}
 
+	// Functions to handle adding, removing and measuring dom elements as well as implementing single, double or mobile layout modes
 	var layout = {
 		init: function(){
 			this.mainContent = '#main-content-wrapper'
@@ -493,6 +494,7 @@
 	  }
 	}
 
+	// All listeners go under here
 	var listeners = {
 		header: function(){
 			$('.header-item-container[data-btn="fullscreen"]').on('click', function(){
@@ -793,7 +795,7 @@
 		}
 	}
 
-	// Change pages
+	// Change pages by figuring out which class to apply to which page
 	var transitions = {
 		goIfNecessary: function(currentPage, newPage){
 			var formatState = state.get('format'),
@@ -896,6 +898,7 @@
 		}
 	}
 
+	// Read the url to determine the page we're on
 	var routing = {
 		setInitRouteChecks: function(page, triggerLazyLoad, cb){
 			var transition_duration = true,
@@ -1120,6 +1123,7 @@
 		}
 	}
 
+	// All the functions to handle zooming from panels or hotspots
 	var zooming = {
 		toPage: function($page, transitionDuration){
 			var page_number = $page.attr('id').split('-')[1]; // `page-1` -> "1"
@@ -1358,6 +1362,8 @@
 		}
 	}
 
+	// The second argument are our defaults, the first argument says to do a deep extend (copying all nested values)
+	// This will replace our defaults with what is set in `config.js`.
 	var settings = $.extend(true, {
 		imgFormat: "jpg",
 		whitelabel: {
@@ -1386,6 +1392,8 @@
 		requireStartOnFirstPage: false
 	}, PULP_SETTINGS);
 
+
+	// What to do on load
 	var init = {
 		go: function(){
 			this.whitelabel(settings.whitelabel);
@@ -1477,8 +1485,9 @@
 		addPanelZoomModeClass: function(){
 			$('body').attr('data-panel-zoom-mode', settings.panelZoomMode);
 		}
-}
+	}
 
+	// Start everything
 	init.go();
 
 }).call(this);
