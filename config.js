@@ -2,11 +2,16 @@ var PULP_SETTINGS = {
 	"imgFormat": "jpg",
 	"whitelabel": {
 		"files": {
-			"js": [] // A list of paths for any other javascript files to include. Example configuation `["header.js"]`. Path starts at the `whitelist` folder
+			"js": [] // A list of paths for any other javascript files to include. Example configuation `["header.js"]`. Path starts at the `whitelist` folder. You could also add these js files directly to your `index.html` file but this keeps all your configuration here.
 		},
-		"logo": "" // HTML for a logo. Example configuration `"<img src='imgs/assets/logo.png'/>"`. Path starts at the project root folder
+		"logo": "" // HTML for a logo. Example configuration `"<img src='imgs/assets/logo.png'/>"`. Path starts at the project root folder.
 	},
-	"panelZoomMode": "desktop-hover", // Default is `mobile-only`. Can also be: `all-devices` which will allow for clicking to panels all the time everywhere; `desktop-hover` which will zoom to a portion of that image on hover on desktop (NOT YET IMPLEMENTED; or `desktop-hover-touch-zoom` which will hover on desktop and on touch devices be a zoom (NOT YET IMPLEMENTED)
+	"panelZoomMode": "desktop-hover", // Default is `mobile-only`. Can also be: `all-devices` which will allow for clicking to panels all the time everywhere; `desktop-hover` which will zoom to a portion of that image on hover on desktop. Set `desktopHoverZoomOptions.scale` `.fit` and `.padding` to custom values or leave blank to go with sensible defaults; or `desktop-hover-touch-zoom` which will hover on desktop and on touch devices be a zoom (NOT YET IMPLEMENTED)
+	"desktopHoverZoomOptions": {
+		"scale": 1.5, // How much you want it to zoom
+		"fit": .96, // A value between 0 and 1. Defaults to 1. Set this to something around .96 if you want to cut off the edges a little bit, like in this demo. This setting is useful if you have white space around your panels
+		"padding": .25 // A value between 0 and .5. Sometimes you don't want the mouse to have to reach the edge of the page to fully zoom. Setting this to something like .25 will mean you've reached the edge of the zoomed in image when you're within 25% of the page edge.
+	},
 	"lazyLoadExtent": 6,
 	"transitionDuration": "400ms",
 	"gutterWidth": 2,

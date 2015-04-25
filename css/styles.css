@@ -453,6 +453,8 @@ body[data-panel-zoom-mode="desktop-hover"] .main-nav-btn-container[data-dir="nex
   -webkit-background-size: contain;
   -moz-background-size: contain;
   background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
   width: 100%;
   height: 100%;
   background-color: #6cc;
