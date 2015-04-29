@@ -680,16 +680,11 @@
 
 				var translate_percentage = fit*((page_width*scale_value - page_width)/2)/page_width;
 
-				var scale =  new Scale().domain(padding, 1 - padding)
-																.range(translate_percentage, -1*translate_percentage);
+				var scale =  new Scale().domain(1- padding, padding)
+																.range(-1*translate_percentage, translate_percentage, true);
 
 				var scaled_x_perc = scale(x_perc),
 						scaled_y_perc = scale(y_perc);
-
-				if (scaled_x_perc > translate_percentage)  { scaled_x_perc = translate_percentage }
-				if (scaled_x_perc < translate_percentage*-1) { scaled_x_perc = translate_percentage*-1 }
-				if (scaled_y_perc > translate_percentage)  { scaled_y_perc = translate_percentage }
-				if (scaled_y_perc < translate_percentage*-1) { scaled_y_perc = translate_percentage*-1 }
 
 				$hover_img.css({
 					'transform': 'translate('+scaled_x_perc+'%,'+scaled_y_perc+'%) scale('+scale_value+')'
