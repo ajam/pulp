@@ -334,7 +334,7 @@
 			zooming.toPage($page, false);
 			// Set a new page height
 			layout.measurePageElements( function(){
-				// If we're on desktop then you can forget about the hotspot
+				// If we're on desktop, but not in `all-devices` zoom mode, then you can forget about the hotspot
 				routing.set.prune();
 				// Get what page and hotspot we're on
 				var location_hash = window.location.hash;
