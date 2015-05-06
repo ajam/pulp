@@ -1200,7 +1200,6 @@
 					scale_multiplier = scale_multiplication_info.multiplier,
 					scale_multiplier_orientation = scale_multiplication_info.orientation;
 
-			// var scale_multiplier = 1 / (th_width / cg_width); // Scale the width of the page by this to expand the target hotspot to full view
 			var x_adjuster = viewport_xMiddle - th_left - th_xMiddle,
 					y_adjuster = cg_yMiddle - th_top - th_yMiddle + cg_top;
 
