@@ -218,7 +218,7 @@
 		measurePageElements: function(cb){
 			layout.measureImgSetPageHeight(function(){
 				layout.measureHotspotsHeaderOffset();
-				if (cb) cb();
+				cb();
 			});
 		},
 		measureImgSetPageHeight: function(cb){
