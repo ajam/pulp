@@ -272,7 +272,7 @@
 
 				// Also apply this height to the btns overlay
 				$('#btns').css('height', img_height+'px');
-				// And to the header, which shouldn't go below 960
+				// And to the header, whose max shouldn't go below 960
 				var header_width = _.max([960, img_width]);
 				$('#header').css('max-width', header_width+'px');
 				// Invoke the callback when we're all done
