@@ -271,7 +271,8 @@
 				// And to the header, which shouldn't go below 960
 				var header_width = _.max([960, img_width]);
 				$('#header').css('max-width', header_width+'px');
-				if (cb) cb();
+				// Invoke the callback when we're all done
+				cb();
 			});
 		},
 		implementPageFormat: {
