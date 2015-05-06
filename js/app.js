@@ -39,7 +39,6 @@
 				// Everything else
 				format = 'single';
 			}
-			console.log('returning', format)
 			return format;
 		},
 		determineBookend: function(page){
@@ -248,11 +247,8 @@
 						img_height = $img.height();
 
 
-				var format = state.determinePageFormat();
-
-				console.log('outputting', format)
-				// console.log(img_width, img_height);
-				// console.log($(window).width(), $(window).height());
+				state.setPageFormat();
+				var format = state.get('format').format;
 
 				if (format == 'double') {
 					img_width = img_width*2;
