@@ -1189,7 +1189,7 @@
 					th_xMiddle = th_width / 2,
 					th_yMiddle = th_height / 2;
 
-			// This returns an object of structure, which gives you a number that is your scale multiplier and whether you are sizing the panel to meet the width of the page or the height of the page
+			// `calcScaleMultiplier` returns an object of structure, which gives you a number that is your scale multiplier and whether you are sizing the panel to meet the width of the page or the height of the page
 			/*
 				{
 					multiplier: 2,
