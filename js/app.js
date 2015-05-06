@@ -1171,7 +1171,6 @@
 		toHotspot: function(page, hotspot, transitionDuration){
 			// cg means `current page`
 			// th means `target hotspot`
-			var buffer = .2;
 			var $currentPage = $('#page-'+page),
 					cg_width = $currentPage.width(),
 					cg_height = $currentPage.height(),
