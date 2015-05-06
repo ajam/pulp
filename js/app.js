@@ -1079,9 +1079,10 @@
 			},
 			prune: function(){
 				// Remove the hotspot from the hash if you're on desktop
+
 				// Turn the location hash into a more readable dictionary `{page: Number, hotspot: Number}`
 				var pp_info = helpers.hashToPageHotspotDict(window.location.hash);
-				if (state.get('format').format != 'mobile' && pp_info.hotspot){
+				if (state.get('format').format != 'mobile' && pp_info.hotspot && settings.panelZoomMode != 'all-devices'){
 					routing.router.navigate(pp_info.page.toString(), { replace: true } );
 					states.currentHotspot = '';
 				}
