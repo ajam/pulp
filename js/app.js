@@ -318,11 +318,14 @@
 		},
 		update: function(){
 			// What's done on window resize:
-			
+
 			// See if we can accommodate single or double
 			state.setPageFormat();
 			// If we're on page 2 and we're now in double, kill the expand helper because they've done what we've asked
-			if (states.currentPage == 2){
+			var formatState = state.get('format'),
+					format = formatState.format;
+
+			if (states.currentPage == 2 && format == 'double'){
 				layout.toggleNavHelpers(false);
 			}
 			// Grab the page
