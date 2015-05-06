@@ -664,7 +664,9 @@
 			});
 
 			$('#pages').on('mouseout', '.page', function(){
-				$(this).find('.hover-image').removeClass('visible');
+				if (settings.panelZoomMode == 'desktop-hover'){
+					$(this).find('.hover-image').removeClass('visible');
+				}
 			});
 
 			$('#pages').on('mousemove', '.page', function(e){
