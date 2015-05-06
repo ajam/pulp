@@ -318,6 +318,7 @@
 		},
 		update: function(){
 			// What's done on window resize:
+			
 			// See if we can accommodate single or double
 			state.setPageFormat();
 			// If we're on page 2 and we're now in double, kill the expand helper because they've done what we've asked
