@@ -21,13 +21,14 @@
 		},
 		determinePageFormat: function(windowWidth){
 			windowWidth = windowWidth || $(window).width();
-			var format,
-					current_format = this.get('format').format;
+			var format;
+
 			var dynamic_page_width = parseInt($('.page-container.viewing img').css('width')) || parseInt($('.page-container img').css('width')),
 					static_page_width = this.get('single-page-width'),
-					page_limit = 635;
+					page_limit = settings.singlePageWidthLimit;
 
 			// console.log(windowWidth, dynamic_page_width, dynamic_page_width*2 + settings.gutterWidth)
+			// console.log(windowWidth > dynamic_page_width*2 + settings.gutterWidth)
 			if (windowWidth > dynamic_page_width*2 + settings.gutterWidth) {
 				// If the window is wide enough for two pages
 				format = 'double';
@@ -38,6 +39,7 @@
 				// Everything else
 				format = 'single';
 			}
+			console.log('returning', format)
 			return format;
 		},
 		determineBookend: function(page){
@@ -241,14 +243,16 @@
 
 			$pages.imagesLoaded().done(function(){
 				var $img = $pages.find('img'),
-						img_width,
-						img_height,
-						img_width_wrapper;
+						img_width = $img.width(),
+						img_width_wrapper = img_width,
+						img_height = $img.height();
 
-				img_width = img_width_wrapper = $img.width();
-				img_height = $img.height();
 
 				var format = state.determinePageFormat();
+
+				console.log('outputting', format)
+				// console.log(img_width, img_height);
+				// console.log($(window).width(), $(window).height());
 
 				if (format == 'double') {
 					img_width = img_width*2;
@@ -1385,6 +1389,7 @@
 		},
 		lazyLoadExtent: 6,
 		transitionDuration: "400ms",
+		singlePageWidthLimit: 635, // A bit of a magic number here to ensure that we go into mobile mode below this value.
 		gutterWidth: 2,
 		drawerTransitionDuration: 500,
 		social: {
