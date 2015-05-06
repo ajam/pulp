@@ -246,7 +246,6 @@
 						img_width_wrapper = img_width,
 						img_height = $img.height();
 
-
 				state.setPageFormat();
 				var format = state.get('format').format;
 
