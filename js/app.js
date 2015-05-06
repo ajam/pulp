@@ -658,7 +658,9 @@
 
 
 			$('#pages').on('mouseover', '.page', function(){
-				$(this).find('.hover-image').addClass('visible');
+				if (settings.panelZoomMode == 'desktop-hover'){
+					$(this).find('.hover-image').addClass('visible');
+				}
 			});
 
 			$('#pages').on('mouseout', '.page', function(){

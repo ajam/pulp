@@ -466,6 +466,10 @@ body[data-panel-zoom-mode="desktop-hover"] .main-nav-btn-container[data-dir="nex
   -o-transition: opacity 300ms linear;
   -ms-transition: opacity 300ms linear;
   transition: opacity 300ms linear;
+  display: none;
+}
+body[data-panel-zoom-mode="desktop-hover"] .hover-image {
+  display: block;
 }
 .hover-image.visible {
   opacity: 1;
