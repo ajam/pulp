@@ -1173,19 +1173,40 @@
 			// th means `target hotspot`
 			var $currentPage = $('#page-'+page),
 					cg_width = $currentPage.width(),
-					cg_height = $currentPage.height(),
-					viewport_xMiddle = $(window).width() / 2,
+					cg_height = $currentPage.height();
+
+			var viewport_xMiddle = $(window).width() / 2,
 					cg_yMiddle = cg_height / 2;
+
+			var formatState = state.get('format'),
+					format = formatState.format,
+					bookend = formatState.bookend;
+					
+			// If we're in double mode, then adjust the middle of the viewport to the middle of the current page
+			// var is_right_page,
+			// 		middle_adjustment,
+			// 		middle_adjuster;
+
+			// if (format == 'ddouble'){
+			// 	is_right_page = $currentPage.hasClass('right-page');
+			// 	middle_adjustment = cg_width/2;
+			// 	if (is_right_page){
+			// 		middle_adjuster = 1;
+			// 	} else {
+			// 		middle_adjuster = -1;
+			// 	}
+			// 	viewport_xMiddle += middle_adjustment*middle_adjuster;
+			// }
 
 			// This value is stored on load because it changes on different scales but is really constant
 			// It's essentially the height of the toolbar, but by defining it this way, you can protect against other elements that impact the height
 			var cg_top = +$('#pages').attr('data-offset-top');
 
 			var $targetHotspot = $('#hotspot-'+page+'-'+hotspot),
-					th_top = Number($targetHotspot.attr('data-top')),
-					th_left = Number($targetHotspot.attr('data-left')),
-					th_width = Number($targetHotspot.attr('data-width')),
-					th_height = Number($targetHotspot.attr('data-height')),
+					th_top = +$targetHotspot.attr('data-top'),
+					th_left = +$targetHotspot.attr('data-left'),
+					th_width = +$targetHotspot.attr('data-width'),
+					th_height = +$targetHotspot.attr('data-height'),
 					th_xMiddle = th_width / 2,
 					th_yMiddle = th_height / 2;
 
