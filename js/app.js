@@ -670,7 +670,6 @@
 				// toggleHoverImg(this, true);
 			// });
 
-<<<<<<< HEAD
 			$('#pages').on('mouseout', '.page', function(e){
 				console.log('mousing out')
 				toggleHoverImg(this, false);
@@ -683,19 +682,6 @@
 				console.log('setting', visible)
 				$(pageContainer).find('.hover-image').toggleClass('visible', visible);
 			}
-=======
-			$('#pages').on('mouseover', '.page', function(){
-				if (settings.panelZoomMode == 'desktop-hover'){
-					$(this).find('.hover-image').addClass('visible');
-				}
-			});
-
-			$('#pages').on('mouseout', '.page', function(){
-				if (settings.panelZoomMode == 'desktop-hover'){
-					$(this).find('.hover-image').removeClass('visible');
-				}
-			});
->>>>>>> 8777b97e325cfcb6b2c82fac4131c6d9311855e3
 
 			$('#pages').on('mousemove', '.page-container', function(e){
 				var scale_value = settings.desktopHoverZoomOptions.scale,
