@@ -229,6 +229,7 @@
 			// But its parents don't.
 			// You could try a javascript implementation of this, but that has its own issues.
 			var $pages = $('#pages'),
+					$hoverImage = $('.hover-image'),
 					$pagesWrapper = $('#pages-wrapper');
 
 			var auto_width_height = {
@@ -248,23 +249,29 @@
 				img_width = img_width_wrapper = $img.width();
 				img_height = $img.height();
 
-				var format = state.determinePageFormat();
+				// Our `state` object isn't initialized yet, so run this method on it manually
+				var formatState = state.determineLayoutInformation(),
+						format = formatState.format,
+						bookend = formatState.bookend;
 
 				if (format == 'double') {
 					img_width = img_width*2;
 					img_width_wrapper = img_width+settings.gutterWidth;
 					if (init.browser[0] == 'Firefox') img_width_wrapper = img_width_wrapper - 1; // Minus one for sub-pixel rendering hack
 				}
+
 				// Apply the dimensions from the image to the wrapper
 				// Apply a bit of a margin on pages_wrapper to accommodate the gutter
 				var groups = [
 					{el: $pages,        width: img_width}, 
-					{el: $pagesWrapper, width: img_width_wrapper}
+					{el: $pagesWrapper, width: img_width_wrapper},
+					{el: $hoverImage,   width: (bookend == 'false') ? img_width : (img_width/2) }
 				];
 
 				_.each(groups, function(group) { 
 					group.el.css('max-width', (group.width)+'px').css('max-height', img_height+'px');
 				});
+				// $hoverImage.css('margin-left', img_width/4)
 
 				// Also apply this height to the btns overlay
 				$('#btns').css('height', img_height+'px');
@@ -656,27 +663,58 @@
 
 			});
 
+			// $('#pages').on('mouseover', '.page-container', function(e){
+				// toggleHoverImg(this, true);
+			// });
 
-			$('#pages').on('mouseover', '.page', function(){
-				$(this).find('.hover-image').addClass('visible');
+			$('#pages').on('mouseout', '.page', function(e){
+				console.log('mousing out')
+				toggleHoverImg(this, false);
 			});
 
-			$('#pages').on('mouseout', '.page', function(){
-				$(this).find('.hover-image').removeClass('visible');
-			});
+			function toggleHoverImg(pageContainer, visible){
+				if (!visible){
+					$(pageContainer).parents('.page-container').attr('style', '');
+				}
+				console.log('setting', visible)
+				$(pageContainer).find('.hover-image').toggleClass('visible', visible);
+			}
 
-			$('#pages').on('mousemove', '.page', function(e){
+			$('#pages').on('mousemove', '.page-container', function(e){
 				var scale_value = settings.desktopHoverZoomOptions.scale,
 						fit         = settings.desktopHoverZoomOptions.fit*100,
 						padding     = settings.desktopHoverZoomOptions.padding,
-						$page       = $(this),
-						$hover_img  = $page.find('.hover-image'),
-						page_width  = $page.width(),
-						page_height = $page.height(),
-						adjusted_x  = e.pageX - $page.offset().left,
-						adjusted_y  = e.pageY - $page.offset().top,
+						$pageContainer       = $(this),
+						$hover_img  = $pageContainer.find('.hover-image'),
+						page_width  = $pageContainer.width(),
+						page_height = $pageContainer.height(),
+						adjusted_x  = e.pageX - $pageContainer.offset().left,
+						adjusted_y  = e.pageY - $pageContainer.offset().top,
 						x_perc      = adjusted_x / page_width,
-						y_perc      = adjusted_y / page_height;
+						y_perc      = adjusted_y / page_height,
+						extra_bookend_transform = '';
+
+				var formatState = state.get('format'),
+						format = formatState.format,
+						bookend = formatState.bookend;
+
+				var hovering_over_page = (e.pageX > $pageContainer.find('img').offset().left) && (e.pageX < $pageContainer.find('img').offset().left + $pageContainer.find('img').width())
+				if (format == 'double' && bookend == 'true'){
+					// console.log(hovering_over_page);
+					if (hovering_over_page){
+						$pageContainer.css({
+							'width': $pageContainer.find('img').width(),
+							'transform': 'translateX(50%)'
+						});
+						toggleHoverImg(this, true);
+					} else {
+						console.log('not over page')
+						toggleHoverImg(this, false);
+					}
+				} else {
+					toggleHoverImg(this, true);
+				}
+
 
 				var translate_percentage = fit*((page_width*scale_value - page_width)/2)/page_width;
 

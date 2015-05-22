@@ -13,7 +13,7 @@ var PULP_SETTINGS = {
 		"padding": .25 // A value between 0 and .5. Sometimes you don't want the mouse to have to reach the edge of the page to fully zoom. Setting this to something like .25 will mean you've reached the edge of the zoomed in image when you're within 25% of the page edge.
 	},
 	"lazyLoadExtent": 6,
-	"transitionDuration": "400ms",
+	"transitionDuration": "4000ms",
 	"gutterWidth": 2,
 	"drawerTransitionDuration": 500,
 	"social": {
