@@ -21,13 +21,14 @@
 		},
 		determinePageFormat: function(windowWidth){
 			windowWidth = windowWidth || $(window).width();
-			var format,
-					current_format = this.get('format').format;
+			var format;
+
 			var dynamic_page_width = parseInt($('.page-container.viewing img').css('width')) || parseInt($('.page-container img').css('width')),
 					static_page_width = this.get('single-page-width'),
-					page_limit = 635;
+					page_limit = settings.singlePageWidthLimit;
 
 			// console.log(windowWidth, dynamic_page_width, dynamic_page_width*2 + settings.gutterWidth)
+			// console.log(windowWidth > dynamic_page_width*2 + settings.gutterWidth)
 			if (windowWidth > dynamic_page_width*2 + settings.gutterWidth) {
 				// If the window is wide enough for two pages
 				format = 'double';
@@ -218,7 +219,7 @@
 		measurePageElements: function(cb){
 			layout.measureImgSetPageHeight(function(){
 				layout.measureHotspotsHeaderOffset();
-				if (cb) cb();
+				cb();
 			});
 		},
 		measureImgSetPageHeight: function(cb){
@@ -242,12 +243,9 @@
 
 			$pages.imagesLoaded().done(function(){
 				var $img = $pages.find('img'),
-						img_width,
-						img_height,
-						img_width_wrapper;
-
-				img_width = img_width_wrapper = $img.width();
-				img_height = $img.height();
+						img_width = $img.width(),
+						img_width_wrapper = img_width,
+						img_height = $img.height();
 
 				// Our `state` object isn't initialized yet, so run this method on it manually
 				var formatState = state.determineLayoutInformation(),
@@ -275,10 +273,11 @@
 
 				// Also apply this height to the btns overlay
 				$('#btns').css('height', img_height+'px');
-				// And to the header, which shouldn't go below 960
+				// And to the header, whose max shouldn't go below 960
 				var header_width = _.max([960, img_width]);
 				$('#header').css('max-width', header_width+'px');
-				if (cb) cb();
+				// Invoke the callback when we're all done
+				cb();
 			});
 		},
 		implementPageFormat: {
@@ -325,10 +324,14 @@
 		},
 		update: function(){
 			// What's done on window resize:
+
 			// See if we can accommodate single or double
 			state.setPageFormat();
 			// If we're on page 2 and we're now in double, kill the expand helper because they've done what we've asked
-			if (states.currentPage == 2){
+			var formatState = state.get('format'),
+					format = formatState.format;
+
+			if (states.currentPage == 2 && format == 'double'){
 				layout.toggleNavHelpers(false);
 			}
 			// Grab the page
@@ -337,7 +340,7 @@
 			zooming.toPage($page, false);
 			// Set a new page height
 			layout.measurePageElements( function(){
-				// If we're on desktop then you can forget about the hotspot
+				// If we're on desktop, but not in `all-devices` zoom mode, then you can forget about the hotspot
 				routing.set.prune();
 				// Get what page and hotspot we're on
 				var location_hash = window.location.hash;
@@ -667,6 +670,7 @@
 				// toggleHoverImg(this, true);
 			// });
 
+<<<<<<< HEAD
 			$('#pages').on('mouseout', '.page', function(e){
 				console.log('mousing out')
 				toggleHoverImg(this, false);
@@ -679,6 +683,19 @@
 				console.log('setting', visible)
 				$(pageContainer).find('.hover-image').toggleClass('visible', visible);
 			}
+=======
+			$('#pages').on('mouseover', '.page', function(){
+				if (settings.panelZoomMode == 'desktop-hover'){
+					$(this).find('.hover-image').addClass('visible');
+				}
+			});
+
+			$('#pages').on('mouseout', '.page', function(){
+				if (settings.panelZoomMode == 'desktop-hover'){
+					$(this).find('.hover-image').removeClass('visible');
+				}
+			});
+>>>>>>> 8777b97e325cfcb6b2c82fac4131c6d9311855e3
 
 			$('#pages').on('mousemove', '.page-container', function(e){
 				var scale_value = settings.desktopHoverZoomOptions.scale,
@@ -1109,9 +1126,10 @@
 			},
 			prune: function(){
 				// Remove the hotspot from the hash if you're on desktop
+
 				// Turn the location hash into a more readable dictionary `{page: Number, hotspot: Number}`
 				var pp_info = helpers.hashToPageHotspotDict(window.location.hash);
-				if (state.get('format').format != 'mobile' && pp_info.hotspot){
+				if (state.get('format').format != 'mobile' && pp_info.hotspot && settings.panelZoomMode != 'all-devices'){
 					routing.router.navigate(pp_info.page.toString(), { replace: true } );
 					states.currentHotspot = '';
 				}
@@ -1200,7 +1218,6 @@
 		toHotspot: function(page, hotspot, transitionDuration){
 			// cg means `current page`
 			// th means `target hotspot`
-			var buffer = .2;
 			var $currentPage = $('#page-'+page),
 					cg_width = $currentPage.width(),
 					cg_height = $currentPage.height(),
@@ -1413,6 +1430,7 @@
 		},
 		lazyLoadExtent: 6,
 		transitionDuration: "400ms",
+		singlePageWidthLimit: 635, // A bit of a magic number here to ensure that we go into mobile mode below this value.
 		gutterWidth: 2,
 		drawerTransitionDuration: 500,
 		social: {
