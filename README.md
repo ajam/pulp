@@ -119,7 +119,8 @@ Pulp can handle a variety of image formats. Here's [one thread](https://github.c
 ## In the wild
 
 * Al Jazeera America — [Terms of Service](http://projects.aljazeera.com/2014/terms-of-service)
-* SF Public Press — [Traumatized by the Streets](http://sfpublicpress.org/graphics/traumatized/#1)
+* SF Public Press — [Traumatized by the Streets](http://sfpublicpress.org/graphics/traumatized)
+* BBC — [Hooked](http://www.bbc.com/news/magazine-32740691)
 
 ## Making changes
 
