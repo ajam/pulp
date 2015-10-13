@@ -121,6 +121,7 @@ Pulp can handle a variety of image formats. Here's [one thread](https://github.c
 * Al Jazeera America — [Terms of Service](http://projects.aljazeera.com/2014/terms-of-service)
 * SF Public Press — [Traumatized by the Streets](http://sfpublicpress.org/graphics/traumatized)
 * BBC — [Hooked](http://www.bbc.com/news/magazine-32740691)
+* [Camille Bissuel](http://twitter.com/nylnook) — [Climate Change explained to Frogs, to Toads, to Batrachians Generally, and All Earthlings Who Might Feel a Little Concerned](http://nylnook.com/comics/climate-frogs)
 
 ## Making changes
 
