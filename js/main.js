@@ -677,7 +677,9 @@
 							format = formatState.format;
 
 					if ( format != 'mobile') {
-						$(this).find('.hover-image').removeClass('visible');
+						$(this).find('.hover-image').css({
+							'transform': 'translate(0,0) scale(1)'
+						}).removeClass('visible')
 					}
 				});
 
