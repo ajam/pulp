@@ -667,6 +667,7 @@
 							format = formatState.format;
 
 					if ( format != 'mobile') {
+						console.log('there')
 						$(this).find('img').css({
 							'transform': 'translate(0,0) scale(1)'
 						});
@@ -674,6 +675,7 @@
 				});
 
 				$('#pages').on('mousemove', '.page', function(e){
+					console.log('here')
 					var formatState = state.get('format'),
 							format = formatState.format;
 
