@@ -78,7 +78,7 @@ The CSS animations and transitions use a custom ease `cubic-bezier(0,0,.2,1)` wh
 Pulp also has a few options that it lets you change, if you so wish. They are all in the `config.js` file. Here's what a sample configuruation looks like with an explanation of what the values do. For the most part, you won't have to change any of the animation timings
 
 
-````js
+```js
 {
 	"imgFormat": "jpg", // What format are your images in?
 	"whitelabel": {
@@ -105,35 +105,40 @@ Pulp also has a few options that it lets you change, if you so wish. They are al
 	"requireStartOnFirstPage": false // On load, will the comic require users to land on the first page? Better to disable this to allow for page-specific links
 }
 
-````
+```
 
 You might also want to include some `<noscript>` for people who have JavaScript disabled, such as:
 
-````html
+```html
 <noscript>
 	<p>It appears you have JavaScript disabled.</p>
 	<p>View the PDF version: <a href="link/to/comic.pdf">link/to/comic.pdf</a></p>
 </noscript>
-````
+```
 
 One improvement that can be made is these transition times also have to be changed in the Stylus CSS, `css/styles.styl`. The CSS is written using a preprocessor called Stylus with an add-on called Nib. Nib greatly simplifies writing animations as it writes all the CSS vendor prefixes for you.
 
-To have your changes reflected, you then recompile the CSS, which isn't as hard as it sounds. To do that, first make sure you have [NodeJS](http://nodejs.org) installed and then run these two commands to install Stylus and Nib. You may have to enter your administrator password.
+To have your changes reflected, you then recompile the CSS, which isn't as hard as it sounds. 
 
-````bash
-sudo npm install -g stylus
-sudo npm install -g nib
-````
+To do that, first make sure you have [NodeJS](http://nodejs.org) installed and then install the project's dependencies with the following:
 
-Then, a useful command to have Stylus watch your `.styl` files for changes and automatically recompile the CSS is the following. Execute this command from within the root Pulp folder:
+```bash
+npm install
+```
 
-````bash
-stylus -u nib -w css
-````
+Compile the CSS with
 
-This command tells it to use Nib and watch the folder `css`. 
+```bash
+npm run build
+```
 
-One improvement would be to not have to make these changes twice (once in `config.js` and once in `styles.styl`). The solution is to create a larger build process, which has its own issues. Since these values should work for most people, however, hopefully you wont' have to change it so much.
+To watch your `.styl` files for changes and automatically recompile the CSS:
+
+```bash
+npm run dev
+```
+
+One improvement would be to not have to make these changes twice (once in `config.js` and once in `styles.styl`). The solution is to create a larger build process, which has its own issues. Since these values should work for most people, however, hopefully you won't have to change it so much.
 
 ### LICENSE
 

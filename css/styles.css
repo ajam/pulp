@@ -24,6 +24,7 @@ a {
 a:hover {
   text-decoration: underline;
 }
+/* needed to center contents in IE */
 html:-ms-fullscreen {
   width: 100%;
 }
@@ -962,7 +963,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
   -o-transform: rotateX(180deg) translate3d(0, 0, 1);
   -ms-transform: rotateX(180deg) translate3d(0, 0, 1);
   transform: rotateX(180deg) translate3d(0, 0, 1);
-  bottom: -1px;
+  bottom: -1px /* To cover up some small clipping that occurs */;
 }
 #left-mask {
   left: 0;
