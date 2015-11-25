@@ -73,7 +73,7 @@
 			return css;
 		},
 		addDuration: function(cssObj, transitionDuration){
-			var duration = transitionDuration ? settings.transitionDuration : 0;
+			var duration = transitionDuration ? (settings.transitionDuration + 'ms') : 0;
 			_.extend(cssObj, {'transition-duration': duration});
 			return cssObj;
 		},

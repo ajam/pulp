@@ -87,9 +87,12 @@ Pulp also has a few options that it lets you change, if you so wish. They are al
 		},
 		"logo": "<img src='imgs/assets/logo.png'></img>" // Do you want to include an image in the top left?
 	},
-	"panelZoomMode": "mobile-only", // Default is `mobile-only`. Can also be: `all-devices` which will allow for clicking to panels all the time everywhere; `desktop-hover` which will zoom to a portion of that image on hover on desktop (NOT YET IMPLEMENTED; or `desktop-hover-touch-zoom` which will hover on desktop and on touch devices be a zoom (NOT YET IMPLEMENTED)
+	"panelZoomMode": "mobile-only", // Default is `mobile-only`. 
+																	// Can also be: `all-devices` which will allow for clicking to panels all the time everywhere; 
+																	// `desktop-hover` which will zoom to a portion of that image on hover on desktop and maintain clicking to panels on mobile. 
+																	// Set `desktopHoverZoomOptions to custom values or leave blank to go with sensible defaults;
 	"lazyLoadExtent": 6, // How many pages behind and ahead do you want to load your images
-	"transitionDuration": "400ms", // This value should match what's in your css under `transition_opts`.
+	"transitionDuration": 400, // This value should match what's in your css under `transition_opts` minus the `'ms'`.
 	"gutterWidth": 2, // This should also match your css value, in this case `gutter_width`. This is the `padding-left` value for `.viewing.right-page`.
 	"drawerTransitionDuration": 500, // In milliseconds. Should match stylesheet value for `drawer_transition_opts`. transitionDuration`.
 	"social": {
