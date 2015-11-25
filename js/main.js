@@ -1386,7 +1386,7 @@
 			padding: .25 
 		},
 		lazyLoadExtent: 6,
-		transitionDuration: "400ms",
+		transitionDuration: 400,
 		singlePageWidthLimit: 635, // A bit of a magic number here to ensure that we go into mobile mode below this value.
 		gutterWidth: 2,
 		drawerTransitionDuration: 500,
@@ -1399,6 +1399,8 @@
 		},
 		requireStartOnFirstPage: false
 	}, PULP_SETTINGS);
+
+	console.log(settings)
 
 
 	// What to do on load
