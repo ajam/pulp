@@ -6,7 +6,7 @@ var nib = require('nib')
 
 var paths = {
   // js: {
-  //   main: 'js/app.js'
+  //   main: 'js/main.js'
   // }
   css : {
     main: 'css/styles.styl'
