@@ -16,9 +16,9 @@ var PULP_SETTINGS = {
 		"padding": .25 // A value between 0 and .5. Sometimes you don't want the mouse to have to reach the edge of the page to fully zoom. Setting this to something like .25 will mean you've reached the edge of the zoomed in image when you're within 25% of the page edge.
 	},
 	"lazyLoadExtent": 6,
-	"transitionDuration": "400ms",
-	"gutterWidth": 2,
-	"drawerTransitionDuration": 500,
+	"transitionDuration": 400, // In milliseconds, how fast the panels zooms and page turns animate. This value should match what's in your css under `transition_opts` minus the `'ms'`.
+	"gutterWidth": 2, // This should also match your css value, in this case `gutter_width`. This is the `padding-left` value for `.viewing.right-page`.
+	"drawerTransitionDuration": 500, // In milliseconds, how fast the mobile drawer comes in and out. Should match stylesheet value for `drawer_transition_opts`. transitionDuration`.
 	"social": {
 		"twitter_text": "THE TEXT TO DISPLAY WHEN SOMEONE CLICKS ON THE TWEET BUTTON",
 		"twitter_account": "THE RELATED TWITTER ACCOUNT.", // Example configuration `"ajam"`. Displays in tweet as `via @ajam`.

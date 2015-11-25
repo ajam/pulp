@@ -92,9 +92,9 @@ Pulp also has a few options that it lets you change, if you so wish. They are al
 																	// `desktop-hover` which will zoom to a portion of that image on hover on desktop and maintain clicking to panels on mobile. 
 																	// Set `desktopHoverZoomOptions to custom values or leave blank to go with sensible defaults;
 	"lazyLoadExtent": 6, // How many pages behind and ahead do you want to load your images
-	"transitionDuration": 400, // This value should match what's in your css under `transition_opts` minus the `'ms'`.
+	"transitionDuration": 400, // In milliseconds, how fast the panels zooms and page turns animate. This value should match what's in your css under `transition_opts` minus the `'ms'`.
 	"gutterWidth": 2, // This should also match your css value, in this case `gutter_width`. This is the `padding-left` value for `.viewing.right-page`.
-	"drawerTransitionDuration": 500, // In milliseconds. Should match stylesheet value for `drawer_transition_opts`. transitionDuration`.
+	"drawerTransitionDuration": 500, // In milliseconds, how fast the mobile drawer comes in and out. Should match stylesheet value for `drawer_transition_opts`. transitionDuration`.
 	"social": {
 		"twitter_text": "Read this comic, it's great!", // The text to display when someone clicks on the Tweet button
 		"twitter_account": "myhandle", // This will display in a tweet as `via @myhandle`.
