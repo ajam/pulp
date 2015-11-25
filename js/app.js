@@ -612,6 +612,7 @@
 		},
 		hotspotClicks: function($page){
 			$page.on('click', '.hotspot', function() {
+				console.log('here')
 				routing.set.fromHotspotClick( $(this) );
 			});
 		},
@@ -661,44 +662,58 @@
 			});
 
 
-			$('#pages').on('mouseover', '.page', function(){
-				if (settings.panelZoomMode == 'desktop-hover'){
-					$(this).find('.hover-image').addClass('visible');
-				}
-			});
+			if (settings.panelZoomMode == 'desktop-hover'){
 
-			$('#pages').on('mouseout', '.page', function(){
-				if (settings.panelZoomMode == 'desktop-hover'){
-					$(this).find('.hover-image').removeClass('visible');
-				}
-			});
+				$('#pages').on('mouseover', '.page', function(){
+					var formatState = state.get('format'),
+							format = formatState.format;
 
-			$('#pages').on('mousemove', '.page', function(e){
-				var scale_value = settings.desktopHoverZoomOptions.scale,
-						fit         = settings.desktopHoverZoomOptions.fit*100,
-						padding     = settings.desktopHoverZoomOptions.padding,
-						$page       = $(this),
-						$hover_img  = $page.find('.hover-image'),
-						page_width  = $page.width(),
-						page_height = $page.height(),
-						adjusted_x  = e.pageX - $page.offset().left,
-						adjusted_y  = e.pageY - $page.offset().top,
-						x_perc      = adjusted_x / page_width,
-						y_perc      = adjusted_y / page_height;
-
-				var translate_percentage = fit*((page_width*scale_value - page_width)/2)/page_width;
-
-				var scale =  new Scale().domain(1- padding, padding)
-																.range(-1*translate_percentage, translate_percentage, true);
-
-				var scaled_x_perc = scale(x_perc),
-						scaled_y_perc = scale(y_perc);
-
-				$hover_img.css({
-					'transform': 'translate('+scaled_x_perc+'%,'+scaled_y_perc+'%) scale('+scale_value+')'
+					if ( format != 'mobile') {
+						$(this).find('.hover-image').addClass('visible');
+					}
 				});
 
-			});
+				$('#pages').on('mouseout', '.page', function(){
+					var formatState = state.get('format'),
+							format = formatState.format;
+
+					if ( format != 'mobile') {
+						$(this).find('.hover-image').removeClass('visible');
+					}
+				});
+
+				$('#pages').on('mousemove', '.page', function(e){
+					var formatState = state.get('format'),
+							format = formatState.format;
+
+					if ( format != 'mobile') {
+						var scale_value = settings.desktopHoverZoomOptions.scale,
+								fit         = settings.desktopHoverZoomOptions.fit*100,
+								padding     = settings.desktopHoverZoomOptions.padding,
+								$page       = $(this),
+								$hover_img  = $page.find('.hover-image'),
+								page_width  = $page.width(),
+								page_height = $page.height(),
+								adjusted_x  = e.pageX - $page.offset().left,
+								adjusted_y  = e.pageY - $page.offset().top,
+								x_perc      = adjusted_x / page_width,
+								y_perc      = adjusted_y / page_height;
+
+						var translate_percentage = fit*((page_width*scale_value - page_width)/2)/page_width;
+
+						var scale =  new Scale().domain(1- padding, padding)
+																		.range(-1*translate_percentage, translate_percentage, true);
+
+						var scaled_x_perc = scale(x_perc),
+								scaled_y_perc = scale(y_perc);
+
+						$hover_img.css({
+							'transform': 'translate('+scaled_x_perc+'%,'+scaled_y_perc+'%) scale('+scale_value+')'
+						});
+					}
+
+				});
+			}
 
 		},
 		pageTransitions: function(){

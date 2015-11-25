@@ -6,7 +6,7 @@ var PULP_SETTINGS = {
 		},
 		"logo": "" // HTML for a logo. Example configuration `"<img src='imgs/assets/logo.png'/>"`. Path starts at the project root folder.
 	},
-	"panelZoomMode": "mobile-only", // Default is `mobile-only`. 
+	"panelZoomMode": "desktop-hover", // Default is `mobile-only`. 
 																	// Can also be: `all-devices` which will allow for clicking to panels all the time everywhere; 
 																	// `desktop-hover` which will zoom to a portion of that image on hover on desktop and maintain clicking to panels on mobile. 
 																	// Set `desktopHoverZoomOptions to custom values or leave blank to go with sensible defaults;

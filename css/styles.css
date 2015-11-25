@@ -471,6 +471,9 @@ body[data-panel-zoom-mode="desktop-hover"] .main-nav-btn-container[data-dir="nex
 body[data-panel-zoom-mode="desktop-hover"] .hover-image {
   display: block;
 }
+body[data-format="mobile"] .hover-image {
+  display: none !important;
+}
 .hover-image.visible {
   opacity: 1;
   -ms-filter: none;
