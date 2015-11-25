@@ -660,36 +660,15 @@
 
 			});
 
-			var is_zooming
 			if (settings.panelZoomMode == 'desktop-hover'){
-
-				$('#pages').on('mouseover', '.page', function(){
-					var formatState = state.get('format'),
-							format = formatState.format;
-
-					if ( format != 'mobile') {
-						$(this).find('.hover-image').addClass('visible');
-					}
-				});
-
 				$('#pages').on('mouseout', '.page', function(){
 					var formatState = state.get('format'),
 							format = formatState.format;
 
 					if ( format != 'mobile') {
-						is_zooming = false
-						console.log('mousout')
-						$(this).find('.hover-image').css({
-							'transform': 'translate(0,0) scale(1)'
-						}).delay(400) // This number must match the transition time on the hover image
-							.queue(function(n) {
-								console.log('queue', is_zooming)
-								if (!is_zooming) {
-									console.log('removing')
-									$(this).removeClass('visible')
-								}
-								n()
-							})
+						$(this).find('img').css({
+							'transform': 'translate(0%,0%)scale(1)'
+						});
 					}
 				});
 
@@ -698,13 +677,11 @@
 							format = formatState.format;
 
 					if ( format != 'mobile') {
-						is_zooming = true
-						console.log('mouse moving')
 						var scale_value = settings.desktopHoverZoomOptions.scale,
 								fit         = settings.desktopHoverZoomOptions.fit*100,
 								padding     = settings.desktopHoverZoomOptions.padding,
 								$page       = $(this),
-								$hover_img  = $page.find('.hover-image'),
+								$hover_img  = $page.find('img'),
 								page_width  = $page.width(),
 								page_height = $page.height(),
 								adjusted_x  = e.pageX - $page.offset().left,
@@ -714,14 +691,14 @@
 
 						var translate_percentage = fit*((page_width*scale_value - page_width)/2)/page_width;
 
-						var scale =  new Scale().domain(1- padding, padding)
+						var scale =  new Scale().domain(1 - padding, padding)
 																		.range(-1*translate_percentage, translate_percentage, true);
 
 						var scaled_x_perc = scale(x_perc),
 								scaled_y_perc = scale(y_perc);
 
 						$hover_img.css({
-							'transform': 'translate('+scaled_x_perc+'%,'+scaled_y_perc+'%) scale('+scale_value+')'
+							'transform': 'matrix('+ scale_value +', 0, 0, '+ scale_value +', ' + scaled_x_perc/100*page_width + ', ' + scaled_y_perc/100*page_height + ')'
 						});
 					}
 
@@ -990,9 +967,6 @@
 					img_file_name = page_number + '.' + settings.imgFormat;
 					img_file_path = 'imgs/pages/page-' + img_file_name;
 					$img.attr('src', img_file_path);
-					if (settings.panelZoomMode == 'desktop-hover') {
-						$page_container.find('.hover-image').css('background-image', 'url('+img_file_path+')');
-					}
 				}
 			}
 
