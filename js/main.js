@@ -194,10 +194,11 @@
 			// Set the z-index of the last page to 1000 so it can be on top of `#btns`
 			$('#page-container-'+states.pages_max).css('z-index', '1000')
 
+			// Listen for changes in state
+			listeners.state();
+
 			// Once images are loaded, measure the hotspot locations
 			layout.measurePageElements(function(){
-				// Listen for changes in state
-				listeners.state();
 				// Read the hash and navigate
 				routing.init();
 
@@ -243,6 +244,7 @@
 			$pages.imagesLoaded().done(function(){
 				var $img = $pages.find('img'),
 						img_width = $img.width(),
+						original_img_width = img_width,
 						img_width_wrapper = img_width,
 						img_height = $img.height();
 
@@ -252,7 +254,10 @@
 				if (format == 'double') {
 					img_width = img_width*2;
 					img_width_wrapper = img_width+settings.gutterWidth;
-					if (init.browser[0] == 'Firefox') img_width_wrapper = img_width_wrapper - 1; // Minus one for sub-pixel rendering hack
+					if (init.browser[0] == 'Firefox') {
+						img_width_wrapper = img_width_wrapper - 1; // Minus one for sub-pixel rendering hack
+					}
+					$('.bookend-mask').width(original_img_width)
 				}
 				// Apply the dimensions from the image to the wrapper
 				// Apply a bit of a margin on pages_wrapper to accommodate the gutter
@@ -675,7 +680,8 @@
 
 				$('#pages').on('mousemove', '.page', function(e){
 					var formatState = state.get('format'),
-							format = formatState.format;
+							format = formatState.format,
+							bookend = formatState.bookend;
 
 					if ( format != 'mobile') {
 						var scale_value = settings.desktopHoverZoomOptions.scale,
@@ -689,6 +695,10 @@
 								adjusted_y  = e.pageY - $page.offset().top,
 								x_perc      = adjusted_x / page_width,
 								y_perc      = adjusted_y / page_height;
+
+						if (bookend && format == 'double' && states.currentPage == 1) {
+							console.log('here')
+						}
 
 						var translate_percentage = fit*((page_width*scale_value - page_width)/2)/page_width;
 
@@ -1399,9 +1409,6 @@
 		},
 		requireStartOnFirstPage: false
 	}, PULP_SETTINGS);
-
-	console.log(settings)
-
 
 	// What to do on load
 	var init = {

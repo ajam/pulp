@@ -449,6 +449,9 @@ body[data-panel-zoom-mode="all-devices"] .main-nav-btn-container[data-dir="next"
 body[data-panel-zoom-mode="desktop-hover"] .main-nav-btn-container[data-dir="next"] {
   float: right;
 }
+.page {
+  background-color: #f0c;
+}
 .page img {
   -webkit-transition: -webkit-transform 400ms cubic-bezier(0, 0, 0.2, 1);
   -moz-transition: -moz-transform 400ms cubic-bezier(0, 0, 0.2, 1);
@@ -755,7 +758,8 @@ body[data-state="page-change"] #pages-wrapper {
 }
 .page-container,
 .page,
-.page-mask {
+.page-mask,
+.bookend-mask {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -765,11 +769,19 @@ body[data-state="page-change"] #pages-wrapper {
   -ms-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
-.page-mask {
+.page-mask,
+.bookend-mask {
   overflow: hidden;
 }
 .page {
   position: relative;
+}
+body[data-format="double"] .bookend-mask {
+  -webkit-transform: translateX(50%) translate3d(0, 0, 0);
+  -moz-transform: translateX(50%) translate3d(0, 0, 0);
+  -o-transform: translateX(50%) translate3d(0, 0, 0);
+  -ms-transform: translateX(50%) translate3d(0, 0, 0);
+  transform: translateX(50%) translate3d(0, 0, 0);
 }
 .page-container.viewing {
   visibility: visible;
