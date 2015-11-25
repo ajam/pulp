@@ -449,36 +449,12 @@ body[data-panel-zoom-mode="all-devices"] .main-nav-btn-container[data-dir="next"
 body[data-panel-zoom-mode="desktop-hover"] .main-nav-btn-container[data-dir="next"] {
   float: right;
 }
-.hover-image {
-  position: absolute;
-  -webkit-background-size: contain;
-  -moz-background-size: contain;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
-  width: 100%;
-  height: 100%;
-  background-color: #6cc;
-  opacity: 0;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-  filter: alpha(opacity=0);
-  -webkit-transition: opacity 300ms linear;
-  -moz-transition: opacity 300ms linear;
-  -o-transition: opacity 300ms linear;
-  -ms-transition: opacity 300ms linear;
-  transition: opacity 300ms linear;
-  display: none;
-}
-body[data-panel-zoom-mode="desktop-hover"] .hover-image {
-  display: block;
-}
-body[data-format="mobile"] .hover-image {
-  display: none !important;
-}
-.hover-image.visible {
-  opacity: 1;
-  -ms-filter: none;
-  filter: none;
+.page img {
+  -webkit-transition: -webkit-transform 400ms cubic-bezier(0, 0, 0.2, 1);
+  -moz-transition: -moz-transform 400ms cubic-bezier(0, 0, 0.2, 1);
+  -o-transition: -o-transform 400ms cubic-bezier(0, 0, 0.2, 1);
+  -ms-transition: -ms-transform 400ms cubic-bezier(0, 0, 0.2, 1);
+  transition: transform 400ms cubic-bezier(0, 0, 0.2, 1);
 }
 .nav-helpers {
   position: absolute;

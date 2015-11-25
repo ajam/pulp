@@ -660,24 +660,16 @@
 
 			});
 
-
 			if (settings.panelZoomMode == 'desktop-hover'){
-
-				$('#pages').on('mouseover', '.page', function(){
-					var formatState = state.get('format'),
-							format = formatState.format;
-
-					if ( format != 'mobile') {
-						$(this).find('.hover-image').addClass('visible');
-					}
-				});
 
 				$('#pages').on('mouseout', '.page', function(){
 					var formatState = state.get('format'),
 							format = formatState.format;
 
 					if ( format != 'mobile') {
-						$(this).find('.hover-image').removeClass('visible');
+						$(this).find('img').css({
+							'transform': 'translate(0,0) scale(1)'
+						});
 					}
 				});
 
@@ -690,7 +682,7 @@
 								fit         = settings.desktopHoverZoomOptions.fit*100,
 								padding     = settings.desktopHoverZoomOptions.padding,
 								$page       = $(this),
-								$hover_img  = $page.find('.hover-image'),
+								$hover_img  = $page.find('img'),
 								page_width  = $page.width(),
 								page_height = $page.height(),
 								adjusted_x  = e.pageX - $page.offset().left,
@@ -976,9 +968,6 @@
 					img_file_name = page_number + '.' + settings.imgFormat;
 					img_file_path = 'imgs/pages/page-' + img_file_name;
 					$img.attr('src', img_file_path);
-					if (settings.panelZoomMode == 'desktop-hover') {
-						$page_container.find('.hover-image').css('background-image', 'url('+img_file_path+')');
-					}
 				}
 			}
 
