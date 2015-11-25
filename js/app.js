@@ -612,7 +612,6 @@
 		},
 		hotspotClicks: function($page){
 			$page.on('click', '.hotspot', function() {
-				console.log('here')
 				routing.set.fromHotspotClick( $(this) );
 			});
 		},
