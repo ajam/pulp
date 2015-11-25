@@ -481,21 +481,21 @@ body[data-format="mobile"] .hover-image {
 }
 body[data-panel-zoom-mode="desktop-hover"] .main-nav-btn-container[data-dir="prev"] .btn-text:before {
   width: 100%;
-  -webkit-transform: translateX(8px);
-  -moz-transform: translateX(8px);
-  -o-transform: translateX(8px);
-  -ms-transform: translateX(8px);
-  transform: translateX(8px);
+  -webkit-transform: translate(8px, 5px);
+  -moz-transform: translate(8px, 5px);
+  -o-transform: translate(8px, 5px);
+  -ms-transform: translate(8px, 5px);
+  transform: translate(8px, 5px);
 }
 body[data-panel-zoom-mode="desktop-hover"] .main-nav-btn-container[data-dir="next"] {
   right: 0;
 }
 body[data-panel-zoom-mode="desktop-hover"] .main-nav-btn-container[data-dir="next"] .btn-text {
-  -webkit-transform: translateX(-5px);
-  -moz-transform: translateX(-5px);
-  -o-transform: translateX(-5px);
-  -ms-transform: translateX(-5px);
-  transform: translateX(-5px);
+  -webkit-transform: translate(-5px, 5px);
+  -moz-transform: translate(-5px, 5px);
+  -o-transform: translate(-5px, 5px);
+  -ms-transform: translate(-5px, 5px);
+  transform: translate(-5px, 5px);
 }
 body[data-panel-zoom-mode="desktop-hover"] .main-nav-btn {
   width: 100%;

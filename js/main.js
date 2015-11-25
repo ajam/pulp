@@ -660,7 +660,7 @@
 
 			});
 
-
+			var is_zooming
 			if (settings.panelZoomMode == 'desktop-hover'){
 
 				$('#pages').on('mouseover', '.page', function(){
@@ -677,9 +677,19 @@
 							format = formatState.format;
 
 					if ( format != 'mobile') {
+						is_zooming = false
+						console.log('mousout')
 						$(this).find('.hover-image').css({
 							'transform': 'translate(0,0) scale(1)'
-						}).removeClass('visible')
+						}).delay(400) // This number must match the transition time on the hover image
+							.queue(function(n) {
+								console.log('queue', is_zooming)
+								if (!is_zooming) {
+									console.log('removing')
+									$(this).removeClass('visible')
+								}
+								n()
+							})
 					}
 				});
 
@@ -688,6 +698,8 @@
 							format = formatState.format;
 
 					if ( format != 'mobile') {
+						is_zooming = true
+						console.log('mouse moving')
 						var scale_value = settings.desktopHoverZoomOptions.scale,
 								fit         = settings.desktopHoverZoomOptions.fit*100,
 								padding     = settings.desktopHoverZoomOptions.padding,
