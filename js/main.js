@@ -667,15 +667,13 @@
 							format = formatState.format;
 
 					if ( format != 'mobile') {
-						console.log('there')
 						$(this).find('img').css({
-							'transform': 'translate(0,0) scale(1)'
+							'transform': 'translate(0%,0%)scale(1)'
 						});
 					}
 				});
 
 				$('#pages').on('mousemove', '.page', function(e){
-					console.log('here')
 					var formatState = state.get('format'),
 							format = formatState.format;
 
@@ -694,15 +692,16 @@
 
 						var translate_percentage = fit*((page_width*scale_value - page_width)/2)/page_width;
 
-						var scale =  new Scale().domain(1- padding, padding)
+						var scale =  new Scale().domain(1 - padding, padding)
 																		.range(-1*translate_percentage, translate_percentage, true);
 
 						var scaled_x_perc = scale(x_perc),
 								scaled_y_perc = scale(y_perc);
 
 						$hover_img.css({
-							'transform': 'translate('+scaled_x_perc+'%,'+scaled_y_perc+'%) scale('+scale_value+')'
+							'transform': 'matrix('+ scale_value +', 0, 0, '+ scale_value +', ' + scaled_x_perc/100*page_width + ', ' + scaled_y_perc/100*page_height + ')'
 						});
+
 					}
 
 				});
