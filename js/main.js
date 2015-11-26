@@ -697,10 +697,12 @@
 								x_perc      = adjusted_x / page_width,
 								y_perc      = adjusted_y / page_height;
 
+						var starting_x
+						var ending_x
 						if (bookend && format == 'double' && states.currentPage == 1) {
-							var starting_x = (page_width - img_width) / 2
-							var ending_x = starting_x + img_width
 							// Short-circuit if its outside the bounds of our image
+							starting_x = (page_width - img_width) / 2
+							ending_x = starting_x + img_width
 							if (adjusted_x < starting_x || adjusted_x > ending_x) {
 								return true
 							}
