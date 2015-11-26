@@ -149,7 +149,6 @@ Compile the CSS with
 ```bash
 npm run build
 ```
->>>>>>> desktop-hover
 
 To watch your `.styl` files for changes and automatically recompile the CSS:
 
