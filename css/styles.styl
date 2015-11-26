@@ -3,7 +3,7 @@
 ajam_blue = #2677B9
 max_width = 1024px
 transition_opts = 400ms linear
-gutter_width = 2px
+gutter_width = 20px
 header_height = 46px
 header_item_height = 28px
 header_padding = 7px
@@ -393,7 +393,6 @@ body[data-panel-zoom-mode="desktop-hover"]
 		float right
 
 .page
-	background-color #f0c
 	img
 		transition transform 400ms cubic-bezier(0, 0, .2, 1)
 	
@@ -651,10 +650,6 @@ body[data-state="page-change"]
 	overflow hidden
 .page
 	position relative
-// .bookend-mask[data-state="page-change"][data-format="double"]
-// 	.bookend-mask
-// 		width 100% !important
-// 		transform translate3d(0,0,0) !important
 body[data-format="double"]
 	.bookend-mask
 		transform translateX(50%) translate3d(0,0,0)
@@ -717,6 +712,13 @@ body[data-format="mobile"]//[data-bookend="false"]
 // body[data-format="double"]
 // 	.exit-to-left,.exit-to-right
 // 		z-index -1
+body[data-state="page-change"][data-format="double"]
+	.bookend-mask
+		transform translate3d(0,0,0) !important
+body[data-state="page-change"][data-format="double"]
+	.page-container.enter-from-left
+		.bookend-mask
+			transform translateX(50%) translate3d(0,0,0) !important
 .page-container.exit-to-left
 	animation exit-to-left transition_opts
 .page-container.enter-from-left
@@ -762,7 +764,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right
 	width 50%
 body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.right-page
 	animation double-right-exit-to-right transition_opts
-	padding-left 40px
+	// padding-left 40px
 /* end double center */
 
 // Drawer transitions

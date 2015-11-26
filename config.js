@@ -7,9 +7,9 @@ var PULP_SETTINGS = {
 		"logo": "" // HTML for a logo. Example configuration `"<img src='imgs/assets/logo.png'/>"`. Path starts at the project root folder.
 	},
 	"panelZoomMode": "desktop-hover", // Default is `mobile-only`. 
-																	// Can also be: `all-devices` which will allow for clicking to panels all the time everywhere; 
-																	// `desktop-hover` which will zoom to a portion of that image on hover on desktop and maintain clicking to panels on mobile. 
-																	// Set `desktopHoverZoomOptions to custom values or leave blank to go with sensible defaults;
+																	  // Can also be: 
+																	  // `desktop-hover` which will zoom to a portion of that image on hover on desktop and maintain clicking to panels on mobile. 
+																	  // Set `desktopHoverZoomOptions to custom values or leave blank to go with sensible defaults;
 	"desktopHoverZoomOptions": {
 		"scale": 1.75, // How much you want it to zoom
 		"fit": .98, // A value between 0 and 1. Defaults to 1. Set this to something around .96 if you want to cut off the edges a little bit, like in this demo. This setting is useful if you have white space around your panels
