@@ -93,8 +93,8 @@ Pulp also has a few options that it lets you change, if you so wish. They are al
 																	// Set `desktopHoverZoomOptions to custom values or leave blank to go with sensible defaults;
 	"desktopHoverZoomOptions": {
 		"scale": 1.75, // How much you want it to zoom
-		"fit": .98, // A value between 0 and 1. Defaults to 1. Set this to something around .96 if you want to cut off the edges a little bit, like in this demo. This setting is useful if you have white space around your panels
-		"padding": .25 // A value between 0 and .5. Sometimes you don't want the mouse to have to reach the edge of the page to fully zoom. Setting this to something like .25 will mean you've reached the edge of the zoomed in image when you're within 25% of the page edge.
+		"fit": 0.98, // A value between 0 and 1. Defaults to 1. Set this to something around .96 if you want to cut off the edges a little bit, like in this demo. This setting is useful if you have white space around your panels
+		"padding": 0.25 // A value between 0 and .5. Sometimes you don't want the mouse to have to reach the edge of the page to fully zoom. Setting this to something like .25 will mean you've reached the edge of the zoomed in image when you're within 25% of the page edge.
 	},
 	"lazyLoadExtent": 6, // How many pages behind and ahead do you want to load your images
 	"transitionDuration": 400, // In milliseconds, how fast the panels zooms and page turns animate. This value should match what's in your css under `transition_opts` minus the `'ms'`.
