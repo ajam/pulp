@@ -689,6 +689,7 @@
 								padding     = settings.desktopHoverZoomOptions.padding,
 								$page       = $(this),
 								$hover_img  = $page.find('img'),
+								img_width   = $hover_img.width(),
 								page_width  = $page.width(),
 								page_height = $page.height(),
 								adjusted_x  = e.pageX - $page.offset().left,
@@ -697,7 +698,13 @@
 								y_perc      = adjusted_y / page_height;
 
 						if (bookend && format == 'double' && states.currentPage == 1) {
-							console.log('here')
+							var starting_x = (page_width - img_width) / 2
+							var ending_x = starting_x + img_width
+							// Short-circuit if its outside the bounds of our image
+							if (adjusted_x < starting_x || adjusted_x > ending_x) {
+								return true
+							}
+							page_width = page_width / 2 - settings.gutterWidth
 						}
 
 						var translate_percentage = fit*((page_width*scale_value - page_width)/2)/page_width;
