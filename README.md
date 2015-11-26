@@ -78,7 +78,7 @@ The CSS animations and transitions use a custom ease `cubic-bezier(0,0,.2,1)` wh
 Pulp also has a few options that it lets you change, if you so wish. They are all in the `config.js` file. Here's what a sample configuruation looks like with an explanation of what the values do. For the most part, you won't have to change any of the animation timings
 
 
-````js
+```js
 {
 	"pubDate": "Jan 1, 1970", // This will appear in the header on desktop and in the drawer on mobile
 	"imgFormat": "jpg", // What format are your images in?
@@ -88,29 +88,38 @@ Pulp also has a few options that it lets you change, if you so wish. They are al
 		},
 		"logo": "<img src='imgs/assets/logo.png'></img>" // Do you want to include an image in the top left?
 	},
+	"panelZoomMode": "mobile-only", // Default is `mobile-only`. 
+																	// `desktop-hover` which will zoom to a portion of that image on hover on desktop and maintain clicking to panels on mobile. 
+																	// Set `desktopHoverZoomOptions to custom values or leave blank to go with sensible defaults;
+	"desktopHoverZoomOptions": {
+		"scale": 1.75, // How much you want it to zoom
+		"fit": .98, // A value between 0 and 1. Defaults to 1. Set this to something around .96 if you want to cut off the edges a little bit, like in this demo. This setting is useful if you have white space around your panels
+		"padding": .25 // A value between 0 and .5. Sometimes you don't want the mouse to have to reach the edge of the page to fully zoom. Setting this to something like .25 will mean you've reached the edge of the zoomed in image when you're within 25% of the page edge.
+	},
 	"lazyLoadExtent": 6, // How many pages behind and ahead do you want to load your images
-	"transitionDuration": "400ms", // This value should match what's in your css under `transition_opts`.
+	"transitionDuration": 400, // In milliseconds, how fast the panels zooms and page turns animate. This value should match what's in your css under `transition_opts` minus the `'ms'`.
 	"gutterWidth": 2, // This should also match your css value, in this case `gutter_width`. This is the `padding-left` value for `.viewing.right-page`.
-	"drawerTransitionDuration": 500, // In milliseconds. Should match stylesheet value for `drawer_transition_opts`. transitionDuration`.
+	"drawerTransitionDuration": 500, // In milliseconds, how fast the mobile drawer comes in and out. Should match stylesheet value for `drawer_transition_opts`. transitionDuration`.
 	"social": {
 		"twitter_text": "Read this comic, it's great!", // The text to display when someone clicks on the Tweet button
 		"twitter_account": "myhandle", // This will display in a tweet as `via @myhandle`.
 		"fb_text": "A new web comic about etc etc topics topics.", // The text to display when someone clicks on the Facebook button
 		"promo_img_url": "http://www.website.com/comic-project/imgs/promo.jpg", // The full path of the image to display in the FB share or Tweet button
 		"fb_app_id": "892982325351256" // Facebook requires that you tie these buttons to an app. You have to create an app through the FB dev interface and your app will have the id.
-	}
+	},
+	"requireStartOnFirstPage": false // On load, will the comic require users to land on the first page? Better to disable this to allow for page-specific links
 }
 
-````
+```
 
 You might also want to include some `<noscript>` for people who have JavaScript disabled, such as:
 
-````html
+```html
 <noscript>
 	<p>It appears you have JavaScript disabled.</p>
 	<p>View the PDF version: <a href="link/to/comic.pdf">link/to/comic.pdf</a></p>
 </noscript>
-````
+```
 
 ## Choosing an image format
 
@@ -125,20 +134,26 @@ Pulp can handle a variety of image formats. Here's [one thread](https://github.c
 
 Once you change the transition timings in the `config.js`, the transition timings also have to be changed in the Stylus CSS, `css/styles.styl` (It would be nice to improve this but anything else would require a larger build process such as Gulp or Grunt). The CSS is written using a preprocessor called Stylus with an add-on called Nib. Nib greatly simplifies writing animations as it writes all the CSS vendor prefixes for you.
 
-To have your changes reflected, you then recompile the CSS, which isn't as hard as it sounds. To do that, first make sure you have [NodeJS](http://nodejs.org) installed and then run these two commands to install Stylus and Nib. You may have to enter your administrator password.
+To have your changes reflected, you then recompile the CSS, which isn't as hard as it sounds. 
 
-````bash
-sudo npm install -g stylus
-sudo npm install -g nib
-````
+To do that, first make sure you have [NodeJS](http://nodejs.org) installed and then install the project's dependencies with the following:
 
-A useful command to have Stylus watch your `.styl` files for changes and automatically recompile the CSS is the following. Execute this command from within the root Pulp folder:
+```bash
+npm install
+```
 
-````bash
-stylus -u nib -w css
-````
+Compile the CSS with
 
-This command tells it to use Nib and watch the folder `css`. 
+```bash
+npm run build
+```
+>>>>>>> desktop-hover
+
+To watch your `.styl` files for changes and automatically recompile the CSS:
+
+```bash
+npm run dev
+```
 
 One improvement would be to not have to make these changes twice (once in `config.js` and once in `styles.styl`). The solution is to create a larger build process, which has its own issues. Since these values should work for most people, however, hopefully you wont' have to change it so much. Let me know by [filing an issue](https://github.com/ajam/pulp/issues).
 

@@ -3,7 +3,7 @@
 ajam_blue = #2677B9
 max_width = 1024px
 transition_opts = 400ms linear
-gutter_width = 2px
+gutter_width = 20px
 header_height = 46px
 header_item_height = 28px
 header_padding = 7px
@@ -48,8 +48,9 @@ a
 	text-decoration none
 a:hover
 	text-decoration underline
+/* needed to center contents in IE */
 html:-ms-fullscreen
-	width 100% /* needed to center contents in IE */
+	width 100% 
 
 #main-content-wrapper
 	width 100%
@@ -136,7 +137,6 @@ html:-ms-fullscreen
 .header-item-container.active:hover
 	.header-btn
 		color darken(header_item_hover_color, 10%)
-
 
 .header-item
 	height 100%
@@ -383,6 +383,50 @@ button_offset = 35%
 	top 45%
 	font-size 6em
 
+body[data-panel-zoom-mode="all-devices"],
+body[data-panel-zoom-mode="desktop-hover"]
+	#btns
+		pointer-events none
+	.main-nav-btn-container
+		width auto
+		pointer-events all
+	.main-nav-btn-container[data-dir="next"]
+		float right
+
+.page
+	img
+		transition transform 400ms cubic-bezier(0, 0, .2, 1)
+	
+body[data-panel-zoom-mode="desktop-hover"]
+	.main-nav-btn-container[data-dir="prev"]
+		.btn-text:before
+			width 100%
+			transform translate(8px, 5px)
+	.main-nav-btn-container[data-dir="next"]
+		right 0
+		.btn-text
+			transform translate(-5px, 5px)
+	.main-nav-btn
+		width 100%
+			
+	.main-nav-btn-container
+		border 1px solid arrow_color
+		height 75px
+		position absolute
+		top 50%
+		transform translateY(-50%)
+		width 40px
+		transition border-color 250ms ease-out
+		.btn-text
+			width 100%
+			top auto
+			&:before
+				margin-left 0
+				margin-right 5px
+		&:hover
+			border-color arrow_hover_color
+			
+
 nav_helper_right = 80px
 .nav-helpers
 	position absolute
@@ -602,15 +646,22 @@ body[data-state="page-change"]
 .page-container
 	left 0
 	visibility hidden
-.page-container, .page, .page-mask
+.page-container, 
+.page, 
+.page-mask,
+.bookend-mask
 	position absolute
 	height 100%
 	width 100%
 	transform translate3d(0,0,0)
-.page-mask
+.page-mask,
+.bookend-mask
 	overflow hidden
 .page
 	position relative
+body[data-format="double"]
+	.bookend-mask
+		transform translateX(50%) translate3d(0,0,0)
 
 .page-container.viewing
 	visibility visible
@@ -670,6 +721,13 @@ body[data-format="mobile"]//[data-bookend="false"]
 // body[data-format="double"]
 // 	.exit-to-left,.exit-to-right
 // 		z-index -1
+body[data-state="page-change"][data-format="double"]
+	.bookend-mask
+		transform translate3d(0,0,0) !important
+body[data-state="page-change"][data-format="double"]
+	.page-container.enter-from-left
+		.bookend-mask
+			transform translateX(50%) translate3d(0,0,0) !important
 .page-container.exit-to-left
 	animation exit-to-left transition_opts
 .page-container.enter-from-left
@@ -715,7 +773,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right
 	width 50%
 body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.right-page
 	animation double-right-exit-to-right transition_opts
-	padding-left 40px
+	// padding-left 40px
 /* end double center */
 
 // Drawer transitions

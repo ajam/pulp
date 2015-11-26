@@ -1,0 +1,34 @@
+{
+  "name": "pulp",
+  "version": "1.0.0",
+  "description": "A responsive, multi-platform web comic viewer.",
+  "main": "index.html",
+  "scripts": {
+    "build": "gulp",
+    "dev": "gulp watch-files"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajam/pulp.git"
+  },
+  "keywords": [
+    "comics",
+    "web",
+    "comics"
+  ],
+  "author": "Michael Keller",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ajam/pulp/issues"
+  },
+  "homepage": "https://github.com/ajam/pulp#readme",
+  "dependencies": {
+    "gulp": "^3.9.0",
+    "gulp-live-server": "0.0.29",
+    "gulp-plumber": "^1.0.1",
+    "gulp-stylus": "^2.1.0",
+    "minimist": "^1.2.0",
+    "nib": "^1.1.0"
+  },
+  "devDependencies": {}
+}

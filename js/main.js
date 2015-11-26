@@ -21,14 +21,15 @@
 		},
 		determinePageFormat: function(windowWidth){
 			windowWidth = windowWidth || $(window).width();
-			var format,
-					current_format = this.get('format').format;
+			var format;
+
 			var dynamic_page_width = parseInt($('.page-container.viewing img').css('width')) || parseInt($('.page-container img').css('width')),
 					static_page_width = this.get('single-page-width'),
-					page_limit = 635;
+					page_limit = settings.singlePageWidthLimit;
 
-			// console.log(windowWidth, dynamic_page_width, dynamic_page_width*2 + PULP_SETTINGS.gutterWidth)
-			if (windowWidth > dynamic_page_width*2 + PULP_SETTINGS.gutterWidth) {
+			// console.log(windowWidth, dynamic_page_width, dynamic_page_width*2 + settings.gutterWidth)
+			// console.log(windowWidth > dynamic_page_width*2 + settings.gutterWidth)
+			if (windowWidth > dynamic_page_width*2 + settings.gutterWidth) {
 				// If the window is wide enough for two pages
 				format = 'double';
 			} else if (windowWidth <= page_limit) {
@@ -72,7 +73,7 @@
 			return css;
 		},
 		addDuration: function(cssObj, transitionDuration){
-			var duration = transitionDuration ? PULP_SETTINGS.transitionDuration : 0;
+			var duration = transitionDuration ? (settings.transitionDuration + 'ms') : 0;
 			_.extend(cssObj, {'transition-duration': duration});
 			return cssObj;
 		},
@@ -149,6 +150,7 @@
 		endnoteFactory: _.template( $('#endnote-template').html() )
 	}
 
+	// Functions to handle adding, removing and measuring dom elements as well as implementing single, double or mobile layout modes
 	var layout = {
 		init: function(){
 			this.mainContent = '#main-content-wrapper'
@@ -182,7 +184,7 @@
 			$header_page_display.find('input').attr('max', states.pages_max);
 			for (var i = 0; i < pages.length; i++){
 				// For non-lazy loading of cover images
-				_.extend(pages[i], {img_format: PULP_SETTINGS.imgFormat});
+				_.extend(pages[i], {img_format: settings.imgFormat});
 				page_markup = templates.pageFactory(pages[i]);
 				$('#pages').append(page_markup);
 				$page = $('#page-'+pages[i].number);
@@ -194,10 +196,11 @@
 			// Set the z-index of the last page to 1000 so it can be on top of `#btns`
 			$('#page-container-'+states.pages_max).css('z-index', '1000')
 
+			// Listen for changes in state
+			listeners.state();
+
 			// Once images are loaded, measure the hotspot locations
 			layout.measurePageElements(function(){
-				// Listen for changes in state
-				listeners.state();
 				// Read the hash and navigate
 				routing.init();
 
@@ -219,7 +222,7 @@
 		measurePageElements: function(cb){
 			layout.measureImgSetPageHeight(function(){
 				layout.measureHotspotsHeaderOffset();
-				if (cb) cb();
+				cb();
 			});
 		},
 		measureImgSetPageHeight: function(cb){
@@ -242,19 +245,21 @@
 
 			$pages.imagesLoaded().done(function(){
 				var $img = $pages.find('img'),
-						img_width,
-						img_height,
-						img_width_wrapper;
+						img_width = $img.width(),
+						original_img_width = img_width,
+						img_width_wrapper = img_width,
+						img_height = $img.height();
 
-				img_width = img_width_wrapper = $img.width();
-				img_height = $img.height();
-
-				var format = state.determinePageFormat();
+				state.setPageFormat();
+				var format = state.get('format').format;
 
 				if (format == 'double') {
 					img_width = img_width*2;
-					img_width_wrapper = img_width+PULP_SETTINGS.gutterWidth;
-					if (init.browser[0] == 'Firefox') img_width_wrapper = img_width_wrapper - 1; // Minus one for sub-pixel rendering hack
+					img_width_wrapper = img_width+settings.gutterWidth;
+					if (init.browser[0] == 'Firefox') {
+						img_width_wrapper = img_width_wrapper - 1; // Minus one for sub-pixel rendering hack
+					}
+					$('.bookend-mask').width(original_img_width)
 				}
 				// Apply the dimensions from the image to the wrapper
 				// Apply a bit of a margin on pages_wrapper to accommodate the gutter
@@ -269,10 +274,11 @@
 
 				// Also apply this height to the btns overlay
 				$('#btns').css('height', img_height+'px');
-				// And to the header, which shouldn't go below 960
+				// And to the header, whose max shouldn't go below 960
 				var header_width = _.max([960, img_width]);
 				$('#header').css('max-width', header_width+'px');
-				if (cb) cb();
+				// Invoke the callback when we're all done
+				cb();
 			});
 		},
 		implementPageFormat: {
@@ -319,10 +325,14 @@
 		},
 		update: function(){
 			// What's done on window resize:
+
 			// See if we can accommodate single or double
 			state.setPageFormat();
 			// If we're on page 2 and we're now in double, kill the expand helper because they've done what we've asked
-			if (states.currentPage == 2){
+			var formatState = state.get('format'),
+					format = formatState.format;
+
+			if (states.currentPage == 2 && format == 'double'){
 				layout.toggleNavHelpers(false);
 			}
 			// Grab the page
@@ -331,7 +341,7 @@
 			zooming.toPage($page, false);
 			// Set a new page height
 			layout.measurePageElements( function(){
-				// If we're on desktop then you can forget about the hotspot
+				// If we're on desktop, but not in `all-devices` zoom mode, then you can forget about the hotspot
 				routing.set.prune();
 				// Get what page and hotspot we're on
 				var location_hash = window.location.hash;
@@ -418,7 +428,7 @@
 			}
 			open = open || $body.attr('data-side-drawer-open') == 'true';
 			$body.attr('data-side-drawer-open', !open);
-			_.delay(this.onDrawerTransitionEnd, PULP_SETTINGS.drawerTransitionDuration);
+			_.delay(this.onDrawerTransitionEnd, settings.drawerTransitionDuration);
 
 		},
 		onDrawerTransitionEnd: function(e){
@@ -446,7 +456,7 @@
 		snapDrawer: function(){
 			this.last_x = false;
 			$(layout.mainContent).css({
-				'transition-duration': PULP_SETTINGS.drawerTransitionDuration,
+				'transition-duration': settings.drawerTransitionDuration,
 				'transform': 'auto'
 			});
 			layout.slideContentArea(true);
@@ -499,6 +509,7 @@
 	  }
 	}
 
+	// All listeners go under here
 	var listeners = {
 		header: function(){
 			$('.header-item-container[data-btn="fullscreen"]').on('click', function(){
@@ -660,6 +671,67 @@
 
 			});
 
+			if (settings.panelZoomMode == 'desktop-hover'){
+
+				$('#pages').on('mouseout', '.page', function(){
+					var formatState = state.get('format'),
+							format = formatState.format;
+
+					if ( format != 'mobile') {
+						$(this).find('img').css({
+							'transform': 'translate(0%,0%)scale(1)'
+						});
+					}
+				});
+
+				$('#pages').on('mousemove', '.page', function(e){
+					var formatState = state.get('format'),
+							format = formatState.format,
+							bookend = formatState.bookend;
+
+					if ( format != 'mobile') {
+						var scale_value = settings.desktopHoverZoomOptions.scale,
+								fit         = settings.desktopHoverZoomOptions.fit*100,
+								padding     = settings.desktopHoverZoomOptions.padding,
+								$page       = $(this),
+								$hover_img  = $page.find('img'),
+								img_width   = $hover_img.width(),
+								page_width  = $page.width(),
+								page_height = $page.height(),
+								adjusted_x  = e.pageX - $page.offset().left,
+								adjusted_y  = e.pageY - $page.offset().top,
+								x_perc      = adjusted_x / page_width,
+								y_perc      = adjusted_y / page_height;
+
+						var starting_x
+						var ending_x
+						if (bookend && format == 'double' && states.currentPage == 1) {
+							// Short-circuit if its outside the bounds of our image
+							starting_x = (page_width - img_width) / 2
+							ending_x = starting_x + img_width
+							if (adjusted_x < starting_x || adjusted_x > ending_x) {
+								return true
+							}
+							page_width = page_width / 2 - settings.gutterWidth
+						}
+
+						var translate_percentage = fit*((page_width*scale_value - page_width)/2)/page_width;
+
+						var scale =  new Scale().domain(1 - padding, padding)
+																		.range(-1*translate_percentage, translate_percentage, true);
+
+						var scaled_x_perc = scale(x_perc),
+								scaled_y_perc = scale(y_perc);
+
+						$hover_img.css({
+							'transform': 'matrix('+ scale_value +', 0, 0, '+ scale_value +', ' + scaled_x_perc/100*page_width + ', ' + scaled_y_perc/100*page_height + ')'
+						});
+
+					}
+
+				});
+			}
+
 		},
 		pageTransitions: function(){
 			$('.page-container').on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', transitions.onAnimationEnd_throttled)
@@ -758,7 +830,7 @@
 		}
 	}
 
-	// Change pages
+	// Change pages by figuring out which class to apply to which page
 	var transitions = {
 		goIfNecessary: function(currentPage, newPage){
 			var formatState = state.get('format'),
@@ -861,6 +933,7 @@
 		}
 	}
 
+	// Read the url to determine the page we're on
 	var routing = {
 		setInitRouteChecks: function(page, triggerLazyLoad, cb){
 			var transition_duration = true,
@@ -874,7 +947,7 @@
 			if (states.firstRun) { 
 				var show_nav_helpers = false;
 				// If starting on the first page
-				if (PULP_SETTINGS.startOnFirstPage || page == '1') {
+				if (settings.requireStartOnFirstPage || page == '1') {
 					page = '1';
 					show_nav_helpers = true;
 				}
@@ -897,7 +970,7 @@
 		},
 		lazyLoadImages: function(page){
 			page = +page;
-			var extent = PULP_SETTINGS.lazyLoadExtent,
+			var extent = settings.lazyLoadExtent,
 					min_range = page - extent,
 					max_range = page + extent;
 
@@ -906,15 +979,21 @@
 
 			var range = _.range(min_range, max_range),
 					page_number,
+					$page_container,
 					$img,
+					img_file_name,
+					img_file_path,
 					src;
 
 			for (var i = 0; i < range.length; i++){
 				page_number = range[i];
-				$img = $('#page-container-'+page_number).find('img');
+				$page_container = $('#page-container-'+page_number);
+				$img = $page_container.find('img');
 				src = $img.attr('src');
 				if (src.indexOf('data:image\/gif') > -1) {
-					$img.attr('src', 'imgs/pages/page-'+page_number+'.'+PULP_SETTINGS.imgFormat );
+					img_file_name = page_number + '.' + settings.imgFormat;
+					img_file_path = 'imgs/pages/page-' + img_file_name;
+					$img.attr('src', img_file_path);
 				}
 			}
 
@@ -938,9 +1017,10 @@
 
 			routing.router.on('route:hotspot', function(page, hotspot) {
 				routing.setInitRouteChecks(page, null, function(transitionDuration){;
+					/* DESKTOP_ZOOM_MODE */
 					// If we're on desktop, kill the hotspot
-					if (state.get('format').format != 'mobile' ) {
-						hotspot = '';
+					if (settings.panelZoomMode != 'all-devices' && state.get('format').format != 'mobile' ) {
+						hotspot = null;
 						routing.router.navigate(page, { replace: true });
 					}
 					routing.read(page, hotspot, transitionDuration);
@@ -954,7 +1034,7 @@
 		onPageLoad: function(locationHash){
 			// If it doesn't have a hash on load then go to the first page
 			var destination;
-			if (!locationHash || PULP_SETTINGS.startOnFirstPage){
+			if (!locationHash || settings.requireStartOnFirstPage){
 				destination = '1';
 			} else {
 				destination	= states.currentPage;
@@ -963,8 +1043,9 @@
 		},
 		set: {
 			fromHotspotClick: function($hotspot){
-				// Only do this on mobile, this check is pretty extraneous since the btn overlay prevents this on desktop
-				if (state.get('format').format == 'mobile'){
+				// Only do this on mobile, this check is sometimes redundant since the btn overlay prevents this in `mobile-only` `panelZoomMode`
+				/* DESKTOP_ZOOM_MODE */
+				if (settings.panelZoomMode == 'all-devices' || state.get('format').format == 'mobile'){
 					var page_hotspot = $hotspot.attr('data-hotspot-id').split('-'), // `1-1` -> ["1", "1"];
 							page = page_hotspot[0],
 							hotspot = page_hotspot[1],
@@ -1006,7 +1087,7 @@
 					states.lastHotspot = pp_info.hotspot;
 					
 					// Send it to the appropriate function to transform the new page and hotspot locations
-					if (format == 'mobile' && bookend == 'false') {
+					if ((format == 'mobile' || settings.panelZoomMode == 'all-devices') && bookend == 'false') { /* DESKTOP_ZOOM_MODE */
 						leaf_to = 'hotspot';
 					} else {
 						leaf_to = 'page';
@@ -1027,9 +1108,10 @@
 			},
 			prune: function(){
 				// Remove the hotspot from the hash if you're on desktop
+
 				// Turn the location hash into a more readable dictionary `{page: Number, hotspot: Number}`
 				var pp_info = helpers.hashToPageHotspotDict(window.location.hash);
-				if (state.get('format').format != 'mobile' && pp_info.hotspot){
+				if (state.get('format').format != 'mobile' && pp_info.hotspot && settings.panelZoomMode != 'all-devices'){
 					routing.router.navigate(pp_info.page.toString(), { replace: true } );
 					states.currentHotspot = '';
 				}
@@ -1061,7 +1143,7 @@
 			transitions.goIfNecessary(+states.currentPage, page);
 
 			// Now zoom to the appropriate hotspot or page
-			if (state.get('format').format == 'mobile' && hotspot){
+			if ((state.get('format').format == 'mobile' || settings.panelZoomMode == 'all-devices') && hotspot){ /* DESKTOP_ZOOM_MODE */
 				zooming.toHotspot(page, hotspot, transitionDuration);
 			}else{
 				// If no hotspot specified, reset to full page view
@@ -1074,6 +1156,7 @@
 		}
 	}
 
+	// All the functions to handle zooming from panels or hotspots
 	var zooming = {
 		toPage: function($page, transitionDuration){
 			var page_number = $page.attr('id').split('-')[1]; // `page-1` -> "1"
@@ -1117,7 +1200,6 @@
 		toHotspot: function(page, hotspot, transitionDuration){
 			// cg means `current page`
 			// th means `target hotspot`
-			var buffer = .2;
 			var $currentPage = $('#page-'+page),
 					cg_width = $currentPage.width(),
 					cg_height = $currentPage.height(),
@@ -1244,14 +1326,14 @@
 
 			twitter: function(e, text, route){
 				var base_url = 'https://twitter.com/intent/tweet?url=' + social.shareable_url;
-						text = text || PULP_SETTINGS.social.twitter_text;
+						text = text || settings.social.twitter_text;
 
 				if (route) {
 					base_url += route;
 				}
 
 				var tweet_text  = '&text=' + text,
-				    via_account = PULP_SETTINGS.social.twitter_account,
+				    via_account = settings.social.twitter_account,
 				    related     = '&related='+via_account,
 				    counter_url = '&counturl=' + social.shareable_url;
 
@@ -1259,16 +1341,16 @@
 				    topPos = e.pageY - 350;
 
 				var composed_url = social.percentEncode(base_url + tweet_text + ' via @' + via_account + related + counter_url);
-				var settings = 'width=500,height=300,top=' + topPos + ',left=' + leftPos + ',scrollbars=no,location=0,statusbars=0,menubars=0,toolbars=0,resizable=0';
+				var window_settings = 'width=500,height=300,top=' + topPos + ',left=' + leftPos + ',scrollbars=no,location=0,statusbars=0,menubars=0,toolbars=0,resizable=0';
 				
-				window.open(composed_url, 'Tweet', settings);
+				window.open(composed_url, 'Tweet', window_settings);
 			},
 			facebook: function(e, text, promoImgUrl){
 				var base_url    = 'http://www.facebook.com/dialog/feed',
-						app_id      = '?app_id='+PULP_SETTINGS.social.fb_app_id,
+						app_id      = '?app_id='+settings.social.fb_app_id,
 						page_url    = '&link=' + social.shareable_url,
-						text 			  = text || PULP_SETTINGS.social.fb_text,
-						promoImgUrl = promoImgUrl || PULP_SETTINGS.social.promo_img_url;
+						text 			  = text || settings.social.fb_text,
+						promoImgUrl = promoImgUrl || settings.social.promo_img_url;
 					
 				var description = '&description='+text,
 						redirect    = '&redirect_uri='+social.shareable_url,
@@ -1280,9 +1362,9 @@
 						topPos = e.pageY - 350;
 
 				var composed_url = social.percentEncode(facebook_url);
-				var settings = 'width=900,height=450,top=' + topPos + ',left=' + leftPos + ',scrollbars=no,location=0,statusbars=0,menubars=0,toolbars=0,resizable=0';
+				var window_settings = 'width=900,height=450,top=' + topPos + ',left=' + leftPos + ',scrollbars=no,location=0,statusbars=0,menubars=0,toolbars=0,resizable=0';
 				
-				window.open(composed_url, 'Share', settings);
+				window.open(composed_url, 'Share', window_settings);
 			},
 			gplus: function(e){
 				var base_url = 'https://plus.google.com/share',
@@ -1290,9 +1372,9 @@
 						gplus_url = base_url + page_url;
 
 				var composed_url = social.percentEncode(gplus_url);
-				var settings = 'width=600,height=600,scrollbars=yes,resizable=yes,toolbar=no,menubar=no';
+				var window_settings = 'width=600,height=600,scrollbars=yes,resizable=yes,toolbar=no,menubar=no';
 				
-				window.open(composed_url, 'Share', settings);
+				window.open(composed_url, 'Share', window_settings);
 			},
 			reddit: function(e){
 				var base_url = 'https://www.reddit.com/submit',
@@ -1301,9 +1383,9 @@
 				var reddit_url = base_url + page_url;
 
 				var composed_url = social.percentEncode(reddit_url);
-				var settings = 'width=600,height=600,scrollbars=yes,resizable=yes,toolbar=no,menubar=no';
+				var window_settings = 'width=600,height=600,scrollbars=yes,resizable=yes,toolbar=no,menubar=no';
 
-				window.open(composed_url, 'Share', settings);
+				window.open(composed_url, 'Share', window_settings);
 			}
 			
 		},
@@ -1312,16 +1394,48 @@
 		}
 	}
 
+	// The second argument are our defaults, the first argument says to do a deep extend (copying all nested values)
+	// This will replace our defaults with what is set in `config.js`.
+	var settings = $.extend(true, {
+		imgFormat: "jpg",
+		whitelabel: {
+			files: {
+				js: [] 
+			},
+			logo: ""
+		},
+		panelZoomMode: "desktop-hover", 
+		desktopHoverZoomOptions: {
+			scale: 1.5, 
+			fit: 1, 
+			padding: .25 
+		},
+		lazyLoadExtent: 6,
+		transitionDuration: 400,
+		singlePageWidthLimit: 635, // A bit of a magic number here to ensure that we go into mobile mode below this value.
+		gutterWidth: 2,
+		drawerTransitionDuration: 500,
+		social: {
+			twitter_text: "THE TEXT TO DISPLAY WHEN SOMEONE CLICKS ON THE TWEET BUTTON",
+			twitter_account: "THE RELATED TWITTER ACCOUNT.", 
+			fb_text: "THE TEXT TO DISPLAY WHEN SOMEONE CLICKS ON THE FACEBOOK SHARE BUTTON",
+			promo_img_url: "PUBLISHED URL FOR IMAGE TO USE AS SOCIAL PROMO", 
+			fb_app_id: "YOUR FB APP ID" 
+		},
+		requireStartOnFirstPage: false
+	}, PULP_SETTINGS);
 
+	// What to do on load
 	var init = {
 		go: function(){
-			this.whitelabel(PULP_SETTINGS.whitelabel);
+			this.whitelabel(settings.whitelabel);
 			// Add a throttle because the animation end is called once per child
-			// You could use `_.delay` but the timing wont' always be precise and you'll get a flicker.
+			// You could use `_.delay` but the timing won't always be precise and you'll get a flicker.
 			transitions.onAnimationEnd_throttled = _.throttle(transitions.onAnimationEnd, 5);
 			this.browser = this.browserCheck();
 			this.touch = this.touchCheck();
 			this.addMobileClass();
+			this.addPanelZoomModeClass();
 			layout.init();
 			layout.bakeMasks();
 			this.loadPages();
@@ -1399,9 +1513,13 @@
 			if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
 				$('body').addClass('mobile');
 			}
+		},
+		addPanelZoomModeClass: function(){
+			$('body').attr('data-panel-zoom-mode', settings.panelZoomMode);
 		}
-}
+	}
 
+	// Start everything
 	init.go();
 
 }).call(this);
