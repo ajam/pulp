@@ -56,7 +56,7 @@ Getting up and running takes three steps
 2. Place your images in the `imgs/pages/` folder — they can be any format, e.g. `.jpg`, `.png`, `.gif` etc.
 3. A `pages.json` file that defines the coordinates of your panels on the page — more on this next. Place this file in the `data/` folder.
 
-To define your panel regions, we've made a companion interface called [Pulp Press](https://ajam.github.io/pulp-press). It has its own [instructions page](http://github.com/ajam/pulp-press) but it's fairly simple to use.
+To define your panel regions, we've made a companion interface called [Pulp Press](https://ajam.github.io/pulp-press). It has its own [instructions page](http://github.com/ajam/pulp-press) and is fairly simple to use.
 
 1. Upload your images
 2. Click and drag to define the order of your panels
@@ -75,7 +75,9 @@ The CSS animations and transitions use a custom ease `cubic-bezier(0,0,.2,1)` wh
 
 ### Extra configuration
 
-Pulp also has a few options that it lets you change, if you so wish. They are all in the `config.js` file. Here's what a sample configuruation looks like with an explanation of what the values do. For the most part, you won't have to change any of the animation timings
+Pulp also has a few options that it lets you change, if you so wish. They are all in the `config.json` file. Here's what a sample configuruation looks like with an explanation of what the values do. You shouldn't have to change any of the animation or scaling settings, unless you want to.
+
+**Note:** The example here has comments in the code but don't include comments in your own `config.json` file, since the JSON format does not allow comments and the page will throw an error.
 
 
 ```js
@@ -97,9 +99,9 @@ Pulp also has a few options that it lets you change, if you so wish. They are al
 		"padding": 0.25 // A value between 0 and .5. Sometimes you don't want the mouse to have to reach the edge of the page to fully zoom. Setting this to something like .25 will mean you've reached the edge of the zoomed in image when you're within 25% of the page edge.
 	},
 	"lazyLoadExtent": 6, // How many pages behind and ahead do you want to load your images
-	"transitionDuration": 400, // In milliseconds, how fast the panels zooms and page turns animate. This value should match what's in your css under `transition_opts` minus the `'ms'`.
-	"gutterWidth": 2, // This should also match your css value, in this case `gutter_width`. This is the `padding-left` value for `.viewing.right-page`.
-	"drawerTransitionDuration": 500, // In milliseconds, how fast the mobile drawer comes in and out. Should match stylesheet value for `drawer_transition_opts`. transitionDuration`.
+	"transitionDuration": "400ms", // In milliseconds, how fast the panels zooms and page turns animate. 
+	"gutterWidth": 2, // How much space between the two panels in `double` mode. This is the `padding-left` value for `.viewing.right-page`.
+	"drawerTransitionDuration": "500ms", // In milliseconds, how fast the mobile drawer comes in and out.
 	"social": {
 		"twitter_text": "Read this comic, it's great!", // The text to display when someone clicks on the Tweet button
 		"twitter_account": "myhandle", // This will display in a tweet as `via @myhandle`.
@@ -123,7 +125,7 @@ You might also want to include some `<noscript>` for people who have JavaScript 
 
 ## Choosing an image format
 
-Pulp can handle a variety of image formats. Here's [one thread](https://github.com/ajam/pulp/issues/37) that discusses some choices. See the "In the wild" section for more examples.
+Pulp can handle a variety of image formats. Here's [one thread](https://github.com/ajam/pulp/issues/37) that discusses some choices. See the "In the wild" section below for more examples.
 
 ## In the wild
 
@@ -132,7 +134,7 @@ Pulp can handle a variety of image formats. Here's [one thread](https://github.c
 * BBC — [Hooked](http://www.bbc.com/news/magazine-32740691)
 * [Camille Bissuel](http://twitter.com/nylnook) — [Climate Change explained to Frogs, to Toads, to Batrachians Generally, and All Earthlings Who Might Feel a Little Concerned](http://nylnook.com/comics/climate-frogs)
 
-## Making changes
+## Customizing
 
 Once you change the transition timings in the `config.js`, the transition timings also have to be changed in the Stylus CSS, `css/styles.styl` (It would be nice to improve this but anything else would require a larger build process such as Gulp or Grunt). The CSS is written using a preprocessor called Stylus with an add-on called Nib. Nib greatly simplifies writing animations as it writes all the CSS vendor prefixes for you.
 
@@ -155,8 +157,6 @@ To watch your `.styl` files for changes and automatically recompile the CSS:
 ```bash
 npm run dev
 ```
-
-One improvement would be to not have to make these changes twice (once in `config.js` and once in `styles.styl`). The solution is to create a larger build process, which has its own issues. Since these values should work for most people, however, hopefully you wont' have to change it so much. Let me know by [filing an issue](https://github.com/ajam/pulp/issues).
 
 ### LICENSE
 
