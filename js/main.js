@@ -504,8 +504,7 @@
 			}
 	  },
 	  bakePubDate: function(){
-	  	var pub_date = PULP_SETTINGS.pubDate;
-	  	$(this.pubDate).html(pub_date);
+	  	$(this.pubDate).html(settings.pubDate);
 	  }
 	}
 
@@ -1394,59 +1393,77 @@
 		}
 	}
 
-	// The second argument are our defaults, the first argument says to do a deep extend (copying all nested values)
-	// This will replace our defaults with what is set in `config.js`.
-	var settings = $.extend(true, {
-		imgFormat: "jpg",
-		whitelabel: {
-			files: {
-				js: [] 
+	// Our module-scoped settings object
+	var settings = {}
+
+	var loadSettings = {
+		init: function(cb){
+			$.getJSON('config.json')
+				.done(function(config){
+					// The second argument are our defaults, the first argument says to do a deep extend (copying all nested values)
+					// This will replace our defaults with what is set in `config.js`.
+					settings = $.extend(true, loadSettings.defaults, config);
+					cb()
+				})
+				.error(function(error){
+					alert('Error loading config. File is either missing or the JSON is malformed. Try running `config.json` it through jsonlint.com');
+				});
+		},
+		defaults: {
+			imgFormat: "jpg",
+			whitelabel: {
+				files: {
+					js: [] 
+				},
+				logo: ""
 			},
-			logo: ""
-		},
-		panelZoomMode: "desktop-hover", 
-		desktopHoverZoomOptions: {
-			scale: 1.5, 
-			fit: 1, 
-			padding: .25 
-		},
-		lazyLoadExtent: 6,
-		transitionDuration: 400,
-		singlePageWidthLimit: 635, // A bit of a magic number here to ensure that we go into mobile mode below this value.
-		gutterWidth: 2,
-		drawerTransitionDuration: 500,
-		social: {
-			twitter_text: "THE TEXT TO DISPLAY WHEN SOMEONE CLICKS ON THE TWEET BUTTON",
-			twitter_account: "THE RELATED TWITTER ACCOUNT.", 
-			fb_text: "THE TEXT TO DISPLAY WHEN SOMEONE CLICKS ON THE FACEBOOK SHARE BUTTON",
-			promo_img_url: "PUBLISHED URL FOR IMAGE TO USE AS SOCIAL PROMO", 
-			fb_app_id: "YOUR FB APP ID" 
-		},
-		requireStartOnFirstPage: false
-	}, PULP_SETTINGS);
+			panelZoomMode: "desktop-hover", 
+			desktopHoverZoomOptions: {
+				scale: 1.5, 
+				fit: 1, 
+				padding: .25 
+			},
+			lazyLoadExtent: 6,
+			transitionDuration: 400,
+			singlePageWidthLimit: 635, // A bit of a magic number here to ensure that we go into mobile mode below this value.
+			gutterWidth: 2,
+			drawerTransitionDuration: 500,
+			social: {
+				twitter_text: "THE TEXT TO DISPLAY WHEN SOMEONE CLICKS ON THE TWEET BUTTON",
+				twitter_account: "THE RELATED TWITTER ACCOUNT.", 
+				fb_text: "THE TEXT TO DISPLAY WHEN SOMEONE CLICKS ON THE FACEBOOK SHARE BUTTON",
+				promo_img_url: "PUBLISHED URL FOR IMAGE TO USE AS SOCIAL PROMO", 
+				fb_app_id: "YOUR FB APP ID" 
+			},
+			requireStartOnFirstPage: false
+		}
+	}
 
 	// What to do on load
 	var init = {
 		go: function(){
-			this.whitelabel(settings.whitelabel);
-			// Add a throttle because the animation end is called once per child
-			// You could use `_.delay` but the timing won't always be precise and you'll get a flicker.
-			transitions.onAnimationEnd_throttled = _.throttle(transitions.onAnimationEnd, 5);
-			this.browser = this.browserCheck();
-			this.touch = this.touchCheck();
-			this.addMobileClass();
-			this.addPanelZoomModeClass();
-			layout.init();
-			layout.bakeMasks();
-			this.loadPages();
-			listeners.resize();
-			listeners.header();
-			listeners.keyboardAndGestures();
-			listeners.drawer();
-			listeners.fullscreen();
-			social.init();
-			FastClick.attach(document.body);
-			this.browserHacks();
+			var self = this
+			loadSettings.init(function(){
+				self.whitelabel(settings.whitelabel);
+				// Add a throttle because the animation end is called once per child
+				// You could use `_.delay` but the timing won't always be precise and you'll get a flicker.
+				transitions.onAnimationEnd_throttled = _.throttle(transitions.onAnimationEnd, 5);
+				self.browser = self.browserCheck();
+				self.touch = self.touchCheck();
+				self.addMobileClass();
+				self.addPanelZoomModeClass();
+				layout.init();
+				layout.bakeMasks();
+				self.loadPages();
+				listeners.resize();
+				listeners.header();
+				listeners.keyboardAndGestures();
+				listeners.drawer();
+				listeners.fullscreen();
+				social.init();
+				FastClick.attach(document.body);
+				self.browserHacks();
+			})
 		},
 		loadPages: function(){
 			$.getJSON('data/pages.json')
@@ -1458,7 +1475,7 @@
 					layout.bakeEndnotes(endnotes);
 				})
 				.error(function(error){
-					alert('Error loading data. Data file is either missing or the JSON is malformed. Try running it through jsonlint.com');
+					alert('Error loading data. Data file is either missing or the JSON is malformed. Try running `pages.json` through jsonlint.com');
 				});
 		},
 		browserCheck: function(){
