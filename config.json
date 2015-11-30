@@ -1,0 +1,28 @@
+{
+  "pubDate": "Jan 1, 1970",
+  "imgFormat": "jpg",
+  "whitelabel": {
+    "files": {
+      "js": []
+    },
+    "logo": ""
+  },
+  "panelZoomMode": "desktop-hover",
+  "desktopHoverZoomOptions": {
+    "scale": 1.75,
+    "fit": 0.98,
+    "padding": 0.25
+  },
+  "lazyLoadExtent": 6,
+  "transitionDuration": "300ms",
+  "gutterWidth": 2,
+  "drawerTransitionDuration": "500ms",
+  "social": {
+    "twitter_text": "THE TEXT TO DISPLAY WHEN SOMEONE CLICKS ON THE TWEET BUTTON",
+    "twitter_account": "THE RELATED TWITTER ACCOUNT.",
+    "fb_text": "THE TEXT TO DISPLAY WHEN SOMEONE CLICKS ON THE FACEBOOK SHARE BUTTON",
+    "promo_img_url": "PUBLISHED URL FOR IMAGE TO USE AS SOCIAL PROMO",
+    "fb_app_id": "YOUR FB APP ID"
+  },
+  "requireStartOnFirstPage": false
+}

@@ -5,10 +5,12 @@ var plumber = require('gulp-plumber')
 var nib = require('nib')
 var minimist = require('minimist')
 var gls = require('gulp-live-server')
+var jsonStylus = require('gulp-json-stylus');
 
 var argv = minimist(process.argv.slice(2))
 
 var paths = {
+  config: 'config.json',
   js: {
     main: 'js/main.js'
   },

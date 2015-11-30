@@ -24,6 +24,7 @@
   "homepage": "https://github.com/ajam/pulp#readme",
   "dependencies": {
     "gulp": "^3.9.0",
+    "gulp-json-stylus": "^0.1.0",
     "gulp-live-server": "0.0.29",
     "gulp-plumber": "^1.0.1",
     "gulp-stylus": "^2.1.0",
