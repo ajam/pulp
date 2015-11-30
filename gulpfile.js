@@ -60,7 +60,7 @@ gulp.task('make-js-pkg', function() {
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(uglify({
-      preserveComments: 'some'
+      //preserveComments: 'some'
     }))
     .pipe(concat('main.pkgd.min.js')) // The file to write out
     .pipe(sourcemaps.write('./')) // Write these in the same folder as our `dest` in the line below
