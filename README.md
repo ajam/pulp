@@ -152,7 +152,7 @@ Compile the CSS with
 npm run build
 ```
 
-To watch your `.styl` files for changes and automatically recompile the CSS:
+To launch a webserver and recompile your files on change:
 
 ```bash
 npm run dev
