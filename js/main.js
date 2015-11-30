@@ -73,7 +73,7 @@
 			return css;
 		},
 		addDuration: function(cssObj, transitionDuration){
-			var duration = transitionDuration ? (settings.transitionDuration + 'ms') : 0;
+			var duration = transitionDuration ? settings.transitionDuration : 0;
 			_.extend(cssObj, {'transition-duration': duration});
 			return cssObj;
 		},
@@ -428,7 +428,7 @@
 			}
 			open = open || $body.attr('data-side-drawer-open') == 'true';
 			$body.attr('data-side-drawer-open', !open);
-			_.delay(this.onDrawerTransitionEnd, settings.drawerTransitionDuration);
+			_.delay(this.onDrawerTransitionEnd, parseInt(settings.drawerTransitionDuration));
 
 		},
 		onDrawerTransitionEnd: function(e){

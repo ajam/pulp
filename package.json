@@ -1,6 +1,6 @@
 {
-  "name": "pulp",
-  "version": "1.0.0",
+  "name": "Pulp",
+  "version": "1.1.0",
   "description": "A responsive, multi-platform web comic viewer.",
   "main": "index.html",
   "scripts": {
