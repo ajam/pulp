@@ -456,12 +456,6 @@ body[data-panel-zoom-mode="desktop-hover"] .main-nav-btn-container[data-dir="nex
   -ms-transition: -ms-transform 400ms cubic-bezier(0, 0, 0.2, 1);
   transition: transform 400ms cubic-bezier(0, 0, 0.2, 1);
 }
-.main-nav-btn {
-  background-color: #fc0;
-  opacity: 0.5;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-  filter: alpha(opacity=50);
-}
 .nav-helpers {
   position: absolute;
   top: 43.5%;
