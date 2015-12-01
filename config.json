@@ -14,7 +14,7 @@
     "padding": 0.25
   },
   "lazyLoadExtent": 6,
-  "transitionDuration": "300ms",
+  "transitionDuration": "400ms",
   "gutterWidth": 2,
   "drawerTransitionDuration": "500ms",
   "social": {
