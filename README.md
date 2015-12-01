@@ -85,10 +85,6 @@ Pulp also has a few options that it lets you change, if you so wish. They are al
 	"pubDate": "Jan 1, 1970", // This will appear in the header on desktop and in the drawer on mobile
 	"imgFormat": "jpg", // What format are your images in?
 	"whitelabel": {
-		"files": { // If you have any additional files, you can specify them here and put them in `whitelabel/<js-or-css-folder>/<file>`. You can also load them through index.html if you'd like.
-			"js": ["custom.js"],
-			"css": ["custom.css"] 
-		},
 		"logo": "<img src='imgs/assets/logo.png'></img>" // Do you want to include an image in the top left?
 	},
 	"panelZoomMode": "mobile-only", // Default is `mobile-only`. 

@@ -1503,15 +1503,6 @@
 		},
 		whitelabel: function(whitelabelObj){
 			if (whitelabelObj){
-				// JS + CSS
-				_.each(whitelabelObj.files, function(files, extension){
-					var tag;
-					for (var i = 0; i < files.length; i++) {
-						if (extension == 'js') tag = '<script src="whitelabel/js/'+files[i]+'"></script>';
-						if (extension == 'css') tag  = '<link rel="stylesheet" type="text/css" href="whitelabel/css/'+files[i]+'" />';
-						document.write(tag);
-					}
-				});
 				// Logo Markup
 				// Note, this is appending because we have elements that are floating right in the header
 				// This is to avoid a bug which would cause those elements to be pushed to the next line

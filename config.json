@@ -2,10 +2,6 @@
   "pubDate": "Jan 1, 1970",
   "imgFormat": "jpg",
   "whitelabel": {
-    "files": {
-      "js": ["custom.js"],
-      "css": ["custom.css"]
-    },
     "logo": ""
   },
   "panelZoomMode": "desktop-hover",
