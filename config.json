@@ -3,7 +3,8 @@
   "imgFormat": "jpg",
   "whitelabel": {
     "files": {
-      "js": []
+      "js": ["custom.js"],
+      "css": ["custom.css"]
     },
     "logo": ""
   },
