@@ -451,6 +451,7 @@
 				'transform': 'translateX(' + (current_translateX - d_x) + 'px)'
 			});
 			this.last_x = x;
+			$('.header-item-container[data-action="drawer"]').removeClass('active');
 			return false;
 		},
 		snapDrawer: function(){
@@ -459,6 +460,7 @@
 				'transition-duration': settings.drawerTransitionDuration,
 				'transform': 'auto'
 			});
+			$('.header-item-container[data-action="drawer"]').removeClass('active');
 			layout.slideContentArea(true);
 		},
 		goToPage: {

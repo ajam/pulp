@@ -736,13 +736,6 @@ body[data-state="page-change"] #pages-wrapper {
 .page {
   position: relative;
 }
-body[data-format="double"][data-bookend="true"] .hover-mask {
-  -webkit-transform: translateX(50%) translate3d(0, 0, 0);
-  -moz-transform: translateX(50%) translate3d(0, 0, 0);
-  -o-transform: translateX(50%) translate3d(0, 0, 0);
-  -ms-transform: translateX(50%) translate3d(0, 0, 0);
-  transform: translateX(50%) translate3d(0, 0, 0);
-}
 .page-container.viewing {
   visibility: visible;
   z-index: 99;
@@ -811,13 +804,6 @@ body[data-state="page-change"][data-format="double"] .hover-mask {
   -o-transform: translate3d(0, 0, 0) !important;
   -ms-transform: translate3d(0, 0, 0) !important;
   transform: translate3d(0, 0, 0) !important;
-}
-body[data-state="page-change"][data-format="double"] .page-container.enter-from-left .hover-mask {
-  -webkit-transform: translateX(50%) translate3d(0, 0, 0) !important;
-  -moz-transform: translateX(50%) translate3d(0, 0, 0) !important;
-  -o-transform: translateX(50%) translate3d(0, 0, 0) !important;
-  -ms-transform: translateX(50%) translate3d(0, 0, 0) !important;
-  transform: translateX(50%) translate3d(0, 0, 0) !important;
 }
 .page-container.exit-to-left {
   -webkit-animation: exit-to-left 300ms linear;

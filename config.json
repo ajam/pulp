@@ -9,7 +9,7 @@
   },
   "panelZoomMode": "desktop-hover",
   "desktopHoverZoomOptions": {
-    "scale": 1.75,
+    "scale": 1.5,
     "fit": 0.98,
     "padding": 0.25
   },
