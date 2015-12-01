@@ -678,10 +678,13 @@
 					var formatState = state.get('format'),
 							format = formatState.format;
 
-					if ( format != 'mobile') {
-						$(this).find('img').css({
+					var css_reset = {
 							'transform': 'translate(0%,0%)scale(1)'
-						});
+						}
+
+					if ( format != 'mobile') {
+						$(this).find('img').css(css_reset);
+						$(this).find('.paragraph-text').css(css_reset);
 					}
 				});
 
@@ -724,9 +727,12 @@
 						var scaled_x_perc = scale(x_perc),
 								scaled_y_perc = scale(y_perc);
 
-						$hover_img.css({
+						var css_transform = {
 							'transform': 'matrix('+ scale_value +', 0, 0, '+ scale_value +', ' + scaled_x_perc/100*page_width + ', ' + scaled_y_perc/100*page_height + ')'
-						});
+						}
+
+						$hover_img.css(css_transform);
+						$page.find('.paragraph-text').css(css_transform);
 
 					}
 

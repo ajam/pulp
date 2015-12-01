@@ -172,18 +172,18 @@
 			<div id="page-container-<%= number %>"  class="page-container">
 				<div class="page-mask">
 					<div class="page" id="page-<%= number %>" data-length="<% print(hotspots.length) %>" >
-						<% if (page_text.length) { %>
-							<div class="paragraph-text">
-							<% for (var q = 0; q < page_text.length; q++) { %>
-								<p><%= page_text[q] %></p>
-							<% } %>
-							</div>
-						<% } %>
 						<% for (var i = 0; i < hotspots.length; i++ ) {%>
 							<div class="hotspot" id="hotspot-<%= number %>-<% print(i + 1) %>" data-hotspot-id="<%= number %>-<% print(i + 1) %>" style="<%= hotspots[i] %>"></div>
 						<% } %>
 						<!-- Dont lazy load the first image -->
 						<div class="hover-mask">
+							<% if (page_text.length) { %>
+								<div class="paragraph-text">
+								<% for (var q = 0; q < page_text.length; q++) { %>
+									<p><%= page_text[q] %></p>
+								<% } %>
+								</div>
+							<% } %>
 							<% if (number == 1) { %>
 									<img src="imgs/pages/page-1.<%= img_format %>" alt="<%= script_text %>"/>
 							<% } else { %>
