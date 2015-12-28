@@ -35,7 +35,7 @@
   /* For safety - reset parent styles, that can break glyph codes*/
   font-variant: normal;
   text-transform: none;
-     
+ 
   /* fix buttons height, for twitter bootstrap */
   line-height: 1em;
  
@@ -45,6 +45,10 @@
  
   /* you can be more comfortable with increased icons size */
   /* font-size: 120%; */
+ 
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
  
   /* Uncomment for 3D effect */
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
@@ -60,5 +64,6 @@
 .pulp-icon-angle-left:before { content: '\e807'; } /* '' */
 .pulp-icon-angle-right:before { content: '\e808'; } /* '' */
 .pulp-icon-dot-3:before { content: '\e809'; } /* '' */
+.pulp-icon-chat:before { content: '\e809'; } /* '' */
 .pulp-icon-share:before { content: '\e80a'; } /* '' */
-.pulp-icon-chat-1:before { content: '\e80b'; } /* '' */
+.pulp-icon-zoom-in:before { content: '\e80b'; } /* '' */

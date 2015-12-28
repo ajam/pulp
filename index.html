@@ -4,32 +4,45 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+
+		<!-- YOU CAN ADD .ICO ICONS HERE -->
+	  <link rel="icon" type="image/x-icon" href=""/>
+    <link rel="shortcut icon" type="image/x-icon" href=""/>
+    <link rel="apple-touch-icon" href=""/>	
+
 		<title>Pulp | Comic viewer</title>
 
 	 	<link rel="stylesheet" type="text/css" href="css/thirdparty/reset.css">
 	 	<link rel="stylesheet" type="text/css" href="css/thirdparty/pulp-icon.css">
 	 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 
+	 	<!-- WHAT APPEARS FOR SEARCH ENGINES -->
+    <meta name="robots" content="NOODP">
+    <meta name="keywords"  content="" />
+    <meta name="description" content="In a comic format, AJAM presents a graphic comic about Uber, the ratings economy and what"/>
+
 	 	<!-- DON'T FORGET TO FILL OUT OpenGraph FIELDS -->
+	 	<!-- http://ogp.me/ -->
 		<meta property="og:title" content="">
 		<meta property="og:type" content="website">
 		<meta property="og:url" content="">
 		<meta property="og:image" content="">
-		<meta property="og:site_name" content="Al Jazeera America">
+		<meta property="og:site_name" content="">
 		<meta property="og:description" content="">
 
-		<meta property="article:author" content="h" />
-		<meta property="article:publisher" content="" />
+    <meta property="fb:app_id" content="" />
 
+    <!-- TWITTER TAGS -->
+    <!-- https://dev.twitter.com/cards/markup -->
 		<meta name="twitter:card" content="summary_large_image">
 		<meta name="twitter:site" content="">
 		<meta name="twitter:title" content="">
-
 		<meta name="twitter:description" content="">
 		<meta name="twitter:creator" content="">
 
 		<meta name="twitter:image:src" content=""> <!-- at least 280px x 150px for Twitter (image must be < 1MB) -->
 		<meta name="twitter:domain" content="">
+		
 		<!-- OPTIONAl -->
 		<meta name="twitter:app:name:iphone" content="">
 		<meta name="twitter:app:name:ipad" content="">
@@ -44,170 +57,164 @@
 	</head>
 	<body>
 		<div id="side-drawer-container" class="mobile-scrollable">
-			<div id="side-drawer-content">
-				<div class="drawer-section-container" data-which="share">
-					<ul>
-						<li class="pulp-icon-twitter social-btn" data-which="twitter"></li><li class="pulp-icon-facebook social-btn" data-which="facebook"></li><li class="pulp-icon-gplus social-btn" data-which="gplus"></li><li class="pulp-icon-reddit social-btn" data-which="reddit"></li>
-					</ul>
-				</div>
-				<div class="drawer-section-container" data-section="pub-date">
-					<div class="section-subtitle">Published: <span class="pub-date-js"></span></div>
-				</div>
-				<div class="drawer-section-container" data-section="downloads">
-					<div class="section-title">View</div>
-					<ul>
-						<a data-which="ibooks" href="" target="_blank"><li>On iBooks...</li></a>
-						<a data-which="epub" href="" target="_blank"><li>As ePub...</li></a>
-						<a data-which="pdf" href="" target="_blank"><li>As PDF...</li></a>
-					</ul>
-				</div>
-				<div class="drawer-section-container">
-					<div class="section-title">Comments</div>
-					<ul>
-						<a href="" target="_blank"><li>Share your view...</li></a>
-					</ul>
-				</div>
-				<div class="drawer-section-container">
-					<div class="section-title"></div>
-					<ul class="endnotes" data-which="mobile">
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div id="main-content-wrapper">
-			<div id="header">
-				<ul class="header-group mobile">
-					<li class="header-item-container" data-btn="hamburger" data-action="drawer">
-						<div class="header-item header-btn">
-							<div class="pulp-icon-menu header-btn-icon"></div>
-						</div>
-					</li>
-				</ul>
-				<ul class="header-group desktop">
-					<li class="header-item-container dropdowned" data-btn="export">
-						<div class="header-item header-btn">
-							<span class="pulp-icon-download-cloud header-btn-icon"></span>
-						</div>
-						<ul class="btn-dropdown" data-which="alt-formats">
-							<a data-which="ibooks" href="" target="_blank"><li>View on iBooks...</li></a>
-							<a data-which="epub" href="" target="_blank"><li>ePub...</li></a>
-							<a data-which="pdf" href="" target="_blank"><li>PDF...</li></a>
-						</ul>
-					</li><li class="header-item-container tooltipped" data-btn="endnotes" data-action="drawer" aria-label="Endnotes">
-						<div class="header-item header-btn">
-							<div class="pulp-icon-dot-3 header-btn-icon"></div>
-						</div>
-					</li><li class="header-item-container tooltipped mobile-hide" data-btn="fullscreen" aria-label="Fullscreen">
-						<div class="header-item header-btn">
-							<div class="pulp-icon-resize-full header-btn-icon"></div>
-						</div>
-					</li><li class="header-item-container tooltipped" data-btn="comment" aria-label="Share your story">
-						<div class="header-item header-btn">
-							<a href="" target="_blank"><div class="pulp-icon-chat-1 header-btn-icon"></div></a>
-						</div>
-					</li><li class="header-item-container dropdowned" data-btn="share">
-						<div class="header-item header-btn">
-							<div class="pulp-icon-share header-btn-icon"></div>
-						</div>
-						<ul class="btn-dropdown" data-which="share">
-							<li class="pulp-icon-twitter social-btn" data-which="twitter"></li>
-							<li class="pulp-icon-facebook social-btn" data-which="facebook"></li>
-							<li class="pulp-icon-gplus social-btn" data-which="gplus"></li>
-							<li class="pulp-icon-reddit social-btn" data-which="reddit"></li>
-						</ul>
-					</li>
-				</ul>
-				<ul class="header-group">
-					<li class="header-item-container tooltipped-i"  aria-label="'Return' to navigate. 'Esc' to clear.">
-						<div class="header-item" data-which="page-number">
-							<div class="header-text">
-								Page <input min="1" type="number" id="page-number-input"/> / <span id="pages-max"></span>
-							</div>
-						</div>
-				</ul>
-				<ul class="header-group desktop">
-					<li class="header-item-container">
-						<div class="header-item" data-which="pub-date">
-							<div class="header-text pub-date-js">Jan 1, 1970</div>
-						</div>
-				</ul>
-			</div>
+      <div id="side-drawer-content">
+        <div class="drawer-section-container" data-which="share">
+          <ul>
+            <li class="pulp-icon-twitter social-btn" data-which="twitter"></li><li class="pulp-icon-facebook social-btn" data-which="facebook"></li><li class="pulp-icon-gplus social-btn" data-which="gplus"></li><li class="pulp-icon-reddit social-btn" data-which="reddit"></li>
+          </ul>
+        </div>
+        <div class="drawer-section-container" data-section="pub-date">
+          <div class="section-subtitle">Published: <span class="pub-date-js"></span></div>
+        </div>
+        <div class="drawer-section-container" data-section="downloads">
+          <div class="section-title">View</div>
+          <ul>
+            <a data-which="googleplay" href="" target="_blank"><li>On Google Play...</li></a>
+            <a data-which="ibooks" href="" target="_blank"><li>On iBooks...</li></a>
+            <a data-which="epub" href="" target="_blank"><li>As ePub...</li></a>
+            <a data-which="pdf" href="" target="_blank"><li>As PDF...</li></a>
+          </ul>
+        </div>
+        <div class="drawer-section-container">
+          <div class="section-title">Comments</div>
+          <ul>
+            <a href="" target="_blank"><li>Comments</li></a>
+          </ul>
+        </div>
+        <div class="drawer-section-container">
+          <div class="section-title"></div>
+          <ul class="endnotes" data-which="mobile">
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="main-content-wrapper">
+      <div id="header">
+        <ul class="header-group mobile">
+          <li class="header-item-container" data-btn="hamburger" data-action="drawer">
+            <div class="header-item header-btn">
+              <div class="pulp-icon-menu header-btn-icon"></div>
+            </div>
+          </li>
+        </ul>
+        <ul class="header-group desktop">
+          <li class="header-item-container tooltipped mobile-hide" data-btn="fullscreen" aria-label="Fullscreen">
+            <div class="header-item header-btn">
+              <div class="pulp-icon-resize-full header-btn-icon"></div>
+            </div>
+          </li><li class="header-item-container tooltipped mobile-hide" data-btn="enable-zoom" aria-label="Toggle hover zoom">
+            <div class="header-item header-btn">
+              <div class="pulp-icon-zoom-in header-btn-icon"></div>
+            </div>
+          </li><li class="header-item-container tooltipped" data-btn="comment" aria-label="Comments">
+            <div class="header-item header-btn">
+              <a href="comments/index.html" target="_blank"><div class="pulp-icon-chat header-btn-icon"></div></a>
+            </div>
+          </li><li class="header-item-container dropdowned" data-btn="export">
+            <div class="header-item header-btn">
+              <span class="pulp-icon-download-cloud header-btn-icon"></span>
+            </div>
+            <ul class="btn-dropdown" data-which="alt-formats">
+              <a data-which="googleplay" href="" target="_blank"><li>On Google Play...</li></a>
+              <a data-which="ibooks" href="" target="_blank"><li>On iBooks...</li></a>
+              <a data-which="epub" href="" target="_blank"><li>ePub...</li></a>
+              <a data-which="pdf" href="" target="_blank"><li>PDF...</li></a>
+            </ul>
+          </li><li class="header-item-container dropdowned" data-btn="share">
+            <div class="header-item header-btn">
+              <div class="pulp-icon-share header-btn-icon"></div>
+            </div>
+            <ul class="btn-dropdown" data-which="share">
+              <li class="pulp-icon-twitter social-btn" data-which="twitter"></li>
+              <li class="pulp-icon-facebook social-btn" data-which="facebook"></li>
+              <li class="pulp-icon-gplus social-btn" data-which="gplus"></li>
+              <li class="pulp-icon-reddit social-btn" data-which="reddit"></li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="header-group">
+          <li class="header-item-container tooltipped-i"  aria-label="'Return' to navigate. 'Esc' to clear.">
+            <div class="header-item" data-which="page-number">
+              <div class="header-text">
+                Page <input min="1" type="number" id="page-number-input"/> / <span id="pages-max"></span>
+              </div>
+            </div>
+        </ul>
+        <ul class="header-group desktop">
+          <li class="header-item-container">
+            <div class="header-item" data-which="pub-date">
+              <div class="header-text pub-date-js"></div>
+            </div>
+        </ul>
+      </div>
 
-			<div id="desktop-drawer-container">
-				<div id="desktop-drawer-content">
-					<div class="section-title">Endnotes
-						<!-- <span class="section-title-pointer"> (page/panel)</span> -->
-						<span class="section-title-close" data-action="drawer">close</span>
-					</div>
-					<ul class="endnotes" data-which="desktop">
-					</ul>
-				</div>
-			</div>
+      <div id="desktop-drawer-container">
+        <div id="desktop-drawer-content">
+          <div class="section-title">Endnotes
+            <!-- <span class="section-title-pointer"> (page/panel)</span> -->
+            <span class="section-title-close" data-action="drawer">close</span>
+          </div>
+          <ul class="endnotes" data-which="desktop">
+          </ul>
+        </div>
+      </div>
 
-			<div id="btns">
-				<div class="main-nav-btn-container" data-dir="prev"><div class="main-nav-btn"><div class="btn-text pulp-icon-angle-left"></div></div></div><div class="main-nav-btn-container" data-dir="next"><div class="main-nav-btn"><div class="btn-text pulp-icon-angle-right"></div><div class="nav-helpers"><div class="nav-helpers-child" data-mode="intro">Use arrow keys <div class="nav-helper-arrows"><span>&#8592;</span><span>&#8594;</span></div> or click to navigate.</div><div class="nav-helpers-child" data-mode="expand">Expand window to see more pages<br/><img src="imgs/assets/horizontal-resize.svg"/></div></div></div></div>
-			</div>
-			<div id="side-drawer-handle"></div>
-			<div id="pages-wrapper">
-				<div id="pages"></div>
-			</div>
+      <div id="btns">
+        <div class="main-nav-btn-container" data-dir="prev"><div class="main-nav-btn"><div class="btn-text pulp-icon-angle-left"></div></div></div><div class="main-nav-btn-container" data-dir="next"><div class="main-nav-btn"><div class="btn-text pulp-icon-angle-right"></div><div class="nav-helpers"><div class="nav-helpers-child" data-mode="intro">Use arrow keys <div class="nav-helper-arrows"><span>&#8592;</span><span>&#8594;</span></div> or click to navigate.</div><div class="nav-helpers-child" data-mode="expand">Expand window to see more pages<br/><img src="imgs/assets/horizontal-resize.svg"/></div></div></div></div>
+      </div>
+      <div id="side-drawer-handle"></div>
+      <div id="pages-wrapper">
+        <div id="pages"></div>
+      </div>
 
-		</div>
+    </div>
 
-		<!-- Endnotes template, split on the first color since that will be our page panel convention -->
-		<script type="text/template" id="endnote-template">
-			<li class="endnote"><span class="endnote-number"><%= endnote.number %></span>
-			<%= endnote.page_panel %>: 
-			<% if (endnote.url) { %>
-				<a href="<%= endnote.url %>" target="_blank"><%= endnote.text %></a>
-			<% } else { %>
-				<%= endnote.text %>
-			<% } %>
-			</li>
-		</script>
-		<!-- end endnotes template -->
+    <!-- Endnotes template, split on the first color since that will be our page panel convention -->
+    <script type="text/template" id="endnote-template">
+      <li class="endnote"><span class="endnote-number"><%= endnote.number %></span>
+      <%= endnote.page_panel %>: 
+      <% if (endnote.url) { %>
+        <a href="<%= endnote.url %>" target="_blank"><%= endnote.text %></a>
+      <% } else { %>
+        <%= endnote.text %>
+      <% } %>
+      </li>
+    </script>
+    <!-- end endnotes template -->
 
-		<!-- Page template -->
-		<script type="text/template" id="page-template">
-			<div id="page-container-<%= number %>"  class="page-container">
-				<div class="page-mask">
-					<div class="page" id="page-<%= number %>" data-length="<% print(hotspots.length) %>" >
-						<% for (var i = 0; i < hotspots.length; i++ ) {%>
-							<div class="hotspot" id="hotspot-<%= number %>-<% print(i + 1) %>" data-hotspot-id="<%= number %>-<% print(i + 1) %>" style="<%= hotspots[i] %>"></div>
-						<% } %>
-						<!-- Dont lazy load the first image -->
-						<div class="hover-mask">
-							<% if (page_text.length) { %>
-								<div class="paragraph-text">
-								<% for (var q = 0; q < page_text.length; q++) { %>
-									<p><%= page_text[q] %></p>
-								<% } %>
-								</div>
-							<% } %>
-							<% if (number == 1) { %>
-									<img src="imgs/pages/page-1.<%= img_format %>" alt="<%= script_text %>"/>
-							<% } else { %>
-								<img src="data:image/gif;base64,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Q4seTbq06dOoU6tezbq169ewY8ueTbu27du4c+vezbu379/AgwsfTry48ePIkytfzry58+fQo0ufTr269evYs2vfzr279+/gw4sfT768+fPo06tfz769+/fw48ufT7++/fv48+vfz7+///8ABijggAQWaOCBCCao4IIMNujggxBGKOGEFFZo4YUYZqjhhhx26OGHIIYo4ogklmjiiSimqOKKLLbo4oswxijjjDTWaOONOOao44489ujjj0AGKeSQRBZp5JFIJqnk/5JMNunkk1BGKeWUVFZp5ZVYZqnlllx26eWXYIYp5phklmnmmWimqeaabLbp5ptwxinnnHTWaeedeOap55589unnn4AGKuighBZq6KGIJqrooow26uijkEYq6aSUVmrppZhmqummnHbq6aeghirqqKSWauqpqKaq6qqsturqq7DGKuustNZq66245qrrrrz26uuvwAYr7LDEFmvsscgmq+yyzDbr7LPQRivttNRWa+212Gar7bbcduvtt+CGK+645JZr7rnopqvuuuy26+678MYr77z01mvvvfjmq+++/Pbr778AByzwwB0CYPDBCCes8MIIh8rwwxAn7HDEFDM8cf/FGB98scEmdODxxx43cLDIFG8MAAkUCKDyygKQDEASQegwAsQnEkDAAbHY7IAgBxCwgC8Ko8yyyi4noXIFRrgssYkBBDBALE0XIMgAARAAdNAps+yyByxrMMHCJzb9NCxR8+zz1QmfkPXKRQ/Nw9dLlyg21AFILYzCJcAwdMsHg/DC2gL0oHDYTtNtdzAJN/ABy1krDcAFGaxMwQVxkzg3IwVEYEDTEUBwCAMJPND0AwkcTsgBCjStAM5lR9Hzz4IscHMUA6QegAKeFwL65qQj8HooCWPA8gYhcMB3wiVUsLIGlY94uSILNC190wkUUsDm0zeNMyEJZB9A93VPXfX/IAQEsIDt0+cuiAPYS29A91aDkjAUKwchMgkwOG6wCJLPrDHThVPEAcTGgCggQAKbg50gRKcAuznAdggYhATEFsEHSs9uVItfFMoXAANIIIIFSN0DBoGAzRFgZwfEngY9gbAGyGBlITgYCfQHgAb4YGUraBgAx4aIEgZwEBBoWgGj4IDWCYIBRtycBAiBANGFj3bjEwQHTRfEAAwxeiMkRBVX2AmEdUBycIsYEFb2Ah3K7YeHGGAAIlgI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" alt="<%= script_text %>"/>
-							<% } %>
-						</div>
-					</div>
-				</div>
-			</div>
-		</script>
-		<!-- end page template -->
+    <!-- Page template -->
+    <script type="text/template" id="page-template">
+      <div id="page-container-<%= number %>"  class="page-container">
+        <div class="page-mask">
+          <div class="page" id="page-<%= number %>" data-length="<% print(hotspots.length) %>" >
+            <% for (var i = 0; i < hotspots.length; i++ ) {%>
+              <div class="hotspot" id="hotspot-<%= number %>-<% print(i + 1) %>" data-hotspot-id="<%= number %>-<% print(i + 1) %>" style="<%= hotspots[i] %>"></div>
+            <% } %>
+            <!-- Dont lazy load the first image -->
+            <div class="hover-mask">
+              <% if (page_text.length) { %>
+                <div class="paragraph-text">
+                <% for (var q = 0; q < page_text.length; q++) { %>
+                  <p><%= page_text[q] %></p>
+                <% } %>
+                </div>
+              <% } %>
+              <% if (number == 1) { %>
+                  <img src="imgs/pages/page-1.<%= img_format %>" alt="<%= script_text %>"/>
+              <% } else { %>
+                <img src="data:image/gif;base64,R0lGODlhQQLuAuZRAP///wAAAAQCBICAgEBAQL+/vxAQEJ+fn+/v72BgYDAwMHBwcN/f3/z+/M/PzyAgIK+vr1BQUI+Pj/z6/AQGBBQWFPT29Nza3MTGxCQmJFxeXIyOjAwKDOzq7HR2dExKTOTi5Ly6vKSmpPTy9MTCxNze3Ozu7LS2tGRmZGxqbJSWlLSytDQ2NOTm5BQSFHx+fAwODDw+PBwaHMzKzNTS1BweHDQyNFRSVFxaXJyenJSSlERCRFRWVISGhCQiJISChGxubDw6PCwuLHRydERGRKyqrKSipKyurMzOzHx6fExOTLy+vJyanNTW1CwqLIyKjGRiZP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/wtYTVAgRGF0YVhNUDw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpCMTgxMzM0ODBBM0UxMUU0QkEwRjlDRjVGQjQ2QzBDRCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpCMTgxMzM0OTBBM0UxMUU0QkEwRjlDRjVGQjQ2QzBDRCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjJDOTE2ODc1MEEzQzExRTRCQTBGOUNGNUZCNDZDMENEIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjJDOTE2ODc2MEEzQzExRTRCQTBGOUNGNUZCNDZDMENEIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Af/+/fz7+vn49/b19PPy8fDv7u3s6+rp6Ofm5eTj4uHg397d3Nva2djX1tXU09LR0M/OzczLysnIx8bFxMPCwcC/vr28u7q5uLe2tbSzsrGwr66trKuqqainpqWko6KhoJ+enZybmpmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgoGAf359fHt6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYWBfXl1cW1pZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBQD8+PTw7Ojk4NzY1NDMyMTAvLi0sKyopKCcmJSQjIiEgHx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQAAIfkEBQYAUQAsAAAAAEEC7gIAB/+AUYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/wADChxIsKDBgwgTKlzIsKHDhxAjSpxIsaLFixgzatzIsaPHjyBDihxJsqTJkyhTqlzJsqXLlzBjypxJs6bNmzhz6tzJs6fPn0CDCh1KtKjRo0iTKl3KtKnTp1CjSp1KtarVq1izat3KtavXr2DDih1LtqzZs2jTql3Ltq3bt3D/48qdS7eu3bt48+rdy7ev37+AAwseTLiw4cOIEytezLix48eQI0ueTLmy5cuYM2vezLmz58+gQ4seTbq06dOoU6tezbq169ewY8ueTbu27du4c+vezbu379/AgwsfTry48ePIkytfzry58+fQo0ufTr269evYs2vfzr279+/gw4sfT768+fPo06tfz769+/fw48ufT7++/fv48+vfz7+///8ABijggAQWaOCBCCao4IIMNujggxBGKOGEFFZo4YUYZqjhhhx26OGHIIYo4ogklmjiiSimqOKKLLbo4oswxijjjDTWaOONOOao44489ujjj0AGKeSQRBZp5JFIJqnk/5JMNunkk1BGKeWUVFZp5ZVYZqnlllx26eWXYIYp5phklmnmmWimqeaabLbp5ptwxinnnHTWaeedeOap55589unnn4AGKuighBZq6KGIJqrooow26uijkEYq6aSUVmrppZhmqummnHbq6aeghirqqKSWauqpqKaq6qqsturqq7DGKuustNZq66245qrrrrz26uuvwAYr7LDEFmvsscgmq+yyzDbr7LPQRivttNRWa+212Gar7bbcduvtt+CGK+645JZr7rnopqvuuuy26+678MYr77z01mvvvfjmq+++/Pbr778AByzwwB0CYPDBCCes8MIIh8rwwxAn7HDEFDM8cf/FGB98scEmdODxxx43cLDIFG8MAAkUCKDyygKQDEASQegwAsQnEkDAAbHY7IAgBxCwgC8Ko8yyyi4noXIFRrgssYkBBDBALE0XIMgAARAAdNAps+yyByxrMMHCJzb9NCxR8+zz1QmfkPXKRQ/Nw9dLlyg21AFILYzCJcAwdMsHg/DC2gL0oHDYTtNtdzAJN/ABy1krDcAFGaxMwQVxkzg3IwVEYEDTEUBwCAMJPND0AwkcTsgBCjStAM5lR9Hzz4IscHMUA6QegAKeFwL65qQj8HooCWPA8gYhcMB3wiVUsLIGlY94uSILNC190wkUUsDm0zeNMyEJZB9A93VPXfX/IAQEsIDt0+cuiAPYS29A91aDkjAUKwchMgkwOG6wCJLPrDHThVPEAcTGgCggQAKbg50gRKcAuznAdggYhATEFsEHSs9uVItfFMoXAANIIIIFSN0DBoGAzRFgZwfEngY9gbAGyGBlITgYCfQHgAb4YGUraBgAx4aIEgZwEBBoWgGj4IDWCYIBRtycBAiBANGFj3bjEwQHTRfEAAwxeiMkRBVX2AmEdUBycIsYEFb2Ah3K7YeHGGAAIlgI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" alt="<%= script_text %>"/>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </script>
+    <!-- end page template -->
 
-		<!-- JavaScripts -->
-<!-- 		<script src="js/thirdparty/jquery-1.11.0.min.js"></script>
-		<script src="js/thirdparty/underscore-min.js"></script>
-		<script src="js/thirdparty/backbone-min.js"></script>
-		<script src="js/thirdparty/imagesloaded.pkgd.min.js"></script>
-		<script src="js/thirdparty/jquery.detectSwipe.js"></script>
-		<script src="js/thirdparty/scrollfix.js"></script>
-		<script src="js/thirdparty/fastclick.js"></script>
-		<script src="js/thirdparty/sideburns.js"></script>
-		<script src="js/main.js"></script> -->
-		<script src="js/main.pkgd.min.js"></script>
-		<!-- end javascripts -->
+    <!-- JavaScripts -->
+    <script src="js/main.pkgd.min.js"></script>
+    <!-- <script src="whitelabel/js/header.js"></script> -->
+    <!-- end javascripts -->
 
  	</body>
  </html>

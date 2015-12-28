@@ -2,17 +2,22 @@
   "pubDate": "Jan 1, 1970",
   "imgFormat": "jpg",
   "whitelabel": {
-    "logo": ""
+    "logo": "Custom logo"
   },
   "panelZoomMode": "desktop-hover",
   "desktopHoverZoomOptions": {
     "scale": 1.5,
     "fit": 0.98,
-    "padding": 0.25
+    "padding": 0.38,
+    "zoomInDelay": "200ms",
+    "zoomOutDelay": "1500ms",
+    "zoomInSpeed": "600ms",
+    "zoomOutSpeed": "500ms",
+    "mouseFollowSpeed": "350ms"
   },
   "lazyLoadExtent": 6,
-  "transitionDuration": "400ms",
-  "gutterWidth": 2,
+  "transitionDuration": "10450ms",
+  "gutterWidth": "2px",
   "drawerTransitionDuration": "500ms",
   "social": {
     "twitter_text": "THE TEXT TO DISPLAY WHEN SOMEONE CLICKS ON THE TWEET BUTTON",

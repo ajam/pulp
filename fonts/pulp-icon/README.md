@@ -15,6 +15,7 @@ Pulp icon was created with <fontello.com>'s icon font tool. It includes the foll
 * angle-left
 * angle-right
 * chat
+* zoom-in
 
 ##### Entypo 
 
@@ -25,7 +26,7 @@ Pulp icon was created with <fontello.com>'s icon font tool. It includes the foll
 
 To change the icons, replace the existing pulp-icon set (unless you want to load a second font icon package) to the package. Go to <fontello.com> and set the size to 16px if it isn't already, set the icon name to `pulp-icon`. Click on the wrench and set the icon prefix to `pulp-icon-`.
 
-To do that, replace the files in this folder from your fontello zip file and place `pulp-icon.css` in the `css/thirdparty` directory. Make sure the change the `@font-face` `src` path in that css file to point to your font files. Namely, you'll need to `../`, change `font` to `fonts` and `pulp-icon` to the path. 
+To do that, replace the files in this folder from your fontello zip file and place `pulp-icon.css` in the `css/thirdparty` directory. Make sure the change the `@font-face` `src` path in that css file to point to your font files. Namely, you'll need to add `../`, change `font` to `fonts` and `pulp-icon` to the path. 
 
 This should do the trick:
 

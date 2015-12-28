@@ -87,13 +87,17 @@ Pulp also has a few options that it lets you change, if you so wish. They are al
 	"whitelabel": {
 		"logo": "<img src='imgs/assets/logo.png'></img>" // Do you want to include an image in the top left?
 	},
-	"panelZoomMode": "mobile-only", // Default is `mobile-only`. 
-																	// `desktop-hover` which will zoom to a portion of that image on hover on desktop and maintain clicking to panels on mobile. 
-																	// Set `desktopHoverZoomOptions to custom values or leave blank to go with sensible defaults;
+	"panelZoomMode": "desktop-hover", // If the toolbar button is clicked, users will zoom into the page on hover following animation settings below
+																	  // Set to `false` to disable this functionality. You'll also want to comment out the toolbar button.
 	"desktopHoverZoomOptions": {
 		"scale": 1.75, // How much you want it to zoom
 		"fit": 0.98, // A value between 0 and 1. Defaults to 1. Set this to something around .96 if you want to cut off the edges a little bit, like in this demo. This setting is useful if you have white space around your panels
-		"padding": 0.25 // A value between 0 and .5. Sometimes you don't want the mouse to have to reach the edge of the page to fully zoom. Setting this to something like .25 will mean you've reached the edge of the zoomed in image when you're within 25% of the page edge.
+		"padding": 0.25, // A value between 0 and .5. Sometimes you don't want the mouse to have to reach the edge of the page to fully zoom. Setting this to something like .25 will mean you've reached the edge of the zoomed in image when you're within 25% of the page edge.
+    "zoomInDelay": "200ms", // A delay that will not trigger a zoom when the mouse is quickly passing over the page
+    "zoomOutDelay": "1500ms", // How long to wait after the mouse has exited the page to zoom out. This allows users some leeway if they accidentally zoomedo ut
+    "zoomInSpeed": "600ms", // How fast to zoom in
+    "zoomOutSpeed": "500ms", // How fast to zoom out
+    "mouseFollowSpeed": "350ms" // How fast to follow the mouse
 	},
 	"lazyLoadExtent": 6, // How many pages behind and ahead do you want to load your images
 	"transitionDuration": "400ms", // In milliseconds, how fast the panels zooms and page turns animate. 
@@ -104,7 +108,7 @@ Pulp also has a few options that it lets you change, if you so wish. They are al
 		"twitter_account": "myhandle", // This will display in a tweet as `via @myhandle`.
 		"fb_text": "A new web comic about etc etc topics topics.", // The text to display when someone clicks on the Facebook button
 		"promo_img_url": "http://www.website.com/comic-project/imgs/promo.jpg", // The full path of the image to display in the FB share or Tweet button
-		"fb_app_id": "892982325351256" // Facebook requires that you tie these buttons to an app. You have to create an app through the FB dev interface and your app will have the id.
+		"fb_app_id": "000000000000000" // Facebook requires that you tie these buttons to an app. You have to create an app through the FB dev interface and your app will have the id.
 	},
 	"requireStartOnFirstPage": false // On load, will the comic require users to land on the first page? Better to disable this to allow for page-specific links
 }
@@ -130,26 +134,25 @@ Pulp can handle a variety of image formats. Here's [one thread](https://github.c
 * SF Public Press — [Traumatized by the Streets](http://sfpublicpress.org/graphics/traumatized)
 * BBC — [Hooked](http://www.bbc.com/news/magazine-32740691)
 * [Camille Bissuel](http://twitter.com/nylnook) — [Climate Change explained to Frogs, to Toads, to Batrachians Generally, and All Earthlings Who Might Feel a Little Concerned](http://nylnook.com/comics/climate-frogs)
+* Al Jazeera America — [Fare Game](http://projects.aljazeera.com/2015/12/fare-game)
 
 ## Customizing
 
-Once you change the transition timings in the `config.js`, the transition timings also have to be changed in the Stylus CSS, `css/styles.styl` (It would be nice to improve this but anything else would require a larger build process such as Gulp or Grunt). The CSS is written using a preprocessor called Stylus with an add-on called Nib. Nib greatly simplifies writing animations as it writes all the CSS vendor prefixes for you.
+Pulp uses Gulp to conver the Stylus styleshet files into CSS as well as concatenate and minify its JavaScript. The CSS is written using a preprocessor called Stylus with an add-on called Nib. Nib greatly simplifies writing animations as it writes all the CSS vendor prefixes for you. You can look at [`gulpfile.js`](gulpfile.js) to see what the build process does. The main files you'll want to edit are [`js/main.js`](js/main.js) and [`css/styles.styl`](css/styles.styl)
 
-To have your changes reflected, you then recompile the CSS, which isn't as hard as it sounds. 
-
-To do that, first make sure you have [NodeJS](http://nodejs.org) installed and then install the project's dependencies with the following:
+To have changes to these files be compiled, first make sure you have [NodeJS](http://nodejs.org) installed. Then install the project's dependencies with the following:
 
 ```bash
 npm install
 ```
 
-Compile the CSS with
+Compile the CSS into `css/styles.css` and the JavaScript into `js/main.pkgd.min.js` with:
 
 ```bash
 npm run build
 ```
 
-To launch a webserver and recompile your files on change:
+To launch a webserver and recompile your files whenver they change:
 
 ```bash
 npm run dev

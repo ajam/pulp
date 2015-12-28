@@ -5,7 +5,6 @@ json('../config.json')
 ajam_blue = #2677B9
 max_width = 1024px
 transition_opts = transitionDuration linear
-gutter_width = 20px
 header_height = 46px
 header_item_height = 28px
 header_padding = 7px
@@ -13,6 +12,7 @@ header_margin = 0px
 	
 drawer_width = 66%
 drawer_transition_opts = drawerTransitionDuration cubic-bezier(0,0,.2,1)
+hover_transition_opts = desktopHoverZoomOptions-zoomInSpeed cubic-bezier(0,0,.2,1)
 bg_layout_color = #fff
 
 arrow_color = #ccc
@@ -22,6 +22,7 @@ bg_gray = #34393A
 
 header_item_color = #000
 header_item_hover_color = ajam_blue
+header_item_active_color = #33AE05
 header_item_bg_hover_color = #000
 
 twitter_color = #00ACED
@@ -63,7 +64,12 @@ html:-ms-fullscreen
 	transform translateX(0px)
 	overflow-x hidden
 	overflow-y hidden
-#main-content-wrapper,#pages-wrapper,#pages,.page-container,.page,.hotspot
+#main-content-wrapper,
+#pages-wrapper,
+#pages,
+.page-container,
+.page,
+.hotspot
 	backface-visibility hidden 
 	// transform-style preserve-3d
 /* end globals */
@@ -84,7 +90,7 @@ body[data-state="hotspot"]
 	opacity 1
 	transition opacity 100ms linear
 	height header_height - header_padding
-	// max-width max_width*2 + gutter_width
+	// max-width max_width*2 + gutterWidth
 html:-moz-full-screen
 	#header
 		display none
@@ -123,14 +129,21 @@ html:-ms-fullscreen
 	display inline-block
 	height 100%
 	position relative
-.header-item-container:hover,.header-item-container.active
+.header-item-container:hover,
+.header-item-container.active
 	cursor pointer
+.header-item-container:hover
 	.header-btn
 		color header_item_hover_color
+.header-item-container:hover,
+.header-item-container.active
+	.header-btn
 		border-color #848484
-		// background-color header_item_bg_hover_color
 	.header-text
 		cursor default
+.header-item-container.active
+	.header-btn
+		color header_item_active_color !important
 .header-item-container:active
 	.header-btn
 		color darken(header_item_hover_color, 30%)
@@ -277,7 +290,6 @@ input[type="number"]
 	
 }
 
-
 .dropdowned:before,
 .dropdowned:after,
 .tooltipped-i:before,
@@ -398,7 +410,7 @@ body[data-panel-zoom-mode="desktop-hover"]
 .page
 	img,
 	.paragraph-text
-		transition transform 400ms cubic-bezier(0, 0, .2, 1)
+		transition transform hover_transition_opts
 	
 // .main-nav-btn
 // 	background-color #fc0
@@ -413,7 +425,7 @@ nav_helper_right = 80px
 	text-align center
 	font-size 1.4em
 	font-weight 200
-	font-family Helvetica, sans-serif
+  font-family Helvetica, sans-serif
 	line-height 15px
 	color #969696
 	animation bounce-left-right 2.75s infinite
@@ -607,7 +619,8 @@ buffer_for_tooltip = 11px
 /* end modal */
 
 /* P A G E S */
-#pages-wrapper,#pages
+#pages-wrapper,
+#pages
 	position relative
 	max-width max_width
 	margin 0 auto
@@ -636,9 +649,9 @@ body[data-state="page-change"]
 	overflow hidden
 .page
 	position relative
-// body[data-format="double"][data-bookend="true"]
-// 	.hover-mask
-// 		transform translateX(50%) translate3d(0,0,0)
+body[data-format="double"][data-bookend="true"]
+	.hover-mask
+		transform translateX(50%) translate3d(0,0,0)
 
 .page-container.viewing
 	visibility visible
@@ -656,20 +669,25 @@ body[data-state="page-change"]
 	line-height 1.5em
 	p
 		margin-bottom 10px
+
+.page[data-iszoom="false"]:hover
+	cursor default !important
+.page[data-iszoom="true"]:hover
+	cursor move
 /* end pages */
 
 /*  P A G E  F O R M A T T I N G  */
 body[data-format="double"][data-bookend="false"] #pages//, #pages[data-format="bookend"]
 	max-width max_width*2
 	position relative
-	left -(gutter_width/2)
+	left -(gutterWidth/2)
 
 body[data-format="double"][data-bookend="false"] .page-container.viewing//, #pages[data-format="bookend"] .page-container.viewing
 	width 50%
-body[data-format="double"][data-bookend="false"] .page-container.viewing.right-page
+body[data-format="double"] .page-container.viewing.right-page
 	left 50%
-	padding-left gutter_width
-body[data-format="double"][data-bookend="false"] .page-container.viewing.right-page:after
+	padding-left gutterWidth
+body[data-format="double"] .page-container.viewing.right-page:after
 	content ""
 	opacity 0.2
 	top 0
@@ -678,7 +696,7 @@ body[data-format="double"][data-bookend="false"] .page-container.viewing.right-p
 	right 0
 	position absolute
 	z-index -1
-	background url('../imgs/assets/border.png') repeat-y (gutter_width/2) top #fff
+	background url('../imgs/assets/border.png') repeat-y (gutterWidth/2) top #fff
 
 body[data-format="mobile"]//[data-bookend="false"]
 	#btns
@@ -701,10 +719,10 @@ body[data-format="mobile"]//[data-bookend="false"]
 body[data-state="page-change"][data-format="double"]
 	.hover-mask
 		transform translate3d(0,0,0) !important
-// body[data-state="page-change"][data-format="double"]
-// 	.page-container.enter-from-left
-// 		.hover-mask
-// 			transform translateX(50%) translate3d(0,0,0) !important
+body[data-state="page-change"][data-bookend="true"]
+	.page-container.enter-from-left
+		.hover-mask
+			transform translateX(50%) translate3d(0,0,0) !important
 .page-container.exit-to-left
 	animation exit-to-left transition_opts
 .page-container.enter-from-left
@@ -806,7 +824,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 		left 0
 	}
 	to{
-		left 'calc(-100% - %s)' % gutter_width
+		left 'calc(-100% - %s)' % gutterWidth
 	}
 }
 
@@ -815,7 +833,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 		left 0
 	}
 	to{
-		left 'calc(100% + %s)' % gutter_width
+		left 'calc(100% + %s)' % gutterWidth
 	}
 }
 
@@ -830,7 +848,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 
 @keyframes double-left-enter-from-right {
 	from{
-		left 'calc(100% + %s)' % gutter_width
+		left 'calc(100% + %s)' % gutterWidth
 	}
 	to{
 		left 0
@@ -843,7 +861,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 		left 50%
 	}
 	to{
-		left 'calc(-50% - %s)' % gutter_width
+		left 'calc(-50% - %s)' % gutterWidth
 	}
 }
 
@@ -852,13 +870,13 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 		left 50%
 	}
 	to{
-		left 'calc(150% + %s)' % gutter_width
+		left 'calc(150% + %s)' % gutterWidth
 	}
 }
 
 @keyframes double-right-enter-from-left {
 	from{
-		left 'calc(-50% - %s)' % gutter_width
+		left 'calc(-50% - %s)' % gutterWidth
 	}
 	to{
 		left 50%
@@ -896,6 +914,7 @@ body[data-format="double"][data-bookend="true"] .page-container.exit-to-right.ri
 /* H O T S P O T S */
 .hotspot
 	position absolute
+	z-index 9
 	// background-color rgba(0, 255, 204, .5)
 /* end hotspots */
 

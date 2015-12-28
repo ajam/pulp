@@ -29,8 +29,9 @@
 
 			// console.log(windowWidth, dynamic_page_width, dynamic_page_width*2 + settings.gutterWidth)
 			// console.log(windowWidth > dynamic_page_width*2 + settings.gutterWidth)
-			if (windowWidth > dynamic_page_width*2 + settings.gutterWidth) {
+			if (windowWidth > dynamic_page_width*2 + parseInt(settings.gutterWidth)) {
 				// If the window is wide enough for two pages
+				// Hint, if you want to disable double view, change this to 'single'
 				format = 'double';
 			} else if (windowWidth <= page_limit) {
 				// If it's less than a single page
@@ -72,8 +73,14 @@
 			css = helpers.addDuration(css, transitionDuration);
 			return css;
 		},
-		addDuration: function(cssObj, transitionDuration){
-			var duration = transitionDuration ? settings.transitionDuration : 0;
+		addDuration: function(cssObj, transitionDuration, customDuration){
+			// This function is a little at cross-purposes because we're adapting it to take a custom duration value while preserving its prior functionality taking a boolean
+			var duration;
+			if (customDuration) {
+				duration = customDuration
+			} else {
+				duration = transitionDuration ? settings.transitionDuration : 0;
+			}
 			_.extend(cssObj, {'transition-duration': duration});
 			return cssObj;
 		},
@@ -142,6 +149,14 @@
 		},
 		sortByNumber: function(a,b) {
 			return a.number - b.number;
+		},
+		toggleHoverZoom: function(){
+			var $el = $('.header-item-container[data-btn="enable-zoom"]')
+			$el.toggleClass('active')
+			// Reset the page zoom and text zoom without a delay
+			if (!$el.hasClass('active')) {
+				$('.page-container.viewing img,.page-container.viewing .paragraph-text').css({'transform': 'translate(0,0)scale(1)','transition-delay': '0'})
+			}
 		}
 	}
 
@@ -233,7 +248,8 @@
 			// But its parents don't.
 			// You could try a javascript implementation of this, but that has its own issues.
 			var $pages = $('#pages'),
-					$pagesWrapper = $('#pages-wrapper');
+					$pagesWrapper = $('#pages-wrapper'),
+					$coverHoverMask = $('#page-1 .hover-mask');
 
 			var auto_width_height = {
 				'max-width': 'auto',
@@ -242,6 +258,7 @@
 
 			$pages.css(auto_width_height);
 			$pagesWrapper.css(auto_width_height);
+			$coverHoverMask.css('max-width', '100%')
 
 			$pages.imagesLoaded().done(function(){
 				var $img = $pages.find('img'),
@@ -255,11 +272,11 @@
 
 				if (format == 'double') {
 					img_width = img_width*2;
-					img_width_wrapper = img_width+settings.gutterWidth;
+					img_width_wrapper = img_width+parseInt(settings.gutterWidth);
 					if (init.browser[0] == 'Firefox') {
 						img_width_wrapper = img_width_wrapper - 1; // Minus one for sub-pixel rendering hack
 					}
-					$('.bookend-mask').width(original_img_width)
+					$coverHoverMask.width(original_img_width)
 				}
 				// Apply the dimensions from the image to the wrapper
 				// Apply a bit of a margin on pages_wrapper to accommodate the gutter
@@ -514,21 +531,26 @@
 	var listeners = {
 		header: function(){
 			$('.header-item-container[data-btn="fullscreen"]').on('click', function(){
+				// You could use this for analytics
 				helpers.toggleFullScreen();
+			});
 
+			$('.header-item-container[data-btn="enable-zoom"]').on('click', function(){
+				// You could use this for analytics
+				helpers.toggleHoverZoom();
 			});
 
 			// Alternative format options for download
-			$('.btn-dropdown[data-which="alt-formats"] a,.drawer-section-container[data-section="downloads"] a').on('click', function(){
-				// You could use this for analytics
-				return true;
-			});
+			// $('.btn-dropdown[data-which="alt-formats"] a,.drawer-section-container[data-section="downloads"] a').on('click', function(){
+			// 	// You could use this for analytics
+			// 	return true;
+			// });
 
-			// Which endnotes were clicked
-			$('.endnotes').on('click', 'a', function(){
-				// You could use this for analytics
-				return true;
-			});
+			// // Which endnotes were clicked
+			// $('.endnotes').on('click', 'a', function(){
+			// 	// You could use this for analytics
+			// 	return true;
+			// });
 
 			$('.header-item-container[data-action="drawer"], .section-title-close[data-action="drawer"]').on('click', function(){
 				$('.header-item-container[data-action="drawer"]').toggleClass('active');
@@ -674,26 +696,58 @@
 
 			if (settings.panelZoomMode == 'desktop-hover'){
 
+				function toggleCanZoom($pageHovering, state, e){
+					$pageHovering.attr('data-canzoom', state)
+					if (state) {
+						clearTimeout(can_zoom_false)
+					}
+				}
+
+				var can_zoom_false
+				var followMouse_throttled = _.throttle(followMouse, parseInt(settings.desktopHoverZoomOptions.zoomInDelay), {leading: false})
+
+				$('#pages').on('mouseover', '.page', function(){
+					var formatState = state.get('format'),
+							format = formatState.format;
+					if ( $('.header-item-container[data-btn="enable-zoom"]').hasClass('active') && format != 'mobile') {
+						toggleCanZoom($(this), true)
+						$(this).attr('data-mouseout', false)
+					}
+				})
+
 				$('#pages').on('mouseout', '.page', function(){
 					var formatState = state.get('format'),
 							format = formatState.format;
 
-					var css_reset = {
+					if ( $('.header-item-container[data-btn="enable-zoom"]').hasClass('active') && format != 'mobile') {
+						var css_reset = _.extend({
 							'transform': 'translate(0%,0%)scale(1)'
-						}
+						}, {
+							'transition-delay': settings.desktopHoverZoomOptions.zoomOutDelay,
+							'transition-duration': settings.desktopHoverZoomOptions.zoomOutSpeed,
+							'transition-timing-function': 'ease-out'
+						})
 
-					if ( format != 'mobile') {
-						$(this).find('img').css(css_reset);
-						$(this).find('.paragraph-text').css(css_reset);
+						var $page = $(this);
+
+						$page.find('img').css(css_reset);
+						$page.find('.paragraph-text').css(css_reset);
+						$page.attr('data-mouseout', true)
+
+						can_zoom_false = setTimeout(function(){
+							toggleCanZoom($page, false);
+							$page.attr('data-iszoom', false)
+							$page.attr('data-mouseout', false)
+						}, parseInt(settings.desktopHoverZoomOptions.zoomOutDelay))
 					}
 				});
 
-				$('#pages').on('mousemove', '.page', function(e){
+				function followMouse(e) {
 					var formatState = state.get('format'),
 							format = formatState.format,
 							bookend = formatState.bookend;
 
-					if ( format != 'mobile') {
+					if ( $('.header-item-container[data-btn="enable-zoom"]').hasClass('active') && format != 'mobile' && $('body').attr('data-state') != 'page-change' && $(this).attr('data-canzoom') == 'true' && $(this).attr('data-mouseout') == 'false' ) {
 						var scale_value = settings.desktopHoverZoomOptions.scale,
 								fit         = settings.desktopHoverZoomOptions.fit*100,
 								padding     = settings.desktopHoverZoomOptions.padding,
@@ -714,28 +768,42 @@
 							starting_x = (page_width - img_width) / 2
 							ending_x = starting_x + img_width
 							if (adjusted_x < starting_x || adjusted_x > ending_x) {
+								this.style.cursor = 'default'
 								return true
 							}
-							page_width = page_width / 2 - settings.gutterWidth
+							page_width = page_width / 2 - parseInt(settings.gutterWidth)
 						}
 
 						var translate_percentage = fit*((page_width*scale_value - page_width)/2)/page_width;
 
 						var scale =  new Scale().domain(1 - padding, padding)
-																		.range(-1*translate_percentage, translate_percentage, true);
+																		.range(-1 * translate_percentage, translate_percentage, true);
 
 						var scaled_x_perc = scale(x_perc),
 								scaled_y_perc = scale(y_perc);
 
-						var css_transform = {
-							'transform': 'matrix('+ scale_value +', 0, 0, '+ scale_value +', ' + scaled_x_perc/100*page_width + ', ' + scaled_y_perc/100*page_height + ')'
-						}
+						var duration = ($page.attr('data-iszoom') == 'true') ? settings.desktopHoverZoomOptions.mouseFollowSpeed : settings.desktopHoverZoomOptions.zoomInSpeed
 
+						var css_transform = _.extend({
+								'transform': 'matrix('+ scale_value +', 0, 0, '+ scale_value +', ' + scaled_x_perc/100*page_width + ', ' + scaled_y_perc/100*page_height + ')'
+							}, {
+								'transition-delay': '0',
+								'transition-duration': duration,
+								'transition-timing-function': 'cubic-bezier(0, 0, .2, 1)'
+							});
 						$hover_img.css(css_transform);
 						$page.find('.paragraph-text').css(css_transform);
+						$page.attr('data-iszoom', true)
 
 					}
+				}
 
+				$('#pages').on('mousemove', '.page', function(e){
+					if ($(this).attr('data-iszoom') == 'true') {
+						followMouse.call(this, e)
+					} else {
+						followMouse_throttled.call(this, e)
+					}
 				});
 			}
 
@@ -1024,9 +1092,8 @@
 
 			routing.router.on('route:hotspot', function(page, hotspot) {
 				routing.setInitRouteChecks(page, null, function(transitionDuration){;
-					/* DESKTOP_ZOOM_MODE */
 					// If we're on desktop, kill the hotspot
-					if (settings.panelZoomMode != 'all-devices' && state.get('format').format != 'mobile' ) {
+					if (state.get('format').format != 'mobile' ) {
 						hotspot = null;
 						routing.router.navigate(page, { replace: true });
 					}
@@ -1051,8 +1118,7 @@
 		set: {
 			fromHotspotClick: function($hotspot){
 				// Only do this on mobile, this check is sometimes redundant since the btn overlay prevents this in `mobile-only` `panelZoomMode`
-				/* DESKTOP_ZOOM_MODE */
-				if (settings.panelZoomMode == 'all-devices' || state.get('format').format == 'mobile'){
+				if (state.get('format').format == 'mobile'){
 					var page_hotspot = $hotspot.attr('data-hotspot-id').split('-'), // `1-1` -> ["1", "1"];
 							page = page_hotspot[0],
 							hotspot = page_hotspot[1],
@@ -1094,7 +1160,8 @@
 					states.lastHotspot = pp_info.hotspot;
 					
 					// Send it to the appropriate function to transform the new page and hotspot locations
-					if ((format == 'mobile' || settings.panelZoomMode == 'all-devices') && bookend == 'false') { /* DESKTOP_ZOOM_MODE */
+					if ((format == 'mobile' )) {
+					// if ((format == 'mobile' || settings.panelZoomMode == 'all-devices') && bookend == 'false') { /* DESKTOP_ZOOM_MODE */
 						leaf_to = 'hotspot';
 					} else {
 						leaf_to = 'page';
@@ -1118,7 +1185,7 @@
 
 				// Turn the location hash into a more readable dictionary `{page: Number, hotspot: Number}`
 				var pp_info = helpers.hashToPageHotspotDict(window.location.hash);
-				if (state.get('format').format != 'mobile' && pp_info.hotspot && settings.panelZoomMode != 'all-devices'){
+				if (state.get('format').format != 'mobile' && pp_info.hotspot){
 					routing.router.navigate(pp_info.page.toString(), { replace: true } );
 					states.currentHotspot = '';
 				}
@@ -1150,7 +1217,7 @@
 			transitions.goIfNecessary(+states.currentPage, page);
 
 			// Now zoom to the appropriate hotspot or page
-			if ((state.get('format').format == 'mobile' || settings.panelZoomMode == 'all-devices') && hotspot){ /* DESKTOP_ZOOM_MODE */
+			if (state.get('format').format == 'mobile' && hotspot){ /* DESKTOP_ZOOM_MODE */
 				zooming.toHotspot(page, hotspot, transitionDuration);
 			}else{
 				// If no hotspot specified, reset to full page view
@@ -1434,7 +1501,7 @@
 			lazyLoadExtent: 6,
 			transitionDuration: 400,
 			singlePageWidthLimit: 635, // A bit of a magic number here to ensure that we go into mobile mode below this value.
-			gutterWidth: 2,
+			gutterWidth: '2px',
 			drawerTransitionDuration: 500,
 			social: {
 				twitter_text: "THE TEXT TO DISPLAY WHEN SOMEONE CLICKS ON THE TWEET BUTTON",
