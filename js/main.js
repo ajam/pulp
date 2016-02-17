@@ -156,6 +156,9 @@
 			// Reset the page zoom and text zoom without a delay
 			if (!$el.hasClass('active')) {
 				$('.page-container.viewing img,.page-container.viewing .paragraph-text').css({'transform': 'translate(0,0)scale(1)','transition-delay': '0'})
+				$('.page-container.viewing .paragraph-text').css({'transform': 'translate(0,0)scale(1)','transition-delay': '0'})
+
+				
 			}
 		}
 	}
