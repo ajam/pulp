@@ -296,7 +296,7 @@
 				$('#btns').css('height', img_height+'px');
 				// And to the header, whose max shouldn't go below 960
 				var header_width = _.max([960, img_width]);
-				$('#header').css('max-width', header_width+'px');
+				// $('#header').css('max-width', header_width+'px');
 				// Invoke the callback when we're all done
 				cb();
 			});
@@ -1577,7 +1577,7 @@
 				// Note, this is appending because we have elements that are floating right in the header
 				// This is to avoid a bug which would cause those elements to be pushed to the next line
 				// If this is causing issues or you aren't floating those buttons to the right, then you might want to change this line to `.prepend`
-				$('#header').append(whitelabelObj.logo);
+				$('#header').prepend(whitelabelObj.logo);
 			}
 		},
 		browserHacks: function(){

@@ -15,7 +15,7 @@ var paths = {
   config: 'config.json',
   gulpfile: 'gulpfile.js',
   js: {
-    main: 'js/main.js',
+    main: 'src/js/main.js',
     thirdparty: [
       'jquery-1.11.0.min.js',
       'underscore-min.js',
@@ -25,11 +25,11 @@ var paths = {
       'scrollfix.js',
       'fastclick.js',
       'sideburns.js'
-    ].map(function(lib){ return 'js/thirdparty/' + lib }),
-    allThirdparty: 'js/thirdparty/*.js'
+    ].map(function(lib){ return 'src/js/thirdparty/' + lib }),
+    allThirdparty: 'src/js/thirdparty/*.js'
   },
   css : {
-    styl: 'css/styles.styl'
+    styl: 'src/css/styles.styl'
     // css: 'css/styles.css'
   }
 }
@@ -42,7 +42,7 @@ var port = argv.port || process.env.PORT || 8000
 
 var server
 gulp.task('serve', function() {
-  server = gls.static('/', port)
+  server = gls.static('/public', port)
   server.start()
 })
 
@@ -52,7 +52,7 @@ gulp.task('compile-stylus', function() {
     .pipe(stylus({
       use: nib()
     }))
-    .pipe(gulp.dest('css/'))
+    .pipe(gulp.dest('public/css/'))
 })
 
 gulp.task('make-js-pkg', function() {
@@ -64,7 +64,7 @@ gulp.task('make-js-pkg', function() {
     }))
     .pipe(concat('main.pkgd.min.js')) // The file to write out
     .pipe(sourcemaps.write('./')) // Write these in the same folder as our `dest` in the line below
-    .pipe(gulp.dest('./js/'));
+    .pipe(gulp.dest('./public/js/'));
 });
 
 gulp.task('watch', function() {

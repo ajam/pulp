@@ -1,14 +1,14 @@
 @import 'nib'
 
-json('../config.json')
+json('../../public/config.json')
 
-ajam_blue = #2677B9
+$blue = #2800D7
 max_width = 1024px
 transition_opts = transitionDuration linear
-header_height = 46px
+header_height = 95px
 header_item_height = 28px
-header_padding = 7px
-header_margin = 0px
+header_padding = 0
+header_margin = 2px
 	
 drawer_width = 66%
 drawer_transition_opts = drawerTransitionDuration cubic-bezier(0,0,.2,1)
@@ -21,7 +21,7 @@ the_beige = #f3f0df
 bg_gray = #34393A
 
 header_item_color = #000
-header_item_hover_color = ajam_blue
+header_item_hover_color = $blue
 header_item_active_color = #33AE05
 header_item_bg_hover_color = #000
 
@@ -42,12 +42,19 @@ html, body
 	height 100%
 html
 	font-size 16px
-body
+#header > div
+	margin 0
+#header > ul,
+#btns,
+#pages-wrapper
 	font 62.5% Helvetica, sans-serif
+body
 	margin 0
 	background-color bg_layout_color
+.bb-nav-root
+	font-size auto !important
 a
-	color ajam_blue
+	color $blue
 	text-decoration none
 a:hover
 	text-decoration underline
@@ -83,13 +90,14 @@ body[data-state="hotspot"]
 #header
 	width 100%
 	background-color bg_layout_color
-	padding header_padding 5px header_padding 5px
+	padding header_padding 0
 	margin-bottom header_margin
 	margin-left auto
 	margin-right auto
 	opacity 1
 	transition opacity 100ms linear
 	height header_height - header_padding
+	z-index 999999999999
 	// max-width max_width*2 + gutterWidth
 html:-moz-full-screen
 	#header
@@ -179,7 +187,7 @@ html:-ms-fullscreen
 a .header-btn-icon
 	color #000
 a .header-btn-icon:hover
-	color ajam_blue
+	color $blue
 
 
 .header-group
@@ -199,7 +207,7 @@ a .header-btn-icon:hover
 		text-align right
 
 .internal-link
-	color ajam_blue
+	color $blue
 .internal-link:hover
 	text-decoration underline
 	cursor pointer
@@ -237,7 +245,7 @@ input[type="number"]
 		text-decoration none
 	li:hover
 		cursor pointer
-		background-color ajam_blue
+		background-color $blue
 
 .drawer-section-container[data-section="downloads"]
 	line-height 1.7em
@@ -628,6 +636,7 @@ buffer_for_tooltip = 11px
 	text-align center
 #pages-wrapper
 	height "calc(100% - %s)" % (header_height)
+	z-index -1
 #pages
 	height 100%
 body[data-state="page-change"]
@@ -964,7 +973,7 @@ body[data-format="mobile"]
 	#side-drawer-handle,#desktop-drawer-container
 		top mobile_header_height
 	#header
-		padding 3px
+		// padding 3px
 		margin-bottom 8px
 		height mobile_header_height
 	#btns
