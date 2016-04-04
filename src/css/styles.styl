@@ -34,6 +34,19 @@ mobile_query_width = 775px
 
 mobile_query = "(max-width: " + mobile_query_width + ")"
 
+/* BB-specific */
+
+.header-item[data-which="page-number"]
+	margin-right 10px
+.header-group
+	position relative
+	z-index 2147483647
+.header-group .header-item-container
+	padding 0 !important
+.header-btn
+	min-width 0 !important
+	width 50px !important	
+
 /* G L O B A L S */
 *
 	box-sizing border-box
@@ -47,7 +60,7 @@ html
 #header > ul,
 #btns,
 #pages-wrapper
-	font 62.5% Helvetica, sans-serif
+	font 62.5% BWHaasText, sans-serif
 body
 	margin 0
 	background-color bg_layout_color
@@ -336,7 +349,7 @@ input[type="number"]
 .tooltipped-i:after,
 .tooltipped:after
 	z-index 9997
-	transform translateX(50%)
+	transform translateX(15%)
 	margin-top 5px
 	top 100%
 	padding 5px 8px

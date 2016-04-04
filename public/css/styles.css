@@ -1,3 +1,18 @@
+/* BB-specific */
+.header-item[data-which="page-number"] {
+  margin-right: 10px;
+}
+.header-group {
+  position: relative;
+  z-index: 2147483647;
+}
+.header-group .header-item-container {
+  padding: 0 !important;
+}
+.header-btn {
+  min-width: 0 !important;
+  width: 50px !important;
+}
 /* G L O B A L S */
 * {
   -webkit-box-sizing: border-box;
@@ -18,7 +33,7 @@ html {
 #header > ul,
 #btns,
 #pages-wrapper {
-  font: 62.5% Helvetica, sans-serif;
+  font: 62.5% BWHaasText, sans-serif;
 }
 body {
   margin: 0;
@@ -362,11 +377,11 @@ input[type="number"] {
 .tooltipped-i:after,
 .tooltipped:after {
   z-index: 9997;
-  -webkit-transform: translateX(50%);
-  -moz-transform: translateX(50%);
-  -o-transform: translateX(50%);
-  -ms-transform: translateX(50%);
-  transform: translateX(50%);
+  -webkit-transform: translateX(15%);
+  -moz-transform: translateX(15%);
+  -o-transform: translateX(15%);
+  -ms-transform: translateX(15%);
+  transform: translateX(15%);
   margin-top: 5px;
   top: 100%;
   padding: 5px 8px;
