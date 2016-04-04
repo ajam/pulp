@@ -444,37 +444,44 @@ nav_helper_right = 80px
 .nav-helpers
 	position absolute
 	top 43.5%
-	right nav_helper_right
-	width 90%
+	right (nav_helper_right * 1.5)px
+	width 80px
 	text-align center
 	font-size 1.4em
 	font-weight 200
-	font-family Helvetica, sans-serif
+	font-family HaasText, sans-serif
 	line-height 15px
-	color #969696
+	color #000
 	animation bounce-left-right 2.75s infinite
-	opacity .75
+.nav-helpers-child > span
+	border 1px solid #000
+	display inline-block
+	vertical-align top
+	margin-bottom 1px
+	background-color #fff
+	padding 1px 5px 0px 5px
+	color #000
 .nav-helper-arrows
 	font-size 1.4em
 	white-space nowrap
 	margin 9px 0 10px 0
-	font-family Helvetica
+	font-family HaasText, sans-serif
 	color #000
 	span
 		padding 1px 4px
-		border 1px solid #ccc
+		border 1px solid #000
 		background linear-gradient(180deg, #FFF 0%, #E3E3E3 100%) repeat scroll 0% 0% #FFF
 	span:first-child
 		margin-right 2px
 @keyframes bounce-left-right {
 	0%{
-		right nav_helper_right
+		transform translateX(nav_helper_right)
 	}
 	50%{
-		right nav_helper_right - (nav_helper_right/5)
+		transform translateX((nav_helper_right - (nav_helper_right/2))px)
 	}
 	100%{
-		right nav_helper_right
+		transform translateX(nav_helper_right)
 	}
 }
 
