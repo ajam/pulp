@@ -1,6 +1,8 @@
 Pulp
 ===
 
+**This repository is no longer being maintained. Please use [https://github.com/mhkeller/pulp2](https://github.com/mhkeller/pulp2).**
+
 An open-source viewer for displaying comics online, developed for the  story [Terms of Service](http://projects.aljazeera.com/2014/terms-of-service). Layout your pages with [Pulp press](https://github.com/ajam/pulp-press) and place the resulting the `pages.json` file the `data/` folder. For more detailed instructions. Read below.
 
 #### [Live demo](http://ajam.github.io/pulp)
